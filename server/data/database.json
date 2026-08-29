@@ -1,0 +1,1831 @@
+{
+  "admins": [
+    {
+      "id": "adm-1787676210406",
+      "name": "Ashutosh Yadav",
+      "email": "ashutoshkumaryadav933499@gmail.com",
+      "passwordHash": "$2b$12$0NbaqnSyEbROZ6FiE3dnZuCNHUvOJ7W2b2UTSu/qGBdqLcZOZFh/y",
+      "role": "admin",
+      "isActive": 1,
+      "singleAdminLock": 1,
+      "createdAt": "2026-08-25T17:25:08.400833+00:00",
+      "updatedAt": "2026-08-26T21:47:49.491+00:00",
+      "lastLoginAt": "2026-08-26T21:47:49.488+00:00"
+    }
+  ],
+  "password_resets": [
+    {
+      "id": "rst-1787814823848",
+      "email": "ashukumarfbg8271@gmail.com",
+      "role": "customer",
+      "action": "Password Reset via Email Link",
+      "status": "Completed",
+      "ip": "127.0.0.1",
+      "createdAt": "2026-08-27T07:13:43.865Z"
+    },
+    {
+      "id": "rst-1787768403984",
+      "email": "aryan.luxury2026@gmail.com",
+      "role": "customer",
+      "action": "Password Reset via Email Link",
+      "status": "Completed",
+      "ip": "127.0.0.1",
+      "createdAt": "2026-08-26T18:20:04.019Z"
+    },
+    {
+      "id": "rst-1787763300857",
+      "email": "ashukumarfbg8271@gmail.com",
+      "role": "customer",
+      "action": "Password Reset (Customer)",
+      "status": "Completed",
+      "ip": "127.0.0.1",
+      "createdAt": "2026-08-26T16:55:00.962Z"
+    },
+    {
+      "token": "d0de1c90eee4952b36cf592cdbeed69909a6398a8a51cb7074d3536cc36ca0f2",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787757763247,
+      "used": false,
+      "createdAt": "2026-08-26T15:07:43.247Z"
+    },
+    {
+      "token": "b831a284b25e19a362c13c165d6ae4bcb018269684414d6e40ce701aaa7dbdfa",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787758682672,
+      "used": false,
+      "createdAt": "2026-08-26T15:23:02.673Z"
+    },
+    {
+      "token": "e0ed47a8886ff3228e963492dfa690ca1c8a1fe7ea950bd7a4e48a78d897f7a7",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787762159352,
+      "used": false,
+      "createdAt": "2026-08-26T16:20:59.353Z"
+    },
+    {
+      "token": "193f834791379bfe21679356d5878c5417c0f810e9360c8a71adab9a4f73f180",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787762805133,
+      "used": true,
+      "createdAt": "2026-08-26T16:31:45.134Z"
+    },
+    {
+      "token": "2572fca217761923854ce5e46871400275cb8c8fd65367f6b2f10df00c32cbf2",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787763786758,
+      "used": true,
+      "createdAt": "2026-08-26T16:48:06.760Z"
+    },
+    {
+      "token": "d970ddb9d6b680d310629ec5844539093fc8c4c5fc2d4e718cfbf3de30f14243",
+      "adminEmail": "aryan.luxury2026@gmail.com",
+      "expiresAt": 1787769245976,
+      "used": true,
+      "createdAt": "2026-08-26T18:19:05.977Z"
+    },
+    {
+      "token": "f9dca0a8bf40e7bb6ef1fccc4e6cb3232da22babb2c25c44b1d7f3b5683578df",
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "expiresAt": 1787770323656,
+      "used": false,
+      "createdAt": "2026-08-26T18:37:03.674Z"
+    },
+    {
+      "token": "b23f59188534aa7a6d14b1f6bcf43c85eb6f826236252d1a6490db16dfd4fccf",
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "expiresAt": 1787770380506,
+      "used": false,
+      "createdAt": "2026-08-26T18:38:00.510Z"
+    },
+    {
+      "token": "b9db8242e37ba893f9c41c0c6f9a637ba0d3f030dcf4e5a4b2892e0dc0dbef39",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787771721580,
+      "used": false,
+      "createdAt": "2026-08-26T19:00:21.582Z"
+    },
+    {
+      "token": "9823713799d88e692644be09fb788c30a94c74527696f87c7147ae2ea6a80e1a",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787771787990,
+      "used": false,
+      "createdAt": "2026-08-26T19:01:27.991Z"
+    },
+    {
+      "token": "5aeb8decd8dcea43b828f4457e00c9509c6693f0fe4e9f6edf394a23faaa4893",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787772588312,
+      "used": false,
+      "createdAt": "2026-08-26T19:14:48.318Z"
+    },
+    {
+      "token": "0584126684db3679e1722f82086ff4228b03be5e163e115b689d43481fc8e7b1",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787773089751,
+      "used": false,
+      "createdAt": "2026-08-26T19:23:09.753Z"
+    },
+    {
+      "token": "5506ebf458d0f6f6925d547be5a62ead9b07ce299f17b5ce20a134bab2f1dfa7",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787773111324,
+      "used": false,
+      "createdAt": "2026-08-26T19:23:31.325Z"
+    },
+    {
+      "token": "09af2abf74a50513586a2b542143c6d5c44edccf9079db71743038af45d18b3b",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787773164103,
+      "used": false,
+      "createdAt": "2026-08-26T19:24:24.105Z"
+    },
+    {
+      "token": "34f5d282fa51a73e87ad6f12282ddd2e3e72777693f8469663c302176186ff7b",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787773267169,
+      "used": false,
+      "createdAt": "2026-08-26T19:26:07.170Z"
+    },
+    {
+      "token": "e6fff3fee2d2d32ffe808a1de476b9379cf63cd3be99b31204455077680b5aaf",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787774226480,
+      "used": false,
+      "createdAt": "2026-08-26T19:42:06.481Z"
+    },
+    {
+      "token": "471c14377d1f332debbda025a91376fff28122e23e7ce62107588d00e7ab06ad",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787774578878,
+      "used": false,
+      "createdAt": "2026-08-26T19:47:58.879Z"
+    },
+    {
+      "token": "f35ddcabede9590e43f271b3040ac7e3a0c411ff14ca4efae889cb17e50ab15b",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787774691180,
+      "used": false,
+      "createdAt": "2026-08-26T19:49:51.180Z"
+    },
+    {
+      "token": "1d18a016c17f2962f20ffb463327fdaec613e87b83b263b0421b03e564e91880",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787775345120,
+      "used": false,
+      "createdAt": "2026-08-26T20:00:45.122Z"
+    },
+    {
+      "token": "98d62b3afccac7119b0b7bcc58e91a164a12c92c1fd77bbca78342f855072767",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787776588137,
+      "used": false,
+      "createdAt": "2026-08-26T20:21:28.139Z"
+    },
+    {
+      "token": "09e011bb9b4398ad00579cb531ba6190cff93b57e85f44050414b5f06a3a8462",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787777671320,
+      "used": false,
+      "createdAt": "2026-08-26T20:39:31.321Z"
+    },
+    {
+      "token": "a453095aaac467e7e6391e869196d3d595286948ac880b7c413b90d7d7c0399c",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787778605332,
+      "used": false,
+      "createdAt": "2026-08-26T20:55:05.333Z"
+    },
+    {
+      "token": "e29108e77579db6f680c2d6081c69dd4efa3fba840c8acc58305a1ec13dc7f56",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787779357170,
+      "used": false,
+      "createdAt": "2026-08-26T21:07:37.171Z"
+    },
+    {
+      "token": "2ec46cd5eae9684287665144fa2e02e78695ebb633863aed4a473cf74de7b386",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787779549055,
+      "used": false,
+      "createdAt": "2026-08-26T21:10:49.057Z"
+    },
+    {
+      "token": "ae0e107efa81ac5ec72a085dec22baa3339862ecd0ec96ad9269aa096b94b32a",
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "expiresAt": 1787780719168,
+      "used": false,
+      "createdAt": "2026-08-26T21:30:19.171Z"
+    },
+    {
+      "token": "ad0d4a62f3bec8940e03ab726b37255ed537b72d36ad84324b27f8c8173cd85b",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787781564530,
+      "used": true,
+      "createdAt": "2026-08-26T21:44:24.531Z"
+    },
+    {
+      "token": "03a00dfc78313a94693208f32fd97d8f5914c5375bc18730b0d2ac322dedff23",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "expiresAt": 1787781629115,
+      "used": true,
+      "createdAt": "2026-08-26T21:45:29.117Z"
+    },
+    {
+      "token": "ebc6b0a70fc545e0d3c067c87daad0e3a8b2b80ddb22a810278171c6897904f6",
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "expiresAt": 1787781927497,
+      "used": false,
+      "createdAt": "2026-08-26T21:50:27.500Z"
+    },
+    {
+      "token": "58ad9a9ac8f53d89f8807d6b07279a8a3bee1e43cf2946c013c6e19f44b22da4",
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "expiresAt": 1787815649256,
+      "used": true,
+      "createdAt": "2026-08-27T07:12:29.259Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "audit-1787780869547-bp6ui",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T21:47:49.547Z",
+      "createdAt": "2026-08-26T21:47:49.552Z"
+    },
+    {
+      "id": "audit-1787780836910-g5zb6",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password successfully reset using recovery token",
+      "timestamp": "2026-08-26T21:47:16.911Z",
+      "createdAt": "2026-08-26T21:47:16.940Z"
+    },
+    {
+      "id": "audit-1787780730253-1xp8f",
+      "action": "Password reset link sent",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset email link dispatched",
+      "timestamp": "2026-08-26T21:45:30.253Z",
+      "createdAt": "2026-08-26T21:45:30.255Z"
+    },
+    {
+      "id": "audit-1787780718396-hf8xy",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T21:45:18.396Z",
+      "createdAt": "2026-08-26T21:45:18.398Z"
+    },
+    {
+      "id": "audit-1787780674404-9ogmd",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password successfully reset using recovery token",
+      "timestamp": "2026-08-26T21:44:34.404Z",
+      "createdAt": "2026-08-26T21:44:34.436Z"
+    },
+    {
+      "id": "audit-1787780665412-4ea4n",
+      "action": "Password reset link sent",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset email link dispatched",
+      "timestamp": "2026-08-26T21:44:25.412Z",
+      "createdAt": "2026-08-26T21:44:25.415Z"
+    },
+    {
+      "id": "audit-1787779698498-gcumn",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T21:28:18.498Z",
+      "createdAt": "2026-08-26T21:28:18.519Z"
+    },
+    {
+      "id": "audit-1787779667827-wseyi",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T21:27:47.827Z",
+      "createdAt": "2026-08-26T21:27:47.828Z"
+    },
+    {
+      "id": "audit-1787779665190-vls3w",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T21:27:45.190Z",
+      "createdAt": "2026-08-26T21:27:45.191Z"
+    },
+    {
+      "id": "audit-1787779372860-fag80",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T21:22:52.860Z",
+      "createdAt": "2026-08-26T21:22:52.861Z"
+    },
+    {
+      "id": "audit-1787778507226-k60n5",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T21:08:27.226Z",
+      "createdAt": "2026-08-26T21:08:27.271Z"
+    },
+    {
+      "id": "audit-1787778464023-5tqam",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "bholukumaryadav8226@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T21:07:44.023Z",
+      "createdAt": "2026-08-26T21:07:44.024Z"
+    },
+    {
+      "id": "audit-1787778457174-v0z3z",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T21:07:37.174Z",
+      "createdAt": "2026-08-26T21:07:37.194Z"
+    },
+    {
+      "id": "audit-1787778451018-rguaw",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T21:07:31.018Z",
+      "createdAt": "2026-08-26T21:07:31.020Z"
+    },
+    {
+      "id": "audit-1787776786447-ikxri",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T20:39:46.447Z",
+      "createdAt": "2026-08-26T20:39:46.457Z"
+    },
+    {
+      "id": "audit-1787776771326-xryud",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T20:39:31.326Z",
+      "createdAt": "2026-08-26T20:39:31.344Z"
+    },
+    {
+      "id": "audit-1787776765414-fcpsu",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T20:39:25.415Z",
+      "createdAt": "2026-08-26T20:39:25.418Z"
+    },
+    {
+      "id": "audit-1787775835491-30jgi",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T20:23:55.493Z",
+      "createdAt": "2026-08-26T20:23:55.541Z"
+    },
+    {
+      "id": "audit-1787772099946-6whkh",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T19:21:39.946Z",
+      "createdAt": "2026-08-26T19:21:39.958Z"
+    },
+    {
+      "id": "audit-1787772080947-s73jf",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T19:21:20.947Z",
+      "createdAt": "2026-08-26T19:21:20.948Z"
+    },
+    {
+      "id": "audit-1787772066290-uxo7m",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T19:21:06.291Z",
+      "createdAt": "2026-08-26T19:21:06.293Z"
+    },
+    {
+      "id": "audit-1787770905893-52k2x",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T19:01:45.893Z",
+      "createdAt": "2026-08-26T19:01:45.913Z"
+    },
+    {
+      "id": "audit-1787770887996-a1920",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T19:01:27.996Z",
+      "createdAt": "2026-08-26T19:01:28.020Z"
+    },
+    {
+      "id": "audit-1787770882911-babm9",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T19:01:22.911Z",
+      "createdAt": "2026-08-26T19:01:22.914Z"
+    },
+    {
+      "id": "audit-1787770869832-wt5mx",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T19:01:09.832Z",
+      "createdAt": "2026-08-26T19:01:09.834Z"
+    },
+    {
+      "id": "audit-1787763815707-hwlh3",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T17:03:35.707Z",
+      "createdAt": "2026-08-26T17:03:35.708Z"
+    },
+    {
+      "id": "audit-1787763796653-uetys",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T17:03:16.653Z",
+      "createdAt": "2026-08-26T17:03:16.655Z"
+    },
+    {
+      "id": "audit-1787763775237-743cs",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T17:02:55.237Z",
+      "createdAt": "2026-08-26T17:02:55.239Z"
+    },
+    {
+      "id": "audit-1787762925506-hcda4",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T16:48:45.506Z",
+      "createdAt": "2026-08-26T16:48:45.511Z"
+    },
+    {
+      "id": "audit-1787762905747-iv5ht",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password successfully reset using recovery token",
+      "timestamp": "2026-08-26T16:48:25.747Z",
+      "createdAt": "2026-08-26T16:48:25.795Z"
+    },
+    {
+      "id": "audit-1787762886770-lx4pi",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T16:48:06.770Z",
+      "createdAt": "2026-08-26T16:48:06.825Z"
+    },
+    {
+      "id": "audit-1787762875145-gw0on",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T16:47:55.145Z",
+      "createdAt": "2026-08-26T16:47:55.148Z"
+    },
+    {
+      "id": "audit-1787761930142-lj7rt",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password successfully reset using recovery token",
+      "timestamp": "2026-08-26T16:32:10.142Z",
+      "createdAt": "2026-08-26T16:32:10.175Z"
+    },
+    {
+      "id": "audit-1787761905137-d5x73",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T16:31:45.137Z",
+      "createdAt": "2026-08-26T16:31:45.174Z"
+    },
+    {
+      "id": "audit-1787761259356-xwflp",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T16:20:59.356Z",
+      "createdAt": "2026-08-26T16:20:59.378Z"
+    },
+    {
+      "id": "audit-1787761253942-94wa3",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T16:20:53.943Z",
+      "createdAt": "2026-08-26T16:20:53.943Z"
+    },
+    {
+      "id": "audit-1787759421355-0tdcq",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T15:50:21.355Z",
+      "createdAt": "2026-08-26T15:50:21.371Z"
+    },
+    {
+      "id": "audit-1787759405845-d1daw",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T15:50:05.845Z",
+      "createdAt": "2026-08-26T15:50:05.846Z"
+    },
+    {
+      "id": "audit-1787759387822-trsp1",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T15:49:47.822Z",
+      "createdAt": "2026-08-26T15:49:47.823Z"
+    },
+    {
+      "id": "audit-1787759377788-6503b",
+      "action": "Password changed",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password updated from admin profile",
+      "timestamp": "2026-08-26T15:49:37.788Z",
+      "createdAt": "2026-08-26T15:49:37.877Z"
+    },
+    {
+      "id": "audit-1787759310308-qxndw",
+      "action": "Order status updated",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": "Order #AS-889911",
+      "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express, Tracking: BD-612260704IN)",
+      "timestamp": "2026-08-26T15:48:30.308Z",
+      "createdAt": "2026-08-26T15:48:30.332Z"
+    },
+    {
+      "id": "audit-1787759282709-2mj23",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T15:48:02.709Z",
+      "createdAt": "2026-08-26T15:48:02.782Z"
+    },
+    {
+      "id": "audit-1787758263910-ck1j4",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T15:31:03.910Z",
+      "createdAt": "2026-08-26T15:31:03.929Z"
+    },
+    {
+      "id": "audit-1787758254983-re0q2",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T15:30:54.983Z",
+      "createdAt": "2026-08-26T15:30:54.984Z"
+    },
+    {
+      "id": "audit-1787758235843-8zf4f",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T15:30:35.843Z",
+      "createdAt": "2026-08-26T15:30:35.844Z"
+    },
+    {
+      "id": "audit-1787758225369-oj9ij",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-26T15:30:25.369Z",
+      "createdAt": "2026-08-26T15:30:25.371Z"
+    },
+    {
+      "id": "audit-1787758209061-qssmg",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T15:30:09.062Z",
+      "createdAt": "2026-08-26T15:30:09.063Z"
+    },
+    {
+      "id": "audit-1787758119890-bn37y",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T15:28:39.892Z",
+      "createdAt": "2026-08-26T15:28:39.895Z"
+    },
+    {
+      "id": "audit-1787757782685-xdm25",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T15:23:02.685Z",
+      "createdAt": "2026-08-26T15:23:02.883Z"
+    },
+    {
+      "id": "audit-1787756863258-c8g76",
+      "action": "Password reset",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Password reset token generated",
+      "timestamp": "2026-08-26T15:07:43.258Z",
+      "createdAt": "2026-08-26T15:07:43.293Z"
+    },
+    {
+      "id": "audit-1787756289737-9eyx3",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T14:58:09.737Z",
+      "createdAt": "2026-08-26T14:58:09.834Z"
+    },
+    {
+      "id": "audit-1787756280575-m39so",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T14:58:00.575Z",
+      "createdAt": "2026-08-26T14:58:00.576Z"
+    },
+    {
+      "id": "audit-1787756261023-vxsyg",
+      "action": "Failed login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Incorrect password",
+      "timestamp": "2026-08-26T14:57:41.023Z",
+      "createdAt": "2026-08-26T14:57:41.023Z"
+    },
+    {
+      "id": "audit-1787756214208-snbio",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "timestamp": "2026-08-26T14:56:54.208Z",
+      "createdAt": "2026-08-26T14:56:54.208Z"
+    },
+    {
+      "id": "audit-1787756204617-65ddn",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-26T14:56:44.617Z",
+      "createdAt": "2026-08-26T14:56:44.619Z"
+    },
+    {
+      "id": "audit-1787691853059-blv50",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-25T21:04:13.059Z",
+      "createdAt": "2026-08-25T21:04:13.061Z"
+    },
+    {
+      "id": "audit-1787691848996-z29v8",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-25T21:04:08.996Z",
+      "createdAt": "2026-08-25T21:04:08.999Z"
+    },
+    {
+      "id": "audit-1787691708888-5fcov",
+      "action": "Logout",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "timestamp": "2026-08-25T21:01:48.888Z",
+      "createdAt": "2026-08-25T21:01:48.890Z"
+    },
+    {
+      "id": "audit-1787691703361-hn68g",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-25T21:01:43.361Z",
+      "createdAt": "2026-08-25T21:01:43.363Z"
+    },
+    {
+      "id": "audit-1787681810284-7hqpm",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "timestamp": "2026-08-25T18:16:50.284Z",
+      "createdAt": "2026-08-25T18:16:50.286Z"
+    },
+    {
+      "id": "audit-1787679701228",
+      "action": "System Initialized",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "details": "Store database cleaned and initialized for live production",
+      "timestamp": "2026-08-25T17:41:41.228Z",
+      "createdAt": "2026-08-25T17:41:41.241Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "AS-540446",
+      "customerId": "usr-1787774852478",
+      "customerEmail": "ashukumarfbg8271@gmail.com",
+      "customerName": "Ashutosh kumar",
+      "customerPhone": "9334993909",
+      "date": "2026-08-28",
+      "status": "Order Placed",
+      "statusCode": 2,
+      "estimatedDelivery": "2026-09-01",
+      "carrier": "Bluedart Express Luxury Courier",
+      "trackingNumber": "BD-329661932IN",
+      "items": [
+        {
+          "cartItemId": "prod-1-Midnight Navy-Medium (12x9 in)",
+          "id": "prod-1",
+          "name": "Premium Navy Leather Handbag",
+          "brand": "A_S Signature",
+          "price": 2499,
+          "originalPrice": 4999,
+          "discount": 50,
+          "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
+          "selectedColor": "Midnight Navy",
+          "selectedSize": "Medium (12x9 in)",
+          "quantity": 1
+        }
+      ],
+      "subtotal": 2499,
+      "discount": 0,
+      "shipping": 0,
+      "total": 2499,
+      "paymentMethod": "NetBanking Direct (All Major Indian Banks)",
+      "paymentStatus": "Paid (Verified by Razorpay)",
+      "deliveryMode": "Standard White-Glove (Mon, 31 Aug) • anytime",
+      "shippingAddress": {
+        "fullName": "Ashutosh Kumar(0157AL221059)",
+        "phone": "9334993909",
+        "email": "ashukumarfbg8271@gmail.com",
+        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh",
+        "pincode": "462042"
+      },
+      "timeline": [
+        {
+          "step": "Order Placed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Order confirmed in A_S Commerce system"
+        },
+        {
+          "step": "Payment Confirmed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Payment of ₹2,499 confirmed"
+        },
+        {
+          "step": "Processing",
+          "time": "Scheduled today",
+          "done": false,
+          "desc": "Luxury packaging & inspection"
+        },
+        {
+          "step": "Shipped",
+          "time": "Pending dispatch",
+          "done": false,
+          "desc": "Handed over to carrier"
+        },
+        {
+          "step": "Out for Delivery",
+          "time": "Pending",
+          "done": false,
+          "desc": "On final delivery vehicle"
+        },
+        {
+          "step": "Delivered",
+          "time": "Estimated Tue Sep 01 2026",
+          "done": false,
+          "desc": "Delivered to shipping address"
+        }
+      ],
+      "createdAt": "2026-08-28T07:31:26.168Z",
+      "updatedAt": "2026-08-28T07:31:26.168Z"
+    },
+    {
+      "id": "AS-860068",
+      "date": "2026-08-26",
+      "status": "Order Placed",
+      "statusCode": 2,
+      "estimatedDelivery": "2026-08-30",
+      "carrier": "Bluedart Express Luxury Courier",
+      "trackingNumber": "BD-505435770IN",
+      "items": [
+        {
+          "cartItemId": "prod-6-Deep Navy-38R",
+          "id": "prod-6",
+          "name": "Bespoke Midnight Navy Wool Blazer",
+          "brand": "A_S Sartorial",
+          "price": 4999,
+          "originalPrice": 8999,
+          "discount": 44,
+          "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
+          "selectedColor": "Deep Navy",
+          "selectedSize": "38R",
+          "quantity": 1
+        }
+      ],
+      "subtotal": 4999,
+      "discount": 0,
+      "shipping": 0,
+      "total": 4999,
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "deliveryMode": "Standard White-Glove (Sat, 29 Aug) • anytime",
+      "shippingAddress": {
+        "fullName": "Ashutosh kumar",
+        "phone": "9572804194",
+        "email": "ashukumarfbg8271@gmail.com",
+        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh",
+        "pincode": "462001"
+      },
+      "timeline": [
+        {
+          "step": "Order Placed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Order confirmed in A_S Commerce system"
+        },
+        {
+          "step": "Payment Confirmed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Payment of ₹4,999 confirmed"
+        },
+        {
+          "step": "Processing",
+          "time": "Scheduled today",
+          "done": false,
+          "desc": "Luxury packaging & inspection"
+        },
+        {
+          "step": "Shipped",
+          "time": "Pending dispatch",
+          "done": false,
+          "desc": "Handed over to carrier"
+        },
+        {
+          "step": "Out for Delivery",
+          "time": "Pending",
+          "done": false,
+          "desc": "On final delivery vehicle"
+        },
+        {
+          "step": "Delivered",
+          "time": "Estimated Sun Aug 30 2026",
+          "done": false,
+          "desc": "Delivered to shipping address"
+        }
+      ],
+      "createdAt": "2026-08-26T17:01:12.416Z",
+      "updatedAt": "2026-08-26T17:01:12.416Z"
+    },
+    {
+      "id": "AS-701528",
+      "date": "2026-08-26",
+      "status": "Order Placed",
+      "statusCode": 2,
+      "estimatedDelivery": "2026-08-28",
+      "carrier": "Bluedart Express Luxury Courier",
+      "trackingNumber": "BD-949131895IN",
+      "items": [
+        {
+          "cartItemId": "prod-2-Royal Gold-40mm Dial",
+          "id": "prod-2",
+          "name": "Royal Chronograph Gold Wristwatch",
+          "brand": "A_S Horology",
+          "price": 8999,
+          "originalPrice": 14999,
+          "discount": 40,
+          "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
+          "selectedColor": "Royal Gold",
+          "selectedSize": "40mm Dial",
+          "quantity": 1
+        }
+      ],
+      "subtotal": 8999,
+      "discount": 0,
+      "shipping": 249,
+      "total": 9248,
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "deliveryMode": "Same-Day Express (Wed, 26 Aug) • anytime",
+      "shippingAddress": {
+        "fullName": "Ashutosh kumar yadav",
+        "phone": "8271936044",
+        "email": "ashukumarfbg8271@gmail.com",
+        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
+        "city": "Bhopal",
+        "state": "Bihar",
+        "pincode": "462001"
+      },
+      "timeline": [
+        {
+          "step": "Order Placed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Order confirmed in A_S Commerce system"
+        },
+        {
+          "step": "Payment Confirmed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Payment of ₹9,248 confirmed"
+        },
+        {
+          "step": "Processing",
+          "time": "Scheduled today",
+          "done": false,
+          "desc": "Luxury packaging & inspection"
+        },
+        {
+          "step": "Shipped",
+          "time": "Pending dispatch",
+          "done": false,
+          "desc": "Handed over to carrier"
+        },
+        {
+          "step": "Out for Delivery",
+          "time": "Pending",
+          "done": false,
+          "desc": "On final delivery vehicle"
+        },
+        {
+          "step": "Delivered",
+          "time": "Estimated Fri Aug 28 2026",
+          "done": false,
+          "desc": "Delivered to shipping address"
+        }
+      ],
+      "createdAt": "2026-08-26T16:36:50.304Z",
+      "updatedAt": "2026-08-26T16:36:50.304Z"
+    },
+    {
+      "id": "AS-276410",
+      "date": "2026-08-26",
+      "status": "Order Placed",
+      "statusCode": 2,
+      "estimatedDelivery": "2026-08-28",
+      "carrier": "Bluedart Express Luxury Courier",
+      "trackingNumber": "BD-886768521IN",
+      "items": [
+        {
+          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
+          "id": "prod-4",
+          "name": "Aviator 24K Gold Polarized Sunglasses",
+          "brand": "A_S Optix",
+          "price": 1899,
+          "originalPrice": 3499,
+          "discount": 45,
+          "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
+          "selectedColor": "Gold & Midnight Tint",
+          "selectedSize": "Standard 58mm",
+          "quantity": 1
+        }
+      ],
+      "subtotal": 1899,
+      "discount": 0,
+      "shipping": 149,
+      "total": 2048,
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "deliveryMode": "Priority Air Express (Thu, 27 Aug) • anytime",
+      "shippingAddress": {
+        "fullName": "Ashutosh kumar",
+        "phone": "9572804194",
+        "email": "ashukumarfbg8271@gmail.com",
+        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
+        "city": "Bhopal",
+        "state": "Madhya Pradesh",
+        "pincode": "462042"
+      },
+      "timeline": [
+        {
+          "step": "Order Placed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Order confirmed in A_S Commerce system"
+        },
+        {
+          "step": "Payment Confirmed",
+          "time": "Just now",
+          "done": true,
+          "desc": "Payment of ₹2,048 confirmed"
+        },
+        {
+          "step": "Processing",
+          "time": "Scheduled today",
+          "done": false,
+          "desc": "Luxury packaging & inspection"
+        },
+        {
+          "step": "Shipped",
+          "time": "Pending dispatch",
+          "done": false,
+          "desc": "Handed over to carrier"
+        },
+        {
+          "step": "Out for Delivery",
+          "time": "Pending",
+          "done": false,
+          "desc": "On final delivery vehicle"
+        },
+        {
+          "step": "Delivered",
+          "time": "Estimated Fri Aug 28 2026",
+          "done": false,
+          "desc": "Delivered to shipping address"
+        }
+      ],
+      "createdAt": "2026-08-26T16:09:23.407Z",
+      "updatedAt": "2026-08-26T16:09:23.407Z"
+    },
+    {
+      "id": "AS-889911",
+      "total": 45999,
+      "paymentMethod": "Razorpay / Online",
+      "paymentStatus": "Paid",
+      "status": "Shipped",
+      "shippingAddress": {
+        "fullName": "Ashutosh kumar",
+        "email": "ashukumarfbg8271@gmail.com",
+        "phone": "9572804194",
+        "street": "101 Horizon Ave",
+        "city": "Mumbai",
+        "pincode": "400001"
+      },
+      "items": [
+        {
+          "name": "Royal Chronograph Watch",
+          "price": 45999,
+          "quantity": 1
+        }
+      ],
+      "createdAt": "2026-08-26T15:42:40.831Z",
+      "updatedAt": "2026-08-26T15:48:30.304Z",
+      "carrier": "Bluedart Express",
+      "trackingNumber": "BD-612260704IN"
+    }
+  ],
+  "coupons": [
+    {
+      "code": "WELCOME10",
+      "discountPercent": 10,
+      "discountAmount": null,
+      "minOrder": 0,
+      "description": "10% Off on your first order",
+      "isActive": 1,
+      "createdAt": "2026-08-24T17:33:00.220Z"
+    },
+    {
+      "code": "ASGOLD20",
+      "discountPercent": 20,
+      "discountAmount": null,
+      "minOrder": 4999,
+      "description": "20% Off on orders above ₹4,999",
+      "isActive": 1,
+      "createdAt": "2026-08-24T17:33:00.240Z"
+    },
+    {
+      "code": "LUXURY500",
+      "discountPercent": null,
+      "discountAmount": 500,
+      "minOrder": 2999,
+      "description": "Flat ₹500 Off on orders above ₹2,999",
+      "isActive": 1,
+      "createdAt": "2026-08-24T17:33:00.240Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Premium Navy Leather Handbag",
+      "brand": "A_S Signature",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 2499,
+      "originalPrice": 4999,
+      "discount": 50,
+      "rating": 4.9,
+      "reviewsCount": 328,
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "inStock": true,
+      "stockCount": 14,
+      "badge": "50% OFF",
+      "description": "Crafted from full-grain Italian saffiano leather, featuring gold-plated hardware and dual reinforced top handles.",
+      "images": [
+        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "prod-2",
+      "name": "Royal Chronograph Gold Wristwatch",
+      "brand": "A_S Horology",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 8999,
+      "originalPrice": 14999,
+      "discount": 40,
+      "rating": 5,
+      "reviewsCount": 184,
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "inStock": true,
+      "stockCount": 8,
+      "badge": "BESTSELLER",
+      "description": "An exquisite automatic chronograph with 24k gold bezel accents and sapphire crystal glass.",
+      "images": [
+        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "prod-3",
+      "name": "Midnight Navy Suede Loafers",
+      "brand": "A_S Atelier",
+      "category": "footwear",
+      "categoryName": "Footwear",
+      "price": 4499,
+      "originalPrice": 7999,
+      "discount": 43,
+      "rating": 4.8,
+      "reviewsCount": 96,
+      "isFeatured": true,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "inStock": true,
+      "stockCount": 12,
+      "badge": "NEW",
+      "description": "Bespoke hand-stitched Italian suede loafers with plush memory foam insole and gold bit buckle.",
+      "images": [
+        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "prod-4",
+      "name": "Bespoke Midnight Tailored Suit",
+      "brand": "A_S Sartorial",
+      "category": "men",
+      "categoryName": "Men Fashion",
+      "price": 18999,
+      "originalPrice": 28999,
+      "discount": 34,
+      "rating": 5,
+      "reviewsCount": 210,
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": false,
+      "inStock": true,
+      "stockCount": 5,
+      "badge": "LUXURY",
+      "description": "Tailored two-piece formal suit woven from super 150s Australian Merino wool with horn buttons.",
+      "images": [
+        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "prod-5",
+      "name": "Emerald Silk Evening Gown",
+      "brand": "A_S Couture",
+      "category": "women",
+      "categoryName": "Women Fashion",
+      "price": 12499,
+      "originalPrice": 19999,
+      "discount": 37,
+      "rating": 4.9,
+      "reviewsCount": 142,
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "inStock": true,
+      "stockCount": 6,
+      "badge": "COUTURE",
+      "description": "Pure Mulberry silk floor-length gown featuring a pleated bodice and gold chain detail.",
+      "images": [
+        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&auto=format&fit=crop&q=80"
+      ]
+    },
+    {
+      "id": "prod-6",
+      "name": "Audiophile ANC Wireless Headphones",
+      "brand": "A_S Acoustics",
+      "category": "electronics",
+      "categoryName": "Electronics",
+      "price": 6999,
+      "originalPrice": 11999,
+      "discount": 41,
+      "rating": 4.9,
+      "reviewsCount": 412,
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "inStock": true,
+      "stockCount": 20,
+      "badge": "41% OFF",
+      "description": "Hybrid Active Noise Cancellation with beryllium acoustic drivers and 45-hour battery life.",
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+      ]
+    }
+  ],
+  "settings": {
+    "announcementText": "10% Off on First Order | Use Code: WELCOME10",
+    "freeShippingThreshold": 999,
+    "heroBadge": "NEW SEASON COLLECTION 2026",
+    "heroHeadline": "Elevate Your Style. Define Your Comfort.",
+    "heroSubheadline": "Discover the latest trends in fashion, electronics, and lifestyle. Premium products, best prices at A_S Commerce.",
+    "heroDiscount": "50% OFF",
+    "supportPhone": "+91 98765 43210",
+    "supportEmail": "concierge@ascommerce.luxury"
+  },
+  "users": [
+    {
+      "id": "usr-1787768301309",
+      "name": "Aryan Sharma",
+      "email": "aryan.luxury2026@gmail.com",
+      "phone": "9876543210",
+      "passwordHash": "$2b$10$WhW4ACabOkgl1F//cAtMRuOaddjdtFMa6hGiJVgl5k1ah8jIBEv5.",
+      "role": "customer",
+      "isVerified": true,
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "addresses": [],
+      "wishlist": [],
+      "createdAt": "2026-08-26T18:18:21.297Z",
+      "updatedAt": "2026-08-26T18:20:03.873Z"
+    },
+    {
+      "id": "usr-1787769250807",
+      "name": "Bholu Yadav",
+      "email": "bholukumaryadav8226@gmail.com",
+      "phone": "8226812720",
+      "passwordHash": "$2b$10$WfEBocXh9M6PHmi4r6vU..qB9iCBtbJbdQ63NT5ujtxLcpy6v.0b2",
+      "role": "customer",
+      "isVerified": true,
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "addresses": [],
+      "wishlist": [
+        {
+          "id": "prod-3",
+          "name": "AeroFlex Midnight Performance Sneakers",
+          "brand": "A_S Motion",
+          "category": "footwear",
+          "categoryName": "Footwear",
+          "price": 3299,
+          "originalPrice": 5999,
+          "discount": 45,
+          "rating": 4.8,
+          "reviewsCount": 412,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": false,
+          "isSpecialOffer": true,
+          "inStock": true,
+          "stockCount": 22,
+          "badge": "TRENDING",
+          "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
+          "images": [
+            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#FFFFFF",
+            "#DC2626"
+          ],
+          "colorNames": [
+            "Navy / Gold",
+            "Pure White",
+            "Crimson Red"
+          ],
+          "sizes": [
+            "UK 7",
+            "UK 8",
+            "UK 9",
+            "UK 10",
+            "UK 11"
+          ],
+          "specs": {
+            "Sole": "AeroCloud Dual-Density Foam",
+            "Upper": "Engineered Prime Knit",
+            "Weight": "240g per shoe",
+            "Best For": "Urban Walking, Running & Lifestyle"
+          }
+        },
+        {
+          "id": "prod-6",
+          "name": "Bespoke Midnight Navy Wool Blazer",
+          "brand": "A_S Sartorial",
+          "category": "men",
+          "categoryName": "Men Fashion",
+          "price": 4999,
+          "originalPrice": 8999,
+          "discount": 44,
+          "rating": 4.9,
+          "reviewsCount": 215,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": true,
+          "isSpecialOffer": false,
+          "inStock": true,
+          "stockCount": 16,
+          "badge": "LUXURY",
+          "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
+          "images": [
+            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#374151",
+            "#000000"
+          ],
+          "colorNames": [
+            "Deep Navy",
+            "Charcoal Grey",
+            "Classic Black"
+          ],
+          "sizes": [
+            "38R",
+            "40R",
+            "42R",
+            "44R"
+          ],
+          "specs": {
+            "Fabric": "100% Super 140s Merino Wool",
+            "Construction": "Half-Canvas with Bemberg Silk Lining",
+            "Fit": "Modern Tailored Fit",
+            "Care": "Dry Clean Only"
+          }
+        }
+      ],
+      "createdAt": "2026-08-26T18:34:10.807Z",
+      "updatedAt": "2026-08-27T07:09:28.054Z"
+    },
+    {
+      "id": "usr-1787769993869",
+      "name": "Rahul Roy",
+      "email": "rahul.test2026@gmail.com",
+      "phone": "9876543210",
+      "passwordHash": "$2b$10$XpZBBtPoKH2VPE57bKTtEO/xOAAWMHPRDcpTWOJDZDosxE3v5reDe",
+      "role": "customer",
+      "isVerified": false,
+      "verificationOtp": "542613",
+      "otpExpiresAt": 1787770893757,
+      "addresses": [],
+      "wishlist": [],
+      "createdAt": "2026-08-26T18:46:33.867Z",
+      "updatedAt": "2026-08-26T18:46:33.867Z"
+    },
+    {
+      "id": "usr-1787774852478",
+      "name": "Ashutosh kumar",
+      "email": "ashukumarfbg8271@gmail.com",
+      "phone": "9334993909",
+      "passwordHash": "$2b$10$Pg0AksDk.AD6J1qP1.Qf3OKqHEIT355xg8B.XmQ.9PjejkIV06WhO",
+      "role": "customer",
+      "isVerified": true,
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "addresses": [
+        {
+          "id": "addr-1787779440270",
+          "title": "Home",
+          "name": "Ashutosh Kumar(0157AL221059)",
+          "phone": "9334993909",
+          "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
+          "city": "Bhopal",
+          "state": "Madhya Pradesh",
+          "pincode": "462042",
+          "isDefault": true,
+          "landmark": "dhaka village"
+        }
+      ],
+      "wishlist": [
+        {
+          "id": "prod-3",
+          "name": "AeroFlex Midnight Performance Sneakers",
+          "brand": "A_S Motion",
+          "category": "footwear",
+          "categoryName": "Footwear",
+          "price": 3299,
+          "originalPrice": 5999,
+          "discount": 45,
+          "rating": 4.8,
+          "reviewsCount": 412,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": false,
+          "isSpecialOffer": true,
+          "inStock": true,
+          "stockCount": 22,
+          "badge": "TRENDING",
+          "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
+          "images": [
+            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#FFFFFF",
+            "#DC2626"
+          ],
+          "colorNames": [
+            "Navy / Gold",
+            "Pure White",
+            "Crimson Red"
+          ],
+          "sizes": [
+            "UK 7",
+            "UK 8",
+            "UK 9",
+            "UK 10",
+            "UK 11"
+          ],
+          "specs": {
+            "Sole": "AeroCloud Dual-Density Foam",
+            "Upper": "Engineered Prime Knit",
+            "Weight": "240g per shoe",
+            "Best For": "Urban Walking, Running & Lifestyle"
+          }
+        },
+        {
+          "id": "prod-6",
+          "name": "Bespoke Midnight Navy Wool Blazer",
+          "brand": "A_S Sartorial",
+          "category": "men",
+          "categoryName": "Men Fashion",
+          "price": 4999,
+          "originalPrice": 8999,
+          "discount": 44,
+          "rating": 4.9,
+          "reviewsCount": 215,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": true,
+          "isSpecialOffer": false,
+          "inStock": true,
+          "stockCount": 16,
+          "badge": "LUXURY",
+          "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
+          "images": [
+            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#374151",
+            "#000000"
+          ],
+          "colorNames": [
+            "Deep Navy",
+            "Charcoal Grey",
+            "Classic Black"
+          ],
+          "sizes": [
+            "38R",
+            "40R",
+            "42R",
+            "44R"
+          ],
+          "specs": {
+            "Fabric": "100% Super 140s Merino Wool",
+            "Construction": "Half-Canvas with Bemberg Silk Lining",
+            "Fit": "Modern Tailored Fit",
+            "Care": "Dry Clean Only"
+          }
+        }
+      ],
+      "createdAt": "2026-08-26T20:07:32.477Z",
+      "updatedAt": "2026-08-29T20:22:02.134Z",
+      "avatar": "https://res.cloudinary.com/dpxukzvik/image/upload/v1788034021/as-commerce/avatars/mywxjttqmyqu3mgtq774.webp"
+    },
+    {
+      "id": "usr-1788035006466",
+      "name": "shuro",
+      "email": "shrutiashutosh139@gmail.com",
+      "phone": "8271936044",
+      "passwordHash": "$2b$10$r3jU7NT5fzCNUMWXeqwIeuecpNfFEAJyUuPpWDm7z2DOajnPeAyZ6",
+      "role": "customer",
+      "isVerified": true,
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "addresses": [],
+      "wishlist": [
+        {
+          "id": "prod-3",
+          "name": "AeroFlex Midnight Performance Sneakers",
+          "brand": "A_S Motion",
+          "category": "footwear",
+          "categoryName": "Footwear",
+          "price": 3299,
+          "originalPrice": 5999,
+          "discount": 45,
+          "rating": 4.8,
+          "reviewsCount": 412,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": false,
+          "isSpecialOffer": true,
+          "inStock": true,
+          "stockCount": 22,
+          "badge": "TRENDING",
+          "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
+          "images": [
+            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#FFFFFF",
+            "#DC2626"
+          ],
+          "colorNames": [
+            "Navy / Gold",
+            "Pure White",
+            "Crimson Red"
+          ],
+          "sizes": [
+            "UK 7",
+            "UK 8",
+            "UK 9",
+            "UK 10",
+            "UK 11"
+          ],
+          "specs": {
+            "Sole": "AeroCloud Dual-Density Foam",
+            "Upper": "Engineered Prime Knit",
+            "Weight": "240g per shoe",
+            "Best For": "Urban Walking, Running & Lifestyle"
+          }
+        },
+        {
+          "id": "prod-6",
+          "name": "Bespoke Midnight Navy Wool Blazer",
+          "brand": "A_S Sartorial",
+          "category": "men",
+          "categoryName": "Men Fashion",
+          "price": 4999,
+          "originalPrice": 8999,
+          "discount": 44,
+          "rating": 4.9,
+          "reviewsCount": 215,
+          "isFeatured": true,
+          "isTrending": true,
+          "isNewArrival": true,
+          "isSpecialOffer": false,
+          "inStock": true,
+          "stockCount": 16,
+          "badge": "LUXURY",
+          "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
+          "images": [
+            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
+          ],
+          "colors": [
+            "#061A27",
+            "#374151",
+            "#000000"
+          ],
+          "colorNames": [
+            "Deep Navy",
+            "Charcoal Grey",
+            "Classic Black"
+          ],
+          "sizes": [
+            "38R",
+            "40R",
+            "42R",
+            "44R"
+          ],
+          "specs": {
+            "Fabric": "100% Super 140s Merino Wool",
+            "Construction": "Half-Canvas with Bemberg Silk Lining",
+            "Fit": "Modern Tailored Fit",
+            "Care": "Dry Clean Only"
+          }
+        }
+      ],
+      "createdAt": "2026-08-29T20:23:26.466Z",
+      "updatedAt": "2026-08-29T20:31:07.512Z"
+    }
+  ]
+}
