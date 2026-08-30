@@ -55,7 +55,7 @@ export const WishlistProvider = ({ children }) => {
       addToast('Removed from wishlist', 'info');
     } else {
       setWishlistItems((prev) => [...prev, product]);
-      addToast(`Saved "${displayName}" to wishlist`, 'wishlist');
+      addToast('Added to wishlist', 'success');
     }
     return true;
   };

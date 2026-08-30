@@ -130,8 +130,7 @@ export const CartProvider = ({ children }) => {
       ];
     });
 
-    const displayName = product.name?.length > 22 ? `${product.name.slice(0, 20)}...` : (product.name || 'Item');
-    addToast(`Added "${displayName}" to cart`, 'cart');
+    addToast('Added to cart', 'success');
     if (openDrawer) {
       setIsCartDrawerOpen(true);
     }

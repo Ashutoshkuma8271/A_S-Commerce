@@ -245,9 +245,11 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             >
               <div className="relative">
                 <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-                <span className="absolute -top-1.5 -right-2 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center shadow-gold-sm">
-                  {totalItemsCount}
-                </span>
+                {totalItemsCount > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center shadow-gold-sm animate-scaleIn">
+                    {totalItemsCount}
+                  </span>
+                )}
               </div>
               <span className="hidden xl:inline text-xs font-medium">Cart</span>
             </button>
