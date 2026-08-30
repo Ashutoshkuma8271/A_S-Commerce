@@ -43,17 +43,19 @@ export const WishlistProvider = ({ children }) => {
   // Enforce Login before saving to Wishlist
   const toggleWishlist = (product) => {
     if (!isAuthenticated) {
-      requireAuth(null, 'Please sign in or register to save items to your wishlist.');
+      requireAuth(null, 'Please sign in to save items to your wishlist.');
       return false;
     }
 
     const exists = wishlistItems.some((item) => item.id === product.id);
+    const displayName = product.name?.length > 22 ? `${product.name.slice(0, 20)}...` : (product.name || 'Item');
+    
     if (exists) {
       setWishlistItems((prev) => prev.filter((item) => item.id !== product.id));
-      addToast(`Removed "${product.name}" from wishlist`, 'info');
+      addToast('Removed from wishlist', 'info');
     } else {
       setWishlistItems((prev) => [...prev, product]);
-      addToast(`Added "${product.name}" to wishlist!`, 'success');
+      addToast(`Saved "${displayName}" to wishlist`, 'wishlist');
     }
     return true;
   };
@@ -62,7 +64,7 @@ export const WishlistProvider = ({ children }) => {
     const found = wishlistItems.find((item) => item.id === productId);
     if (found) {
       setWishlistItems((prev) => prev.filter((item) => item.id !== productId));
-      addToast(`Removed "${found.name}" from wishlist`, 'info');
+      addToast('Removed from wishlist', 'info');
     }
   };
 

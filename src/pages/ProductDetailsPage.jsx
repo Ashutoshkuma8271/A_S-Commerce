@@ -109,7 +109,7 @@ export const ProductDetailsPage = () => {
   const handleShare = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
-      addToast('Product link copied to clipboard!', 'success');
+      addToast('Product link copied!', 'copy');
     }
   };
 
@@ -128,11 +128,11 @@ export const ProductDetailsPage = () => {
   const handleCheckPincode = (e) => {
     e.preventDefault();
     if (!isValidIndianPincode(pincode)) {
-      addToast('Please enter a valid 6-digit Indian pincode', 'error');
+      addToast('Enter a valid 6-digit pincode', 'error');
       return;
     }
     setPincodeChecked(true);
-    addToast(`Delivery available to ${pincode}! Dispatching via Bluedart Express`, 'success');
+    addToast(`Delivery available to ${pincode}`, 'success');
   };
 
   const handleReviewSubmit = (e) => {
@@ -155,7 +155,7 @@ export const ProductDetailsPage = () => {
     setReviewName('');
     setReviewComment('');
     setReviewRating(5);
-    addToast('Thank you! Your verified patron review has been published.', 'success');
+    addToast('Review submitted successfully!', 'success');
   };
 
   return (

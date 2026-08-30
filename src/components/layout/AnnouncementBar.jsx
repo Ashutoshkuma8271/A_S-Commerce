@@ -14,7 +14,6 @@ export const AnnouncementBar = () => {
     navigator.clipboard.writeText('WELCOME10');
     setCopied(true);
     applyCoupon('WELCOME10');
-    addToast('Coupon code WELCOME10 copied & applied!', 'success');
     setTimeout(() => setCopied(false), 2500);
   };
 

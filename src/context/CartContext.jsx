@@ -130,7 +130,8 @@ export const CartProvider = ({ children }) => {
       ];
     });
 
-    addToast(`Added "${product.name}" to cart!`, 'success');
+    const displayName = product.name?.length > 22 ? `${product.name.slice(0, 20)}...` : (product.name || 'Item');
+    addToast(`Added "${displayName}" to cart`, 'cart');
     if (openDrawer) {
       setIsCartDrawerOpen(true);
     }
@@ -153,7 +154,7 @@ export const CartProvider = ({ children }) => {
     const removed = cartItems.find((i) => i.cartItemId === cartItemId);
     setCartItems((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
     if (removed) {
-      addToast(`Removed "${removed.name}" from cart`, 'info');
+      addToast('Item removed from cart', 'info');
     }
   };
 
@@ -170,11 +171,11 @@ export const CartProvider = ({ children }) => {
       return false;
     }
     if (found.minOrder && subtotal < found.minOrder) {
-      addToast(`Minimum order amount of ₹${found.minOrder} required for ${cleanCode}`, 'error');
+      addToast(`Min order of ₹${found.minOrder} required for ${cleanCode}`, 'error');
       return false;
     }
     setAppliedCoupon(found);
-    addToast(`Coupon "${found.code}" applied successfully!`, 'success');
+    addToast(`Coupon ${found.code} applied!`, 'copy');
     return true;
   };
 

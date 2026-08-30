@@ -16,7 +16,7 @@ export const Footer = () => {
       return;
     }
     setIsSubscribed(true);
-    addToast('Thank you for subscribing! Check your inbox for an exclusive 10% coupon.', 'success');
+    addToast('Subscribed! 10% coupon sent to email.', 'success');
     setEmail('');
   };
 
