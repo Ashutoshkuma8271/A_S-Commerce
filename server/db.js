@@ -303,24 +303,43 @@ export const db = {
     return index !== -1 ? memoryDB.admins[index] : null;
   },
 
-  createPasswordReset: async ({ token, adminEmail, email, role = 'admin', expiresAt }) => {
+  createPasswordReset: async ({ token, adminEmail, email, role = 'customer', expiresAt }) => {
     loadFromDisk();
     const targetEmail = (adminEmail || email || '').toLowerCase().trim();
+    const resetId = `rst-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const expiresNum = Number(expiresAt) || (Date.now() + 15 * 60 * 1000);
+    const now = new Date().toISOString();
+
+    const entry = {
+      id: resetId,
+      token,
+      adminEmail: targetEmail,
+      email: targetEmail,
+      role,
+      expiresAt: expiresNum,
+      used: false,
+      createdAt: now
+    };
+
     if (!memoryDB.password_resets) memoryDB.password_resets = [];
-    const entry = { token, adminEmail: targetEmail, email: targetEmail, role, expiresAt, used: false, createdAt: new Date().toISOString() };
+    memoryDB.password_resets = memoryDB.password_resets.filter(r => r.token !== token);
     memoryDB.password_resets.push(entry);
     saveToDisk();
 
     try {
-      await supabase.from('password_resets').insert({
+      await supabase.from('password_resets').delete().eq('token', token);
+      const { error } = await supabase.from('password_resets').insert({
+        id: resetId,
         token,
         email: targetEmail,
-        admin_email: targetEmail,
         role,
-        expires_at: expiresAt,
+        expires_at: expiresNum,
         used: false,
-        created_at: new Date().toISOString()
+        created_at: now
       });
+      if (error) {
+        console.warn('Supabase password_resets insert note:', error.message);
+      }
     } catch (e) {
       console.warn('Supabase password_resets write note:', e.message);
     }
@@ -350,24 +369,28 @@ export const db = {
 
   getPasswordResetAsync: async (token) => {
     loadFromDisk();
-    const local = (memoryDB.password_resets || []).find(r => r.token === token && !r.used);
-    if (local) return local;
+    const cleanToken = (token || '').trim();
+    if (!cleanToken) return null;
 
     try {
-      const { data, error } = await supabase.from('password_resets').select('*').eq('token', token).eq('used', false).maybeSingle();
+      const { data, error } = await supabase.from('password_resets').select('*').eq('token', cleanToken).maybeSingle();
       if (data && !error) {
-        return {
-          token: data.token,
-          adminEmail: data.email || data.admin_email,
-          email: data.email || data.admin_email,
-          role: data.role || 'customer',
-          expiresAt: Number(data.expires_at),
-          used: !!data.used
-        };
+        if (!data.used) {
+          return {
+            id: data.id,
+            token: data.token,
+            adminEmail: data.email,
+            email: data.email,
+            role: data.role || 'customer',
+            expiresAt: Number(data.expires_at),
+            used: false
+          };
+        }
+        return null;
       }
     } catch (e) {}
 
-    return null;
+    return (memoryDB.password_resets || []).find(r => r.token === cleanToken && !r.used) || null;
   },
 
   markPasswordResetUsed: async (token) => {
