@@ -173,7 +173,11 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     }
 
     // Send Luxury HTML OTP Email via Brevo / SMTP
-    await sendSignupOtpEmail(cleanEmail, name, otp);
+    try {
+      await sendSignupOtpEmail(cleanEmail, name, otp);
+    } catch (mailErr) {
+      console.warn('Email dispatch warning:', mailErr.message);
+    }
 
     return res.json({
       success: true,
@@ -250,8 +254,12 @@ app.post('/api/auth/resend-signup-otp', authLimiter, async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 15 * 60 * 1000;
 
-    db.setSignupOtp(cleanEmail, otp, expiresAt);
-    await sendSignupOtpEmail(cleanEmail, user.name, otp);
+    await db.setSignupOtp(cleanEmail, otp, expiresAt);
+    try {
+      await sendSignupOtpEmail(cleanEmail, user.name, otp);
+    } catch (mailErr) {
+      console.warn('Resend email dispatch warning:', mailErr.message);
+    }
 
     return res.json({
       success: true,
