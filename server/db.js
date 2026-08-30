@@ -7,9 +7,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
+try {
+  if (!fs.existsSync(dataDir) && !process.env.VERCEL) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+} catch (e) {}
 
 const dbFile = path.join(dataDir, 'database.json');
 
@@ -39,22 +41,20 @@ function loadFromDisk() {
     if (fs.existsSync(dbFile)) {
       const raw = fs.readFileSync(dbFile, 'utf8');
       memoryDB = JSON.parse(raw);
-    } else {
-      saveToDisk();
     }
   } catch (err) {
-    console.error('Failed to read db file, initializing fresh:', err);
-    saveToDisk();
+    // Read fallback
   }
 }
 
 function saveToDisk() {
+  if (process.env.VERCEL) return;
   try {
     const tmpFile = `${dbFile}.tmp`;
     fs.writeFileSync(tmpFile, JSON.stringify(memoryDB, null, 2), 'utf8');
     fs.renameSync(tmpFile, dbFile);
   } catch (err) {
-    console.error('Failed to write db file:', err);
+    // Silently ignore on read-only environments
   }
 }
 

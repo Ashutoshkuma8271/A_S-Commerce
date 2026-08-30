@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from 'lucide-react';
 
 import heroGown from '../../assets/hero/hero_gown.jpg';
 import heroSkincare from '../../assets/hero/hero_skincare.jpg';
@@ -116,18 +117,18 @@ export const HeroSection = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Smooth Sliding Carousel Track */}
-      <div className="relative min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] w-full overflow-hidden flex items-center">
-        <div
-          className="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
-          style={{ transform: `translate3d(-${currentSlide * 100}%, 0, 0)` }}
-        >
-          {HERO_SLIDES.map((slide, index) => (
+      <div className="relative min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] w-full flex items-center">
+        {HERO_SLIDES.map((slide, index) => {
+          const isActive = currentSlide === index;
+
+          return (
             <div
               key={slide.id}
-              className="min-w-full w-full h-full relative flex items-center shrink-0 min-h-[480px] sm:min-h-[540px] lg:min-h-[600px]"
+              className={`absolute inset-0 flex items-center transition-opacity duration-700 ease-in-out ${
+                isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+              }`}
             >
-              {/* Cinematic Full-Bleed Background Image & Gradients */}
+              {/* Cinematic Full-Bleed Background Image & Gradients (Exact Akira Fresh Style) */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={slide.image}
@@ -135,15 +136,24 @@ export const HeroSection = () => {
                   fetchPriority={index === 0 ? "high" : "low"}
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
-                  className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.08] transition-transform duration-1000 ease-out"
+                  className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.08] transform scale-100 group-hover:scale-105 transition-transform duration-1000"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/60 to-black/25" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40" />
               </div>
 
               {/* Foreground Left Content */}
               <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
-                <div className="max-w-xl lg:max-w-2xl space-y-3 sm:space-y-5 text-left">
+                <div className="max-w-xl lg:max-w-2xl space-y-4 sm:space-y-6 text-left">
+                  
+                  {/* Glowing Tagline Pill */}
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#061A27]/90 border border-gold-500/60 text-xs font-bold uppercase tracking-wider text-gold-400 backdrop-blur-md shadow-lg">
+                    <Sparkles className="w-3.5 h-3.5 text-gold-400" />
+                    <span>
+                      {slide.badge} • {slide.tag}
+                    </span>
+                  </div>
+
                   {/* High-Impact Headline */}
                   <h1 className="font-serif text-3xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-black tracking-tight text-white leading-[1.08] drop-shadow-md">
                     {slide.titleLine1}{' '}
@@ -157,11 +167,32 @@ export const HeroSection = () => {
                   <p className="text-sm sm:text-base lg:text-lg text-gray-200 leading-relaxed font-sans max-w-lg drop-shadow-sm font-medium">
                     {slide.subtitle}
                   </p>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+                    <Link
+                      to={slide.primaryBtnLink}
+                      className="px-7 sm:px-8 py-3.5 bg-gold-gradient hover:brightness-110 text-navy-950 font-black text-xs sm:text-sm rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer group/btn"
+                    >
+                      <span>{slide.primaryBtnText}</span>
+                      <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+
+                    <Link
+                      to={slide.secondaryBtnLink}
+                      className="px-6 sm:px-7 py-3.5 bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm rounded-full border border-white/30 backdrop-blur-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>{slide.secondaryBtnText}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+
                 </div>
               </div>
+
             </div>
-          ))}
-        </div>
+          );
+        })}
 
         {/* Left Circular Navigation Chevron */}
         <button
@@ -194,10 +225,9 @@ export const HeroSection = () => {
             />
           ))}
         </div>
+
       </div>
     </div>
   );
 };
-
-
-
+export default HeroSection;
