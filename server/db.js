@@ -490,13 +490,17 @@ export const db = {
 
   createUser: async ({ id, name, email, phone, passwordHash, role = 'customer', isVerified = false, verificationOtp = null, otpExpiresAt = null }) => {
     loadFromDisk();
+    const cleanEmail = email.toLowerCase().trim();
     if (!memoryDB.users) memoryDB.users = [];
+    
+    // Purge any stale memory records for this email
+    memoryDB.users = memoryDB.users.filter(u => u.email.toLowerCase() !== cleanEmail);
 
     const now = new Date().toISOString();
     const newUser = {
       id: id || `usr-${Date.now()}`,
       name,
-      email: email.toLowerCase(),
+      email: cleanEmail,
       phone: phone || '',
       passwordHash,
       role: 'customer',
@@ -512,9 +516,9 @@ export const db = {
     memoryDB.users.push(newUser);
     saveToDisk();
 
-    // Direct write to Supabase table
+    // Direct write to Supabase table (upsert on conflict email)
     try {
-      await supabase.from('users').insert({
+      await supabase.from('users').upsert({
         id: newUser.id,
         name: newUser.name,
         email: newUser.email,
@@ -523,12 +527,13 @@ export const db = {
         role: 'customer',
         is_verified: isVerified,
         verification_otp: verificationOtp,
+        otp_expires_at: otpExpiresAt,
         addresses: [],
         wishlist: [],
         created_at: now,
         updated_at: now
-      });
-      console.log('⚡ Saved Customer User into Supabase table public.users');
+      }, { onConflict: 'email' });
+      console.log(`⚡ Saved Customer User ${cleanEmail} into Supabase table public.users`);
     } catch (err) {
       console.warn('Supabase users table write note:', err.message);
     }

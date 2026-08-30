@@ -141,7 +141,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
       });
     }
 
-    const existing = db.getUserByEmail(cleanEmail);
+    const existing = await db.getUserByEmailAsync(cleanEmail);
     if (existing && existing.isVerified) {
       return res.status(400).json({ success: false, message: 'An account with this email already exists and is verified. Please sign in.' });
     }
