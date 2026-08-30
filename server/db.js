@@ -544,20 +544,17 @@ export const db = {
   verifyUserOtp: async (email, otp) => {
     loadFromDisk();
     const clean = email.toLowerCase().trim();
-    let userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
+    const cleanOtp = (otp || '').toString().trim();
     
-    // Check Supabase if not in memory
-    if (userIndex === undefined || userIndex === -1) {
-      await db.getUserByEmailAsync(clean);
-      userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
-    }
+    // Always query Supabase directly for the latest live user record
+    const user = await db.getUserByEmailAsync(clean);
 
-    if (userIndex === undefined || userIndex === -1) {
+    if (!user) {
       return { success: false, message: 'User account not found.' };
     }
 
-    const user = memoryDB.users[userIndex];
-    if (!user.verificationOtp || user.verificationOtp.toString().trim() !== otp.toString().trim()) {
+    const storedOtp = (user.verificationOtp || '').toString().trim();
+    if (!storedOtp || storedOtp !== cleanOtp) {
       return { success: false, message: 'Invalid 6-digit verification code. Please check and try again.' };
     }
 
@@ -571,13 +568,20 @@ export const db = {
     user.otpExpiresAt = null;
     user.updatedAt = now;
 
-    memoryDB.users[userIndex] = user;
+    if (memoryDB.users) {
+      const idx = memoryDB.users.findIndex(u => u.email.toLowerCase() === clean);
+      if (idx !== -1) memoryDB.users[idx] = user;
+    }
     saveToDisk();
 
     try {
-      await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('id', user.id);
       await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('email', clean);
-    } catch (e) {}
+      if (user.id) {
+        await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('id', user.id);
+      }
+    } catch (e) {
+      console.warn('Supabase user verification update note:', e.message);
+    }
 
     return { success: true, user };
   },

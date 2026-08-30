@@ -191,6 +191,8 @@ export const AuthModal = () => {
               ? 'Sign In to Your Account'
               : authMode === 'register'
               ? 'Create Customer Account'
+              : authMode === 'verifyOtp'
+              ? 'Verify Your Email'
               : 'Reset Your Password'}
           </h3>
           <p className="text-xs text-gray-400">
@@ -198,7 +200,9 @@ export const AuthModal = () => {
               ? 'Enter your credentials to access your cart, orders & wishlist'
               : authMode === 'register'
               ? 'Create your account to start shopping luxury collections'
-              : 'Verify your identity and update your password securely'}
+              : authMode === 'verifyOtp'
+              ? 'Enter the 6-digit verification passcode sent to your registered email'
+              : 'Enter your registered email to receive a password recovery link'}
           </p>
         </div>
 
