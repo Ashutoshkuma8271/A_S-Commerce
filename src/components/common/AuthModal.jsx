@@ -160,7 +160,7 @@ export const AuthModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none animate-fadeIn">
       {/* Backdrop */}
       <div
         onClick={() => setIsAuthModalOpen(false)}
@@ -227,8 +227,6 @@ export const AuthModal = () => {
             <form onSubmit={handleVerifyOtpSubmit} className="space-y-4">
               <div>
                 <input
-                  id="auth-otp"
-                  name="one-time-code"
                   type="text"
                   required
                   maxLength={6}
@@ -298,12 +296,10 @@ export const AuthModal = () => {
             ) : (
               <form onSubmit={handleForgotSubmit} className="space-y-3.5 animate-fadeIn">
                 <div>
-                  <label htmlFor="forgot-email" className="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-gold-400 absolute left-3 top-3" />
                     <input
-                      id="forgot-email"
-                      name="email"
                       type="email"
                       required
                       value={resetEmail}
@@ -344,18 +340,15 @@ export const AuthModal = () => {
           <form onSubmit={handleSubmit} className="p-6 pt-2 space-y-3.5">
             {authMode === 'register' && (
               <div>
-                <label htmlFor="auth-name" className="block text-xs font-semibold text-gray-300 mb-1">Full Name</label>
+                <label className="block text-xs font-semibold text-gray-300 mb-1">Full Name</label>
                 <div className="relative">
                   <User className="w-4 h-4 text-gold-400 absolute left-3 top-3" />
                   <input
-                    id="auth-name"
-                    name="name"
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your Full Name"
-                    autoComplete="name"
                     className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
                   />
                 </div>
@@ -363,18 +356,15 @@ export const AuthModal = () => {
             )}
 
             <div>
-              <label htmlFor="auth-email" className="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
+              <label className="block text-xs font-semibold text-gray-300 mb-1">Email Address</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-gold-400 absolute left-3 top-3" />
                 <input
-                  id="auth-email"
-                  name="email"
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  autoComplete="email"
                   className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
                 />
               </div>
@@ -382,18 +372,15 @@ export const AuthModal = () => {
 
             {authMode === 'register' && (
               <div>
-                <label htmlFor="auth-phone" className="block text-xs font-semibold text-gray-300 mb-1">Phone Number</label>
+                <label className="block text-xs font-semibold text-gray-300 mb-1">Phone Number</label>
                 <div className="relative">
                   <Phone className="w-4 h-4 text-gold-400 absolute left-3 top-3" />
                   <input
-                    id="auth-phone"
-                    name="tel"
                     type="tel"
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    autoComplete="tel"
                     className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
                   />
                 </div>
@@ -402,7 +389,7 @@ export const AuthModal = () => {
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label htmlFor="auth-password" className="block text-xs font-semibold text-gray-300">Password</label>
+                <label className="block text-xs font-semibold text-gray-300">Password</label>
                 {authMode === 'login' && (
                   <button
                     type="button"
@@ -419,14 +406,11 @@ export const AuthModal = () => {
               <div className="relative">
                 <Lock className="w-4 h-4 text-gold-400 absolute left-3 top-3" />
                 <input
-                  id="auth-password"
-                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
                   className="w-full pl-10 pr-10 py-2.5 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
                 />
                 <button

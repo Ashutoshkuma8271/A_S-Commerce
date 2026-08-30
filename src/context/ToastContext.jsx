@@ -10,52 +10,49 @@ import {
 const ToastContext = createContext(null);
 
 export const ToastProvider = ({ children }) => {
-  const addToast = useCallback((message, type = 'success', duration = 2200, options = {}) => {
-    // Truncate cleanly if message is over 45 chars for modern compact aesthetics
-    const cleanMessage = typeof message === 'string' && message.length > 45
-      ? message.slice(0, 42) + '...'
+  const addToast = useCallback((message, type = 'success', duration = 2400, options = {}) => {
+    // Truncate cleanly if too long
+    const cleanMessage = typeof message === 'string' && message.length > 52
+      ? message.slice(0, 50) + '...'
       : message;
 
     toast.custom((t) => {
-      let icon = <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 stroke-[2.5]" />;
-      let borderAccent = 'border-emerald-500/30';
+      // Clean modern icons & subtle border accent like Shopify / Supabase / GitHub
+      let icon = <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[2.5]" />;
+      let borderAccent = 'border-slate-700/60';
 
       if (type === 'error') {
-        icon = <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-rose-500/40';
+        icon = <AlertCircle className="w-4 h-4 text-red-400 shrink-0 stroke-[2.5]" />;
+        borderAccent = 'border-red-900/50';
       } else if (type === 'info') {
-        icon = <Info className="w-3.5 h-3.5 text-sky-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-sky-500/40';
+        icon = <Info className="w-4 h-4 text-sky-400 shrink-0 stroke-[2.5]" />;
+        borderAccent = 'border-sky-900/50';
       } else if (type === 'gold' || type === 'copy') {
-        icon = <Check className="w-3.5 h-3.5 text-gold-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-gold-500/40';
+        icon = <Check className="w-4 h-4 text-gold-400 shrink-0 stroke-[2.5]" />;
+        borderAccent = 'border-gold-500/30';
       }
 
       return (
         <div
           className={`
-            pointer-events-auto flex items-center justify-between gap-2.5 px-3 py-2 
-            rounded-full bg-[#061A27]/95 backdrop-blur-md border ${borderAccent}
-            shadow-lg shadow-black/70
+            pointer-events-auto flex items-center justify-between gap-3 px-3.5 py-2.5 
+            rounded-lg bg-[#07131F]/95 backdrop-blur-md border ${borderAccent}
+            shadow-xl shadow-black/60
             transition-all duration-200 ease-out transform
-            ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-2 opacity-0 scale-95'}
-            max-w-xs select-none cursor-pointer
+            ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-1.5 opacity-0 scale-98'}
+            max-w-sm select-none
           `}
-          onClick={() => toast.dismiss(t.id)}
         >
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
             {icon}
-            <span className="text-xs font-semibold text-white tracking-tight truncate">
+            <span className="text-[12.5px] font-medium text-stone-100 tracking-normal truncate">
               {cleanMessage}
             </span>
           </div>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              toast.dismiss(t.id);
-            }}
-            className="p-0.5 text-gray-400 hover:text-white transition-colors rounded-full"
+            onClick={() => toast.dismiss(t.id)}
+            className="p-1 -mr-1 text-stone-400 hover:text-stone-100 transition-colors rounded"
             aria-label="Close"
           >
             <X className="w-3 h-3 opacity-60 hover:opacity-100" />
@@ -63,7 +60,7 @@ export const ToastProvider = ({ children }) => {
         </div>
       );
     }, {
-      duration: type === 'error' ? Math.max(duration, 3000) : duration,
+      duration: type === 'error' ? Math.max(duration, 3500) : duration,
       id: options.id || undefined,
     });
   }, []);
@@ -80,4 +77,5 @@ export const useToast = () => {
   if (!context) throw new Error('useToast must be used within ToastProvider');
   return context;
 };
-export default ToastContext;
+
+

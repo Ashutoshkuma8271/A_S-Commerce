@@ -1,0 +1,6 @@
+{
+  "name": "A_S Commerce",
+  "description": "Luxury fashion, living, beauty, and artisanal heritage e-commerce platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

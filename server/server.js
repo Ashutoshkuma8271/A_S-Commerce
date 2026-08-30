@@ -1,3 +1,5 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -7,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import rateLimit from 'express-rate-limit';
+import { createServer as createViteServer } from 'vite';
 import { db, initDB } from './db.js';
 import adminAuthRouter from './routes/adminAuth.js';
 import adminDashboardRouter from './routes/adminDashboard.js';
@@ -20,7 +23,7 @@ import { sendSignupOtpEmail, sendPasswordResetEmail } from './utils/emailService
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Security: Rate Limiters against Brute-Force & DoS attacks
 const authLimiter = rateLimit({
@@ -63,21 +66,15 @@ const upload = multer({
 // Performance: Gzip/Brotli Payload Compression
 app.use(compression());
 
-// Force HTTPS in production environments
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(301, `https://${req.headers.host}${req.url}`);
-    }
-    next();
-  });
-}
-
 // Trust proxy for Vercel / Cloudflare edge routing & accurate rate limiting
 app.set('trust proxy', 1);
 
 // Security Middlewares
-app.use(helmet({ crossOriginResourcePolicy: false }));
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
 app.use(cors({
   origin: true,
   credentials: true
@@ -173,11 +170,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     }
 
     // Send Luxury HTML OTP Email via Brevo / SMTP
-    try {
-      await sendSignupOtpEmail(cleanEmail, name, otp);
-    } catch (mailErr) {
-      console.warn('Email dispatch warning:', mailErr.message);
-    }
+    await sendSignupOtpEmail(cleanEmail, name, otp);
 
     return res.json({
       success: true,
@@ -254,12 +247,8 @@ app.post('/api/auth/resend-signup-otp', authLimiter, async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 15 * 60 * 1000;
 
-    await db.setSignupOtp(cleanEmail, otp, expiresAt);
-    try {
-      await sendSignupOtpEmail(cleanEmail, user.name, otp);
-    } catch (mailErr) {
-      console.warn('Resend email dispatch warning:', mailErr.message);
-    }
+    db.setSignupOtp(cleanEmail, otp, expiresAt);
+    await sendSignupOtpEmail(cleanEmail, user.name, otp);
 
     return res.json({
       success: true,
@@ -369,7 +358,7 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
 
-    const baseUrl = req.headers.origin || 'http://localhost:5173';
+    const baseUrl = req.headers.origin || `http://${req.headers.host || 'localhost:3000'}`;
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'customer');
@@ -590,8 +579,23 @@ async function startServer() {
     await initDB();
     await testSupabaseConnection();
 
+    // Vite middleware in dev or static files in prod
+    if (process.env.NODE_ENV !== 'production') {
+      const vite = await createViteServer({
+        server: { middlewareMode: true, host: '0.0.0.0' },
+        appType: 'spa',
+      });
+      app.use(vite.middlewares);
+    } else {
+      const distPath = path.join(process.cwd(), 'dist');
+      app.use(express.static(distPath));
+      app.use((req, res) => {
+        res.sendFile(path.join(distPath, 'index.html'));
+      });
+    }
+
     const server = app.listen(PORT, '0.0.0.0', () => {
-      console.log(`[A_S Commerce Backend] Server running securely on http://localhost:${PORT}`);
+      console.log(`[A_S Commerce Server] Running on http://localhost:${PORT}`);
     });
 
     // Keep event loop active

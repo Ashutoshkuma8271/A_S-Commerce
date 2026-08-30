@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"node server/server.js\" \"vite\"",
-    "dev:frontend": "vite",
+    "dev": "node server/server.js",
     "server": "node server/server.js",
     "start": "node server/server.js",
     "build": "vite build",

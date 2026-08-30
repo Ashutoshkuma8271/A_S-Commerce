@@ -284,7 +284,7 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, adminEmail: cleanEmail, role: 'admin', expiresAt });
 
-    const baseUrl = req.headers.origin || 'http://localhost:5173';
+    const baseUrl = req.headers.origin || `http://${req.headers.host || 'localhost:3000'}`;
     const resetUrl = `${baseUrl}/admin/reset-password?token=${token}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'admin');
