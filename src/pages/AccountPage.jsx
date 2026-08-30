@@ -6,6 +6,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { formatINR } from '../utils/currency';
 import { validateAddressForm } from '../utils/validationUtils';
+import { downloadOrderInvoice } from '../utils/invoiceGenerator';
 import {
   User,
   Package,
@@ -32,7 +33,8 @@ import {
   Eye,
   EyeOff,
   ShoppingBag,
-  Camera
+  Camera,
+  FileText
 } from 'lucide-react';
 
 export const AccountPage = () => {
@@ -520,10 +522,18 @@ export const AccountPage = () => {
                           <span className="font-mono text-sm font-bold text-navy-950 dark:text-white">Order #{ord.id}</span>
                           <p className="text-gray-500 dark:text-gray-400">Placed on {ord.date || new Date().toLocaleDateString()}</p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
                           <span className="px-3 py-1 bg-gold-500/15 text-gold-700 dark:text-gold-300 font-bold rounded-full text-xs border border-gold-500/30">
                             {ord.status}
                           </span>
+                          <button
+                            onClick={() => downloadOrderInvoice(ord)}
+                            className="px-3 py-1.5 bg-white dark:bg-navy-800 text-navy-950 dark:text-gold-300 hover:bg-gold-50 font-bold rounded-xl border border-gray-200 dark:border-navy-700 flex items-center gap-1.5 cursor-pointer text-xs"
+                            title="Download PDF Tax Invoice"
+                          >
+                            <FileText className="w-3.5 h-3.5 text-gold-600" />
+                            <span>Invoice</span>
+                          </button>
                           <Link
                             to={`/track-order?id=${ord.id}`}
                             className="px-3.5 py-1.5 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold rounded-xl hover:bg-navy-850 border border-gold-500/30"

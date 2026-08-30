@@ -72,14 +72,6 @@ export const HeroSection = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // Preload all 4 hero images on mount
-  useEffect(() => {
-    HERO_SLIDES.forEach((s) => {
-      const img = new Image();
-      img.src = s.image;
-    });
-  }, []);
-
   // Automatic slide interval
   useEffect(() => {
     if (isPaused) return;
@@ -141,6 +133,9 @@ export const HeroSection = () => {
                 <img
                   src={slide.image}
                   alt={slide.titleLine1}
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
                   className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.08] transform scale-100 group-hover:scale-105 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-black/30" />

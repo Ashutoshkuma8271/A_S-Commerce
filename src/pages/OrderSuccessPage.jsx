@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { formatINR } from '../utils/currency';
+import { downloadOrderInvoice } from '../utils/invoiceGenerator';
 import {
   CheckCircle2,
   Package,
@@ -170,11 +171,11 @@ export const OrderSuccessPage = () => {
       {/* Action Buttons */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <button
-          onClick={handlePrint}
-          className="px-6 py-3 bg-white hover:bg-gray-50 border border-gray-300 text-navy-950 font-bold text-xs rounded-2xl transition-colors flex items-center gap-2"
+          onClick={() => downloadOrderInvoice(order)}
+          className="px-6 py-3.5 bg-white hover:bg-gold-50 border border-gold-500/40 text-navy-950 font-bold text-xs sm:text-sm rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center gap-2 cursor-pointer group"
         >
-          <Printer className="w-4 h-4 text-gold-600" />
-          <span>Print Receipt</span>
+          <Printer className="w-4 h-4 text-gold-600 group-hover:scale-110 transition-transform" />
+          <span>Download PDF Invoice</span>
         </button>
 
         <div className="flex items-center gap-3">

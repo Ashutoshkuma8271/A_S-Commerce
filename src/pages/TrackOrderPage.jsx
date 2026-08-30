@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
 import { useToast } from '../context/ToastContext';
 import { formatINR } from '../utils/currency';
+import { downloadOrderInvoice } from '../utils/invoiceGenerator';
 import {
   Search,
   Package,
@@ -13,6 +14,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Sparkles,
+  FileText,
 } from 'lucide-react';
 
 export const TrackOrderPage = () => {
@@ -128,11 +130,21 @@ export const TrackOrderPage = () => {
               </p>
             </div>
 
-            <div className="text-left sm:text-right">
-              <span className="text-xs text-gray-400 block">Expected Doorstep Delivery</span>
-              <span className="text-base font-bold text-navy-950 font-serif">
-                {activeOrder.estimatedDelivery}
-              </span>
+            <div className="flex flex-col sm:items-end gap-2">
+              <button
+                onClick={() => downloadOrderInvoice(activeOrder)}
+                className="px-3.5 py-1.5 bg-white hover:bg-gold-50 border border-gold-500/40 text-navy-950 font-bold text-xs rounded-xl shadow-sm flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
+                title="Download Official Tax Invoice"
+              >
+                <FileText className="w-3.5 h-3.5 text-gold-600" />
+                <span>Download Invoice</span>
+              </button>
+              <div className="text-left sm:text-right">
+                <span className="text-[11px] text-gray-400 block">Expected Delivery</span>
+                <span className="text-sm font-bold text-navy-950 font-serif">
+                  {activeOrder.estimatedDelivery}
+                </span>
+              </div>
             </div>
           </div>
 

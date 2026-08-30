@@ -11,6 +11,7 @@ import { db, initDB } from './db.js';
 import adminAuthRouter from './routes/adminAuth.js';
 import adminDashboardRouter from './routes/adminDashboard.js';
 import paymentRouter from './routes/payment.js';
+import shippingWebhooksRouter from './routes/shippingWebhooks.js';
 import { testSupabaseConnection } from './services/supabase.js';
 import { uploadToCloudinary } from './services/cloudinary.js';
 import crypto from 'crypto';
@@ -95,6 +96,9 @@ app.use('/api/admin/auth', authLimiter, adminAuthRouter);
 
 // Protected Admin Dashboard Routes
 app.use('/api/admin', adminDashboardRouter);
+
+// Automated Shipping Aggregator Webhooks (Shiprocket / Delhivery / BlueDart)
+app.use('/api/webhooks', shippingWebhooksRouter);
 
 // Customer User Registration with 6-Digit Email OTP
 app.post('/api/auth/register', authLimiter, async (req, res) => {

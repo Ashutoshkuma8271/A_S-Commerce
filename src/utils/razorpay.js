@@ -1,4 +1,22 @@
-export const processRazorpayPayment = ({
+// Dynamically load Razorpay checkout script on-demand
+export const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined') return resolve(false);
+    if (window.Razorpay) return resolve(true);
+
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => {
+      console.warn('Failed to load Razorpay checkout script');
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
+export const processRazorpayPayment = async ({
   orderId,
   amount,
   userName = 'Valued Customer',
@@ -9,7 +27,9 @@ export const processRazorpayPayment = ({
 }) => {
   const rzpKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_wkow4HMM1HSMUN';
 
-  // Check if real Razorpay key is configured and script is available
+  // Ensure Razorpay SDK is loaded on-demand
+  await loadRazorpayScript();
+
   if (rzpKey && typeof window !== 'undefined' && window.Razorpay) {
     const options = {
       key: rzpKey,
@@ -76,6 +96,7 @@ export const processRazorpayPayment = ({
     }
   }
 
-  // Seamless Mock/Test Payment Flow when no live API key is set
+  // Seamless Fallback / Simulated Payment Flow
   return { isSimulated: true };
 };
+
