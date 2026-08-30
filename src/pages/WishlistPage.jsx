@@ -2,17 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
 import { ProductCard } from '../components/common/ProductCard';
 import { Heart, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 
 export const WishlistPage = () => {
   const { wishlistItems, wishlistCount, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
+  const { addToast } = useToast();
 
   const handleAddAllToCart = () => {
     wishlistItems.forEach((product) => {
       addToCart(product, 1, null, null, false);
     });
+    addToast('All items added to cart', 'success');
   };
 
   if (wishlistCount === 0) {

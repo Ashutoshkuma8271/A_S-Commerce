@@ -25,7 +25,7 @@ export const QuickViewModal = ({ product, isOpen, onClose }) => {
   const isFavorite = isInWishlist(product.id);
 
   const handleAddToCart = () => {
-    addToCart(product, quantity, selectedColor, selectedSize, true);
+    addToCart(product, quantity, selectedColor, selectedSize, false);
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);

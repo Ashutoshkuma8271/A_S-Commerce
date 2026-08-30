@@ -18,7 +18,7 @@ export const ProductCard = ({ product, onQuickView }) => {
     e.preventDefault();
     e.stopPropagation();
     setIsAdding(true);
-    addToCart(product, 1, null, null, true);
+    addToCart(product, 1, null, null, false);
     setTimeout(() => setIsAdding(false), 1200);
   };
 

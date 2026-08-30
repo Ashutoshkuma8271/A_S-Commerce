@@ -96,7 +96,7 @@ export const ProductDetailsPage = () => {
   }, [product]);
 
   const handleAddToCart = () => {
-    addToCart(product, quantity, selectedColor, selectedSize, true);
+    addToCart(product, quantity, selectedColor, selectedSize, false);
   };
 
   const handleBuyNow = () => {

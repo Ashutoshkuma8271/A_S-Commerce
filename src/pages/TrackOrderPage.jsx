@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useOrder } from '../context/OrderContext';
+import { useToast } from '../context/ToastContext';
 import { formatINR } from '../utils/currency';
 import {
   Search,
@@ -17,6 +18,7 @@ import {
 export const TrackOrderPage = () => {
   const [searchParams] = useSearchParams();
   const { getOrderById, orders } = useOrder();
+  const { addToast } = useToast();
 
   const urlId = searchParams.get('id') || '';
   const [searchQuery, setSearchQuery] = useState(urlId || (orders[0] ? orders[0].id : 'AS-884219'));
@@ -34,9 +36,18 @@ export const TrackOrderPage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim()) {
+      addToast('Please enter an Order ID', 'error');
+      return;
+    }
     const found = getOrderById(searchQuery.trim());
-    setActiveOrder(found || null);
+    if (found) {
+      setActiveOrder(found);
+      addToast('Order details found', 'success');
+    } else {
+      setActiveOrder(null);
+      addToast('No order found with this ID', 'error');
+    }
   };
 
   return (

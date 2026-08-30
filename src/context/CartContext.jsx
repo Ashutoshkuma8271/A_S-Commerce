@@ -93,9 +93,9 @@ export const CartProvider = ({ children }) => {
   }, [originalSubtotal, subtotal, couponDiscount]);
 
   // Enforce Login before Adding to Cart
-  const addToCart = (product, quantity = 1, color = null, size = null, openDrawer = true) => {
+  const addToCart = (product, quantity = 1, color = null, size = null, openDrawer = false) => {
     if (!isAuthenticated) {
-      requireAuth(null, 'Please sign in or register to add items to your shopping cart.');
+      requireAuth(null, 'Please sign in to add items to your cart.');
       return false;
     }
 
@@ -158,6 +158,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
+    if (cartItems.length > 0) {
+      addToast('Cart cleared', 'info');
+    }
     setCartItems([]);
     setAppliedCoupon(null);
   };
