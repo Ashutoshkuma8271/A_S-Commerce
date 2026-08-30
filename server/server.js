@@ -18,7 +18,7 @@ import shippingWebhooksRouter from './routes/shippingWebhooks.js';
 import { testSupabaseConnection } from './services/supabase.js';
 import { uploadToCloudinary } from './services/cloudinary.js';
 import crypto from 'crypto';
-import { sendSignupOtpEmail, sendPasswordResetEmail } from './utils/emailService.js';
+import { sendSignupOtpEmail, sendPasswordResetEmail, sendOrderConfirmationEmail } from './utils/emailService.js';
 
 dotenv.config();
 
@@ -543,6 +543,12 @@ app.post('/api/orders', async (req, res) => {
     const orderData = req.body || {};
     const newOrder = await db.createOrder(orderData);
     console.log(`⚡ Order Placed: #${newOrder.id} (Total: ₹${newOrder.total}) and saved to database & Supabase`);
+    
+    // Asynchronously send itemized order confirmation email via Brevo / SMTP
+    try {
+      sendOrderConfirmationEmail(newOrder).catch(e => console.warn('Order confirmation email note:', e.message));
+    } catch (e) {}
+
     return res.json({
       success: true,
       message: 'Order created successfully and synchronized with Supabase database.',

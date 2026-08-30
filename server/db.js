@@ -811,6 +811,30 @@ export const db = {
     };
     if (!memoryDB.orders) memoryDB.orders = [];
     memoryDB.orders.unshift(newOrder);
+
+    // Automatically decrement product stock for ordered items
+    if (Array.isArray(newOrder.items) && Array.isArray(memoryDB.products)) {
+      for (const item of newOrder.items) {
+        const prodId = item.id || item.productId;
+        const qty = Number(item.quantity) || 1;
+        const prodIndex = memoryDB.products.findIndex(p => p.id === prodId);
+        if (prodIndex !== -1) {
+          const currentStock = Number(memoryDB.products[prodIndex].stockCount ?? memoryDB.products[prodIndex].stock ?? 10);
+          const newStock = Math.max(0, currentStock - qty);
+          memoryDB.products[prodIndex].stockCount = newStock;
+          memoryDB.products[prodIndex].inStock = newStock > 0;
+          
+          try {
+            await supabase.from('products').update({
+              stock_count: newStock,
+              in_stock: newStock > 0,
+              updated_at: now
+            }).eq('id', prodId);
+          } catch (e) {}
+        }
+      }
+    }
+
     saveToDisk();
 
     try {

@@ -195,8 +195,30 @@ export const CheckoutPage = () => {
     });
   };
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = async (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Real-time Free India Pincode Auto-Detection for City & State
+    if (name === 'pincode') {
+      const cleanPin = value.replace(/\D/g, '').slice(0, 6);
+      if (cleanPin.length === 6) {
+        try {
+          const res = await fetch(`https://api.postalpincode.in/pincode/${cleanPin}`);
+          const data = await res.json();
+          if (Array.isArray(data) && data[0]?.Status === 'Success' && data[0]?.PostOffice?.length > 0) {
+            const po = data[0].PostOffice[0];
+            setFormData((prev) => ({
+              ...prev,
+              city: prev.city || po.District || po.Block || '',
+              state: prev.state || po.State || '',
+            }));
+          }
+        } catch (e) {
+          // Graceful fallback if offline
+        }
+      }
+    }
   };
 
   const handleAddressSubmit = (e) => {

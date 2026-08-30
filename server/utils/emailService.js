@@ -290,3 +290,141 @@ export const sendPasswordResetEmail = async (email, resetUrl, role = 'customer')
   return { success: true };
 };
 
+export const sendOrderConfirmationEmail = async (order) => {
+  if (!order) return { success: false };
+  const cleanEmail = (order.customerEmail || order.email || order.shippingAddress?.email || '').toLowerCase().trim();
+  if (!cleanEmail) return { success: false };
+
+  const customerName = order.customerName || order.shippingAddress?.fullName || order.shippingAddress?.name || 'Valued Customer';
+  const orderId = order.id || 'N/A';
+  const totalAmount = (order.total || order.total_amount || 0).toLocaleString('en-IN');
+  const items = Array.isArray(order.items) ? order.items : [];
+
+  const itemsHtml = items.map(item => `
+    <tr>
+      <td style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; color:#FFFFFF;">
+        <strong>${item.name || item.title || 'Product'}</strong> x ${item.quantity || 1}
+      </td>
+      <td align="right" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; font-weight:700; color:#D4AF37;">
+        ₹${((item.price || 0) * (item.quantity || 1)).toLocaleString('en-IN')}
+      </td>
+    </tr>
+  `).join('');
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Order Confirmation #${orderId}</title>
+</head>
+<body style="margin:0; padding:0; background-color:#030E16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#030E16; min-height:100vh;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:540px; background:#061A27; border:1px solid rgba(212,175,55,0.25); border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,0.7); overflow:hidden;">
+          <tr>
+            <td height="3" style="background:linear-gradient(90deg, #F5B83D 0%, #D4AF37 50%, #C29B27 100%);"></td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:28px 32px 18px 32px; border-bottom:1px solid rgba(255,255,255,0.06);">
+              <h1 style="margin:0; font-size:22px; font-weight:800; letter-spacing:3px; color:#FFFFFF; text-transform:uppercase; font-family:'Georgia', serif;">A_S COMMERCE</h1>
+              <p style="margin:4px 0 0 0; font-size:10px; letter-spacing:2px; color:#D4AF37; text-transform:uppercase;">Shop Smart. Live Premium.</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:32px 32px 24px 32px;">
+              <div style="background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.3); border-radius:12px; padding:14px; text-align:center; margin-bottom:24px;">
+                <span style="font-size:11px; font-weight:800; letter-spacing:2px; color:#D4AF37; text-transform:uppercase;">Order Confirmed</span>
+                <div style="font-size:20px; font-weight:800; color:#FFFFFF; margin-top:4px;">#${orderId}</div>
+              </div>
+              <p style="font-size:14px; line-height:1.6; color:#9FB3C8; margin:0 0 16px 0;">
+                Dear <strong>${customerName}</strong>, thank you for your order. We are preparing your items with luxury packaging and care.
+              </p>
+              
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:20px;">
+                <thead>
+                  <tr>
+                    <th align="left" style="font-size:11px; color:#627D98; text-transform:uppercase; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.1);">Item</th>
+                    <th align="right" style="font-size:11px; color:#627D98; text-transform:uppercase; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.1);">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itemsHtml}
+                </tbody>
+              </table>
+
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background:#092032; border-radius:10px; padding:14px; margin-bottom:20px;">
+                <tr>
+                  <td style="font-size:13px; color:#9FB3C8;">Payment Method:</td>
+                  <td align="right" style="font-size:13px; font-weight:600; color:#FFFFFF;">${order.paymentMethod || 'Razorpay / Online'}</td>
+                </tr>
+                <tr>
+                  <td style="font-size:14px; font-weight:800; color:#FFFFFF; padding-top:6px;">Grand Total:</td>
+                  <td align="right" style="font-size:16px; font-weight:800; color:#D4AF37; padding-top:6px;">₹${totalAmount}</td>
+                </tr>
+              </table>
+
+              <p style="font-size:12px; color:#627D98; line-height:1.5; margin:0;">
+                📦 Tracking Number: <strong>${order.trackingNumber || 'Assigned soon'}</strong> (${order.carrier || 'Bluedart Express'})
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:16px 32px; background:#030E16; border-top:1px solid rgba(255,255,255,0.05); font-size:11px; color:#486581;">
+              <p style="margin:0;">© 2026 A_S Commerce Inc. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+
+  // 1. Try Nodemailer
+  const transporter = getTransporter();
+  if (transporter) {
+    try {
+      const senderEmail = process.env.SMTP_FROM_EMAIL || 'ashutoshgifthamper9334@gmail.com';
+      await transporter.sendMail({
+        from: `"A_S Commerce Orders" <${senderEmail}>`,
+        to: cleanEmail,
+        subject: `Order Confirmed: #${orderId} - A_S Commerce`,
+        html: htmlContent
+      });
+      console.log(`✉️ [Nodemailer SMTP] Order confirmation sent to ${cleanEmail}`);
+      return { success: true };
+    } catch (e) {
+      console.warn('Nodemailer order email notice:', e.message);
+    }
+  }
+
+  // 2. Try Brevo API
+  if (process.env.BREVO_API_KEY) {
+    try {
+      await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: { name: 'A_S Commerce Orders', email: process.env.BREVO_SENDER_EMAIL || 'orders@ascommerce.luxury' },
+          to: [{ email: cleanEmail, name: customerName }],
+          subject: `Order Confirmed: #${orderId} - A_S Commerce`,
+          htmlContent
+        })
+      });
+      console.log(`✉️ [Brevo API] Order confirmation email delivered to ${cleanEmail}`);
+      return { success: true };
+    } catch (e) {
+      console.warn('Brevo API order email note:', e.message);
+    }
+  }
+
+  return { success: true };
+};
+
