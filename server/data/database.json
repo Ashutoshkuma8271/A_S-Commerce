@@ -9,8 +9,8 @@
       "isActive": 1,
       "singleAdminLock": 1,
       "createdAt": "2026-08-25T17:25:08.400833+00:00",
-      "updatedAt": "2026-08-26T21:47:49.491+00:00",
-      "lastLoginAt": "2026-08-26T21:47:49.488+00:00"
+      "updatedAt": "2026-08-30T18:24:01.438Z",
+      "lastLoginAt": "2026-08-30T18:24:01.437Z"
     }
   ],
   "password_resets": [
@@ -247,6 +247,61 @@
   ],
   "audit_logs": [
     {
+      "id": "audit-1788114241444-gq53s",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-08-30T18:24:01.461+00:00",
+      "timestamp": "2026-08-30T18:24:01.461+00:00"
+    },
+    {
+      "id": "audit-1788114216783-pb6ou",
+      "action": "Failed login",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Invalid admin email",
+      "createdAt": "2026-08-30T18:23:36.785+00:00",
+      "timestamp": "2026-08-30T18:23:36.785+00:00"
+    },
+    {
+      "id": "audit-1788112114477-9a9cz",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-08-30T17:48:34.478+00:00",
+      "timestamp": "2026-08-30T17:48:34.478+00:00"
+    },
+    {
+      "id": "audit-1788111287641-c0vcx",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-08-30T17:34:47.642+00:00",
+      "timestamp": "2026-08-30T17:34:47.642+00:00"
+    },
+    {
+      "id": "audit-1788075001881-1ct8t",
+      "action": "Admin login",
+      "adminId": "adm-1787676210406",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-08-30T07:30:01.882+00:00",
+      "timestamp": "2026-08-30T07:30:01.882+00:00"
+    },
+    {
       "id": "audit-1787780869547-bp6ui",
       "action": "Admin login",
       "adminId": "adm-1787676210406",
@@ -254,8 +309,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T21:47:49.547Z",
-      "createdAt": "2026-08-26T21:47:49.552Z"
+      "createdAt": "2026-08-26T21:47:49.552+00:00",
+      "timestamp": "2026-08-26T21:47:49.552+00:00"
     },
     {
       "id": "audit-1787780836910-g5zb6",
@@ -265,8 +320,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password successfully reset using recovery token",
-      "timestamp": "2026-08-26T21:47:16.911Z",
-      "createdAt": "2026-08-26T21:47:16.940Z"
+      "createdAt": "2026-08-26T21:47:16.94+00:00",
+      "timestamp": "2026-08-26T21:47:16.94+00:00"
     },
     {
       "id": "audit-1787780730253-1xp8f",
@@ -276,8 +331,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset email link dispatched",
-      "timestamp": "2026-08-26T21:45:30.253Z",
-      "createdAt": "2026-08-26T21:45:30.255Z"
+      "createdAt": "2026-08-26T21:45:30.255+00:00",
+      "timestamp": "2026-08-26T21:45:30.255+00:00"
     },
     {
       "id": "audit-1787780718396-hf8xy",
@@ -287,8 +342,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T21:45:18.396Z",
-      "createdAt": "2026-08-26T21:45:18.398Z"
+      "createdAt": "2026-08-26T21:45:18.398+00:00",
+      "timestamp": "2026-08-26T21:45:18.398+00:00"
     },
     {
       "id": "audit-1787780674404-9ogmd",
@@ -298,8 +353,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password successfully reset using recovery token",
-      "timestamp": "2026-08-26T21:44:34.404Z",
-      "createdAt": "2026-08-26T21:44:34.436Z"
+      "createdAt": "2026-08-26T21:44:34.436+00:00",
+      "timestamp": "2026-08-26T21:44:34.436+00:00"
     },
     {
       "id": "audit-1787780665412-4ea4n",
@@ -309,8 +364,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset email link dispatched",
-      "timestamp": "2026-08-26T21:44:25.412Z",
-      "createdAt": "2026-08-26T21:44:25.415Z"
+      "createdAt": "2026-08-26T21:44:25.415+00:00",
+      "timestamp": "2026-08-26T21:44:25.415+00:00"
     },
     {
       "id": "audit-1787779698498-gcumn",
@@ -320,8 +375,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T21:28:18.498Z",
-      "createdAt": "2026-08-26T21:28:18.519Z"
+      "createdAt": "2026-08-26T21:28:18.519+00:00",
+      "timestamp": "2026-08-26T21:28:18.519+00:00"
     },
     {
       "id": "audit-1787779667827-wseyi",
@@ -331,8 +386,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T21:27:47.827Z",
-      "createdAt": "2026-08-26T21:27:47.828Z"
+      "createdAt": "2026-08-26T21:27:47.828+00:00",
+      "timestamp": "2026-08-26T21:27:47.828+00:00"
     },
     {
       "id": "audit-1787779665190-vls3w",
@@ -342,8 +397,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T21:27:45.190Z",
-      "createdAt": "2026-08-26T21:27:45.191Z"
+      "createdAt": "2026-08-26T21:27:45.191+00:00",
+      "timestamp": "2026-08-26T21:27:45.191+00:00"
     },
     {
       "id": "audit-1787779372860-fag80",
@@ -353,8 +408,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T21:22:52.860Z",
-      "createdAt": "2026-08-26T21:22:52.861Z"
+      "createdAt": "2026-08-26T21:22:52.861+00:00",
+      "timestamp": "2026-08-26T21:22:52.861+00:00"
     },
     {
       "id": "audit-1787778507226-k60n5",
@@ -364,8 +419,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T21:08:27.226Z",
-      "createdAt": "2026-08-26T21:08:27.271Z"
+      "createdAt": "2026-08-26T21:08:27.271+00:00",
+      "timestamp": "2026-08-26T21:08:27.271+00:00"
     },
     {
       "id": "audit-1787778464023-5tqam",
@@ -375,8 +430,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T21:07:44.023Z",
-      "createdAt": "2026-08-26T21:07:44.024Z"
+      "createdAt": "2026-08-26T21:07:44.024+00:00",
+      "timestamp": "2026-08-26T21:07:44.024+00:00"
     },
     {
       "id": "audit-1787778457174-v0z3z",
@@ -386,8 +441,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T21:07:37.174Z",
-      "createdAt": "2026-08-26T21:07:37.194Z"
+      "createdAt": "2026-08-26T21:07:37.194+00:00",
+      "timestamp": "2026-08-26T21:07:37.194+00:00"
     },
     {
       "id": "audit-1787778451018-rguaw",
@@ -397,8 +452,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T21:07:31.018Z",
-      "createdAt": "2026-08-26T21:07:31.020Z"
+      "createdAt": "2026-08-26T21:07:31.02+00:00",
+      "timestamp": "2026-08-26T21:07:31.02+00:00"
     },
     {
       "id": "audit-1787776786447-ikxri",
@@ -408,8 +463,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T20:39:46.447Z",
-      "createdAt": "2026-08-26T20:39:46.457Z"
+      "createdAt": "2026-08-26T20:39:46.457+00:00",
+      "timestamp": "2026-08-26T20:39:46.457+00:00"
     },
     {
       "id": "audit-1787776771326-xryud",
@@ -419,8 +474,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T20:39:31.326Z",
-      "createdAt": "2026-08-26T20:39:31.344Z"
+      "createdAt": "2026-08-26T20:39:31.344+00:00",
+      "timestamp": "2026-08-26T20:39:31.344+00:00"
     },
     {
       "id": "audit-1787776765414-fcpsu",
@@ -430,8 +485,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T20:39:25.415Z",
-      "createdAt": "2026-08-26T20:39:25.418Z"
+      "createdAt": "2026-08-26T20:39:25.418+00:00",
+      "timestamp": "2026-08-26T20:39:25.418+00:00"
     },
     {
       "id": "audit-1787775835491-30jgi",
@@ -441,8 +496,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T20:23:55.493Z",
-      "createdAt": "2026-08-26T20:23:55.541Z"
+      "createdAt": "2026-08-26T20:23:55.541+00:00",
+      "timestamp": "2026-08-26T20:23:55.541+00:00"
     },
     {
       "id": "audit-1787772099946-6whkh",
@@ -452,8 +507,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T19:21:39.946Z",
-      "createdAt": "2026-08-26T19:21:39.958Z"
+      "createdAt": "2026-08-26T19:21:39.958+00:00",
+      "timestamp": "2026-08-26T19:21:39.958+00:00"
     },
     {
       "id": "audit-1787772080947-s73jf",
@@ -463,8 +518,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T19:21:20.947Z",
-      "createdAt": "2026-08-26T19:21:20.948Z"
+      "createdAt": "2026-08-26T19:21:20.948+00:00",
+      "timestamp": "2026-08-26T19:21:20.948+00:00"
     },
     {
       "id": "audit-1787772066290-uxo7m",
@@ -474,8 +529,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T19:21:06.291Z",
-      "createdAt": "2026-08-26T19:21:06.293Z"
+      "createdAt": "2026-08-26T19:21:06.293+00:00",
+      "timestamp": "2026-08-26T19:21:06.293+00:00"
     },
     {
       "id": "audit-1787770905893-52k2x",
@@ -485,8 +540,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T19:01:45.893Z",
-      "createdAt": "2026-08-26T19:01:45.913Z"
+      "createdAt": "2026-08-26T19:01:45.913+00:00",
+      "timestamp": "2026-08-26T19:01:45.913+00:00"
     },
     {
       "id": "audit-1787770887996-a1920",
@@ -496,8 +551,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T19:01:27.996Z",
-      "createdAt": "2026-08-26T19:01:28.020Z"
+      "createdAt": "2026-08-26T19:01:28.02+00:00",
+      "timestamp": "2026-08-26T19:01:28.02+00:00"
     },
     {
       "id": "audit-1787770882911-babm9",
@@ -507,8 +562,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T19:01:22.911Z",
-      "createdAt": "2026-08-26T19:01:22.914Z"
+      "createdAt": "2026-08-26T19:01:22.914+00:00",
+      "timestamp": "2026-08-26T19:01:22.914+00:00"
     },
     {
       "id": "audit-1787770869832-wt5mx",
@@ -518,8 +573,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T19:01:09.832Z",
-      "createdAt": "2026-08-26T19:01:09.834Z"
+      "createdAt": "2026-08-26T19:01:09.834+00:00",
+      "timestamp": "2026-08-26T19:01:09.834+00:00"
     },
     {
       "id": "audit-1787763815707-hwlh3",
@@ -529,8 +584,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T17:03:35.707Z",
-      "createdAt": "2026-08-26T17:03:35.708Z"
+      "createdAt": "2026-08-26T17:03:35.708+00:00",
+      "timestamp": "2026-08-26T17:03:35.708+00:00"
     },
     {
       "id": "audit-1787763796653-uetys",
@@ -540,8 +595,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T17:03:16.653Z",
-      "createdAt": "2026-08-26T17:03:16.655Z"
+      "createdAt": "2026-08-26T17:03:16.655+00:00",
+      "timestamp": "2026-08-26T17:03:16.655+00:00"
     },
     {
       "id": "audit-1787763775237-743cs",
@@ -551,8 +606,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T17:02:55.237Z",
-      "createdAt": "2026-08-26T17:02:55.239Z"
+      "createdAt": "2026-08-26T17:02:55.239+00:00",
+      "timestamp": "2026-08-26T17:02:55.239+00:00"
     },
     {
       "id": "audit-1787762925506-hcda4",
@@ -562,8 +617,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T16:48:45.506Z",
-      "createdAt": "2026-08-26T16:48:45.511Z"
+      "createdAt": "2026-08-26T16:48:45.511+00:00",
+      "timestamp": "2026-08-26T16:48:45.511+00:00"
     },
     {
       "id": "audit-1787762905747-iv5ht",
@@ -573,8 +628,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password successfully reset using recovery token",
-      "timestamp": "2026-08-26T16:48:25.747Z",
-      "createdAt": "2026-08-26T16:48:25.795Z"
+      "createdAt": "2026-08-26T16:48:25.795+00:00",
+      "timestamp": "2026-08-26T16:48:25.795+00:00"
     },
     {
       "id": "audit-1787762886770-lx4pi",
@@ -584,8 +639,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T16:48:06.770Z",
-      "createdAt": "2026-08-26T16:48:06.825Z"
+      "createdAt": "2026-08-26T16:48:06.825+00:00",
+      "timestamp": "2026-08-26T16:48:06.825+00:00"
     },
     {
       "id": "audit-1787762875145-gw0on",
@@ -595,8 +650,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T16:47:55.145Z",
-      "createdAt": "2026-08-26T16:47:55.148Z"
+      "createdAt": "2026-08-26T16:47:55.148+00:00",
+      "timestamp": "2026-08-26T16:47:55.148+00:00"
     },
     {
       "id": "audit-1787761930142-lj7rt",
@@ -606,8 +661,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password successfully reset using recovery token",
-      "timestamp": "2026-08-26T16:32:10.142Z",
-      "createdAt": "2026-08-26T16:32:10.175Z"
+      "createdAt": "2026-08-26T16:32:10.175+00:00",
+      "timestamp": "2026-08-26T16:32:10.175+00:00"
     },
     {
       "id": "audit-1787761905137-d5x73",
@@ -617,8 +672,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T16:31:45.137Z",
-      "createdAt": "2026-08-26T16:31:45.174Z"
+      "createdAt": "2026-08-26T16:31:45.174+00:00",
+      "timestamp": "2026-08-26T16:31:45.174+00:00"
     },
     {
       "id": "audit-1787761259356-xwflp",
@@ -628,8 +683,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T16:20:59.356Z",
-      "createdAt": "2026-08-26T16:20:59.378Z"
+      "createdAt": "2026-08-26T16:20:59.378+00:00",
+      "timestamp": "2026-08-26T16:20:59.378+00:00"
     },
     {
       "id": "audit-1787761253942-94wa3",
@@ -639,8 +694,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T16:20:53.943Z",
-      "createdAt": "2026-08-26T16:20:53.943Z"
+      "createdAt": "2026-08-26T16:20:53.943+00:00",
+      "timestamp": "2026-08-26T16:20:53.943+00:00"
     },
     {
       "id": "audit-1787759421355-0tdcq",
@@ -650,8 +705,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T15:50:21.355Z",
-      "createdAt": "2026-08-26T15:50:21.371Z"
+      "createdAt": "2026-08-26T15:50:21.371+00:00",
+      "timestamp": "2026-08-26T15:50:21.371+00:00"
     },
     {
       "id": "audit-1787759405845-d1daw",
@@ -661,8 +716,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T15:50:05.845Z",
-      "createdAt": "2026-08-26T15:50:05.846Z"
+      "createdAt": "2026-08-26T15:50:05.846+00:00",
+      "timestamp": "2026-08-26T15:50:05.846+00:00"
     },
     {
       "id": "audit-1787759387822-trsp1",
@@ -672,8 +727,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T15:49:47.822Z",
-      "createdAt": "2026-08-26T15:49:47.823Z"
+      "createdAt": "2026-08-26T15:49:47.823+00:00",
+      "timestamp": "2026-08-26T15:49:47.823+00:00"
     },
     {
       "id": "audit-1787759377788-6503b",
@@ -683,8 +738,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password updated from admin profile",
-      "timestamp": "2026-08-26T15:49:37.788Z",
-      "createdAt": "2026-08-26T15:49:37.877Z"
+      "createdAt": "2026-08-26T15:49:37.877+00:00",
+      "timestamp": "2026-08-26T15:49:37.877+00:00"
     },
     {
       "id": "audit-1787759310308-qxndw",
@@ -694,8 +749,8 @@
       "ip": "127.0.0.1",
       "resource": "Order #AS-889911",
       "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express, Tracking: BD-612260704IN)",
-      "timestamp": "2026-08-26T15:48:30.308Z",
-      "createdAt": "2026-08-26T15:48:30.332Z"
+      "createdAt": "2026-08-26T15:48:30.332+00:00",
+      "timestamp": "2026-08-26T15:48:30.332+00:00"
     },
     {
       "id": "audit-1787759282709-2mj23",
@@ -705,8 +760,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T15:48:02.709Z",
-      "createdAt": "2026-08-26T15:48:02.782Z"
+      "createdAt": "2026-08-26T15:48:02.782+00:00",
+      "timestamp": "2026-08-26T15:48:02.782+00:00"
     },
     {
       "id": "audit-1787758263910-ck1j4",
@@ -716,8 +771,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T15:31:03.910Z",
-      "createdAt": "2026-08-26T15:31:03.929Z"
+      "createdAt": "2026-08-26T15:31:03.929+00:00",
+      "timestamp": "2026-08-26T15:31:03.929+00:00"
     },
     {
       "id": "audit-1787758254983-re0q2",
@@ -727,8 +782,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T15:30:54.983Z",
-      "createdAt": "2026-08-26T15:30:54.984Z"
+      "createdAt": "2026-08-26T15:30:54.984+00:00",
+      "timestamp": "2026-08-26T15:30:54.984+00:00"
     },
     {
       "id": "audit-1787758235843-8zf4f",
@@ -738,8 +793,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T15:30:35.843Z",
-      "createdAt": "2026-08-26T15:30:35.844Z"
+      "createdAt": "2026-08-26T15:30:35.844+00:00",
+      "timestamp": "2026-08-26T15:30:35.844+00:00"
     },
     {
       "id": "audit-1787758225369-oj9ij",
@@ -749,8 +804,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-26T15:30:25.369Z",
-      "createdAt": "2026-08-26T15:30:25.371Z"
+      "createdAt": "2026-08-26T15:30:25.371+00:00",
+      "timestamp": "2026-08-26T15:30:25.371+00:00"
     },
     {
       "id": "audit-1787758209061-qssmg",
@@ -760,8 +815,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T15:30:09.062Z",
-      "createdAt": "2026-08-26T15:30:09.063Z"
+      "createdAt": "2026-08-26T15:30:09.063+00:00",
+      "timestamp": "2026-08-26T15:30:09.063+00:00"
     },
     {
       "id": "audit-1787758119890-bn37y",
@@ -771,8 +826,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T15:28:39.892Z",
-      "createdAt": "2026-08-26T15:28:39.895Z"
+      "createdAt": "2026-08-26T15:28:39.895+00:00",
+      "timestamp": "2026-08-26T15:28:39.895+00:00"
     },
     {
       "id": "audit-1787757782685-xdm25",
@@ -782,8 +837,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T15:23:02.685Z",
-      "createdAt": "2026-08-26T15:23:02.883Z"
+      "createdAt": "2026-08-26T15:23:02.883+00:00",
+      "timestamp": "2026-08-26T15:23:02.883+00:00"
     },
     {
       "id": "audit-1787756863258-c8g76",
@@ -793,8 +848,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Password reset token generated",
-      "timestamp": "2026-08-26T15:07:43.258Z",
-      "createdAt": "2026-08-26T15:07:43.293Z"
+      "createdAt": "2026-08-26T15:07:43.293+00:00",
+      "timestamp": "2026-08-26T15:07:43.293+00:00"
     },
     {
       "id": "audit-1787756289737-9eyx3",
@@ -804,8 +859,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T14:58:09.737Z",
-      "createdAt": "2026-08-26T14:58:09.834Z"
+      "createdAt": "2026-08-26T14:58:09.834+00:00",
+      "timestamp": "2026-08-26T14:58:09.834+00:00"
     },
     {
       "id": "audit-1787756280575-m39so",
@@ -815,8 +870,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T14:58:00.575Z",
-      "createdAt": "2026-08-26T14:58:00.576Z"
+      "createdAt": "2026-08-26T14:58:00.576+00:00",
+      "timestamp": "2026-08-26T14:58:00.576+00:00"
     },
     {
       "id": "audit-1787756261023-vxsyg",
@@ -826,8 +881,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Incorrect password",
-      "timestamp": "2026-08-26T14:57:41.023Z",
-      "createdAt": "2026-08-26T14:57:41.023Z"
+      "createdAt": "2026-08-26T14:57:41.023+00:00",
+      "timestamp": "2026-08-26T14:57:41.023+00:00"
     },
     {
       "id": "audit-1787756214208-snbio",
@@ -837,8 +892,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Invalid admin email",
-      "timestamp": "2026-08-26T14:56:54.208Z",
-      "createdAt": "2026-08-26T14:56:54.208Z"
+      "createdAt": "2026-08-26T14:56:54.208+00:00",
+      "timestamp": "2026-08-26T14:56:54.208+00:00"
     },
     {
       "id": "audit-1787756204617-65ddn",
@@ -848,8 +903,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-26T14:56:44.617Z",
-      "createdAt": "2026-08-26T14:56:44.619Z"
+      "createdAt": "2026-08-26T14:56:44.619+00:00",
+      "timestamp": "2026-08-26T14:56:44.619+00:00"
     },
     {
       "id": "audit-1787691853059-blv50",
@@ -859,8 +914,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-25T21:04:13.059Z",
-      "createdAt": "2026-08-25T21:04:13.061Z"
+      "createdAt": "2026-08-25T21:04:13.061+00:00",
+      "timestamp": "2026-08-25T21:04:13.061+00:00"
     },
     {
       "id": "audit-1787691848996-z29v8",
@@ -870,8 +925,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-25T21:04:08.996Z",
-      "createdAt": "2026-08-25T21:04:08.999Z"
+      "createdAt": "2026-08-25T21:04:08.999+00:00",
+      "timestamp": "2026-08-25T21:04:08.999+00:00"
     },
     {
       "id": "audit-1787691708888-5fcov",
@@ -881,8 +936,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged out",
-      "timestamp": "2026-08-25T21:01:48.888Z",
-      "createdAt": "2026-08-25T21:01:48.890Z"
+      "createdAt": "2026-08-25T21:01:48.89+00:00",
+      "timestamp": "2026-08-25T21:01:48.89+00:00"
     },
     {
       "id": "audit-1787691703361-hn68g",
@@ -892,8 +947,8 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-25T21:01:43.361Z",
-      "createdAt": "2026-08-25T21:01:43.363Z"
+      "createdAt": "2026-08-25T21:01:43.363+00:00",
+      "timestamp": "2026-08-25T21:01:43.363+00:00"
     },
     {
       "id": "audit-1787681810284-7hqpm",
@@ -903,359 +958,155 @@
       "ip": "127.0.0.1",
       "resource": null,
       "details": "Administrator logged in successfully",
-      "timestamp": "2026-08-25T18:16:50.284Z",
-      "createdAt": "2026-08-25T18:16:50.286Z"
-    },
-    {
-      "id": "audit-1787679701228",
-      "action": "System Initialized",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "details": "Store database cleaned and initialized for live production",
-      "timestamp": "2026-08-25T17:41:41.228Z",
-      "createdAt": "2026-08-25T17:41:41.241Z"
+      "createdAt": "2026-08-25T18:16:50.286+00:00",
+      "timestamp": "2026-08-25T18:16:50.286+00:00"
     }
   ],
   "orders": [
     {
-      "id": "AS-540446",
-      "customerId": "usr-1787774852478",
-      "customerEmail": "ashukumarfbg8271@gmail.com",
-      "customerName": "Ashutosh kumar",
+      "id": "AS-141284",
+      "customerName": "Ashutosh Kumar(0157AL221059)",
       "customerPhone": "9334993909",
-      "date": "2026-08-28",
-      "status": "Order Placed",
-      "statusCode": 2,
-      "estimatedDelivery": "2026-09-01",
-      "carrier": "Bluedart Express Luxury Courier",
-      "trackingNumber": "BD-329661932IN",
       "items": [
         {
-          "cartItemId": "prod-1-Midnight Navy-Medium (12x9 in)",
+          "id": "prod-8",
+          "name": "Nordic Velvet Armchair & Floor Lamp Set",
+          "brand": "A_S Living",
+          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80",
+          "price": 12999,
+          "discount": 35,
+          "quantity": 1,
+          "cartItemId": "prod-8-Forest Green-Standard Lounge (32x34x38 in)",
+          "selectedSize": "Standard Lounge (32x34x38 in)",
+          "originalPrice": 19999,
+          "selectedColor": "Forest Green"
+        }
+      ],
+      "total": 12999,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": null,
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "createdAt": "2026-08-30T17:52:14.643+00:00",
+      "updatedAt": "2026-08-30T17:52:14.643+00:00"
+    },
+    {
+      "id": "AS-540446",
+      "customerName": "Ashutosh Kumar(0157AL221059)",
+      "customerPhone": "9334993909",
+      "items": [
+        {
           "id": "prod-1",
           "name": "Premium Navy Leather Handbag",
           "brand": "A_S Signature",
-          "price": 2499,
-          "originalPrice": 4999,
-          "discount": 50,
           "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
-          "selectedColor": "Midnight Navy",
+          "price": 2499,
+          "discount": 50,
+          "quantity": 1,
+          "cartItemId": "prod-1-Midnight Navy-Medium (12x9 in)",
           "selectedSize": "Medium (12x9 in)",
-          "quantity": 1
+          "originalPrice": 4999,
+          "selectedColor": "Midnight Navy"
         }
       ],
-      "subtotal": 2499,
-      "discount": 0,
-      "shipping": 0,
       "total": 2499,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": null,
       "paymentMethod": "NetBanking Direct (All Major Indian Banks)",
       "paymentStatus": "Paid (Verified by Razorpay)",
-      "deliveryMode": "Standard White-Glove (Mon, 31 Aug) • anytime",
-      "shippingAddress": {
-        "fullName": "Ashutosh Kumar(0157AL221059)",
-        "phone": "9334993909",
-        "email": "ashukumarfbg8271@gmail.com",
-        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
-        "city": "Bhopal",
-        "state": "Madhya Pradesh",
-        "pincode": "462042"
-      },
-      "timeline": [
-        {
-          "step": "Order Placed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Order confirmed in A_S Commerce system"
-        },
-        {
-          "step": "Payment Confirmed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Payment of ₹2,499 confirmed"
-        },
-        {
-          "step": "Processing",
-          "time": "Scheduled today",
-          "done": false,
-          "desc": "Luxury packaging & inspection"
-        },
-        {
-          "step": "Shipped",
-          "time": "Pending dispatch",
-          "done": false,
-          "desc": "Handed over to carrier"
-        },
-        {
-          "step": "Out for Delivery",
-          "time": "Pending",
-          "done": false,
-          "desc": "On final delivery vehicle"
-        },
-        {
-          "step": "Delivered",
-          "time": "Estimated Tue Sep 01 2026",
-          "done": false,
-          "desc": "Delivered to shipping address"
-        }
-      ],
-      "createdAt": "2026-08-28T07:31:26.168Z",
-      "updatedAt": "2026-08-28T07:31:26.168Z"
+      "createdAt": "2026-08-28T07:31:26.168+00:00",
+      "updatedAt": "2026-08-28T07:31:26.168+00:00"
     },
     {
       "id": "AS-860068",
-      "date": "2026-08-26",
-      "status": "Order Placed",
-      "statusCode": 2,
-      "estimatedDelivery": "2026-08-30",
-      "carrier": "Bluedart Express Luxury Courier",
-      "trackingNumber": "BD-505435770IN",
+      "customerName": "Ashutosh kumar",
+      "customerPhone": "9572804194",
       "items": [
         {
-          "cartItemId": "prod-6-Deep Navy-38R",
           "id": "prod-6",
           "name": "Bespoke Midnight Navy Wool Blazer",
           "brand": "A_S Sartorial",
-          "price": 4999,
-          "originalPrice": 8999,
-          "discount": 44,
           "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
-          "selectedColor": "Deep Navy",
+          "price": 4999,
+          "discount": 44,
+          "quantity": 1,
+          "cartItemId": "prod-6-Deep Navy-38R",
           "selectedSize": "38R",
-          "quantity": 1
+          "originalPrice": 8999,
+          "selectedColor": "Deep Navy"
         }
       ],
-      "subtotal": 4999,
-      "discount": 0,
-      "shipping": 0,
       "total": 4999,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": null,
       "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
       "paymentStatus": "Pending (Cash on Delivery)",
-      "deliveryMode": "Standard White-Glove (Sat, 29 Aug) • anytime",
-      "shippingAddress": {
-        "fullName": "Ashutosh kumar",
-        "phone": "9572804194",
-        "email": "ashukumarfbg8271@gmail.com",
-        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
-        "city": "Bhopal",
-        "state": "Madhya Pradesh",
-        "pincode": "462001"
-      },
-      "timeline": [
-        {
-          "step": "Order Placed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Order confirmed in A_S Commerce system"
-        },
-        {
-          "step": "Payment Confirmed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Payment of ₹4,999 confirmed"
-        },
-        {
-          "step": "Processing",
-          "time": "Scheduled today",
-          "done": false,
-          "desc": "Luxury packaging & inspection"
-        },
-        {
-          "step": "Shipped",
-          "time": "Pending dispatch",
-          "done": false,
-          "desc": "Handed over to carrier"
-        },
-        {
-          "step": "Out for Delivery",
-          "time": "Pending",
-          "done": false,
-          "desc": "On final delivery vehicle"
-        },
-        {
-          "step": "Delivered",
-          "time": "Estimated Sun Aug 30 2026",
-          "done": false,
-          "desc": "Delivered to shipping address"
-        }
-      ],
-      "createdAt": "2026-08-26T17:01:12.416Z",
-      "updatedAt": "2026-08-26T17:01:12.416Z"
+      "createdAt": "2026-08-26T17:01:12.416+00:00",
+      "updatedAt": "2026-08-26T17:01:12.416+00:00"
     },
     {
       "id": "AS-701528",
-      "date": "2026-08-26",
-      "status": "Order Placed",
-      "statusCode": 2,
-      "estimatedDelivery": "2026-08-28",
-      "carrier": "Bluedart Express Luxury Courier",
-      "trackingNumber": "BD-949131895IN",
+      "customerName": "Ashutosh kumar yadav",
+      "customerPhone": "8271936044",
       "items": [
         {
-          "cartItemId": "prod-2-Royal Gold-40mm Dial",
           "id": "prod-2",
           "name": "Royal Chronograph Gold Wristwatch",
           "brand": "A_S Horology",
-          "price": 8999,
-          "originalPrice": 14999,
-          "discount": 40,
           "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
-          "selectedColor": "Royal Gold",
+          "price": 8999,
+          "discount": 40,
+          "quantity": 1,
+          "cartItemId": "prod-2-Royal Gold-40mm Dial",
           "selectedSize": "40mm Dial",
-          "quantity": 1
+          "originalPrice": 14999,
+          "selectedColor": "Royal Gold"
         }
       ],
-      "subtotal": 8999,
-      "discount": 0,
-      "shipping": 249,
       "total": 9248,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": null,
       "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
       "paymentStatus": "Pending (Cash on Delivery)",
-      "deliveryMode": "Same-Day Express (Wed, 26 Aug) • anytime",
-      "shippingAddress": {
-        "fullName": "Ashutosh kumar yadav",
-        "phone": "8271936044",
-        "email": "ashukumarfbg8271@gmail.com",
-        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
-        "city": "Bhopal",
-        "state": "Bihar",
-        "pincode": "462001"
-      },
-      "timeline": [
-        {
-          "step": "Order Placed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Order confirmed in A_S Commerce system"
-        },
-        {
-          "step": "Payment Confirmed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Payment of ₹9,248 confirmed"
-        },
-        {
-          "step": "Processing",
-          "time": "Scheduled today",
-          "done": false,
-          "desc": "Luxury packaging & inspection"
-        },
-        {
-          "step": "Shipped",
-          "time": "Pending dispatch",
-          "done": false,
-          "desc": "Handed over to carrier"
-        },
-        {
-          "step": "Out for Delivery",
-          "time": "Pending",
-          "done": false,
-          "desc": "On final delivery vehicle"
-        },
-        {
-          "step": "Delivered",
-          "time": "Estimated Fri Aug 28 2026",
-          "done": false,
-          "desc": "Delivered to shipping address"
-        }
-      ],
-      "createdAt": "2026-08-26T16:36:50.304Z",
-      "updatedAt": "2026-08-26T16:36:50.304Z"
+      "createdAt": "2026-08-26T16:36:50.304+00:00",
+      "updatedAt": "2026-08-26T16:36:50.304+00:00"
     },
     {
       "id": "AS-276410",
-      "date": "2026-08-26",
-      "status": "Order Placed",
-      "statusCode": 2,
-      "estimatedDelivery": "2026-08-28",
-      "carrier": "Bluedart Express Luxury Courier",
-      "trackingNumber": "BD-886768521IN",
+      "customerName": "Ashutosh kumar",
+      "customerPhone": "9572804194",
       "items": [
         {
-          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
           "id": "prod-4",
           "name": "Aviator 24K Gold Polarized Sunglasses",
           "brand": "A_S Optix",
-          "price": 1899,
-          "originalPrice": 3499,
-          "discount": 45,
           "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
-          "selectedColor": "Gold & Midnight Tint",
+          "price": 1899,
+          "discount": 45,
+          "quantity": 1,
+          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
           "selectedSize": "Standard 58mm",
-          "quantity": 1
+          "originalPrice": 3499,
+          "selectedColor": "Gold & Midnight Tint"
         }
       ],
-      "subtotal": 1899,
-      "discount": 0,
-      "shipping": 149,
       "total": 2048,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": null,
       "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
       "paymentStatus": "Pending (Cash on Delivery)",
-      "deliveryMode": "Priority Air Express (Thu, 27 Aug) • anytime",
-      "shippingAddress": {
-        "fullName": "Ashutosh kumar",
-        "phone": "9572804194",
-        "email": "ashukumarfbg8271@gmail.com",
-        "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
-        "city": "Bhopal",
-        "state": "Madhya Pradesh",
-        "pincode": "462042"
-      },
-      "timeline": [
-        {
-          "step": "Order Placed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Order confirmed in A_S Commerce system"
-        },
-        {
-          "step": "Payment Confirmed",
-          "time": "Just now",
-          "done": true,
-          "desc": "Payment of ₹2,048 confirmed"
-        },
-        {
-          "step": "Processing",
-          "time": "Scheduled today",
-          "done": false,
-          "desc": "Luxury packaging & inspection"
-        },
-        {
-          "step": "Shipped",
-          "time": "Pending dispatch",
-          "done": false,
-          "desc": "Handed over to carrier"
-        },
-        {
-          "step": "Out for Delivery",
-          "time": "Pending",
-          "done": false,
-          "desc": "On final delivery vehicle"
-        },
-        {
-          "step": "Delivered",
-          "time": "Estimated Fri Aug 28 2026",
-          "done": false,
-          "desc": "Delivered to shipping address"
-        }
-      ],
-      "createdAt": "2026-08-26T16:09:23.407Z",
-      "updatedAt": "2026-08-26T16:09:23.407Z"
+      "createdAt": "2026-08-26T16:09:23.407+00:00",
+      "updatedAt": "2026-08-26T16:09:23.407+00:00"
     },
     {
       "id": "AS-889911",
-      "total": 45999,
-      "paymentMethod": "Razorpay / Online",
-      "paymentStatus": "Paid",
-      "status": "Shipped",
-      "shippingAddress": {
-        "fullName": "Ashutosh kumar",
-        "email": "ashukumarfbg8271@gmail.com",
-        "phone": "9572804194",
-        "street": "101 Horizon Ave",
-        "city": "Mumbai",
-        "pincode": "400001"
-      },
+      "customerName": "Ashutosh kumar",
+      "customerPhone": "9572804194",
       "items": [
         {
           "name": "Royal Chronograph Watch",
@@ -1263,10 +1114,14 @@
           "quantity": 1
         }
       ],
-      "createdAt": "2026-08-26T15:42:40.831Z",
-      "updatedAt": "2026-08-26T15:48:30.304Z",
+      "total": 45999,
+      "status": "Shipped",
       "carrier": "Bluedart Express",
-      "trackingNumber": "BD-612260704IN"
+      "trackingNumber": "BD-612260704IN",
+      "paymentMethod": "Razorpay / Online",
+      "paymentStatus": "Paid",
+      "createdAt": "2026-08-26T15:42:40.831+00:00",
+      "updatedAt": "2026-08-26T15:48:30.304+00:00"
     }
   ],
   "coupons": [
@@ -1615,105 +1470,9 @@
           "landmark": "dhaka village"
         }
       ],
-      "wishlist": [
-        {
-          "id": "prod-3",
-          "name": "AeroFlex Midnight Performance Sneakers",
-          "brand": "A_S Motion",
-          "category": "footwear",
-          "categoryName": "Footwear",
-          "price": 3299,
-          "originalPrice": 5999,
-          "discount": 45,
-          "rating": 4.8,
-          "reviewsCount": 412,
-          "isFeatured": true,
-          "isTrending": true,
-          "isNewArrival": false,
-          "isSpecialOffer": true,
-          "inStock": true,
-          "stockCount": 22,
-          "badge": "TRENDING",
-          "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
-          "images": [
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
-          ],
-          "colors": [
-            "#061A27",
-            "#FFFFFF",
-            "#DC2626"
-          ],
-          "colorNames": [
-            "Navy / Gold",
-            "Pure White",
-            "Crimson Red"
-          ],
-          "sizes": [
-            "UK 7",
-            "UK 8",
-            "UK 9",
-            "UK 10",
-            "UK 11"
-          ],
-          "specs": {
-            "Sole": "AeroCloud Dual-Density Foam",
-            "Upper": "Engineered Prime Knit",
-            "Weight": "240g per shoe",
-            "Best For": "Urban Walking, Running & Lifestyle"
-          }
-        },
-        {
-          "id": "prod-6",
-          "name": "Bespoke Midnight Navy Wool Blazer",
-          "brand": "A_S Sartorial",
-          "category": "men",
-          "categoryName": "Men Fashion",
-          "price": 4999,
-          "originalPrice": 8999,
-          "discount": 44,
-          "rating": 4.9,
-          "reviewsCount": 215,
-          "isFeatured": true,
-          "isTrending": true,
-          "isNewArrival": true,
-          "isSpecialOffer": false,
-          "inStock": true,
-          "stockCount": 16,
-          "badge": "LUXURY",
-          "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
-          "images": [
-            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
-          ],
-          "colors": [
-            "#061A27",
-            "#374151",
-            "#000000"
-          ],
-          "colorNames": [
-            "Deep Navy",
-            "Charcoal Grey",
-            "Classic Black"
-          ],
-          "sizes": [
-            "38R",
-            "40R",
-            "42R",
-            "44R"
-          ],
-          "specs": {
-            "Fabric": "100% Super 140s Merino Wool",
-            "Construction": "Half-Canvas with Bemberg Silk Lining",
-            "Fit": "Modern Tailored Fit",
-            "Care": "Dry Clean Only"
-          }
-        }
-      ],
+      "wishlist": [],
       "createdAt": "2026-08-26T20:07:32.477Z",
-      "updatedAt": "2026-08-29T20:22:02.134Z",
+      "updatedAt": "2026-08-30T18:24:33.389Z",
       "avatar": "https://res.cloudinary.com/dpxukzvik/image/upload/v1788034021/as-commerce/avatars/mywxjttqmyqu3mgtq774.webp"
     },
     {
@@ -1727,105 +1486,9 @@
       "verificationOtp": null,
       "otpExpiresAt": null,
       "addresses": [],
-      "wishlist": [
-        {
-          "id": "prod-3",
-          "name": "AeroFlex Midnight Performance Sneakers",
-          "brand": "A_S Motion",
-          "category": "footwear",
-          "categoryName": "Footwear",
-          "price": 3299,
-          "originalPrice": 5999,
-          "discount": 45,
-          "rating": 4.8,
-          "reviewsCount": 412,
-          "isFeatured": true,
-          "isTrending": true,
-          "isNewArrival": false,
-          "isSpecialOffer": true,
-          "inStock": true,
-          "stockCount": 22,
-          "badge": "TRENDING",
-          "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
-          "images": [
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
-          ],
-          "colors": [
-            "#061A27",
-            "#FFFFFF",
-            "#DC2626"
-          ],
-          "colorNames": [
-            "Navy / Gold",
-            "Pure White",
-            "Crimson Red"
-          ],
-          "sizes": [
-            "UK 7",
-            "UK 8",
-            "UK 9",
-            "UK 10",
-            "UK 11"
-          ],
-          "specs": {
-            "Sole": "AeroCloud Dual-Density Foam",
-            "Upper": "Engineered Prime Knit",
-            "Weight": "240g per shoe",
-            "Best For": "Urban Walking, Running & Lifestyle"
-          }
-        },
-        {
-          "id": "prod-6",
-          "name": "Bespoke Midnight Navy Wool Blazer",
-          "brand": "A_S Sartorial",
-          "category": "men",
-          "categoryName": "Men Fashion",
-          "price": 4999,
-          "originalPrice": 8999,
-          "discount": 44,
-          "rating": 4.9,
-          "reviewsCount": 215,
-          "isFeatured": true,
-          "isTrending": true,
-          "isNewArrival": true,
-          "isSpecialOffer": false,
-          "inStock": true,
-          "stockCount": 16,
-          "badge": "LUXURY",
-          "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
-          "images": [
-            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
-            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
-          ],
-          "colors": [
-            "#061A27",
-            "#374151",
-            "#000000"
-          ],
-          "colorNames": [
-            "Deep Navy",
-            "Charcoal Grey",
-            "Classic Black"
-          ],
-          "sizes": [
-            "38R",
-            "40R",
-            "42R",
-            "44R"
-          ],
-          "specs": {
-            "Fabric": "100% Super 140s Merino Wool",
-            "Construction": "Half-Canvas with Bemberg Silk Lining",
-            "Fit": "Modern Tailored Fit",
-            "Care": "Dry Clean Only"
-          }
-        }
-      ],
+      "wishlist": [],
       "createdAt": "2026-08-29T20:23:26.466Z",
-      "updatedAt": "2026-08-29T20:43:35.423Z"
+      "updatedAt": "2026-08-30T18:25:22.978Z"
     }
   ]
 }
