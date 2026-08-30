@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
-import { Lock, Key, ShieldCheck, ArrowRight, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { Logo } from '../../components/common/Logo';
+import { useToast } from '../../context/ToastContext';
+import { Lock, Key, ShieldCheck, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 export const AdminResetPasswordPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const tokenFromUrl = searchParams.get('token') || '';
-
+  const { addToast } = useToast();
   const { resetPasswordWithToken } = useAdminAuth();
 
+  const tokenFromUrl = searchParams.get('token') || '';
+  const emailParam = searchParams.get('email') || '';
+
   const [token, setToken] = useState(tokenFromUrl);
+  const [email, setEmail] = useState(emailParam);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -49,13 +53,24 @@ export const AdminResetPasswordPage = () => {
     e.preventDefault();
     setErrorMessage('');
 
+    if (!token.trim()) {
+      const err = 'Recovery token is required. Please check the reset link or enter your token.';
+      setErrorMessage(err);
+      addToast(err, 'error');
+      return;
+    }
+
     if (!strength.isStrong) {
-      setErrorMessage('New password must be at least 8 characters long and include uppercase, lowercase, number, and special character.');
+      const err = 'Password must be at least 8 characters with uppercase, lowercase, numbers, and special characters.';
+      setErrorMessage(err);
+      addToast(err, 'error');
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setErrorMessage('Passwords do not match.');
+      const err = 'New passwords do not match. Please verify.';
+      setErrorMessage(err);
+      addToast(err, 'error');
       return;
     }
 
@@ -63,172 +78,184 @@ export const AdminResetPasswordPage = () => {
     const result = await resetPasswordWithToken(token.trim(), newPassword);
     setIsSubmitting(false);
 
-    if (result.success) {
+    if (result && result.success) {
       setIsSuccess(true);
+      addToast('Master password updated successfully.', 'success');
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#F5B83D', '#061A27', '#FFD36A', '#ffffff'],
+        });
+      } catch (err) {}
     } else {
-      setErrorMessage(result.message || 'Invalid or expired recovery token.');
+      const err = result?.message || 'Invalid or expired recovery token.';
+      setErrorMessage(err);
+      addToast(err, 'error');
     }
   };
 
   return (
-    <div className="min-h-screen bg-navy-950 text-white flex items-center justify-center p-4 selection:bg-gold-500/30">
-      <div className="w-full max-w-md bg-navy-900 border border-gold-500/30 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 animate-fadeIn relative overflow-hidden">
+    <div className="min-h-screen bg-navy-950 text-white flex items-center justify-center p-4 selection:bg-gold-500/30 animate-fadeIn">
+      <div className="w-full max-w-md bg-navy-900 border border-gold-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
         
-        {/* Header */}
+        {/* Subtle Luxury Top Glow */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500/60 to-transparent" />
+
+        {/* Header Icon */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-navy-800 border border-gold-500/40 mb-2 shadow-gold-sm">
-            <Key className="w-7 h-7 text-gold-400" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-navy-800 border border-gold-500/40 text-gold-400 mb-1 shadow-gold-sm">
+            {isSuccess ? <CheckCircle2 className="w-7 h-7 text-emerald-400" /> : <ShieldCheck className="w-7 h-7 text-gold-400" />}
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
-            Reset Master Password
+            {isSuccess ? 'Master Password Reset!' : 'Reset Master Password'}
           </h1>
-          <p className="text-xs text-gray-400 leading-relaxed">
-            Enter the recovery token and specify your new master administrator password.
+          <p className="text-xs text-gray-400 max-w-xs mx-auto leading-relaxed">
+            {isSuccess
+              ? 'Your master administrator password has been updated securely with 12-round Bcrypt encryption.'
+              : 'Choose a strong, new master password for your A_S Commerce administrative account.'}
           </p>
         </div>
 
-        {/* Success Alert */}
         {isSuccess ? (
-          <div className="space-y-4 text-center">
-            <div className="p-4 rounded-2xl bg-green-900/30 border border-green-500/40 text-green-300 text-xs flex flex-col items-center gap-2">
-              <CheckCircle2 className="w-8 h-8 text-green-400" />
-              <span className="font-bold text-sm">Password Reset Successful!</span>
-              <p className="text-[11px] text-gray-300">
-                Your master administrator password has been updated. You can now login with your new credentials.
-              </p>
+          <div className="space-y-4 text-center animate-fadeIn">
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-300 leading-relaxed">
+              Your master administrator credentials have been updated. You can now sign in to access the Admin Control Center.
             </div>
+
             <Link
               to="/admin/login"
               className="w-full py-3.5 bg-gold-gradient text-navy-950 font-bold text-xs sm:text-sm rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Proceed to Admin Login</span>
+              <span>Sign In to Admin Portal</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
-          <>
-            {/* Error Alert */}
+          <form onSubmit={handleSubmit} className="space-y-4">
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-red-900/30 border border-red-500/40 text-red-300 text-xs flex items-center gap-2.5">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <span className="leading-tight">{errorMessage}</span>
+              <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-400 flex items-center gap-2 animate-fadeIn">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                <span>{errorMessage}</span>
               </div>
             )}
 
-            {/* Reset Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {tokenFromUrl ? (
-                <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
-                  <span className="font-semibold">Recovery Link Authenticated</span>
+            {!tokenFromUrl && (
+              <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wide mb-1">
+                  Recovery Token *
+                </label>
+                <div className="relative">
+                  <Key className="w-4 h-4 text-gold-500 absolute left-3.5 top-3" />
+                  <input
+                    type="text"
+                    required
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    placeholder="Enter 64-character token"
+                    className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 font-mono"
+                  />
                 </div>
-              ) : (
-                <div>
-                  <label className="block text-xs font-semibold text-gray-300 mb-1.5">
-                    Recovery Token
-                  </label>
-                  <div className="relative">
-                    <Key className="w-4 h-4 text-gold-400 absolute left-3.5 top-3.5" />
-                    <input
-                      type="text"
-                      required
-                      value={token}
-                      onChange={(e) => setToken(e.target.value)}
-                      placeholder="Paste 32-byte recovery token"
-                      className="w-full pl-10 pr-4 py-3 bg-navy-850 text-white placeholder-gray-500 text-xs font-mono rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
-                    />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-xs font-bold text-gray-300 uppercase tracking-wide mb-1">
+                New Master Password *
+              </label>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-gold-500 absolute left-3.5 top-3" />
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="w-full pl-10 pr-10 py-2.5 bg-navy-850 text-white text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 placeholder-gray-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gold-400 cursor-pointer p-0.5"
+                  title={showNewPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Password Strength Meter */}
+              {newPassword && (
+                <div className="mt-2 space-y-1.5 animate-fadeIn">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-gray-400">Security Strength:</span>
+                    <span className={`font-semibold ${strength.color.split(' ')[1]}`}>{strength.label}</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-1 h-1.5">
+                    {[1, 2, 3, 4].map((s) => (
+                      <div
+                        key={s}
+                        className={`h-full rounded-full transition-all duration-300 ${
+                          s <= strength.score ? strength.color.split(' ')[0] : 'bg-navy-750'
+                        }`}
+                      />
+                    ))}
                   </div>
                 </div>
               )}
+            </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1.5">
-                  New Master Password (min 8 chars)
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gold-400 absolute left-3.5 top-3.5" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gold-400 transition-colors cursor-pointer p-0.5"
-                    title={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-
-                {/* Password Strength Meter */}
-                {newPassword && (
-                  <div className="mt-2 space-y-1.5 animate-fadeIn">
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-gray-400">Security Strength:</span>
-                      <span className={`font-semibold ${strength.color.split(' ')[1]}`}>{strength.label}</span>
-                    </div>
-                    <div className="grid grid-cols-4 gap-1 h-1.5">
-                      {[1, 2, 3, 4].map((step) => (
-                        <div
-                          key={step}
-                          className={`h-full rounded-full transition-all duration-300 ${
-                            step <= strength.score ? strength.color.split(' ')[0] : 'bg-navy-700'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+            <div>
+              <label className="block text-xs font-bold text-gray-300 uppercase tracking-wide mb-1">
+                Confirm Master Password *
+              </label>
+              <div className="relative">
+                <Lock className="w-4 h-4 text-gold-500 absolute left-3.5 top-3" />
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  className="w-full pl-10 pr-10 py-2.5 bg-navy-850 text-white text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 placeholder-gray-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gold-400 cursor-pointer p-0.5"
+                  title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1.5">
-                  Confirm New Password
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gold-400 absolute left-3.5 top-3.5" />
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-3 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gold-400 transition-colors cursor-pointer p-0.5"
-                    title={showConfirmPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3.5 bg-gold-gradient text-navy-950 font-bold text-xs sm:text-sm rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                <span>{isSubmitting ? 'Resetting Password...' : 'Save & Update Password'}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
-          </>
+            <button
+              type="submit"
+              disabled={isSubmitting || !token}
+              className="w-full py-3.5 bg-gold-gradient text-navy-950 font-bold text-xs sm:text-sm rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer disabled:opacity-50 mt-2 flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-navy-950 border-t-transparent rounded-full animate-spin" />
+                  <span>Updating Master Password...</span>
+                </>
+              ) : (
+                <span>Save New Master Password</span>
+              )}
+            </button>
+          </form>
         )}
 
-        <div className="pt-2 text-center border-t border-navy-800">
+        <div className="text-center pt-2 border-t border-navy-800">
           <Link
             to="/admin/login"
-            className="text-xs text-gold-400 hover:underline"
+            className="text-xs text-gray-400 hover:text-gold-400 inline-flex items-center gap-1.5 transition-colors"
           >
-            Back to Admin Login
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Return to Admin Login</span>
           </Link>
         </div>
 
@@ -236,3 +263,4 @@ export const AdminResetPasswordPage = () => {
     </div>
   );
 };
+export default AdminResetPasswordPage;
