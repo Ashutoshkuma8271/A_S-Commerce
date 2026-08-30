@@ -56,21 +56,18 @@ export const AdminResetPasswordPage = () => {
     if (!token.trim()) {
       const err = 'Recovery token is required. Please check the reset link or enter your token.';
       setErrorMessage(err);
-      addToast(err, 'error');
       return;
     }
 
     if (!strength.isStrong) {
       const err = 'Password must be at least 8 characters with uppercase, lowercase, numbers, and special characters.';
       setErrorMessage(err);
-      addToast(err, 'error');
       return;
     }
 
     if (newPassword !== confirmPassword) {
       const err = 'New passwords do not match. Please verify.';
       setErrorMessage(err);
-      addToast(err, 'error');
       return;
     }
 
@@ -80,7 +77,6 @@ export const AdminResetPasswordPage = () => {
 
     if (result && result.success) {
       setIsSuccess(true);
-      addToast('Master password updated successfully.', 'success');
       try {
         confetti({
           particleCount: 120,
@@ -90,9 +86,7 @@ export const AdminResetPasswordPage = () => {
         });
       } catch (err) {}
     } else {
-      const err = result?.message || 'Invalid or expired recovery token.';
-      setErrorMessage(err);
-      addToast(err, 'error');
+      setErrorMessage(result?.message || 'Invalid or expired recovery token.');
     }
   };
 

@@ -159,21 +159,19 @@ export const AdminAuthProvider = ({ children }) => {
       const res = await fetch('/api/admin/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email: email.trim() })
       });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
+      const data = await res.json();
+      if (!data.success) {
+        addToast(data.message || 'Password reset request failed.', 'error');
+        return { success: false, message: data.message };
       }
+      addToast('Reset link sent to your email.', 'success');
+      return data;
     } catch (err) {
-      // Fallback
+      addToast('Cannot connect to server. Please try again.', 'error');
+      return { success: false, message: 'Connection error' };
     }
-    return {
-      success: true,
-      message: 'Password reset token generated.',
-      resetToken: 'adm-token-' + Math.random().toString(36).substring(2, 10),
-      expiresInMinutes: 15
-    };
   };
 
   // 7. Reset Password
@@ -182,21 +180,19 @@ export const AdminAuthProvider = ({ children }) => {
       const res = await fetch('/api/admin/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: resetToken, newPassword })
+        body: JSON.stringify({ token: resetToken.trim(), newPassword })
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
-          addToast('Password reset successful. Please log in.', 'success');
-        } else {
-          addToast(data.message || 'Password reset failed.', 'error');
-        }
-        return data;
+      const data = await res.json();
+      if (!data.success) {
+        addToast(data.message || 'Password reset failed.', 'error');
+        return { success: false, message: data.message };
       }
-    } catch (err) {}
-
-    addToast('Password has been successfully updated!', 'success');
-    return { success: true };
+      addToast('Master password updated successfully.', 'success');
+      return { success: true, message: data.message };
+    } catch (err) {
+      addToast('Failed to connect to authentication server.', 'error');
+      return { success: false, message: 'Connection error' };
+    }
   };
 
   // 8. Change Password (Authenticated)
@@ -210,19 +206,17 @@ export const AdminAuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
-          addToast('Admin password updated successfully.', 'success');
-        } else {
-          addToast(data.message || 'Failed to update password.', 'error');
-        }
-        return data;
+      const data = await res.json();
+      if (!data.success) {
+        addToast(data.message || 'Failed to update password.', 'error');
+        return { success: false, message: data.message };
       }
-    } catch (err) {}
-
-    addToast('Master password updated successfully.', 'success');
-    return { success: true };
+      addToast('Admin password updated successfully.', 'success');
+      return { success: true, message: data.message };
+    } catch (err) {
+      addToast('Cannot connect to server.', 'error');
+      return { success: false, message: 'Connection error' };
+    }
   };
 
   return (
