@@ -4,13 +4,13 @@
       "id": "adm-1787676210406",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$0NbaqnSyEbROZ6FiE3dnZuCNHUvOJ7W2b2UTSu/qGBdqLcZOZFh/y",
+      "passwordHash": "$2b$12$3FG6NExUNjfvplWsC1N3QeSxqSQNrRr15Ec3sWbVVw53PKZqp1/8y",
       "role": "admin",
       "isActive": 1,
       "singleAdminLock": 1,
       "createdAt": "2026-08-25T17:25:08.400833+00:00",
-      "updatedAt": "2026-08-30T19:51:56.801+00:00",
-      "lastLoginAt": "2026-08-30T19:51:56.8+00:00"
+      "updatedAt": "2026-08-30T21:54:30.645+00:00",
+      "lastLoginAt": "2026-08-30T21:54:30.644+00:00"
     }
   ],
   "password_resets": [
@@ -1567,19 +1567,19 @@
       "avatar": "https://res.cloudinary.com/dpxukzvik/image/upload/v1788034021/as-commerce/avatars/mywxjttqmyqu3mgtq774.webp"
     },
     {
-      "id": "usr-1788126777047",
-      "name": "Shruti",
+      "id": "usr-1788128171138",
+      "name": "Shruti Kumari Recreated",
       "email": "shrutiashutosh139@gmail.com",
       "phone": "9876543210",
-      "passwordHash": "test",
+      "passwordHash": "$2b$10$lLOGE3CdVoFkhCf9.LHRnO3JhkhYGAzlB5Xpj52Q6nYGIeBPPY0lu",
       "role": "customer",
-      "isVerified": true,
+      "isVerified": false,
+      "verificationOtp": "473070",
+      "otpExpiresAt": 1788129071036,
       "addresses": [],
       "wishlist": [],
-      "verificationOtp": null,
-      "otpExpiresAt": null,
-      "createdAt": "2026-08-30T21:52:57.034+00:00",
-      "updatedAt": "2026-08-30T21:54:44.485Z"
+      "createdAt": "2026-08-30T22:16:11.138Z",
+      "updatedAt": "2026-08-30T22:16:11.138Z"
     }
   ]
 }

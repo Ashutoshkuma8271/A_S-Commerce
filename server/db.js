@@ -430,7 +430,8 @@ export const db = {
 
   getUserByEmailAsync: async (email) => {
     loadFromDisk();
-    const clean = email.toLowerCase().trim();
+    const clean = (email || '').toLowerCase().trim();
+    if (!clean) return null;
 
     try {
       const { data, error } = await supabase.from('users').select('*').eq('email', clean).maybeSingle();
@@ -443,11 +444,11 @@ export const db = {
             phone: data.phone || '',
             passwordHash: data.password_hash,
             role: 'customer',
-            isVerified: data.is_verified !== false,
+            isVerified: Boolean(data.is_verified),
             addresses: data.addresses || [],
             wishlist: data.wishlist || [],
             verificationOtp: data.verification_otp,
-            otpExpiresAt: data.otp_expires_at ? Number(data.otp_expires_at) : null,
+            otpExpiresAt: data.otp_expires_at ? new Date(data.otp_expires_at).getTime() : null,
             createdAt: data.created_at,
             updatedAt: data.updated_at
           };
@@ -456,11 +457,13 @@ export const db = {
             if (idx !== -1) memoryDB.users[idx] = user;
             else memoryDB.users.push(user);
           }
+          saveToDisk();
           return user;
         } else {
-          // User was deleted from Supabase! Purge from memory cache
+          // User was removed/deleted from Supabase table! Purge from local memory & disk
           if (memoryDB.users) {
             memoryDB.users = memoryDB.users.filter(u => u.email.toLowerCase() !== clean);
+            saveToDisk();
           }
           return null;
         }
@@ -519,13 +522,16 @@ export const db = {
 
   createUser: async ({ id, name, email, phone, passwordHash, role = 'customer', isVerified = false, verificationOtp = null, otpExpiresAt = null }) => {
     loadFromDisk();
-    const cleanEmail = email.toLowerCase().trim();
+    const cleanEmail = (email || '').toLowerCase().trim();
     if (!memoryDB.users) memoryDB.users = [];
     
     // Purge any stale memory records for this email
     memoryDB.users = memoryDB.users.filter(u => u.email.toLowerCase() !== cleanEmail);
 
     const now = new Date().toISOString();
+    const otpExpiryTimestamp = otpExpiresAt ? (typeof otpExpiresAt === 'number' ? otpExpiresAt : new Date(otpExpiresAt).getTime()) : null;
+    const otpExpiryIso = otpExpiryTimestamp ? new Date(otpExpiryTimestamp).toISOString() : null;
+
     const newUser = {
       id: id || `usr-${Date.now()}`,
       name,
@@ -535,7 +541,7 @@ export const db = {
       role: 'customer',
       isVerified,
       verificationOtp,
-      otpExpiresAt,
+      otpExpiresAt: otpExpiryTimestamp,
       addresses: [],
       wishlist: [],
       createdAt: now,
@@ -547,7 +553,7 @@ export const db = {
 
     // Direct write to Supabase table (upsert on conflict email)
     try {
-      await supabase.from('users').upsert({
+      const { error } = await supabase.from('users').upsert({
         id: newUser.id,
         name: newUser.name,
         email: newUser.email,
@@ -556,13 +562,18 @@ export const db = {
         role: 'customer',
         is_verified: isVerified,
         verification_otp: verificationOtp,
-        otp_expires_at: otpExpiresAt,
+        otp_expires_at: otpExpiryIso,
         addresses: [],
         wishlist: [],
         created_at: now,
         updated_at: now
       }, { onConflict: 'email' });
-      console.log(`⚡ Saved Customer User ${cleanEmail} into Supabase table public.users`);
+
+      if (error) {
+        console.warn('Supabase users upsert note:', error.message);
+      } else {
+        console.log(`⚡ Saved Customer User ${cleanEmail} into Supabase table public.users`);
+      }
     } catch (err) {
       console.warn('Supabase users table write note:', err.message);
     }
@@ -572,14 +583,17 @@ export const db = {
 
   verifyUserOtp: async (email, otp) => {
     loadFromDisk();
-    const clean = email.toLowerCase().trim();
+    const clean = (email || '').toLowerCase().trim();
     const cleanOtp = (otp || '').toString().trim();
     
-    // Always query Supabase directly for the latest live user record
-    const user = await db.getUserByEmailAsync(clean);
+    // Query Supabase directly for the latest live user record, or fallback to memory
+    let user = await db.getUserByEmailAsync(clean);
+    if (!user) {
+      user = (memoryDB.users || []).find(u => u.email.toLowerCase() === clean);
+    }
 
     if (!user) {
-      return { success: false, message: 'User account not found.' };
+      return { success: false, message: 'User account not found. Please register again.' };
     }
 
     const storedOtp = (user.verificationOtp || '').toString().trim();
@@ -600,13 +614,14 @@ export const db = {
     if (memoryDB.users) {
       const idx = memoryDB.users.findIndex(u => u.email.toLowerCase() === clean);
       if (idx !== -1) memoryDB.users[idx] = user;
+      else memoryDB.users.push(user);
     }
     saveToDisk();
 
     try {
-      await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('email', clean);
+      await supabase.from('users').update({ is_verified: true, verification_otp: null, otp_expires_at: null, updated_at: now }).eq('email', clean);
       if (user.id) {
-        await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('id', user.id);
+        await supabase.from('users').update({ is_verified: true, verification_otp: null, otp_expires_at: null, updated_at: now }).eq('id', user.id);
       }
     } catch (e) {
       console.warn('Supabase user verification update note:', e.message);
@@ -617,16 +632,23 @@ export const db = {
 
   setSignupOtp: async (email, otp, expiresAt) => {
     loadFromDisk();
-    const clean = email.toLowerCase().trim();
+    const clean = (email || '').toLowerCase().trim();
+    const otpExpiryTimestamp = expiresAt ? (typeof expiresAt === 'number' ? expiresAt : new Date(expiresAt).getTime()) : null;
+    const otpExpiryIso = otpExpiryTimestamp ? new Date(otpExpiryTimestamp).toISOString() : null;
+
     const userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
     if (userIndex !== undefined && userIndex !== -1) {
       memoryDB.users[userIndex].verificationOtp = otp;
-      memoryDB.users[userIndex].otpExpiresAt = expiresAt;
+      memoryDB.users[userIndex].otpExpiresAt = otpExpiryTimestamp;
       saveToDisk();
     }
 
     try {
-      await supabase.from('users').update({ verification_otp: otp, updated_at: new Date().toISOString() }).eq('email', clean);
+      await supabase.from('users').update({ 
+        verification_otp: otp, 
+        otp_expires_at: otpExpiryIso,
+        updated_at: new Date().toISOString() 
+      }).eq('email', clean);
     } catch (e) {}
   },
 
@@ -648,6 +670,10 @@ export const db = {
     if (updates.wishlist) supaUpdates.wishlist = updates.wishlist;
     if (updates.avatar) supaUpdates.avatar = updates.avatar;
     if (updates.isVerified !== undefined) supaUpdates.is_verified = updates.isVerified;
+    if (updates.verificationOtp !== undefined) supaUpdates.verification_otp = updates.verificationOtp;
+    if (updates.otpExpiresAt !== undefined) {
+      supaUpdates.otp_expires_at = updates.otpExpiresAt ? new Date(updates.otpExpiresAt).toISOString() : null;
+    }
     supaUpdates.updated_at = now;
 
     try {
