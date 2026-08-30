@@ -190,7 +190,7 @@ router.post('/login', loginRateLimiter, async (req, res) => {
 
     // Update lastLoginAt
     const now = new Date().toISOString();
-    db.updateAdmin(admin.id, { lastLoginAt: now });
+    await db.updateAdmin(admin.id, { lastLoginAt: now });
 
     // Issue JWT
     const token = jwt.sign(
@@ -360,7 +360,7 @@ router.post('/reset-password', async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
-    db.updateAdmin(admin.id, { passwordHash });
+    await db.updateAdmin(admin.id, { passwordHash });
     db.markPasswordResetUsed(token);
 
     logAudit({
@@ -407,7 +407,7 @@ router.post('/change-password', requireAdmin, async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
-    db.updateAdmin(admin.id, { passwordHash });
+    await db.updateAdmin(admin.id, { passwordHash });
 
     logAudit({
       action: 'Password changed',

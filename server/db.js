@@ -272,13 +272,15 @@ export const db = {
     return newAdmin;
   },
 
-  updateAdmin: (id, updates) => {
+  updateAdmin: async (id, updates) => {
     loadFromDisk();
-    const index = memoryDB.admins.findIndex(a => a.id === id);
-    if (index === -1) return null;
+    const index = memoryDB.admins.findIndex(a => a.id === id || (updates.email && a.email.toLowerCase() === updates.email.toLowerCase()));
     const now = new Date().toISOString();
-    memoryDB.admins[index] = { ...memoryDB.admins[index], ...updates, updatedAt: now };
-    saveToDisk();
+    
+    if (index !== -1) {
+      memoryDB.admins[index] = { ...memoryDB.admins[index], ...updates, updatedAt: now };
+      saveToDisk();
+    }
 
     const supaUpdates = {};
     if (updates.name) supaUpdates.name = updates.name;
@@ -286,12 +288,19 @@ export const db = {
     if (updates.lastLoginAt) supaUpdates.last_login_at = updates.lastLoginAt;
     supaUpdates.updated_at = now;
 
-    // Asynchronous non-blocking Supabase sync for sub-millisecond API response
-    supabase.from('admins').update(supaUpdates).eq('id', id).then().catch(e => {
-      console.warn('Supabase admin sync note:', e.message);
-    });
+    try {
+      if (id) {
+        await supabase.from('admins').update(supaUpdates).eq('id', id);
+      }
+      if (updates.email || (index !== -1 && memoryDB.admins[index]?.email)) {
+        const targetEmail = (updates.email || memoryDB.admins[index]?.email).toLowerCase().trim();
+        await supabase.from('admins').update(supaUpdates).eq('email', targetEmail);
+      }
+    } catch (e) {
+      console.warn('Supabase admin update note:', e.message);
+    }
 
-    return memoryDB.admins[index];
+    return index !== -1 ? memoryDB.admins[index] : null;
   },
 
   createPasswordReset: ({ token, adminEmail, expiresAt }) => {
