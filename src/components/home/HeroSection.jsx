@@ -15,9 +15,9 @@ const HERO_SLIDES = [
     titleLine1: 'Midnight Silk Grandeur.',
     titleLine2: 'Tailored Prestige.',
     subtitle: 'Hand-embroidered midnight gala gowns, bespoke evening wear, and Italian velvets crafted for timeless majesty.',
-    primaryBtnText: 'Shop Couture Collection',
+    primaryBtnText: 'Shop Couture',
     primaryBtnLink: '/category/women',
-    secondaryBtnText: 'Explore All Luxury',
+    secondaryBtnText: 'Explore Luxury',
     secondaryBtnLink: '/shop',
     image: heroGown,
   },
@@ -128,7 +128,7 @@ export const HeroSection = () => {
                 isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
-              {/* Cinematic Full-Bleed Background Image & Gradients (Exact Akira Fresh Style) */}
+              {/* Cinematic Full-Bleed Background Image & Gradients */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={slide.image}
@@ -143,13 +143,13 @@ export const HeroSection = () => {
               </div>
 
               {/* Foreground Left Content */}
-              <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
+              <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
                 <div className="max-w-xl lg:max-w-2xl space-y-4 sm:space-y-6 text-left">
                   
                   {/* Glowing Tagline Pill */}
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#061A27]/90 border border-gold-500/60 text-xs font-bold uppercase tracking-wider text-gold-400 backdrop-blur-md shadow-lg">
-                    <Sparkles className="w-3.5 h-3.5 text-gold-400" />
-                    <span>
+                  <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#061A27]/90 border border-gold-500/60 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gold-400 backdrop-blur-md shadow-lg">
+                    <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-gold-400 shrink-0" />
+                    <span className="truncate">
                       {slide.badge} • {slide.tag}
                     </span>
                   </div>
@@ -164,26 +164,26 @@ export const HeroSection = () => {
                   </h1>
 
                   {/* Subtitle */}
-                  <p className="text-sm sm:text-base lg:text-lg text-gray-200 leading-relaxed font-sans max-w-lg drop-shadow-sm font-medium">
+                  <p className="text-xs sm:text-base lg:text-lg text-gray-200 leading-relaxed font-sans max-w-lg drop-shadow-sm font-medium">
                     {slide.subtitle}
                   </p>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+                  {/* Action Buttons — Strictly Horizontal Side-by-Side on all screens */}
+                  <div className="flex items-center gap-2.5 sm:gap-4 pt-2 flex-nowrap overflow-hidden">
                     <Link
                       to={slide.primaryBtnLink}
-                      className="px-7 sm:px-8 py-3.5 bg-gold-gradient hover:brightness-110 text-navy-950 font-black text-xs sm:text-sm rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer group/btn"
+                      className="px-4 sm:px-8 py-2.5 sm:py-3.5 bg-gold-gradient hover:brightness-110 text-navy-950 font-black text-xs sm:text-sm rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer group/btn whitespace-nowrap shrink-0"
                     >
                       <span>{slide.primaryBtnText}</span>
-                      <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover/btn:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3.5 sm:w-4 h-3.5 sm:h-4 stroke-[2.5] group-hover/btn:translate-x-1 transition-transform" />
                     </Link>
 
                     <Link
                       to={slide.secondaryBtnLink}
-                      className="px-6 sm:px-7 py-3.5 bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm rounded-full border border-white/30 backdrop-blur-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                      className="px-3.5 sm:px-7 py-2.5 sm:py-3.5 bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm rounded-full border border-white/30 backdrop-blur-md hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap shrink-0"
                     >
                       <span>{slide.secondaryBtnText}</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                     </Link>
                   </div>
 
@@ -198,22 +198,22 @@ export const HeroSection = () => {
         <button
           onClick={handlePrev}
           aria-label="Previous Slide"
-          className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-xl hover:scale-110 active:scale-95 backdrop-blur-sm"
+          className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-xl hover:scale-110 active:scale-95 backdrop-blur-sm"
         >
-          <ChevronLeft className="w-5 sm:w-6 h-5 sm:h-6 stroke-[2.5]" />
+          <ChevronLeft className="w-4 sm:w-6 h-4 sm:h-6 stroke-[2.5]" />
         </button>
 
         {/* Right Circular Navigation Chevron */}
         <button
           onClick={handleNext}
           aria-label="Next Slide"
-          className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-xl hover:scale-110 active:scale-95 backdrop-blur-sm"
+          className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-xl hover:scale-110 active:scale-95 backdrop-blur-sm"
         >
-          <ChevronRight className="w-5 sm:w-6 h-5 sm:h-6 stroke-[2.5]" />
+          <ChevronRight className="w-4 sm:w-6 h-4 sm:h-6 stroke-[2.5]" />
         </button>
 
         {/* Bottom Slide Indicators */}
-        <div className="absolute bottom-5 left-6 sm:left-16 z-30 flex items-center gap-2">
+        <div className="absolute bottom-5 left-5 sm:left-16 z-30 flex items-center gap-2">
           {HERO_SLIDES.map((slide, idx) => (
             <button
               key={slide.id}
