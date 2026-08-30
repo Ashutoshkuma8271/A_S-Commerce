@@ -59,17 +59,48 @@ export function App() {
       <Toaster
         position="top-center"
         reverseOrder={false}
+        gutter={8}
+        containerStyle={{
+          top: 24,
+        }}
         toastOptions={{
-          duration: 3500,
+          duration: 3000,
           style: {
-            background: '#061A27',
+            background: 'rgba(6, 26, 39, 0.94)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             color: '#FAF7F0',
-            border: '1px solid rgba(245, 184, 61, 0.35)',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 184, 61, 0.15)',
-            borderRadius: '16px',
-            padding: '12px 20px',
-            fontSize: '13px',
-            fontWeight: '600',
+            border: '1px solid rgba(245, 184, 61, 0.25)',
+            boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.2)',
+            borderRadius: '12px',
+            padding: '7px 14px',
+            fontSize: '12px',
+            fontWeight: '500',
+            lineHeight: '1.4',
+            letterSpacing: '0.01em',
+            maxWidth: '380px',
+          },
+          success: {
+            duration: 3000,
+            style: {
+              border: '1px solid rgba(16, 185, 129, 0.35)',
+              boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(16, 185, 129, 0.15)',
+            },
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#061A27',
+            },
+          },
+          error: {
+            duration: 3800,
+            style: {
+              border: '1px solid rgba(239, 68, 68, 0.4)',
+              boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(239, 68, 68, 0.15)',
+            },
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#061A27',
+            },
           },
         }}
       />

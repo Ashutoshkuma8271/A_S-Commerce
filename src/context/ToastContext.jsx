@@ -1,48 +1,70 @@
 import React, { createContext, useContext, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { CheckCircle2, AlertCircle, Info, Sparkles } from 'lucide-react';
+import { Sparkles, Info } from 'lucide-react';
 
 const ToastContext = createContext(null);
 
 export const ToastProvider = ({ children }) => {
   const addToast = useCallback((message, type = 'success', duration = 3000) => {
-    const toastStyle = {
-      background: '#061A27',
+    const baseStyle = {
+      background: 'rgba(6, 26, 39, 0.94)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       color: '#FAF7F0',
-      border: '1px solid rgba(245, 184, 61, 0.4)',
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(245, 184, 61, 0.2)',
-      borderRadius: '16px',
-      padding: '12px 18px',
-      fontSize: '13px',
+      borderRadius: '12px',
+      padding: '7px 14px',
+      fontSize: '12px',
       fontWeight: '500',
+      lineHeight: '1.4',
+      letterSpacing: '0.01em',
+      maxWidth: '380px',
     };
 
     if (type === 'success') {
       toast.success(message, {
         duration,
-        style: toastStyle,
+        style: {
+          ...baseStyle,
+          border: '1px solid rgba(16, 185, 129, 0.35)',
+          boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(16, 185, 129, 0.15)',
+        },
         iconTheme: {
-          primary: '#F5B83D',
+          primary: '#10B981',
           secondary: '#061A27',
         },
       });
     } else if (type === 'error') {
       toast.error(message, {
-        duration,
+        duration: Math.max(duration, 3500),
         style: {
-          ...toastStyle,
+          ...baseStyle,
           border: '1px solid rgba(239, 68, 68, 0.4)',
+          boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(239, 68, 68, 0.15)',
         },
         iconTheme: {
           primary: '#EF4444',
           secondary: '#061A27',
         },
       });
+    } else if (type === 'info') {
+      toast(message, {
+        duration,
+        style: {
+          ...baseStyle,
+          border: '1px solid rgba(59, 130, 246, 0.35)',
+          boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(59, 130, 246, 0.15)',
+        },
+        icon: <Info className="w-3.5 h-3.5 text-blue-400 shrink-0" />,
+      });
     } else {
       toast(message, {
         duration,
-        style: toastStyle,
-        icon: <Sparkles className="w-4 h-4 text-gold-400 shrink-0" />,
+        style: {
+          ...baseStyle,
+          border: '1px solid rgba(245, 184, 61, 0.35)',
+          boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(245, 184, 61, 0.15)',
+        },
+        icon: <Sparkles className="w-3.5 h-3.5 text-gold-400 shrink-0" />,
       });
     }
   }, []);
