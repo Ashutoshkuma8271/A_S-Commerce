@@ -402,13 +402,12 @@ export const db = {
   getUserByEmailAsync: async (email) => {
     loadFromDisk();
     const clean = email.toLowerCase().trim();
-    let user = (memoryDB.users || []).find(u => u.email.toLowerCase() === clean);
 
-    if (!user) {
-      try {
-        const { data, error } = await supabase.from('users').select('*').eq('email', clean).maybeSingle();
-        if (data && !error) {
-          user = {
+    try {
+      const { data, error } = await supabase.from('users').select('*').eq('email', clean).maybeSingle();
+      if (!error) {
+        if (data) {
+          const user = {
             id: data.id,
             name: data.name,
             email: data.email,
@@ -418,19 +417,30 @@ export const db = {
             isVerified: data.is_verified !== false,
             addresses: data.addresses || [],
             wishlist: data.wishlist || [],
+            verificationOtp: data.verification_otp,
+            otpExpiresAt: data.otp_expires_at ? Number(data.otp_expires_at) : null,
             createdAt: data.created_at,
             updatedAt: data.updated_at
           };
-          if (!memoryDB.users) memoryDB.users = [];
-          memoryDB.users.push(user);
-          saveToDisk();
+          if (memoryDB.users) {
+            const idx = memoryDB.users.findIndex(u => u.email.toLowerCase() === clean);
+            if (idx !== -1) memoryDB.users[idx] = user;
+            else memoryDB.users.push(user);
+          }
+          return user;
+        } else {
+          // User was deleted from Supabase! Purge from memory cache
+          if (memoryDB.users) {
+            memoryDB.users = memoryDB.users.filter(u => u.email.toLowerCase() !== clean);
+          }
+          return null;
         }
-      } catch (e) {
-        // Supabase lookup note
       }
+    } catch (e) {
+      console.warn('Supabase user lookup note:', e.message);
     }
 
-    return user;
+    return (memoryDB.users || []).find(u => u.email.toLowerCase() === clean) || null;
   },
 
   getAdminByEmail: (email) => {
@@ -441,31 +451,41 @@ export const db = {
   getAdminByEmailAsync: async (email) => {
     loadFromDisk();
     const clean = email.toLowerCase().trim();
-    let admin = (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean);
 
-    if (!admin) {
-      try {
-        const { data, error } = await supabase.from('admins').select('*').eq('email', clean).maybeSingle();
-        if (data && !error) {
-          admin = {
+    try {
+      const { data, error } = await supabase.from('admins').select('*').eq('email', clean).maybeSingle();
+      if (!error) {
+        if (data) {
+          const admin = {
             id: data.id,
             name: data.name,
             email: data.email,
             passwordHash: data.password_hash,
             role: 'admin',
-            isActive: data.is_active ?? 1,
+            isActive: data.is_active ?? true,
             singleAdminLock: data.single_admin_lock ?? 1,
             createdAt: data.created_at,
             updatedAt: data.updated_at
           };
-          if (!memoryDB.admins) memoryDB.admins = [];
-          memoryDB.admins.push(admin);
-          saveToDisk();
+          if (memoryDB.admins) {
+            const idx = memoryDB.admins.findIndex(a => a.email.toLowerCase() === clean);
+            if (idx !== -1) memoryDB.admins[idx] = admin;
+            else memoryDB.admins.push(admin);
+          }
+          return admin;
+        } else {
+          // Admin was deleted from Supabase! Purge from memory cache
+          if (memoryDB.admins) {
+            memoryDB.admins = memoryDB.admins.filter(a => a.email.toLowerCase() !== clean);
+          }
+          return null;
         }
-      } catch (e) {}
+      }
+    } catch (e) {
+      console.warn('Supabase admin lookup note:', e.message);
     }
 
-    return admin;
+    return (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean) || null;
   },
 
   createUser: async ({ id, name, email, phone, passwordHash, role = 'customer', isVerified = false, verificationOtp = null, otpExpiresAt = null }) => {
