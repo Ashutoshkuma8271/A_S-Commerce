@@ -282,7 +282,7 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 mins expiry
 
-    db.createPasswordReset({ token, adminEmail: cleanEmail, expiresAt });
+    await db.createPasswordReset({ token, adminEmail: cleanEmail, role: 'admin', expiresAt });
 
     const baseUrl = req.headers.origin || 'http://localhost:5173';
     const resetUrl = `${baseUrl}/admin/reset-password?token=${token}`;
@@ -333,7 +333,7 @@ router.post('/reset-password', async (req, res) => {
       });
     }
 
-    const resetRecord = db.getPasswordReset(token);
+    const resetRecord = await db.getPasswordResetAsync(token);
 
     if (!resetRecord) {
       return res.status(400).json({ success: false, message: 'Invalid or already used password reset token.' });
@@ -343,7 +343,7 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Password reset token has expired. Please request a new one.' });
     }
 
-    const admin = db.getAdminByEmail(resetRecord.adminEmail);
+    const admin = await db.getAdminByEmailAsync(resetRecord.adminEmail || resetRecord.email);
     if (!admin) {
       return res.status(404).json({ success: false, message: 'Administrator account not found.' });
     }
@@ -361,7 +361,7 @@ router.post('/reset-password', async (req, res) => {
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
     await db.updateAdmin(admin.id, { passwordHash });
-    db.markPasswordResetUsed(token);
+    await db.markPasswordResetUsed(token);
 
     logAudit({
       action: 'Password reset',

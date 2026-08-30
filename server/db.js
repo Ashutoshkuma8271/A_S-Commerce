@@ -303,14 +303,30 @@ export const db = {
     return index !== -1 ? memoryDB.admins[index] : null;
   },
 
-  createPasswordReset: ({ token, adminEmail, expiresAt }) => {
+  createPasswordReset: async ({ token, adminEmail, email, role = 'admin', expiresAt }) => {
     loadFromDisk();
+    const targetEmail = (adminEmail || email || '').toLowerCase().trim();
     if (!memoryDB.password_resets) memoryDB.password_resets = [];
-    memoryDB.password_resets.push({ token, adminEmail, expiresAt, used: false, createdAt: new Date().toISOString() });
+    const entry = { token, adminEmail: targetEmail, email: targetEmail, role, expiresAt, used: false, createdAt: new Date().toISOString() };
+    memoryDB.password_resets.push(entry);
     saveToDisk();
+
+    try {
+      await supabase.from('password_resets').insert({
+        token,
+        email: targetEmail,
+        admin_email: targetEmail,
+        role,
+        expires_at: expiresAt,
+        used: false,
+        created_at: new Date().toISOString()
+      });
+    } catch (e) {
+      console.warn('Supabase password_resets write note:', e.message);
+    }
   },
 
-  createPasswordResetRecord: ({ id, email, role = 'customer', action = 'Password Reset', status = 'Completed', ip = '127.0.0.1' }) => {
+  createPasswordResetRecord: async ({ id, email, role = 'customer', action = 'Password Reset', status = 'Completed', ip = '127.0.0.1' }) => {
     loadFromDisk();
     if (!memoryDB.password_resets) memoryDB.password_resets = [];
     const record = {
@@ -332,13 +348,39 @@ export const db = {
     return (memoryDB.password_resets || []).find(r => r.token === token && !r.used);
   },
 
-  markPasswordResetUsed: (token) => {
+  getPasswordResetAsync: async (token) => {
+    loadFromDisk();
+    const local = (memoryDB.password_resets || []).find(r => r.token === token && !r.used);
+    if (local) return local;
+
+    try {
+      const { data, error } = await supabase.from('password_resets').select('*').eq('token', token).eq('used', false).maybeSingle();
+      if (data && !error) {
+        return {
+          token: data.token,
+          adminEmail: data.email || data.admin_email,
+          email: data.email || data.admin_email,
+          role: data.role || 'customer',
+          expiresAt: Number(data.expires_at),
+          used: !!data.used
+        };
+      }
+    } catch (e) {}
+
+    return null;
+  },
+
+  markPasswordResetUsed: async (token) => {
     loadFromDisk();
     const index = (memoryDB.password_resets || []).findIndex(r => r.token === token);
     if (index !== -1) {
       memoryDB.password_resets[index].used = true;
       saveToDisk();
     }
+
+    try {
+      await supabase.from('password_resets').update({ used: true }).eq('token', token);
+    } catch (e) {}
   },
 
   // 2. CUSTOMER USERS OPERATIONS
@@ -474,10 +516,17 @@ export const db = {
     return newUser;
   },
 
-  verifyUserOtp: (email, otp) => {
+  verifyUserOtp: async (email, otp) => {
     loadFromDisk();
     const clean = email.toLowerCase().trim();
-    const userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
+    let userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
+    
+    // Check Supabase if not in memory
+    if (userIndex === undefined || userIndex === -1) {
+      await db.getUserByEmailAsync(clean);
+      userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
+    }
+
     if (userIndex === undefined || userIndex === -1) {
       return { success: false, message: 'User account not found.' };
     }
@@ -500,12 +549,15 @@ export const db = {
     memoryDB.users[userIndex] = user;
     saveToDisk();
 
-    supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('id', user.id).then().catch(() => {});
+    try {
+      await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('id', user.id);
+      await supabase.from('users').update({ is_verified: true, verification_otp: null, updated_at: now }).eq('email', clean);
+    } catch (e) {}
 
     return { success: true, user };
   },
 
-  setSignupOtp: (email, otp, expiresAt) => {
+  setSignupOtp: async (email, otp, expiresAt) => {
     loadFromDisk();
     const clean = email.toLowerCase().trim();
     const userIndex = memoryDB.users?.findIndex(u => u.email.toLowerCase() === clean);
@@ -513,51 +565,46 @@ export const db = {
       memoryDB.users[userIndex].verificationOtp = otp;
       memoryDB.users[userIndex].otpExpiresAt = expiresAt;
       saveToDisk();
-      supabase.from('users').update({ verification_otp: otp, updated_at: new Date().toISOString() }).eq('id', memoryDB.users[userIndex].id).then().catch(() => {});
     }
+
+    try {
+      await supabase.from('users').update({ verification_otp: otp, updated_at: new Date().toISOString() }).eq('email', clean);
+    } catch (e) {}
   },
 
-  updateUser: (id, updates) => {
+  updateUser: async (id, updates) => {
     loadFromDisk();
     const userIndex = memoryDB.users?.findIndex(u => u.id === id);
-    const adminIndex = memoryDB.admins?.findIndex(a => a.id === id);
     const now = new Date().toISOString();
 
     if (userIndex !== undefined && userIndex !== -1) {
       memoryDB.users[userIndex] = { ...memoryDB.users[userIndex], ...updates, updatedAt: now };
       saveToDisk();
-      const supaUpdates = {};
-      if (updates.name) supaUpdates.name = updates.name;
-      if (updates.phone) supaUpdates.phone = updates.phone;
-      if (updates.passwordHash) supaUpdates.password_hash = updates.passwordHash;
-      if (updates.addresses) supaUpdates.addresses = updates.addresses;
-      if (updates.wishlist) supaUpdates.wishlist = updates.wishlist;
-      if (updates.avatar) supaUpdates.avatar_url = updates.avatar;
-      supaUpdates.updated_at = now;
-
-      // Fast non-blocking async Supabase sync
-      supabase.from('users').update(supaUpdates).eq('id', id).then().catch(e => {
-        console.warn('Supabase user sync note:', e.message);
-      });
-      return memoryDB.users[userIndex];
     }
 
-    if (adminIndex !== undefined && adminIndex !== -1) {
-      memoryDB.admins[adminIndex] = { ...memoryDB.admins[adminIndex], ...updates, updatedAt: now };
-      saveToDisk();
-      const supaUpdates = {};
-      if (updates.name) supaUpdates.name = updates.name;
-      if (updates.passwordHash) supaUpdates.password_hash = updates.passwordHash;
-      supaUpdates.updated_at = now;
+    const supaUpdates = {};
+    if (updates.name) supaUpdates.name = updates.name;
+    if (updates.phone) supaUpdates.phone = updates.phone;
+    if (updates.passwordHash) supaUpdates.password_hash = updates.passwordHash;
+    if (updates.addresses) supaUpdates.addresses = updates.addresses;
+    if (updates.wishlist) supaUpdates.wishlist = updates.wishlist;
+    if (updates.avatar) supaUpdates.avatar = updates.avatar;
+    if (updates.isVerified !== undefined) supaUpdates.is_verified = updates.isVerified;
+    supaUpdates.updated_at = now;
 
-      // Fast non-blocking async Supabase sync
-      supabase.from('admins').update(supaUpdates).eq('id', id).then().catch(e => {
-        console.warn('Supabase admin sync note:', e.message);
-      });
-      return memoryDB.admins[adminIndex];
+    try {
+      if (id) {
+        await supabase.from('users').update(supaUpdates).eq('id', id);
+      }
+      if (updates.email || (userIndex !== undefined && userIndex !== -1 && memoryDB.users[userIndex]?.email)) {
+        const targetEmail = (updates.email || memoryDB.users[userIndex]?.email).toLowerCase().trim();
+        await supabase.from('users').update(supaUpdates).eq('email', targetEmail);
+      }
+    } catch (e) {
+      console.warn('Supabase user update note:', e.message);
     }
 
-    return null;
+    return userIndex !== undefined && userIndex !== -1 ? memoryDB.users[userIndex] : null;
   },
 
   // 3. PRODUCTS OPERATIONS

@@ -151,14 +151,14 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     if (existing && !existing.isVerified) {
-      db.updateUser(existing.id, {
+      await db.updateUser(existing.id, {
         name,
         phone: phone || '',
         passwordHash,
         verificationOtp: otp,
         otpExpiresAt
       });
-      db.setSignupOtp(cleanEmail, otp, otpExpiresAt);
+      await db.setSignupOtp(cleanEmail, otp, otpExpiresAt);
     } else {
       await db.createUser({
         name,
@@ -196,7 +196,7 @@ app.post('/api/auth/verify-signup-otp', authLimiter, async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const result = db.verifyUserOtp(cleanEmail, otp);
+    const result = await db.verifyUserOtp(cleanEmail, otp);
 
     if (!result.success) {
       return res.status(400).json({ success: false, message: result.message });
@@ -359,7 +359,7 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
 
-    db.createPasswordReset({ token, adminEmail: cleanEmail, expiresAt });
+    await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
 
     const baseUrl = req.headers.origin || 'http://localhost:5173';
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
@@ -390,14 +390,14 @@ app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], au
     let cleanEmail = email ? email.trim().toLowerCase() : '';
 
     if (token) {
-      const resetRecord = db.getPasswordReset(token);
+      const resetRecord = await db.getPasswordResetAsync(token);
       if (!resetRecord) {
         return res.status(400).json({ success: false, message: 'Invalid or expired password reset link. Please request a new link.' });
       }
       if (Date.now() > resetRecord.expiresAt) {
         return res.status(400).json({ success: false, message: 'This password reset link has expired. Please request a fresh link.' });
       }
-      cleanEmail = cleanEmail || (resetRecord.adminEmail || '').trim().toLowerCase();
+      cleanEmail = cleanEmail || (resetRecord.adminEmail || resetRecord.email || '').trim().toLowerCase();
     }
 
     if (!cleanEmail) {
@@ -435,14 +435,14 @@ app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], au
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 10);
-    db.updateUser(user.id, { passwordHash });
+    await db.updateUser(user.id, { passwordHash });
 
     if (token) {
-      db.markPasswordResetUsed(token);
+      await db.markPasswordResetUsed(token);
     }
 
-    // Track Audit Log in database.json password_resets table
-    db.createPasswordResetRecord({
+    // Track Audit Log in password_resets table
+    await db.createPasswordResetRecord({
       id: `rst-${Date.now()}`,
       email: cleanEmail,
       role: user.role || 'customer',
