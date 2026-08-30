@@ -1567,19 +1567,19 @@
       "avatar": "https://res.cloudinary.com/dpxukzvik/image/upload/v1788034021/as-commerce/avatars/mywxjttqmyqu3mgtq774.webp"
     },
     {
-      "id": "usr-1788035006466",
-      "name": "shuro",
+      "id": "usr-1788126777047",
+      "name": "Shruti",
       "email": "shrutiashutosh139@gmail.com",
-      "phone": "8271936044",
-      "passwordHash": "$2b$10$r3jU7NT5fzCNUMWXeqwIeuecpNfFEAJyUuPpWDm7z2DOajnPeAyZ6",
+      "phone": "9876543210",
+      "passwordHash": "test",
       "role": "customer",
       "isVerified": true,
-      "verificationOtp": null,
-      "otpExpiresAt": null,
       "addresses": [],
       "wishlist": [],
-      "createdAt": "2026-08-29T20:23:26.466Z",
-      "updatedAt": "2026-08-30T18:25:22.978Z"
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "createdAt": "2026-08-30T21:52:57.034+00:00",
+      "updatedAt": "2026-08-30T21:54:44.485Z"
     }
   ]
 }
