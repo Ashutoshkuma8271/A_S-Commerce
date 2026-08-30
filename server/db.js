@@ -307,7 +307,8 @@ export const db = {
     loadFromDisk();
     const targetEmail = (adminEmail || email || '').toLowerCase().trim();
     const resetId = `rst-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-    const expiresNum = Number(expiresAt) || (Date.now() + 15 * 60 * 1000);
+    const expiresNum = typeof expiresAt === 'number' ? expiresAt : (Date.now() + 15 * 60 * 1000);
+    const expiresIso = new Date(expiresNum).toISOString();
     const now = new Date().toISOString();
 
     const entry = {
@@ -332,9 +333,8 @@ export const db = {
         id: resetId,
         token,
         email: targetEmail,
-        role,
-        expires_at: expiresNum,
-        used: false,
+        expires_at: expiresIso,
+        is_used: false,
         created_at: now
       });
       if (error) {
@@ -375,34 +375,40 @@ export const db = {
     try {
       const { data, error } = await supabase.from('password_resets').select('*').eq('token', cleanToken).maybeSingle();
       if (data && !error) {
-        if (!data.used) {
+        const isUsed = data.is_used === true || data.used === true;
+        const expiresTime = new Date(data.expires_at).getTime() || Number(data.expires_at) || 0;
+        
+        if (!isUsed) {
           return {
             id: data.id,
             token: data.token,
             adminEmail: data.email,
             email: data.email,
-            role: data.role || 'customer',
-            expiresAt: Number(data.expires_at),
+            role: 'customer',
+            expiresAt: expiresTime,
             used: false
           };
         }
         return null;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Supabase getPasswordResetAsync note:', e.message);
+    }
 
     return (memoryDB.password_resets || []).find(r => r.token === cleanToken && !r.used) || null;
   },
 
   markPasswordResetUsed: async (token) => {
     loadFromDisk();
-    const index = (memoryDB.password_resets || []).findIndex(r => r.token === token);
+    const cleanToken = (token || '').trim();
+    const index = (memoryDB.password_resets || []).findIndex(r => r.token === cleanToken);
     if (index !== -1) {
       memoryDB.password_resets[index].used = true;
       saveToDisk();
     }
 
     try {
-      await supabase.from('password_resets').update({ used: true }).eq('token', token);
+      await supabase.from('password_resets').update({ is_used: true }).eq('token', cleanToken);
     } catch (e) {}
   },
 

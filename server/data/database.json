@@ -259,6 +259,26 @@
       "expiresAt": 1788118047171,
       "used": true,
       "createdAt": "2026-08-30T19:12:27.172Z"
+    },
+    {
+      "id": "rst-1788124718658-ad50v",
+      "token": "test-token-1788124718656",
+      "adminEmail": "test@example.com",
+      "email": "test@example.com",
+      "role": "admin",
+      "expiresAt": 1788125618656,
+      "used": false,
+      "createdAt": "2026-08-30T21:18:38.658Z"
+    },
+    {
+      "id": "rst-1788125792301-vihbe",
+      "token": "test-token-fixed-1788125792290",
+      "adminEmail": "test@example.com",
+      "email": "test@example.com",
+      "role": "admin",
+      "expiresAt": 1788126692290,
+      "used": false,
+      "createdAt": "2026-08-30T21:36:32.333Z"
     }
   ],
   "audit_logs": [
