@@ -748,15 +748,88 @@ export const db = {
     return true;
   },
 
+  // 4. ORDERS OPERATIONS
+  getOrders: () => {
+    loadFromDisk();
+    return memoryDB.orders || [];
+  },
+
+  getOrdersAsync: async () => {
+    try {
+      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+      if (data && data.length > 0) {
+        memoryDB.orders = data.map(o => ({
+          id: o.id,
+          customerId: o.customer_id,
+          customerName: o.customer_name,
+          customerEmail: o.customer_email,
+          customerPhone: o.customer_phone,
+          items: o.items || [],
+          total: o.total_amount,
+          status: o.status,
+          carrier: o.carrier,
+          trackingNumber: o.tracking_number,
+          paymentMethod: o.payment_method,
+          paymentStatus: o.payment_status,
+          shippingAddress: o.shipping_address,
+          createdAt: o.created_at,
+          updatedAt: o.updated_at
+        }));
+        saveToDisk();
+        return memoryDB.orders;
+      }
+    } catch (e) {}
+    loadFromDisk();
+    return memoryDB.orders || [];
+  },
+
   getSettings: () => {
     loadFromDisk();
     return memoryDB.settings;
   },
 
-  updateSettings: (newSettings) => {
+  getSettingsAsync: async () => {
+    try {
+      const { data } = await supabase.from('site_settings').select('*').eq('id', 'global_settings').maybeSingle();
+      if (data) {
+        memoryDB.settings = {
+          announcementText: data.announcement_text,
+          freeShippingThreshold: data.free_shipping_threshold,
+          heroBadge: data.hero_badge,
+          heroHeadline: data.hero_headline,
+          heroSubheadline: data.hero_subheadline,
+          heroDiscount: data.hero_discount,
+          supportPhone: data.support_phone,
+          supportEmail: data.support_email
+        };
+        saveToDisk();
+        return memoryDB.settings;
+      }
+    } catch (e) {}
+    loadFromDisk();
+    return memoryDB.settings;
+  },
+
+  updateSettings: async (newSettings) => {
     loadFromDisk();
     memoryDB.settings = { ...memoryDB.settings, ...newSettings };
     saveToDisk();
+
+    try {
+      await supabase.from('site_settings').upsert({
+        id: 'global_settings',
+        announcement_text: memoryDB.settings.announcementText,
+        free_shipping_threshold: memoryDB.settings.freeShippingThreshold,
+        hero_badge: memoryDB.settings.heroBadge,
+        hero_headline: memoryDB.settings.heroHeadline,
+        hero_subheadline: memoryDB.settings.heroSubheadline,
+        hero_discount: memoryDB.settings.heroDiscount,
+        support_phone: memoryDB.settings.supportPhone,
+        support_email: memoryDB.settings.supportEmail,
+        updated_at: new Date().toISOString()
+      });
+    } catch (e) {}
+
     return memoryDB.settings;
   },
 
@@ -776,6 +849,7 @@ export const db = {
         action: entry.action,
         admin_id: entry.adminId,
         admin_email: entry.adminEmail,
+        ip: entry.ip,
         ip_address: entry.ip,
         resource: entry.resource,
         details: entry.details,
@@ -787,6 +861,35 @@ export const db = {
   },
 
   getAuditLogs: (limit = 100) => {
+    loadFromDisk();
+    return (memoryDB.audit_logs || []).slice(0, limit);
+  },
+
+  getAuditLogsAsync: async (limit = 100) => {
+    try {
+      const { data, error } = await supabase
+        .from('audit_logs')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(limit);
+
+      if (data && data.length > 0) {
+        memoryDB.audit_logs = data.map(l => ({
+          id: l.id,
+          action: l.action,
+          adminId: l.admin_id,
+          adminEmail: l.admin_email,
+          ip: l.ip || l.ip_address,
+          resource: l.resource,
+          details: l.details,
+          createdAt: l.created_at,
+          timestamp: l.created_at
+        }));
+        saveToDisk();
+        return memoryDB.audit_logs;
+      }
+    } catch (e) {}
+
     loadFromDisk();
     return (memoryDB.audit_logs || []).slice(0, limit);
   },
@@ -806,5 +909,29 @@ export const db = {
       recentOrders: orders.slice(0, 5),
       recentAuditLogs: (memoryDB.audit_logs || []).slice(0, 5)
     };
+  },
+
+  getStatsAsync: async () => {
+    try {
+      const [orders, logs, products] = await Promise.all([
+        db.getOrdersAsync(),
+        db.getAuditLogsAsync(10),
+        db.getProductsAsync ? db.getProductsAsync() : Promise.resolve(db.getProducts())
+      ]);
+
+      const totalRev = (orders || []).reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+      const lowStock = (products || []).filter(p => Number(p.stockCount) < 5).length;
+
+      return {
+        totalProducts: products.length,
+        totalOrders: orders.length,
+        totalRevenue: totalRev,
+        lowStockCount: lowStock,
+        recentOrders: orders.slice(0, 5),
+        recentAuditLogs: logs.slice(0, 5)
+      };
+    } catch (e) {
+      return db.getStats();
+    }
   }
 };

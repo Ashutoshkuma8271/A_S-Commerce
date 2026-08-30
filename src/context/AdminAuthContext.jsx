@@ -100,23 +100,8 @@ export const AdminAuthProvider = ({ children }) => {
       addToast('Administrator account created successfully!', 'success');
       return { success: true };
     } catch (err) {
-      // Fallback if backend server not running
-      const dummyAdmin = {
-        id: 'adm-root-01',
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        role: 'admin',
-        isActive: 1,
-      };
-      const dummyToken = 'jwt-mock-admin-token-2026';
-      setToken(dummyToken);
-      setAdmin(dummyAdmin);
-      localStorage.setItem(ADMIN_TOKEN_KEY, dummyToken);
-      localStorage.setItem('as_admin_registered', 'true');
-      localStorage.setItem('as_admin_profile', JSON.stringify(dummyAdmin));
-      setAdminExists(true);
-      addToast('Administrator account created (Connected)!', 'success');
-      return { success: true };
+      addToast('Failed to connect to authentication server.', 'error');
+      return { success: false, message: 'Server connection failed' };
     }
   };
 
@@ -143,25 +128,8 @@ export const AdminAuthProvider = ({ children }) => {
       addToast(`Welcome, Administrator ${data.admin.name}!`, 'success');
       return { success: true };
     } catch (err) {
-      // Graceful local fallback if user didn't start backend
-      if (email && password) {
-        const fallbackAdmin = {
-          id: 'adm-root-01',
-          name: email.split('@')[0].toUpperCase(),
-          email: email.trim().toLowerCase(),
-          role: 'admin',
-          isActive: 1,
-        };
-        const fallbackToken = 'jwt-mock-admin-token-2026';
-        setToken(fallbackToken);
-        setAdmin(fallbackAdmin);
-        localStorage.setItem(ADMIN_TOKEN_KEY, fallbackToken);
-        localStorage.setItem('as_admin_profile', JSON.stringify(fallbackAdmin));
-        addToast(`Welcome, Administrator ${fallbackAdmin.name}!`, 'success');
-        return { success: true };
-      }
-      addToast('Please enter both administrator email and password.', 'error');
-      return { success: false, message: 'Invalid credentials' };
+      addToast('Cannot connect to authentication server. Please ensure the backend server is running.', 'error');
+      return { success: false, message: 'Authentication server unreachable' };
     }
   };
 

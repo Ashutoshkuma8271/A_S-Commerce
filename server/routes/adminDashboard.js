@@ -51,9 +51,9 @@ router.post('/upload-image', upload.single('image'), async (req, res) => {
 });
 
 // 1. GET /api/admin/stats — Dashboard Analytics & KPIs
-router.get('/stats', (req, res) => {
+router.get('/stats', async (req, res) => {
   try {
-    const stats = db.getStats();
+    const stats = await db.getStatsAsync();
     return res.json({
       success: true,
       stats,
@@ -198,9 +198,9 @@ router.delete('/products/:id', (req, res) => {
 
 // 3. ORDERS & DELIVERY MANAGEMENT
 // GET /api/admin/orders
-router.get('/orders', (req, res) => {
+router.get('/orders', async (req, res) => {
   try {
-    const orders = db.getOrders();
+    const orders = await db.getOrdersAsync();
     return res.json({ success: true, orders });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch consignments' });
@@ -238,9 +238,9 @@ router.put('/orders/:id/status', (req, res) => {
 
 // 4. WEBSITE SECTIONS & CONTENT CUSTOMIZER
 // GET /api/admin/settings
-router.get('/settings', (req, res) => {
+router.get('/settings', async (req, res) => {
   try {
-    const settings = db.getSettings();
+    const settings = await db.getSettingsAsync();
     return res.json({ success: true, settings });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch settings' });
@@ -248,9 +248,9 @@ router.get('/settings', (req, res) => {
 });
 
 // PUT /api/admin/settings — Update Website Content
-router.put('/settings', (req, res) => {
+router.put('/settings', async (req, res) => {
   try {
-    const updated = db.updateSettings(req.body);
+    const updated = await db.updateSettings(req.body);
 
     logAudit({
       action: 'Website content updated',
@@ -341,9 +341,9 @@ router.delete('/coupons/:code', (req, res) => {
 
 // 6. SECURITY AUDIT TRAIL
 // GET /api/admin/audit-logs
-router.get('/audit-logs', (req, res) => {
+router.get('/audit-logs', async (req, res) => {
   try {
-    const logs = db.getAuditLogs(100);
+    const logs = await db.getAuditLogsAsync(100);
     return res.json({ success: true, logs });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Server error fetching audit trail' });
