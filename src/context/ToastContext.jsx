@@ -41,35 +41,35 @@ export const ToastProvider = ({ children }) => {
 
     toast.custom((t) => {
       let icon = <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />;
-      let borderAccent = 'border-emerald-500/40 shadow-[0_8px_24px_-4px_rgba(16,185,129,0.25)]';
-      let iconBg = 'bg-emerald-500/15 text-emerald-400';
+      let borderAccent = 'border-emerald-500/40 shadow-[0_10px_30px_-5px_rgba(16,185,129,0.2),0_0_0_1px_rgba(16,185,129,0.15)]';
+      let iconBg = 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20';
 
       if (type === 'error') {
         icon = <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />;
-        borderAccent = 'border-rose-500/40 shadow-[0_8px_24px_-4px_rgba(244,63,94,0.25)]';
-        iconBg = 'bg-rose-500/15 text-rose-400';
+        borderAccent = 'border-rose-500/40 shadow-[0_10px_30px_-5px_rgba(244,63,94,0.2),0_0_0_1px_rgba(244,63,94,0.15)]';
+        iconBg = 'bg-rose-500/15 text-rose-400 border border-rose-500/20';
       } else if (type === 'warning') {
         icon = <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />;
-        borderAccent = 'border-amber-500/40 shadow-[0_8px_24px_-4px_rgba(245,158,11,0.25)]';
-        iconBg = 'bg-amber-500/15 text-amber-400';
+        borderAccent = 'border-amber-500/40 shadow-[0_10px_30px_-5px_rgba(245,158,11,0.2),0_0_0_1px_rgba(245,158,11,0.15)]';
+        iconBg = 'bg-amber-500/15 text-amber-400 border border-amber-500/20';
       } else if (type === 'info') {
         icon = <Info className="w-4 h-4 text-sky-400 shrink-0" />;
-        borderAccent = 'border-sky-500/40 shadow-[0_8px_24px_-4px_rgba(14,165,233,0.25)]';
-        iconBg = 'bg-sky-500/15 text-sky-400';
+        borderAccent = 'border-sky-500/40 shadow-[0_10px_30px_-5px_rgba(14,165,233,0.2),0_0_0_1px_rgba(14,165,233,0.15)]';
+        iconBg = 'bg-sky-500/15 text-sky-400 border border-sky-500/20';
       } else if (type === 'gold' || type === 'luxury' || type === 'copy') {
         icon = <Sparkles className="w-4 h-4 text-gold-400 shrink-0" />;
-        borderAccent = 'border-gold-500/50 shadow-[0_8px_24px_-4px_rgba(245,184,61,0.3)]';
-        iconBg = 'bg-gold-500/15 text-gold-400';
+        borderAccent = 'border-gold-500/50 shadow-[0_10px_30px_-5px_rgba(245,184,61,0.25),0_0_0_1px_rgba(245,184,61,0.2)]';
+        iconBg = 'bg-gold-500/15 text-gold-400 border border-gold-500/20';
       }
 
       return (
         <div
           className={`
-            pointer-events-auto transform-gpu flex items-center justify-between gap-3 px-4 py-2.5 sm:py-3
-            rounded-2xl bg-[#061A27]/98 backdrop-blur-xl border ${borderAccent}
+            pointer-events-auto transform-gpu flex items-center justify-between gap-3.5 px-4 py-3
+            rounded-2xl bg-[#061A27]/96 backdrop-blur-2xl border ${borderAccent}
             transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]
             ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-3 opacity-0 scale-95'}
-            max-w-md w-auto min-w-[280px] sm:min-w-[320px] select-none cursor-default
+            max-w-md w-auto min-w-[280px] sm:min-w-[340px] select-none cursor-default
           `}
           role="status"
           aria-live="polite"
@@ -79,11 +79,11 @@ export const ToastProvider = ({ children }) => {
               {icon}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs sm:text-[13px] font-semibold text-white tracking-tight leading-snug truncate">
+              <p className="text-[13.5px] font-semibold text-white tracking-[-0.01em] leading-snug truncate">
                 {title}
               </p>
               {description && (
-                <p className="text-[11px] text-gray-300 mt-0.5 leading-tight line-clamp-1">
+                <p className="text-[11.5px] text-gray-300/90 mt-0.5 leading-tight line-clamp-1 font-normal">
                   {description}
                 </p>
               )}
@@ -97,7 +97,7 @@ export const ToastProvider = ({ children }) => {
                 options.onAction();
                 toast.dismiss(t.id);
               }}
-              className="text-xs font-bold text-gold-400 hover:text-gold-300 px-2 py-1 rounded-lg bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/20 transition-all shrink-0 cursor-pointer"
+              className="text-xs font-semibold text-gold-400 hover:text-gold-300 px-2.5 py-1 rounded-lg bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/30 transition-all shrink-0 cursor-pointer"
             >
               {options.actionLabel}
             </button>
