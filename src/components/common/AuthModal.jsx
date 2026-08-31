@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   X,
   Lock,
@@ -15,11 +16,13 @@ import {
   KeyRound,
   ArrowLeft,
   CheckCircle2,
+  Loader2,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
 export const AuthModal = () => {
+  const navigate = useNavigate();
   const {
     isAuthModalOpen,
     setIsAuthModalOpen,
@@ -118,6 +121,8 @@ export const AuthModal = () => {
     setSubmitting(false);
   };
 
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
+
   const handleVerifyOtpSubmit = async (e) => {
     e.preventDefault();
     if (!otpCode || otpCode.length < 6) {
@@ -125,9 +130,17 @@ export const AuthModal = () => {
       return;
     }
 
+    setVerifyingOtp(true);
     setSubmitting(true);
-    await verifySignupOtp(verificationEmail, otpCode);
+    const result = await verifySignupOtp(verificationEmail, otpCode);
     setSubmitting(false);
+    setVerifyingOtp(false);
+
+    if (result && result.success) {
+      // Seamless immediate transition to the homepage
+      setIsAuthModalOpen(false);
+      navigate('/');
+    }
   };
 
   const handleResendOtp = async () => {
@@ -240,10 +253,17 @@ export const AuthModal = () => {
 
               <button
                 type="submit"
-                disabled={submitting || otpCode.length < 6}
-                className="w-full py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                disabled={submitting || verifyingOtp || otpCode.length < 6}
+                className="w-full py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {submitting ? 'Verifying...' : 'Verify OTP & Sign In'}
+                {verifyingOtp ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-navy-950" />
+                    <span>Verifying & Entering Boutique...</span>
+                  </>
+                ) : (
+                  <span>Verify OTP & Sign In</span>
+                )}
               </button>
             </form>
 

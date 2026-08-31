@@ -512,6 +512,34 @@ app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
   }
 });
 
+// Delete Customer Account Endpoint (Safely removes data from Supabase & local cache)
+app.delete(['/api/users/me', '/api/users/profile'], async (req, res) => {
+  try {
+    const { id, email } = req.body || {};
+    const cleanEmail = (email || '').trim().toLowerCase();
+
+    if (!id && !cleanEmail) {
+      return res.status(400).json({ success: false, message: 'User identification (email or ID) is required.' });
+    }
+
+    // Safety guard: Prevent accidental deletion of master admin
+    const adminEmail = (process.env.ADMIN_EMAIL || 'ashutoshkumaryadav933499@gmail.com').toLowerCase();
+    if (cleanEmail === adminEmail) {
+      return res.status(403).json({ success: false, message: 'Master Administrator account cannot be deleted.' });
+    }
+
+    await db.deleteUser(id, cleanEmail);
+
+    return res.json({
+      success: true,
+      message: 'Your account has been deleted successfully. You are welcome to re-register at any time.'
+    });
+  } catch (err) {
+    console.error('Delete account error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to delete account. Please try again.' });
+  }
+});
+
 // Customer & Scoped Orders API
 app.get('/api/orders', (req, res) => {
   try {

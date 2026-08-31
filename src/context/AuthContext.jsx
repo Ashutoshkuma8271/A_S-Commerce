@@ -180,6 +180,39 @@ export const AuthProvider = ({ children }) => {
     addToast('Logged out successfully', 'info');
   };
 
+  const deleteAccount = async () => {
+    if (!user) return { success: false, message: 'No active session' };
+    const userEmail = user.email;
+    const userId = user.id;
+
+    try {
+      const res = await fetch('/api/users/profile', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId, email: userEmail }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        addToast(data.message || 'Failed to delete account', 'error');
+        return { success: false, message: data.message };
+      }
+
+      // Safely clear all user storage and reset session state
+      setUser(null);
+      localStorage.removeItem('as_commerce_token');
+      localStorage.removeItem('as_commerce_user');
+      localStorage.removeItem('as_commerce_cart');
+      localStorage.removeItem('as_commerce_wishlist');
+      setIsAuthModalOpen(false);
+
+      addToast('Your account has been deleted. You can re-register anytime with this email.', 'success');
+      return { success: true };
+    } catch (e) {
+      addToast('Error connecting to server to delete account', 'error');
+      return { success: false };
+    }
+  };
+
   const syncUserToBackend = async (payload) => {
     try {
       if (!user?.email) return;
@@ -319,6 +352,7 @@ export const AuthProvider = ({ children }) => {
         verifySignupOtp,
         resendSignupOtp,
         logout,
+        deleteAccount,
         updateProfile,
         addAddress,
         deleteAddress,

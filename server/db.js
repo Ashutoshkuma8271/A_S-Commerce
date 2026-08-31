@@ -691,6 +691,36 @@ export const db = {
     return userIndex !== undefined && userIndex !== -1 ? memoryDB.users[userIndex] : null;
   },
 
+  deleteUser: async (id, email) => {
+    loadFromDisk();
+    const cleanEmail = (email || '').toLowerCase().trim();
+    
+    // 1. Remove from local memory DB
+    if (memoryDB.users) {
+      memoryDB.users = memoryDB.users.filter(u => {
+        if (id && u.id === id) return false;
+        if (cleanEmail && u.email.toLowerCase() === cleanEmail) return false;
+        return true;
+      });
+      saveToDisk();
+    }
+
+    // 2. Remove from Supabase public.users table
+    try {
+      if (id) {
+        await supabase.from('users').delete().eq('id', id);
+      }
+      if (cleanEmail) {
+        await supabase.from('users').delete().eq('email', cleanEmail);
+      }
+      console.log(`⚡ Safely deleted customer user data (${cleanEmail || id}) from Supabase and local cache.`);
+    } catch (e) {
+      console.warn('Supabase delete user note:', e.message);
+    }
+
+    return { success: true };
+  },
+
   // 3. PRODUCTS OPERATIONS
   getProducts: () => {
     loadFromDisk();
