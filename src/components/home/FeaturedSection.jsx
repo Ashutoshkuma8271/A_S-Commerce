@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, Flame, Zap, ArrowRight, Award } from 'lucide-react';
-import { PRODUCTS } from '../../data/products';
+import { useProducts } from '../../context/ProductContext';
 import { ProductCard } from '../common/ProductCard';
 import { QuickViewModal } from '../common/QuickViewModal';
 
 export const FeaturedSection = () => {
+  const { products: PRODUCTS, loading } = useProducts();
   const [activeTab, setActiveTab] = useState('featured');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 

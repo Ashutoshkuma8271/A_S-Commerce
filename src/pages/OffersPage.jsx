@@ -1,16 +1,16 @@
-import React from 'react';
-import { PRODUCTS } from '../data/products';
+import React, { useState } from 'react';
+import { useProducts } from '../context/ProductContext';
 import { COUPONS } from '../data/coupons';
 import { ProductCard } from '../components/common/ProductCard';
 import { useCart } from '../context/CartContext';
 import { Tag, Sparkles, Flame, Copy, Check } from 'lucide-react';
-import { useState } from 'react';
 
 export const OffersPage = () => {
+  const { products: PRODUCTS, specialOffers } = useProducts();
   const { applyCoupon } = useCart();
   const [copiedCode, setCopiedCode] = useState(null);
 
-  const offerProducts = PRODUCTS.filter((p) => p.isSpecialOffer || p.discount >= 40);
+  const offerProducts = PRODUCTS.filter((p) => p.isSpecialOffer || p.discount >= 30);
 
   const handleCopy = (code) => {
     navigator.clipboard.writeText(code);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useToast } from '../../context/ToastContext';
+import { supabase } from '../../lib/supabase';
 import { formatINR } from '../../utils/currency';
 import {
   ShieldCheck,
@@ -230,6 +231,34 @@ export const AdminDashboardPage = () => {
 
   useEffect(() => {
     fetchDashboardData();
+  }, [token]);
+
+  // Realtime Supabase Multi-Table Subscriptions for Admin Control Center
+  useEffect(() => {
+    if (!token) return;
+
+    const channel = supabase
+      .channel('admin:realtime:all')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        fetchDashboardData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+        fetchDashboardData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, () => {
+        fetchDashboardData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'coupons' }, () => {
+        fetchDashboardData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'audit_logs' }, () => {
+        fetchDashboardData();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [token]);
 
   // Product Actions

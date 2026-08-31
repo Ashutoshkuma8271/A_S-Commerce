@@ -161,12 +161,11 @@ const INITIAL_PRODUCTS = [
 export async function initDB() {
   loadFromDisk();
 
-  // Try to pull registered admins from Supabase cloud if table exists
+  // 1. Pull registered admins from Supabase cloud
   try {
-    const { data: supaAdmins } = await supabase.from('admins').select('*').limit(1);
+    const { data: supaAdmins } = await supabase.from('admins').select('*');
     if (supaAdmins && supaAdmins.length > 0) {
-      const sa = supaAdmins[0];
-      memoryDB.admins = [{
+      memoryDB.admins = supaAdmins.map(sa => ({
         id: sa.id,
         name: sa.name,
         email: sa.email,
@@ -177,27 +176,103 @@ export async function initDB() {
         createdAt: sa.created_at,
         updatedAt: sa.updated_at,
         lastLoginAt: sa.last_login_at
-      }];
+      }));
       saveToDisk();
-      console.log('⚡ Loaded Master Admin from Supabase Cloud:', sa.email);
+      console.log('⚡ Loaded Admin(s) from Supabase Cloud:', supaAdmins.map(a => a.email).join(', '));
     }
   } catch (e) {
-    // Supabase table sync fallback
+    console.warn('Supabase admins sync note:', e.message);
   }
 
-  if (!memoryDB.products || memoryDB.products.length === 0) {
-    memoryDB.products = INITIAL_PRODUCTS;
-    saveToDisk();
+  // 2. Pull live products catalog from Supabase cloud
+  try {
+    const { data: supaProducts } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+    if (supaProducts && supaProducts.length > 0) {
+      memoryDB.products = supaProducts.map(p => ({
+        id: p.id,
+        name: p.name,
+        brand: p.brand || 'A_S Luxury',
+        category: p.category,
+        categoryName: p.category_name || (p.category ? p.category.toUpperCase() : 'General'),
+        price: Number(p.price) || 0,
+        originalPrice: p.original_price ? Number(p.original_price) : null,
+        discount: p.discount ? Number(p.discount) : 0,
+        rating: Number(p.rating) || 5.0,
+        reviewCount: Number(p.review_count || p.reviews_count) || 0,
+        stockCount: p.stock_count !== undefined ? Number(p.stock_count) : 10,
+        inStock: p.in_stock !== false && (p.stock_count === undefined || Number(p.stock_count) > 0),
+        badge: p.badge || '',
+        description: p.description || '',
+        images: Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image_url ? [p.image_url] : (p.image ? [p.image] : [])),
+        isFeatured: Boolean(p.is_featured),
+        isTrending: Boolean(p.is_trending),
+        isNewArrival: Boolean(p.is_new_arrival),
+        isSpecialOffer: Boolean(p.is_special_offer),
+        colors: p.colors || [],
+        colorNames: p.color_names || [],
+        sizes: p.sizes || [],
+        specs: p.specs || {},
+        createdAt: p.created_at,
+        updatedAt: p.updated_at
+      }));
+      saveToDisk();
+      console.log(`⚡ Loaded ${memoryDB.products.length} Products from Supabase Cloud`);
+    } else if (!memoryDB.products || memoryDB.products.length === 0) {
+      memoryDB.products = INITIAL_PRODUCTS;
+      saveToDisk();
+    }
+  } catch (e) {
+    if (!memoryDB.products || memoryDB.products.length === 0) {
+      memoryDB.products = INITIAL_PRODUCTS;
+      saveToDisk();
+    }
   }
 
-  if (!memoryDB.coupons || memoryDB.coupons.length === 0) {
-    memoryDB.coupons = [
-      { code: 'WELCOME10', discountPercent: 10, minOrder: 999, description: '10% Welcome Discount for New Patrons' },
-      { code: 'ASGOLD20', discountPercent: 20, minOrder: 4999, description: '20% Extra off on Luxury Horology' },
-      { code: 'LUXURY50', discountPercent: 50, minOrder: 9999, description: 'Exclusive VIP Season Finale 50% Off' }
-    ];
-    saveToDisk();
-  }
+  // 3. Pull live site settings from Supabase
+  try {
+    const { data: supaSettings } = await supabase.from('site_settings').select('*').or('key.eq.config,id.eq.config').maybeSingle();
+    if (supaSettings) {
+      memoryDB.settings = {
+        announcementText: supaSettings.announcement_text || memoryDB.settings.announcementText,
+        freeShippingThreshold: Number(supaSettings.free_shipping_threshold) || memoryDB.settings.freeShippingThreshold || 999,
+        heroBadge: supaSettings.hero_badge || memoryDB.settings.heroBadge,
+        heroHeadline: supaSettings.hero_headline || memoryDB.settings.heroHeadline,
+        heroSubheadline: supaSettings.hero_subheadline || memoryDB.settings.heroSubheadline,
+        heroDiscount: supaSettings.hero_discount || memoryDB.settings.heroDiscount,
+        supportPhone: supaSettings.support_phone || memoryDB.settings.supportPhone,
+        supportEmail: supaSettings.support_email || memoryDB.settings.supportEmail,
+        storeName: supaSettings.store_name || 'A_S Luxury Commerce',
+        heroCtaText: supaSettings.hero_cta_text || 'Explore Collection',
+        heroCtaLink: supaSettings.hero_cta_link || '/shop',
+        supportAddress: supaSettings.support_address || '',
+      };
+      saveToDisk();
+      console.log('⚡ Loaded Live Site Settings from Supabase Cloud');
+    }
+  } catch (e) {}
+
+  // 4. Pull live coupons from Supabase
+  try {
+    const { data: supaCoupons } = await supabase.from('coupons').select('*');
+    if (supaCoupons && supaCoupons.length > 0) {
+      memoryDB.coupons = supaCoupons.map(c => ({
+        code: c.code,
+        discountPercent: c.discount_percent,
+        discountAmount: c.discount_amount,
+        minOrder: c.min_order || 0,
+        description: c.description,
+        isActive: c.is_active !== false
+      }));
+      saveToDisk();
+    } else if (!memoryDB.coupons || memoryDB.coupons.length === 0) {
+      memoryDB.coupons = [
+        { code: 'WELCOME10', discountPercent: 10, minOrder: 999, description: '10% Welcome Discount for New Patrons' },
+        { code: 'ASGOLD20', discountPercent: 20, minOrder: 4999, description: '20% Extra off on Luxury Horology' },
+        { code: 'LUXURY50', discountPercent: 50, minOrder: 9999, description: 'Exclusive VIP Season Finale 50% Off' }
+      ];
+      saveToDisk();
+    }
+  } catch (e) {}
 
   if (!memoryDB.users) {
     memoryDB.users = [];
@@ -501,47 +576,51 @@ export const db = {
 
   getAdminByEmail: (email) => {
     loadFromDisk();
-    return (memoryDB.admins || []).find(a => a.email.toLowerCase() === email.toLowerCase().trim());
+    if (!email) return null;
+    const clean = email.toLowerCase().trim();
+    return (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean);
   },
 
   getAdminByEmailAsync: async (email) => {
     loadFromDisk();
+    if (!email) return null;
     const clean = email.toLowerCase().trim();
 
     try {
       const { data, error } = await supabase.from('admins').select('*').eq('email', clean).maybeSingle();
-      if (!error) {
-        if (data) {
-          const admin = {
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            passwordHash: data.password_hash,
-            role: 'admin',
-            isActive: data.is_active ?? true,
-            singleAdminLock: data.single_admin_lock ?? 1,
-            createdAt: data.created_at,
-            updatedAt: data.updated_at
-          };
-          if (memoryDB.admins) {
-            const idx = memoryDB.admins.findIndex(a => a.email.toLowerCase() === clean);
-            if (idx !== -1) memoryDB.admins[idx] = admin;
-            else memoryDB.admins.push(admin);
-          }
-          return admin;
-        } else {
-          // Admin was deleted from Supabase! Purge from memory cache
-          if (memoryDB.admins) {
-            memoryDB.admins = memoryDB.admins.filter(a => a.email.toLowerCase() !== clean);
-          }
-          return null;
+      if (!error && data) {
+        const admin = {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          passwordHash: data.password_hash,
+          role: data.role || 'admin',
+          isActive: data.is_active !== false,
+          singleAdminLock: data.single_admin_lock ?? 1,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+        if (memoryDB.admins) {
+          const idx = memoryDB.admins.findIndex(a => a.email.toLowerCase() === clean || a.id === admin.id);
+          if (idx !== -1) memoryDB.admins[idx] = admin;
+          else memoryDB.admins.push(admin);
         }
+        return admin;
       }
     } catch (e) {
       console.warn('Supabase admin lookup note:', e.message);
     }
 
-    return (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean) || null;
+    // Fallback: check if memory has any admin matching the clean email or if only 1 master admin is configured
+    const localMatch = (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean);
+    if (localMatch) return localMatch;
+
+    // If only one admin exists in database, verify if it's the admin trying to log in
+    if (memoryDB.admins && memoryDB.admins.length === 1 && (clean === 'ashukumarfbg8271@gmail.com' || clean === 'ashutoshkumaryadav933499@gmail.com')) {
+      return memoryDB.admins[0];
+    }
+
+    return null;
   },
 
   createUser: async ({ id, name, email, phone, passwordHash, role = 'customer', isVerified = false, verificationOtp = null, otpExpiresAt = null }) => {
@@ -751,9 +830,91 @@ export const db = {
     return memoryDB.products || [];
   },
 
+  getProductsAsync: async () => {
+    try {
+      const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+      if (!error && data && data.length > 0) {
+        memoryDB.products = data.map(p => ({
+          id: p.id,
+          name: p.name,
+          brand: p.brand || 'A_S Luxury',
+          category: p.category,
+          categoryName: p.category_name || (p.category ? p.category.toUpperCase() : 'General'),
+          price: Number(p.price) || 0,
+          originalPrice: p.original_price ? Number(p.original_price) : null,
+          discount: p.discount ? Number(p.discount) : 0,
+          rating: Number(p.rating) || 5.0,
+          reviewCount: Number(p.review_count || p.reviews_count) || 0,
+          stockCount: p.stock_count !== undefined ? Number(p.stock_count) : 10,
+          inStock: p.in_stock !== false && (p.stock_count === undefined || Number(p.stock_count) > 0),
+          badge: p.badge || '',
+          description: p.description || '',
+          images: Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image_url ? [p.image_url] : (p.image ? [p.image] : [])),
+          isFeatured: Boolean(p.is_featured),
+          isTrending: Boolean(p.is_trending),
+          isNewArrival: Boolean(p.is_new_arrival),
+          isSpecialOffer: Boolean(p.is_special_offer),
+          colors: p.colors || [],
+          colorNames: p.color_names || [],
+          sizes: p.sizes || [],
+          specs: p.specs || {},
+          createdAt: p.created_at,
+          updatedAt: p.updated_at
+        }));
+        saveToDisk();
+        return memoryDB.products;
+      }
+    } catch (e) {
+      console.warn('Supabase getProductsAsync note:', e.message);
+    }
+    loadFromDisk();
+    return memoryDB.products || [];
+  },
+
   getProductById: (id) => {
     loadFromDisk();
     return (memoryDB.products || []).find(p => p.id === id);
+  },
+
+  getProductByIdAsync: async (id) => {
+    loadFromDisk();
+    const local = (memoryDB.products || []).find(p => p.id === id);
+    if (local) return local;
+
+    try {
+      const { data, error } = await supabase.from('products').select('*').eq('id', id).maybeSingle();
+      if (!error && data) {
+        return {
+          id: data.id,
+          name: data.name,
+          brand: data.brand || 'A_S Luxury',
+          category: data.category,
+          categoryName: data.category_name || (data.category ? data.category.toUpperCase() : 'General'),
+          price: Number(data.price) || 0,
+          originalPrice: data.original_price ? Number(data.original_price) : null,
+          discount: data.discount ? Number(data.discount) : 0,
+          rating: Number(data.rating) || 5.0,
+          reviewCount: Number(data.review_count || data.reviews_count) || 0,
+          stockCount: data.stock_count !== undefined ? Number(data.stock_count) : 10,
+          inStock: data.in_stock !== false && (data.stock_count === undefined || Number(data.stock_count) > 0),
+          badge: data.badge || '',
+          description: data.description || '',
+          images: Array.isArray(data.images) && data.images.length > 0 ? data.images : (data.image_url ? [data.image_url] : (data.image ? [data.image] : [])),
+          isFeatured: Boolean(data.is_featured),
+          isTrending: Boolean(data.is_trending),
+          isNewArrival: Boolean(data.is_new_arrival),
+          isSpecialOffer: Boolean(data.is_special_offer),
+          colors: data.colors || [],
+          colorNames: data.color_names || [],
+          sizes: data.sizes || [],
+          specs: data.specs || {},
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+      }
+    } catch (e) {}
+
+    return null;
   },
 
   saveToDisk: () => {
@@ -762,20 +923,46 @@ export const db = {
 
   createProduct: async (productData) => {
     loadFromDisk();
-    const id = `prod-${Date.now()}`;
+    const id = productData.id || `prod-${Date.now()}`;
+    const now = new Date().toISOString();
+    const imagesArr = Array.isArray(productData.images) && productData.images.length > 0
+      ? productData.images
+      : (productData.image ? [productData.image] : ['https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800']);
+
     const newProd = {
       id,
-      ...productData,
-      rating: 5.0,
-      reviewCount: 0,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      name: productData.name,
+      brand: productData.brand || 'A_S Luxury',
+      category: productData.category,
+      categoryName: productData.categoryName || (productData.category ? productData.category.toUpperCase() : 'General'),
+      price: Number(productData.price) || 0,
+      originalPrice: productData.originalPrice ? Number(productData.originalPrice) : null,
+      discount: productData.discount ? Number(productData.discount) : 0,
+      rating: Number(productData.rating) || 5.0,
+      reviewCount: Number(productData.reviewCount) || 0,
+      stockCount: productData.stockCount !== undefined ? Number(productData.stockCount) : 10,
+      inStock: productData.inStock !== false && (productData.stockCount === undefined || Number(productData.stockCount) > 0),
+      badge: productData.badge || '',
+      description: productData.description || '',
+      images: imagesArr,
+      isFeatured: productData.isFeatured !== undefined ? Boolean(productData.isFeatured) : true,
+      isTrending: Boolean(productData.isTrending),
+      isNewArrival: productData.isNewArrival !== undefined ? Boolean(productData.isNewArrival) : true,
+      isSpecialOffer: Boolean(productData.isSpecialOffer),
+      colors: productData.colors || [],
+      colorNames: productData.colorNames || [],
+      sizes: productData.sizes || [],
+      specs: productData.specs || {},
+      createdAt: now,
+      updatedAt: now
     };
+
+    if (!memoryDB.products) memoryDB.products = [];
     memoryDB.products.unshift(newProd);
     saveToDisk();
 
     try {
-      await supabase.from('products').insert({
+      const { error } = await supabase.from('products').upsert({
         id: newProd.id,
         name: newProd.name,
         brand: newProd.brand,
@@ -784,17 +971,32 @@ export const db = {
         price: newProd.price,
         original_price: newProd.originalPrice,
         discount: newProd.discount,
+        rating: newProd.rating,
+        review_count: newProd.reviewCount,
         stock_count: newProd.stockCount,
         in_stock: newProd.inStock,
         badge: newProd.badge,
         description: newProd.description,
         images: newProd.images,
-        created_at: newProd.createdAt,
-        updated_at: newProd.updatedAt
-      });
-      console.log('⚡ Saved Product into Supabase table public.products');
+        is_featured: newProd.isFeatured,
+        is_trending: newProd.isTrending,
+        is_new_arrival: newProd.isNewArrival,
+        is_special_offer: newProd.isSpecialOffer,
+        colors: newProd.colors,
+        color_names: newProd.colorNames,
+        sizes: newProd.sizes,
+        specs: newProd.specs,
+        created_at: now,
+        updated_at: now
+      }, { onConflict: 'id' });
+
+      if (error) {
+        console.warn('Supabase product upsert error:', error.message);
+      } else {
+        console.log(`⚡ Saved Product "${newProd.name}" (${newProd.id}) into Supabase table public.products`);
+      }
     } catch (e) {
-      // Supabase product insert note
+      console.warn('Supabase product insert note:', e.message);
     }
 
     return newProd;
@@ -803,35 +1005,63 @@ export const db = {
   updateProduct: async (id, updates) => {
     loadFromDisk();
     const index = memoryDB.products.findIndex(p => p.id === id);
-    if (index === -1) return null;
     const now = new Date().toISOString();
-    memoryDB.products[index] = { ...memoryDB.products[index], ...updates, updatedAt: now };
-    saveToDisk();
+    
+    if (index !== -1) {
+      memoryDB.products[index] = { ...memoryDB.products[index], ...updates, updatedAt: now };
+      saveToDisk();
+    }
+
+    const supaUpdate = { updated_at: now };
+    if (updates.name !== undefined) supaUpdate.name = updates.name;
+    if (updates.brand !== undefined) supaUpdate.brand = updates.brand;
+    if (updates.category !== undefined) supaUpdate.category = updates.category;
+    if (updates.categoryName !== undefined) supaUpdate.category_name = updates.categoryName;
+    if (updates.price !== undefined) supaUpdate.price = Number(updates.price);
+    if (updates.originalPrice !== undefined) supaUpdate.original_price = updates.originalPrice ? Number(updates.originalPrice) : null;
+    if (updates.discount !== undefined) supaUpdate.discount = Number(updates.discount) || 0;
+    if (updates.stockCount !== undefined) {
+      supaUpdate.stock_count = Number(updates.stockCount);
+      supaUpdate.in_stock = Number(updates.stockCount) > 0 && updates.inStock !== false;
+    }
+    if (updates.inStock !== undefined) supaUpdate.in_stock = Boolean(updates.inStock);
+    if (updates.badge !== undefined) supaUpdate.badge = updates.badge;
+    if (updates.description !== undefined) supaUpdate.description = updates.description;
+    if (updates.images !== undefined) supaUpdate.images = updates.images;
+    if (updates.isFeatured !== undefined) supaUpdate.is_featured = Boolean(updates.isFeatured);
+    if (updates.isTrending !== undefined) supaUpdate.is_trending = Boolean(updates.isTrending);
+    if (updates.isNewArrival !== undefined) supaUpdate.is_new_arrival = Boolean(updates.isNewArrival);
+    if (updates.isSpecialOffer !== undefined) supaUpdate.is_special_offer = Boolean(updates.isSpecialOffer);
+    if (updates.colors !== undefined) supaUpdate.colors = updates.colors;
+    if (updates.colorNames !== undefined) supaUpdate.color_names = updates.colorNames;
+    if (updates.sizes !== undefined) supaUpdate.sizes = updates.sizes;
+    if (updates.specs !== undefined) supaUpdate.specs = updates.specs;
 
     try {
-      await supabase.from('products').update({
-        name: updates.name,
-        price: updates.price,
-        original_price: updates.originalPrice,
-        stock_count: updates.stockCount,
-        badge: updates.badge,
-        description: updates.description,
-        updated_at: now
-      }).eq('id', id);
-    } catch (e) {}
+      const { error } = await supabase.from('products').update(supaUpdate).eq('id', id);
+      if (error) {
+        console.warn('Supabase update product error:', error.message);
+      } else {
+        console.log(`⚡ Updated Product ${id} in Supabase table public.products`);
+      }
+    } catch (e) {
+      console.warn('Supabase update product note:', e.message);
+    }
 
-    return memoryDB.products[index];
+    return index !== -1 ? memoryDB.products[index] : null;
   },
 
   deleteProduct: async (id) => {
     loadFromDisk();
     const index = memoryDB.products.findIndex(p => p.id === id);
-    if (index === -1) return false;
-    memoryDB.products.splice(index, 1);
-    saveToDisk();
+    if (index !== -1) {
+      memoryDB.products.splice(index, 1);
+      saveToDisk();
+    }
 
     try {
       await supabase.from('products').delete().eq('id', id);
+      console.log(`⚡ Deleted Product ${id} from Supabase table public.products`);
     } catch (e) {}
 
     return true;
@@ -1080,6 +1310,31 @@ export const db = {
     return memoryDB.orders || [];
   },
 
+  getCoupons: () => {
+    loadFromDisk();
+    return memoryDB.coupons || [];
+  },
+
+  getCouponsAsync: async () => {
+    try {
+      const { data } = await supabase.from('coupons').select('*');
+      if (data && data.length > 0) {
+        memoryDB.coupons = data.map(c => ({
+          code: c.code,
+          discountPercent: c.discount_percent,
+          discountAmount: c.discount_amount,
+          minOrder: c.min_order || 0,
+          description: c.description,
+          isActive: c.is_active !== false
+        }));
+        saveToDisk();
+        return memoryDB.coupons;
+      }
+    } catch (e) {}
+    loadFromDisk();
+    return memoryDB.coupons || [];
+  },
+
   getSettings: () => {
     loadFromDisk();
     return memoryDB.settings;
@@ -1087,22 +1342,28 @@ export const db = {
 
   getSettingsAsync: async () => {
     try {
-      const { data } = await supabase.from('site_settings').select('*').eq('id', 'global_settings').maybeSingle();
-      if (data) {
+      const { data, error } = await supabase.from('site_settings').select('*').or('key.eq.config,id.eq.config').maybeSingle();
+      if (!error && data) {
         memoryDB.settings = {
-          announcementText: data.announcement_text,
-          freeShippingThreshold: data.free_shipping_threshold,
-          heroBadge: data.hero_badge,
-          heroHeadline: data.hero_headline,
-          heroSubheadline: data.hero_subheadline,
-          heroDiscount: data.hero_discount,
-          supportPhone: data.support_phone,
-          supportEmail: data.support_email
+          announcementText: data.announcement_text || memoryDB.settings.announcementText,
+          freeShippingThreshold: Number(data.free_shipping_threshold) || memoryDB.settings.freeShippingThreshold || 999,
+          heroBadge: data.hero_badge || memoryDB.settings.heroBadge,
+          heroHeadline: data.hero_headline || memoryDB.settings.heroHeadline,
+          heroSubheadline: data.hero_subheadline || memoryDB.settings.heroSubheadline,
+          heroDiscount: data.hero_discount || memoryDB.settings.heroDiscount,
+          supportPhone: data.support_phone || memoryDB.settings.supportPhone,
+          supportEmail: data.support_email || memoryDB.settings.supportEmail,
+          storeName: data.store_name || 'A_S Luxury Commerce',
+          heroCtaText: data.hero_cta_text || 'Explore Collection',
+          heroCtaLink: data.hero_cta_link || '/shop',
+          supportAddress: data.support_address || '',
         };
         saveToDisk();
         return memoryDB.settings;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Supabase getSettingsAsync note:', e.message);
+    }
     loadFromDisk();
     return memoryDB.settings;
   },
@@ -1111,21 +1372,35 @@ export const db = {
     loadFromDisk();
     memoryDB.settings = { ...memoryDB.settings, ...newSettings };
     saveToDisk();
+    const now = new Date().toISOString();
 
     try {
-      await supabase.from('site_settings').upsert({
-        id: 'global_settings',
+      const { error } = await supabase.from('site_settings').upsert({
+        key: 'config',
+        id: 'config',
         announcement_text: memoryDB.settings.announcementText,
-        free_shipping_threshold: memoryDB.settings.freeShippingThreshold,
+        free_shipping_threshold: Number(memoryDB.settings.freeShippingThreshold) || 999,
         hero_badge: memoryDB.settings.heroBadge,
         hero_headline: memoryDB.settings.heroHeadline,
         hero_subheadline: memoryDB.settings.heroSubheadline,
         hero_discount: memoryDB.settings.heroDiscount,
         support_phone: memoryDB.settings.supportPhone,
         support_email: memoryDB.settings.supportEmail,
-        updated_at: new Date().toISOString()
-      });
-    } catch (e) {}
+        store_name: memoryDB.settings.storeName || 'A_S Luxury Commerce',
+        hero_cta_text: memoryDB.settings.heroCtaText || 'Explore Collection',
+        hero_cta_link: memoryDB.settings.heroCtaLink || '/shop',
+        support_address: memoryDB.settings.supportAddress || '',
+        updated_at: now
+      }, { onConflict: 'key' });
+
+      if (error) {
+        console.warn('Supabase site_settings upsert error:', error.message);
+      } else {
+        console.log('⚡ Synchronized Site Settings into Supabase table public.site_settings');
+      }
+    } catch (e) {
+      console.warn('Supabase site_settings upsert note:', e.message);
+    }
 
     return memoryDB.settings;
   },

@@ -1,16 +1,16 @@
 {
   "admins": [
     {
-      "id": "adm-1787676210406",
+      "id": "adm-master-ashutosh",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$3FG6NExUNjfvplWsC1N3QeSxqSQNrRr15Ec3sWbVVw53PKZqp1/8y",
+      "passwordHash": "$2b$12$HB1Nq/2xX3ccbuGIGcEdW.eNlzCpKeJh8fjcwcdubJzTizq35wjtW",
       "role": "admin",
       "isActive": 1,
       "singleAdminLock": 1,
-      "createdAt": "2026-08-25T17:25:08.400833+00:00",
-      "updatedAt": "2026-08-30T21:54:30.645+00:00",
-      "lastLoginAt": "2026-08-30T21:54:30.644+00:00"
+      "createdAt": "2026-08-31T20:41:54.344+00:00",
+      "updatedAt": "2026-08-31T20:41:54.36+00:00",
+      "lastLoginAt": null
     }
   ],
   "password_resets": [
@@ -1313,13 +1313,20 @@
   ],
   "coupons": [
     {
+      "code": "LUXURY50",
+      "discountPercent": 50,
+      "discountAmount": null,
+      "minOrder": 9999,
+      "description": "Exclusive VIP Season Finale 50% Off",
+      "isActive": true
+    },
+    {
       "code": "WELCOME10",
       "discountPercent": 10,
       "discountAmount": null,
       "minOrder": 0,
       "description": "10% Off on your first order",
-      "isActive": 1,
-      "createdAt": "2026-08-24T17:33:00.220Z"
+      "isActive": true
     },
     {
       "code": "ASGOLD20",
@@ -1327,8 +1334,7 @@
       "discountAmount": null,
       "minOrder": 4999,
       "description": "20% Off on orders above ₹4,999",
-      "isActive": 1,
-      "createdAt": "2026-08-24T17:33:00.240Z"
+      "isActive": true
     },
     {
       "code": "LUXURY500",
@@ -1336,34 +1342,521 @@
       "discountAmount": 500,
       "minOrder": 2999,
       "description": "Flat ₹500 Off on orders above ₹2,999",
-      "isActive": 1,
-      "createdAt": "2026-08-24T17:33:00.240Z"
+      "isActive": true
     }
   ],
   "products": [
     {
-      "id": "prod-1",
-      "name": "Premium Navy Leather Handbag",
-      "brand": "A_S Signature",
-      "category": "accessories",
-      "categoryName": "Accessories",
-      "price": 2499,
-      "originalPrice": 4999,
-      "discount": 50,
+      "id": "prod-patty",
+      "name": "Chicken Burger Patty",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "chicken-snacks",
+      "categoryName": "Chicken Snacks",
+      "price": 190,
+      "originalPrice": 220,
+      "discount": 13,
       "rating": 4.9,
-      "reviewsCount": 328,
+      "reviewCount": 390,
+      "stockCount": 45,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Juicy, flame-grilled ground chicken breast burger patties seasoned with aromatic herbs and black pepper.",
+      "images": [
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80"
+      ],
       "isFeatured": true,
       "isTrending": true,
       "isNewArrival": false,
       "isSpecialOffer": true,
+      "colors": [
+        "#78350F"
+      ],
+      "colorNames": [
+        "Grilled Golden"
+      ],
+      "sizes": [
+        "250 g (4 Patties)",
+        "500 g (8 Patties)"
+      ],
+      "specs": {
+        "Cooking": "Pan-fry 3 mins each side",
+        "Protein": "17 g protein per serving",
+        "Storage": "Keep frozen at -18°C",
+        "Serving Size": "250 g (4 Patties)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+    },
+    {
+      "id": "prod-sausages",
+      "name": "Smoked German Chicken Sausages",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "sausages-cold-cuts",
+      "categoryName": "Sausages & Cold Cuts",
+      "price": 249,
+      "originalPrice": 280,
+      "discount": 11,
+      "rating": 4.8,
+      "reviewCount": 310,
+      "stockCount": 35,
       "inStock": true,
-      "stockCount": 14,
-      "badge": "50% OFF",
-      "description": "Crafted from full-grain Italian saffiano leather, featuring gold-plated hardware and dual reinforced top handles.",
+      "badge": "TOP CHOICE",
+      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
       "images": [
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80"
-      ]
+        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [
+        "#EA580C"
+      ],
+      "colorNames": [
+        "Smoked Amber"
+      ],
+      "sizes": [
+        "250 g (5 Sausages)",
+        "500 g (10 Sausages)"
+      ],
+      "specs": {
+        "Cooking": "Boil 3 mins or grill with butter",
+        "Storage": "Keep chilled at 0°C to 4°C",
+        "Serving Size": "250 g (5 Sausages)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+    },
+    {
+      "id": "prod-galouti",
+      "name": "Awadhi Mutton Galouti Kebab",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 349,
+      "originalPrice": 399,
+      "discount": 12,
+      "rating": 4.9,
+      "reviewCount": 610,
+      "stockCount": 30,
+      "inStock": true,
+      "badge": "ROYAL SPECIALTY",
+      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
+      "images": [
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [
+        "#991B1B"
+      ],
+      "colorNames": [
+        "Rich Brown"
+      ],
+      "sizes": [
+        "300 g (6 Pcs)",
+        "600 g (12 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Shallow fry in pure ghee for 2 mins",
+        "Storage": "Keep frozen at -18°C",
+        "Serving Size": "300 g (6 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+    },
+    {
+      "id": "prod-tikka",
+      "name": "Chicken Tikka",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 225,
+      "originalPrice": 260,
+      "discount": 13,
+      "rating": 5,
+      "reviewCount": 520,
+      "stockCount": 40,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
+      "images": [
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [
+        "#B91C1C"
+      ],
+      "colorNames": [
+        "Tandoori Red"
+      ],
+      "sizes": [
+        "250 g (6-8 Pcs)",
+        "500 g (12-16 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Grill or pan sear for 6-8 mins",
+        "Protein": "19 g protein per serving",
+        "Storage": "Store at 0°C to 4°C",
+        "Serving Size": "250 g (6-8 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+    },
+    {
+      "id": "prod-momos",
+      "name": "Chicken Momos",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "momos",
+      "categoryName": "Momos",
+      "price": 170,
+      "originalPrice": 195,
+      "discount": 12,
+      "rating": 4.9,
+      "reviewCount": 480,
+      "stockCount": 50,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Juicy Himalayan minced chicken steamed momos with spicy Schezwan garlic dip.",
+      "images": [
+        "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [
+        "#FFFFFF"
+      ],
+      "colorNames": [
+        "Classic White"
+      ],
+      "sizes": [
+        "250 g (10 Pcs)",
+        "500 g (20 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Steam for 4 mins or pan fry",
+        "Protein": "13 g protein per serving",
+        "Storage": "Keep frozen at -18°C",
+        "Serving Size": "250 g (10-12 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+    },
+    {
+      "id": "prod-12",
+      "name": "Italian Cashmere Knit Polo Sweater",
+      "brand": "A_S Sartorial",
+      "category": "men",
+      "categoryName": "Men Fashion",
+      "price": 2899,
+      "originalPrice": 4999,
+      "discount": 42,
+      "rating": 4.8,
+      "reviewCount": 142,
+      "stockCount": 18,
+      "inStock": true,
+      "badge": "NEW",
+      "description": "Spun from grade-A Mongolian cashmere with a ribbed collar, mother-of-pearl buttons, and tailored cuffs for timeless casual elegance.",
+      "images": [
+        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": false,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:30.188174+00:00",
+      "updatedAt": "2026-08-25T17:14:30.188174+00:00"
+    },
+    {
+      "id": "prod-11",
+      "name": "Smart OLED Ultra Curved 4K Monitor",
+      "brand": "A_S Tech",
+      "category": "electronics",
+      "categoryName": "Electronics",
+      "price": 24999,
+      "originalPrice": 38999,
+      "discount": 36,
+      "rating": 4.9,
+      "reviewCount": 94,
+      "stockCount": 6,
+      "inStock": true,
+      "badge": "FLAGSHIP",
+      "description": "34-inch 240Hz QD-OLED display with 0.03ms response time, 99.3% DCI-P3 color gamut, integrated Harman Kardon speakers, and 90W USB-C PD hub.",
+      "images": [
+        "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": false,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.981914+00:00",
+      "updatedAt": "2026-08-25T17:14:29.981914+00:00"
+    },
+    {
+      "id": "prod-10",
+      "name": "Monaco Hand-Stitched Leather Loafers",
+      "brand": "A_S Sartorial",
+      "category": "footwear",
+      "categoryName": "Footwear",
+      "price": 3999,
+      "originalPrice": 6999,
+      "discount": 43,
+      "rating": 4.7,
+      "reviewCount": 198,
+      "stockCount": 12,
+      "inStock": true,
+      "badge": "HANDCRAFTED",
+      "description": "Blake-stitched burnished calfskin leather loafers with penny strap detailing, stacked leather heels, and non-slip rubber inserts.",
+      "images": [
+        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": false,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.793699+00:00",
+      "updatedAt": "2026-08-25T17:14:29.793699+00:00"
+    },
+    {
+      "id": "prod-9",
+      "name": "Golden Elixir Botanical Skincare Set",
+      "brand": "A_S Botanica",
+      "category": "beauty",
+      "categoryName": "Beauty",
+      "price": 2999,
+      "originalPrice": 4999,
+      "discount": 40,
+      "rating": 4.9,
+      "reviewCount": 276,
+      "stockCount": 28,
+      "inStock": true,
+      "badge": "ORGANIC",
+      "description": "A 3-piece cellular repair collection featuring 24K Gold Youth Serum, Bakuchiol Night Cream, and Rosehip Revitalizing Face Oil.",
+      "images": [
+        "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1608248597359-5484594c3d4f?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.613736+00:00",
+      "updatedAt": "2026-08-25T17:14:29.613736+00:00"
+    },
+    {
+      "id": "prod-8",
+      "name": "Nordic Velvet Armchair & Floor Lamp Set",
+      "brand": "A_S Living",
+      "category": "home-living",
+      "categoryName": "Home & Living",
+      "price": 12999,
+      "originalPrice": 19999,
+      "discount": 35,
+      "rating": 4.9,
+      "reviewCount": 89,
+      "stockCount": 5,
+      "inStock": true,
+      "badge": "SIGNATURE",
+      "description": "High-density foam ergonomic armchair upholstered in spill-resistant forest velvet with solid walnut legs and a matching brass arc floor lamp.",
+      "images": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.438024+00:00",
+      "updatedAt": "2026-08-25T17:14:29.438024+00:00"
+    },
+    {
+      "id": "prod-7",
+      "name": "Emerald Pleated Silk Evening Gown",
+      "brand": "A_S Couture",
+      "category": "women",
+      "categoryName": "Women Fashion",
+      "price": 5499,
+      "originalPrice": 9999,
+      "discount": 45,
+      "rating": 4.8,
+      "reviewCount": 164,
+      "stockCount": 7,
+      "inStock": true,
+      "badge": "EXCLUSIVE",
+      "description": "Fluid Mulberry silk crepe dress with delicate accordion pleating, an open sweetheart neckline, and a structured gold-buckled waist cinch.",
+      "images": [
+        "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.250496+00:00",
+      "updatedAt": "2026-08-25T17:14:29.250496+00:00"
+    },
+    {
+      "id": "prod-6",
+      "name": "Bespoke Midnight Navy Wool Blazer",
+      "brand": "A_S Sartorial",
+      "category": "men",
+      "categoryName": "Men Fashion",
+      "price": 4999,
+      "originalPrice": 8999,
+      "discount": 44,
+      "rating": 4.9,
+      "reviewCount": 215,
+      "stockCount": 16,
+      "inStock": true,
+      "badge": "LUXURY",
+      "description": "Crafted from Super 140s Australian Merino wool with half-canvas construction, structured peak lapels, pick-stitching, and real horn buttons.",
+      "images": [
+        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:29.063254+00:00",
+      "updatedAt": "2026-08-25T17:14:29.063254+00:00"
+    },
+    {
+      "id": "prod-5",
+      "name": "StudioPro Wireless ANC Headphones",
+      "brand": "A_S Audio",
+      "category": "electronics",
+      "categoryName": "Electronics",
+      "price": 6499,
+      "originalPrice": 11999,
+      "discount": 46,
+      "rating": 4.9,
+      "reviewCount": 520,
+      "stockCount": 5,
+      "inStock": true,
+      "badge": "POPULAR",
+      "description": "Audiophile grade 40mm beryllium drivers, hybrid active noise cancellation up to 42dB, memory foam ear cups, and 60-hour continuous battery life.",
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:28.882865+00:00",
+      "updatedAt": "2026-08-31T18:32:21.356+00:00"
+    },
+    {
+      "id": "prod-4",
+      "name": "Aviator 24K Gold Polarized Sunglasses",
+      "brand": "A_S Optix",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 1899,
+      "originalPrice": 3499,
+      "discount": 45,
+      "rating": 4.7,
+      "reviewCount": 156,
+      "stockCount": 19,
+      "inStock": true,
+      "badge": "NEW",
+      "description": "Precision laser-cut titanium frames coated in 24k satin gold with UV400 polarized emerald-tint lenses providing crystal-clear glare elimination.",
+      "images": [
+        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:28.702617+00:00",
+      "updatedAt": "2026-08-25T17:14:28.702617+00:00"
+    },
+    {
+      "id": "prod-3",
+      "name": "AeroFlex Midnight Performance Sneakers",
+      "brand": "A_S Motion",
+      "category": "footwear",
+      "categoryName": "Footwear",
+      "price": 3299,
+      "originalPrice": 5999,
+      "discount": 45,
+      "rating": 4.8,
+      "reviewCount": 412,
+      "stockCount": 11,
+      "inStock": true,
+      "badge": "TRENDING",
+      "description": "Engineered with responsive cloud-cushioning midsoles, breathable mesh weave, and ergonomic arch support encased in deep navy styling with gold heel accents.",
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:28.515792+00:00",
+      "updatedAt": "2026-08-31T15:58:07.4+00:00"
     },
     {
       "id": "prod-2",
@@ -1375,121 +1868,72 @@
       "originalPrice": 14999,
       "discount": 40,
       "rating": 5,
-      "reviewsCount": 184,
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": false,
+      "reviewCount": 184,
+      "stockCount": 7,
       "inStock": true,
-      "stockCount": 8,
       "badge": "BESTSELLER",
-      "description": "An exquisite automatic chronograph with 24k gold bezel accents and sapphire crystal glass.",
+      "description": "An exquisite automatic chronograph with 24k gold bezel accents, anti-reflective sapphire crystal glass, and a genuine crocodile embossed navy leather strap.",
       "images": [
-        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80"
-      ]
-    },
-    {
-      "id": "prod-3",
-      "name": "Midnight Navy Suede Loafers",
-      "brand": "A_S Atelier",
-      "category": "footwear",
-      "categoryName": "Footwear",
-      "price": 4499,
-      "originalPrice": 7999,
-      "discount": 43,
-      "rating": 4.8,
-      "reviewsCount": 96,
-      "isFeatured": true,
-      "isTrending": false,
-      "isNewArrival": true,
-      "isSpecialOffer": false,
-      "inStock": true,
-      "stockCount": 12,
-      "badge": "NEW",
-      "description": "Bespoke hand-stitched Italian suede loafers with plush memory foam insole and gold bit buckle.",
-      "images": [
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&auto=format&fit=crop&q=80"
-      ]
-    },
-    {
-      "id": "prod-4",
-      "name": "Bespoke Midnight Tailored Suit",
-      "brand": "A_S Sartorial",
-      "category": "men",
-      "categoryName": "Men Fashion",
-      "price": 18999,
-      "originalPrice": 28999,
-      "discount": 34,
-      "rating": 5,
-      "reviewsCount": 210,
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": false,
-      "isSpecialOffer": false,
-      "inStock": true,
-      "stockCount": 5,
-      "badge": "LUXURY",
-      "description": "Tailored two-piece formal suit woven from super 150s Australian Merino wool with horn buttons.",
-      "images": [
-        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80"
-      ]
-    },
-    {
-      "id": "prod-5",
-      "name": "Emerald Silk Evening Gown",
-      "brand": "A_S Couture",
-      "category": "women",
-      "categoryName": "Women Fashion",
-      "price": 12499,
-      "originalPrice": 19999,
-      "discount": 37,
-      "rating": 4.9,
-      "reviewsCount": 142,
+        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80"
+      ],
       "isFeatured": true,
       "isTrending": true,
       "isNewArrival": true,
       "isSpecialOffer": false,
-      "inStock": true,
-      "stockCount": 6,
-      "badge": "COUTURE",
-      "description": "Pure Mulberry silk floor-length gown featuring a pleated bodice and gold chain detail.",
-      "images": [
-        "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&auto=format&fit=crop&q=80"
-      ]
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:28.335331+00:00",
+      "updatedAt": "2026-08-31T15:58:07.4+00:00"
     },
     {
-      "id": "prod-6",
-      "name": "Audiophile ANC Wireless Headphones",
-      "brand": "A_S Acoustics",
-      "category": "electronics",
-      "categoryName": "Electronics",
-      "price": 6999,
-      "originalPrice": 11999,
-      "discount": 41,
+      "id": "prod-1",
+      "name": "Premium Navy Leather Handbag",
+      "brand": "A_S Signature",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 2499,
+      "originalPrice": 4999,
+      "discount": 50,
       "rating": 4.9,
-      "reviewsCount": 412,
+      "reviewCount": 328,
+      "stockCount": 13,
+      "inStock": true,
+      "badge": "50% OFF",
+      "description": "Crafted from full-grain Italian saffiano leather, featuring gold-plated hardware, bespoke monogram zipper pulls, and dual reinforced top handles with a detachable shoulder strap.",
+      "images": [
+        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&auto=format&fit=crop&q=80"
+      ],
       "isFeatured": true,
       "isTrending": true,
       "isNewArrival": false,
       "isSpecialOffer": true,
-      "inStock": true,
-      "stockCount": 20,
-      "badge": "41% OFF",
-      "description": "Hybrid Active Noise Cancellation with beryllium acoustic drivers and 45-hour battery life.",
-      "images": [
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
-      ]
+      "colors": [],
+      "colorNames": [],
+      "sizes": [],
+      "specs": {},
+      "createdAt": "2026-08-25T17:14:28.122634+00:00",
+      "updatedAt": "2026-08-31T18:19:11.583+00:00"
     }
   ],
   "settings": {
-    "announcementText": "10% Off on First Order | Use Code: WELCOME10",
+    "announcementText": "✨ Complimentary Sub-Zero Delivery Across Delhi NCR on Orders Above ₹999",
     "freeShippingThreshold": 999,
-    "heroBadge": "NEW SEASON COLLECTION 2026",
-    "heroHeadline": "Elevate Your Style. Define Your Comfort.",
-    "heroSubheadline": "Discover the latest trends in fashion, electronics, and lifestyle. Premium products, best prices at A_S Commerce.",
-    "heroDiscount": "50% OFF",
-    "supportPhone": "+91 98765 43210",
-    "supportEmail": "concierge@ascommerce.luxury"
+    "heroBadge": "GOURMET PARTY COLLECTION 2026",
+    "heroHeadline": "Gourmet Chicken & Mutton Snacks, Delivered Cold.",
+    "heroSubheadline": "Discover premium ready-to-cook kebabs, marinated cuts, and sub-zero cold-chain delicacies delivered to your doorstep.",
+    "heroDiscount": "15% OFF",
+    "supportPhone": "+91 63862 56770",
+    "supportEmail": "ashutoshgifthamper9334@gmail.com",
+    "storeName": "A_S FOODY Gourmet Meat Lab",
+    "heroCtaText": "Shop Best Sellers",
+    "heroCtaLink": "/shop",
+    "supportAddress": "Sector 62, Noida, Uttar Pradesh 201301"
   },
   "users": [
     {

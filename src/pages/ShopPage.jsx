@@ -1,13 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, SlidersHorizontal, ArrowUpDown, X, Check, Star, RefreshCw } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { CATEGORIES } from '../data/categories';
 import { ProductCard } from '../components/common/ProductCard';
 import { QuickViewModal } from '../components/common/QuickViewModal';
 import { formatINR } from '../utils/currency';
 
 export const ShopPage = () => {
+  const { products: PRODUCTS, loading } = useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSearch = searchParams.get('search') || '';
   const initialCategory = searchParams.get('category') || '';
@@ -38,8 +39,8 @@ export const ShopPage = () => {
 
   // Extract unique brands
   const brandsList = useMemo(() => {
-    return Array.from(new Set(PRODUCTS.map((p) => p.brand)));
-  }, []);
+    return Array.from(new Set(PRODUCTS.map((p) => p.brand).filter(Boolean)));
+  }, [PRODUCTS]);
 
   const handleCategorySelect = (slug) => {
     setSelectedCategory((prev) => (prev === slug ? '' : slug));

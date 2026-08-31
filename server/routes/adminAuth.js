@@ -9,14 +9,14 @@ import { sendPasswordResetEmail } from '../utils/emailService.js';
 const router = express.Router();
 
 // 1. GET /api/admin/auth/status — Check if Single Admin exists
-router.get('/status', (req, res) => {
+router.get('/status', async (req, res) => {
   try {
-    const count = db.getAdminCount();
-    const exists = count > 0;
+    const admin = await db.getAdminByEmailAsync('ashutoshkumaryadav933499@gmail.com') || (db.getAdminCount() > 0);
+    const exists = Boolean(admin);
     return res.json({
       success: true,
       exists,
-      message: exists ? 'Administrator is configured.' : 'No administrator configured yet.'
+      message: exists ? 'Master Administrator is configured.' : 'No administrator configured yet.'
     });
   } catch (err) {
     console.error('Status check error:', err);
@@ -28,6 +28,21 @@ router.get('/status', (req, res) => {
 router.post('/signup', signupRateLimiter, async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
+
+    // CRITICAL SECURITY RULE: Enforce that only ONE admin can ever exist in database
+    const existingAdmin = await db.getAdminByEmailAsync('ashutoshkumaryadav933499@gmail.com') || (db.getAdminCount() > 0);
+    if (existingAdmin) {
+      logAudit({
+        action: 'Blocked Duplicate Admin Creation Attempt',
+        adminEmail: email ? email.trim().toLowerCase() : 'unknown',
+        ip: req.ip,
+        details: 'Attempted admin signup when master admin already exists in database'
+      });
+      return res.status(403).json({
+        success: false,
+        message: 'Master Administrator account already exists. Sign-ups are permanently disabled. Please log in or reset your password.'
+      });
+    }
 
     // Validate Input
     if (!name || !email || !password) {
@@ -52,21 +67,6 @@ router.post('/signup', signupRateLimiter, async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-
-    // CRITICAL SECURITY RULE: Enforce that only ONE admin can ever exist in database
-    const existingCount = db.getAdminCount();
-    if (existingCount > 0) {
-      logAudit({
-        action: 'Blocked Duplicate Admin Creation Attempt',
-        adminEmail: cleanEmail,
-        ip: req.ip,
-        details: 'Attempted admin signup when admin already exists in database'
-      });
-      return res.status(403).json({
-        success: false,
-        message: 'Admin account already exists.'
-      });
-    }
 
     // Hash password with strong bcrypt factor (12 rounds)
     const passwordHash = await bcrypt.hash(password, 12);
@@ -269,7 +269,7 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const admin = db.getAdminByEmail(cleanEmail);
+    const admin = await db.getAdminByEmailAsync(cleanEmail);
 
     if (!admin || !admin.isActive) {
       return res.json({
@@ -399,7 +399,14 @@ router.post('/change-password', requireAdmin, async (req, res) => {
       return res.status(400).json({ success: false, message: 'New passwords do not match.' });
     }
 
-    const admin = db.getAdminById(req.admin.id);
+    let admin = db.getAdminById(req.admin.id);
+    if (!admin && req.admin.email) {
+      admin = await db.getAdminByEmailAsync(req.admin.email);
+    }
+    if (!admin) {
+      return res.status(404).json({ success: false, message: 'Administrator account not found.' });
+    }
+
     const isMatch = await bcrypt.compare(currentPassword, admin.passwordHash);
 
     if (!isMatch) {

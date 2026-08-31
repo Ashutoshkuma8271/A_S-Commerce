@@ -68,17 +68,17 @@ router.get('/stats', async (req, res) => {
 
 // 2. PRODUCTS CRUD
 // GET /api/admin/products (with high-performance pagination & search)
-router.get('/products', (req, res) => {
+router.get('/products', async (req, res) => {
   try {
     const { page, limit, search, category } = req.query;
-    let products = db.getProducts();
+    let products = await db.getProductsAsync();
 
     if (category && category !== 'all') {
       products = products.filter(p => p.category === category);
     }
     if (search) {
-      const q = search.toLowerCase();
-      products = products.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+      const q = search.toLowerCase().trim();
+      products = products.filter(p => (p.name && p.name.toLowerCase().includes(q)) || (p.brand && p.brand.toLowerCase().includes(q)));
     }
 
     const total = products.length;
@@ -104,26 +104,34 @@ router.get('/products', (req, res) => {
 });
 
 // POST /api/admin/products — Create Product
-router.post('/products', (req, res) => {
+router.post('/products', async (req, res) => {
   try {
-    const { name, brand, category, categoryName, price, originalPrice, discount, stockCount, inStock, badge, description, image } = req.body;
+    const { name, brand, category, categoryName, price, originalPrice, discount, stockCount, inStock, badge, description, image, images } = req.body;
     if (!name || !price || !category) {
       return res.status(400).json({ success: false, message: 'Name, price and category are required.' });
     }
 
-    const created = db.createProduct({
+    const imagesArr = Array.isArray(images) && images.length > 0
+      ? images
+      : (image ? [image] : ['https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800']);
+
+    const created = await db.createProduct({
       name,
       brand: brand || 'A_S Luxury',
       category,
-      categoryName: categoryName || category.toUpperCase(),
+      categoryName: categoryName || (category ? category.toUpperCase() : 'Accessories'),
       price: Number(price),
       originalPrice: originalPrice ? Number(originalPrice) : null,
       discount: discount ? Number(discount) : 0,
-      stockCount: stockCount ? Number(stockCount) : 10,
+      stockCount: stockCount !== undefined ? Number(stockCount) : 10,
       inStock: inStock !== false,
       badge: badge || '',
       description: description || '',
-      images: [image || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800']
+      images: imagesArr,
+      isFeatured: req.body.isFeatured !== undefined ? Boolean(req.body.isFeatured) : true,
+      isTrending: Boolean(req.body.isTrending),
+      isNewArrival: req.body.isNewArrival !== undefined ? Boolean(req.body.isNewArrival) : true,
+      isSpecialOffer: Boolean(req.body.isSpecialOffer),
     });
 
     logAudit({
@@ -143,15 +151,15 @@ router.post('/products', (req, res) => {
 });
 
 // PUT /api/admin/products/:id — Edit Product
-router.put('/products/:id', (req, res) => {
+router.put('/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const existing = db.getProductById(id);
+    const existing = await db.getProductByIdAsync(id) || db.getProductById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Product not found.' });
     }
 
-    const updated = db.updateProduct(id, req.body);
+    const updated = await db.updateProduct(id, req.body);
 
     logAudit({
       action: 'Product updated',
@@ -159,10 +167,10 @@ router.put('/products/:id', (req, res) => {
       adminEmail: req.admin.email,
       ip: req.ip,
       resource: `Product ${id}`,
-      details: `Updated "${updated.name}" (Price: ₹${updated.price}, Stock: ${updated.stockCount})`
+      details: `Updated "${updated?.name || id}" (Price: ₹${updated?.price}, Stock: ${updated?.stockCount})`
     });
 
-    return res.json({ success: true, message: `Product "${updated.name}" updated successfully.`, product: updated });
+    return res.json({ success: true, message: `Product "${updated?.name || id}" updated successfully.`, product: updated });
   } catch (err) {
     console.error('Update product error:', err);
     return res.status(500).json({ success: false, message: 'Server error updating product' });
@@ -170,15 +178,15 @@ router.put('/products/:id', (req, res) => {
 });
 
 // DELETE /api/admin/products/:id — Delete Product
-router.delete('/products/:id', (req, res) => {
+router.delete('/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const existing = db.getProductById(id);
+    const existing = await db.getProductByIdAsync(id) || db.getProductById(id);
     if (!existing) {
       return res.status(404).json({ success: false, message: 'Product not found.' });
     }
 
-    db.deleteProduct(id);
+    await db.deleteProduct(id);
 
     logAudit({
       action: 'Product deleted',
@@ -305,9 +313,9 @@ router.get('/customers', async (req, res) => {
 
 // 5. COUPONS & PROMOTIONS
 // GET /api/admin/coupons
-router.get('/coupons', (req, res) => {
+router.get('/coupons', async (req, res) => {
   try {
-    const coupons = db.getCoupons();
+    const coupons = await db.getCouponsAsync();
     return res.json({ success: true, coupons });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch coupons' });
@@ -315,7 +323,7 @@ router.get('/coupons', (req, res) => {
 });
 
 // POST /api/admin/coupons
-router.post('/coupons', (req, res) => {
+router.post('/coupons', async (req, res) => {
   try {
     const { code, discountPercent, discountAmount, minOrder, description } = req.body;
     if (!code || !description) {
@@ -325,7 +333,7 @@ router.post('/coupons', (req, res) => {
     const cleanCode = code.trim().toUpperCase();
     const now = new Date().toISOString();
 
-    const created = db.createCoupon({
+    const created = await db.createCoupon({
       code: cleanCode,
       discountPercent: discountPercent ? Number(discountPercent) : null,
       discountAmount: discountAmount ? Number(discountAmount) : null,
@@ -354,10 +362,10 @@ router.post('/coupons', (req, res) => {
 });
 
 // DELETE /api/admin/coupons/:code
-router.delete('/coupons/:code', (req, res) => {
+router.delete('/coupons/:code', async (req, res) => {
   try {
     const { code } = req.params;
-    db.deleteCoupon(code);
+    await db.deleteCoupon(code);
 
     logAudit({
       action: 'Coupon deleted',

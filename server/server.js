@@ -131,11 +131,12 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const adminExisting = await db.getAdminByEmailAsync(cleanEmail);
+    const isMasterAdminEmail = cleanEmail === 'ashutoshkumaryadav933499@gmail.com';
+    const adminExisting = isMasterAdminEmail || (await db.getAdminByEmailAsync(cleanEmail));
     if (adminExisting) {
       return res.status(403).json({
         success: false,
-        message: 'This email is registered as an Administrator. Please use a different email for customer shopping.'
+        message: 'This email address is reserved exclusively for the Master Administrator. It cannot be registered as a customer account. Please sign in via the Admin Portal at /admin/login.'
       });
     }
 
@@ -272,12 +273,13 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
     const cleanEmail = email.trim().toLowerCase();
 
     // 1. Strict Security Guard: Admins cannot log in via Customer Storefront
-    const adminUser = await db.getAdminByEmailAsync(cleanEmail);
+    const isMasterAdmin = cleanEmail === 'ashutoshkumaryadav933499@gmail.com';
+    const adminUser = isMasterAdmin || (await db.getAdminByEmailAsync(cleanEmail));
     if (adminUser) {
       return res.status(403).json({
         success: false,
         isAdminAccount: true,
-        message: 'Admin account. Please use Admin Portal.'
+        message: 'This email is registered as the Master Administrator. Please sign in via the Admin Portal at /admin/login.'
       });
     }
 
@@ -589,16 +591,120 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-app.get('/api/orders/:id', (req, res) => {
+app.get('/api/orders/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const order = db.getOrderById(id);
+    const order = await db.getOrderByIdAsync(id) || db.getOrderById(id);
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
     return res.json({ success: true, order });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to find order' });
+  }
+});
+
+// Public Live Catalog API
+app.get('/api/products', async (req, res) => {
+  try {
+    const { category, search } = req.query;
+    let products = await db.getProductsAsync();
+
+    if (category && category !== 'all') {
+      products = products.filter(p => p.category === category);
+    }
+    if (search) {
+      const q = search.toLowerCase().trim();
+      products = products.filter(p =>
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.brand && p.brand.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q))
+      );
+    }
+
+    return res.json({ success: true, products, total: products.length });
+  } catch (err) {
+    console.error('Public products fetch error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to load products' });
+  }
+});
+
+app.get('/api/products/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await db.getProductByIdAsync(id) || db.getProductById(id);
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+    return res.json({ success: true, product });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to find product' });
+  }
+});
+
+// Public Live Site Settings API
+app.get('/api/settings', async (req, res) => {
+  try {
+    const settings = await db.getSettingsAsync();
+    return res.json({ success: true, settings });
+  } catch (err) {
+    console.error('Settings fetch error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to load site settings' });
+  }
+});
+
+// Public Coupons & Voucher Verification API
+app.get('/api/coupons', async (req, res) => {
+  try {
+    const coupons = await db.getCouponsAsync();
+    return res.json({ success: true, coupons });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch coupons' });
+  }
+});
+
+app.post('/api/coupons/validate', async (req, res) => {
+  try {
+    const { code, orderTotal } = req.body;
+    if (!code) {
+      return res.status(400).json({ success: false, message: 'Coupon code is required' });
+    }
+
+    const cleanCode = code.trim().toUpperCase();
+    const coupons = await db.getCouponsAsync();
+    const coupon = coupons.find(c => c.code.toUpperCase() === cleanCode && c.isActive !== false);
+
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: 'Invalid or expired coupon voucher.' });
+    }
+
+    const total = Number(orderTotal) || 0;
+    if (coupon.minOrder && total < coupon.minOrder) {
+      return res.status(400).json({
+        success: false,
+        message: `This coupon requires a minimum purchase of ₹${coupon.minOrder}.`
+      });
+    }
+
+    let discountAmount = 0;
+    if (coupon.discountPercent) {
+      discountAmount = Math.round((total * coupon.discountPercent) / 100);
+    } else if (coupon.discountAmount) {
+      discountAmount = Number(coupon.discountAmount);
+    }
+
+    return res.json({
+      success: true,
+      valid: true,
+      coupon: {
+        code: coupon.code,
+        discountPercent: coupon.discountPercent,
+        discountAmount: discountAmount,
+        description: coupon.description
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to validate coupon' });
   }
 });
 

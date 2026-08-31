@@ -1,10 +1,10 @@
 import React from 'react';
-import { PRODUCTS } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { ProductCard } from '../components/common/ProductCard';
 import { Zap, Sparkles } from 'lucide-react';
 
 export const NewArrivalsPage = () => {
-  const newProducts = PRODUCTS.filter((p) => p.isNewArrival);
+  const { newArrivals: newProducts } = useProducts();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">

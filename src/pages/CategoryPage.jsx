@@ -1,13 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useProducts } from '../context/ProductContext';
 import { CATEGORIES } from '../data/categories';
-import { PRODUCTS } from '../data/products';
 import { ProductCard } from '../components/common/ProductCard';
 import { QuickViewModal } from '../components/common/QuickViewModal';
 import { ChevronRight, Sparkles, Filter, Layers, Check } from 'lucide-react';
 
 export const CategoryPage = () => {
   const { slug } = useParams();
+  const { products: PRODUCTS } = useProducts();
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
   const [sortBy, setSortBy] = useState('popular');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
@@ -15,7 +16,7 @@ export const CategoryPage = () => {
   const category = CATEGORIES.find((c) => c.slug === slug) || {
     name: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : 'Collection',
     description: 'Explore the finest handcrafted luxury essentials.',
-    itemCount: '500+ Items',
+    itemCount: `${PRODUCTS.filter(p => p.category === slug).length || '500+'} Items`,
     subcategories: ['All', 'Signature Series', 'New Releases', 'Accessories'],
   };
 

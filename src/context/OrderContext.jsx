@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 import { useToast } from './ToastContext';
 import { useAuth } from './AuthContext';
+import { supabase } from '../lib/supabase';
 
 const OrderContext = createContext(null);
 
@@ -56,6 +57,46 @@ export const OrderProvider = ({ children }) => {
 
     fetchBackendOrders();
   }, [userEmail, storageKey]);
+
+  // Subscribe to Realtime Supabase changes on 'orders' table
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime:public:orders')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        (payload) => {
+          console.log('⚡ [Realtime Orders Update received]:', payload.eventType, payload.new || payload.old);
+          if (payload.eventType === 'UPDATE' && payload.new) {
+            const updated = payload.new;
+            setOrders((prev) =>
+              prev.map((o) => {
+                if (o.id === updated.id) {
+                  return {
+                    ...o,
+                    status: updated.status || o.status,
+                    carrier: updated.carrier || o.carrier,
+                    trackingNumber: updated.tracking_number || o.trackingNumber,
+                    updatedAt: updated.updated_at
+                  };
+                }
+                return o;
+              })
+            );
+          } else if (payload.eventType === 'INSERT' && payload.new) {
+            const newOrder = payload.new;
+            if (userEmail && (newOrder.user_email || '').toLowerCase() === userEmail) {
+              setOrders((prev) => [newOrder, ...prev.filter(o => o.id !== newOrder.id)]);
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [userEmail]);
 
   useEffect(() => {
     try {

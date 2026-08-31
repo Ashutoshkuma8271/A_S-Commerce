@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
@@ -37,11 +37,12 @@ const RECENTLY_VIEWED_KEY = 'as_commerce_recently_viewed';
 export const ProductDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { products: PRODUCTS, getProductById } = useProducts();
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToast } = useToast();
 
-  const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
+  const product = getProductById(id) || PRODUCTS.find((p) => p.id === id) || PRODUCTS[0] || {};
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(

@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { Truck, Gem, MapPin, Headphones, ChevronDown, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { useSettings } from '../../context/SettingsContext';
 
 export const AnnouncementBar = () => {
+  const { settings } = useSettings();
   const { applyCoupon } = useCart();
   const { addToast } = useToast();
   const [copied, setCopied] = useState(false);
@@ -21,27 +23,19 @@ export const AnnouncementBar = () => {
     <div className="bg-navy-950 text-white text-[11px] sm:text-xs border-b border-navy-800/80 select-none py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-2">
         
-        {/* Left: Free Shipping on Orders Over ₹999 */}
+        {/* Left: Free Shipping threshold from live settings */}
         <div className="flex items-center gap-2 text-white/90">
           <Truck className="w-3.5 h-3.5 text-gold-400 shrink-0" />
           <span>
-            Free Shipping on Orders Over <strong className="text-white font-semibold">₹999</strong>
+            Free Shipping on Orders Over <strong className="text-white font-semibold">₹{settings.freeShippingThreshold}</strong>
           </span>
         </div>
 
-        {/* Center: 10% Off on First Order | Use Code: WELCOME10 */}
-        <div className="flex items-center">
-          <div className="inline-flex items-center gap-1.5 text-white/90">
+        {/* Center: Live Announcement Text */}
+        <div className="flex items-center text-center">
+          <div className="inline-flex items-center gap-1.5 text-white/90 font-medium">
             <Gem className="w-3.5 h-3.5 text-gold-400 shrink-0" />
-            <span>10% Off on First Order | Use Code:</span>
-            <button
-              onClick={handleCopyCode}
-              title="Click to copy & apply code"
-              className="font-bold text-gold-400 hover:text-gold-300 transition-colors cursor-pointer inline-flex items-center gap-1 tracking-wide"
-            >
-              <span>WELCOME10</span>
-              {copied && <Check className="w-3 h-3 text-green-400 inline" />}
-            </button>
+            <span>{settings.announcementText}</span>
           </div>
         </div>
 

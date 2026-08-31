@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
+import { SettingsProvider } from './context/SettingsContext';
+import { ProductProvider } from './context/ProductContext';
 import { AuthProvider } from './context/AuthContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { CartProvider } from './context/CartContext';
@@ -71,96 +73,100 @@ export function App() {
 
       <ThemeProvider>
         <ToastProvider>
-          <AuthProvider>
-            <AdminAuthProvider>
-              <CartProvider>
-                <WishlistProvider>
-                  <OrderProvider>
-                    <ScrollToTop />
-                    
-                    <Suspense fallback={<PageLoader />}>
-                      <Routes>
-                        {/* Dedicated Single-Admin Routes */}
-                        <Route path="/admin/signup" element={<AdminSignupPage />} />
-                        <Route path="/admin/login" element={<AdminLoginPage />} />
-                        <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
-                        <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
-                        <Route
-                          path="/admin/dashboard"
-                          element={
-                            <AdminProtectedRoute>
-                              <AdminDashboardPage />
-                            </AdminProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/admin/profile"
-                          element={
-                            <AdminProtectedRoute>
-                              <AdminDashboardPage />
-                            </AdminProtectedRoute>
-                          }
-                        />
-                        <Route
-                          path="/admin"
-                          element={
-                            <AdminProtectedRoute>
-                              <AdminDashboardPage />
-                            </AdminProtectedRoute>
-                          }
-                        />
+          <SettingsProvider>
+            <ProductProvider>
+              <AuthProvider>
+                <AdminAuthProvider>
+                  <CartProvider>
+                    <WishlistProvider>
+                      <OrderProvider>
+                        <ScrollToTop />
+                        
+                        <Suspense fallback={<PageLoader />}>
+                          <Routes>
+                            {/* Dedicated Single-Admin Routes */}
+                            <Route path="/admin/signup" element={<AdminSignupPage />} />
+                            <Route path="/admin/login" element={<AdminLoginPage />} />
+                            <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
+                            <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+                            <Route
+                              path="/admin/dashboard"
+                              element={
+                                <AdminProtectedRoute>
+                                  <AdminDashboardPage />
+                                </AdminProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/admin/profile"
+                              element={
+                                <AdminProtectedRoute>
+                                  <AdminDashboardPage />
+                                </AdminProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/admin"
+                              element={
+                                <AdminProtectedRoute>
+                                  <AdminDashboardPage />
+                                </AdminProtectedRoute>
+                              }
+                            />
 
-                        {/* Customer Storefront Routes (wrapped in Storefront Layout) */}
-                        <Route
-                          path="/*"
-                          element={
-                            <Layout>
-                              <Suspense fallback={<PageLoader />}>
-                                <Routes>
-                                  <Route path="/" element={<HomePage />} />
-                                  <Route path="/shop" element={<ShopPage />} />
-                                  <Route path="/category/:slug" element={<CategoryPage />} />
-                                  <Route path="/product/:id" element={<ProductDetailsPage />} />
-                                  <Route path="/cart" element={<CartPage />} />
-                                  <Route path="/wishlist" element={<WishlistPage />} />
-                                  <Route path="/checkout" element={<CheckoutPage />} />
-                                  <Route path="/order-success" element={<OrderSuccessPage />} />
-                                  <Route path="/track-order" element={<TrackOrderPage />} />
-                                  
-                                  {/* Account & Password Recovery Routes */}
-                                  <Route path="/reset-password" element={<CustomerResetPasswordPage />} />
-                                  <Route path="/account" element={<AccountPage />} />
-                                  <Route path="/account/orders" element={<AccountPage />} />
-                                  <Route path="/account/addresses" element={<AccountPage />} />
-                                  <Route path="/account/profile" element={<AccountPage />} />
-                                  <Route path="/account/security" element={<AccountPage />} />
-                                  <Route path="/account/wishlist" element={<WishlistPage />} />
+                            {/* Customer Storefront Routes (wrapped in Storefront Layout) */}
+                            <Route
+                              path="/*"
+                              element={
+                                <Layout>
+                                  <Suspense fallback={<PageLoader />}>
+                                    <Routes>
+                                      <Route path="/" element={<HomePage />} />
+                                      <Route path="/shop" element={<ShopPage />} />
+                                      <Route path="/category/:slug" element={<CategoryPage />} />
+                                      <Route path="/product/:id" element={<ProductDetailsPage />} />
+                                      <Route path="/cart" element={<CartPage />} />
+                                      <Route path="/wishlist" element={<WishlistPage />} />
+                                      <Route path="/checkout" element={<CheckoutPage />} />
+                                      <Route path="/order-success" element={<OrderSuccessPage />} />
+                                      <Route path="/track-order" element={<TrackOrderPage />} />
+                                      
+                                      {/* Account & Password Recovery Routes */}
+                                      <Route path="/reset-password" element={<CustomerResetPasswordPage />} />
+                                      <Route path="/account" element={<AccountPage />} />
+                                      <Route path="/account/orders" element={<AccountPage />} />
+                                      <Route path="/account/addresses" element={<AccountPage />} />
+                                      <Route path="/account/profile" element={<AccountPage />} />
+                                      <Route path="/account/security" element={<AccountPage />} />
+                                      <Route path="/account/wishlist" element={<WishlistPage />} />
 
-                                  {/* Offers & New Arrivals */}
-                                  <Route path="/offers" element={<OffersPage />} />
-                                  <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+                                      {/* Offers & New Arrivals */}
+                                      <Route path="/offers" element={<OffersPage />} />
+                                      <Route path="/new-arrivals" element={<NewArrivalsPage />} />
 
-                                  {/* Static / Customer Care */}
-                                  <Route path="/help" element={<HelpPage />} />
-                                  <Route path="/shipping" element={<HelpPage />} />
-                                  <Route path="/returns" element={<HelpPage />} />
-                                  <Route path="/contact" element={<ContactPage />} />
+                                      {/* Static / Customer Care */}
+                                      <Route path="/help" element={<HelpPage />} />
+                                      <Route path="/shipping" element={<HelpPage />} />
+                                      <Route path="/returns" element={<HelpPage />} />
+                                      <Route path="/contact" element={<ContactPage />} />
 
-                                  {/* Fallback */}
-                                  <Route path="*" element={<NotFoundPage />} />
-                                </Routes>
-                              </Suspense>
-                            </Layout>
-                          }
-                        />
-                      </Routes>
-                    </Suspense>
+                                      {/* Fallback */}
+                                      <Route path="*" element={<NotFoundPage />} />
+                                    </Routes>
+                                  </Suspense>
+                                </Layout>
+                              }
+                            />
+                          </Routes>
+                        </Suspense>
 
-                  </OrderProvider>
-                </WishlistProvider>
-              </CartProvider>
-            </AdminAuthProvider>
-          </AuthProvider>
+                      </OrderProvider>
+                    </WishlistProvider>
+                  </CartProvider>
+                </AdminAuthProvider>
+              </AuthProvider>
+            </ProductProvider>
+          </SettingsProvider>
         </ToastProvider>
       </ThemeProvider>
     </BrowserRouter>

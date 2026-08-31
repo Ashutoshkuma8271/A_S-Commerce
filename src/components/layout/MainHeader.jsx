@@ -6,11 +6,12 @@ import { ThemeToggle } from '../common/ThemeToggle';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useAuth } from '../../context/AuthContext';
-import { PRODUCTS } from '../../data/products';
+import { useProducts } from '../../context/ProductContext';
 import { formatINR } from '../../utils/currency';
 
 export const MainHeader = ({ onOpenMobileMenu }) => {
   const navigate = useNavigate();
+  const { products: PRODUCTS } = useProducts();
   const { totalItemsCount, setIsCartDrawerOpen } = useCart();
   const { wishlistCount } = useWishlist();
   const { user, isAuthenticated, setIsAuthModalOpen, setAuthMode, logout } = useAuth();
