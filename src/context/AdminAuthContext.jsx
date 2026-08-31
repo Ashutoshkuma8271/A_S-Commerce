@@ -59,10 +59,10 @@ export const AdminAuthProvider = ({ children }) => {
             setAdmin(data.admin);
             localStorage.setItem('as_admin_profile', JSON.stringify(data.admin));
           } else if (res.status === 401 || res.status === 403) {
-            logout();
+            logout(true);
           }
         } else if (res.status === 401 || res.status === 403) {
-          logout();
+          logout(true);
         }
       } catch (err) {
         console.warn('Session verification fallback note:', err);
@@ -97,7 +97,7 @@ export const AdminAuthProvider = ({ children }) => {
       localStorage.setItem('as_admin_registered', 'true');
       localStorage.setItem('as_admin_profile', JSON.stringify(data.admin));
       await checkAdminStatus();
-      addToast('Administrator account created successfully!', 'success');
+      addToast('Administrator account created', 'success', 3500, { desc: 'Master credentials initialized.' });
       return { success: true };
     } catch (err) {
       addToast('Failed to connect to authentication server.', 'error');
@@ -125,16 +125,16 @@ export const AdminAuthProvider = ({ children }) => {
       setAdmin(data.admin);
       localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
       localStorage.setItem('as_admin_profile', JSON.stringify(data.admin));
-      addToast(`Welcome, Administrator ${data.admin.name}!`, 'success');
+      addToast(`Welcome, Administrator ${data.admin.name}`, 'success', 3000, { desc: 'Master Command Center authorized.' });
       return { success: true };
     } catch (err) {
-      addToast('Cannot connect to authentication server. Please ensure the backend server is running.', 'error');
+      addToast('Cannot connect to authentication server.', 'error');
       return { success: false, message: 'Authentication server unreachable' };
     }
   };
 
   // 5. Admin Logout
-  const logout = async () => {
+  const logout = async (silent = false) => {
     try {
       if (token) {
         await fetch('/api/admin/auth/logout', {
@@ -149,7 +149,9 @@ export const AdminAuthProvider = ({ children }) => {
       setAdmin(null);
       localStorage.removeItem(ADMIN_TOKEN_KEY);
       localStorage.removeItem('as_admin_profile');
-      addToast('Logged out of Admin Portal.', 'info');
+      if (!silent) {
+        addToast('Logged out of Admin Portal', 'info', 2500, { desc: 'Administrative session ended securely.' });
+      }
     }
   };
 
@@ -211,7 +213,7 @@ export const AdminAuthProvider = ({ children }) => {
         addToast(data.message || 'Failed to update password.', 'error');
         return { success: false, message: data.message };
       }
-      addToast('Admin password updated successfully.', 'success');
+      addToast('Master Admin password updated', 'success', 3500, { desc: 'Credentials synchronized securely.' });
       return { success: true, message: data.message };
     } catch (err) {
       addToast('Cannot connect to server.', 'error');

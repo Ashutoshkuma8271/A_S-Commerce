@@ -57,12 +57,11 @@ export function App() {
     <BrowserRouter>
       {/* React Hot Toast Notifications Container */}
       <Toaster
-        position="top-right"
+        position="top-center"
         reverseOrder={false}
         gutter={10}
         containerStyle={{
           top: 24,
-          right: 24,
           zIndex: 99999,
         }}
         toastOptions={{

@@ -577,18 +577,14 @@ export const AdminDashboardPage = () => {
     setPassSubmitting(true);
     const result = await changePassword(currentPassword, newPassword, confirmPassword);
     setPassSubmitting(false);
-    if (result.success) {
+    if (result && result.success) {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-      addToast('Master Admin credentials updated', 'success', 3500, { desc: 'Your account security key has been reset.' });
-    } else {
-      addToast(result.error || 'Failed to change admin password', 'error');
     }
   };
 
   const handleLogout = () => {
-    addToast('Logged out of Admin Command Center', 'info', 2000);
     logout();
     navigate('/admin/login');
   };

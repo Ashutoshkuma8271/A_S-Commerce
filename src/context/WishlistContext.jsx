@@ -52,10 +52,10 @@ export const WishlistProvider = ({ children }) => {
     
     if (exists) {
       setWishlistItems((prev) => prev.filter((item) => item.id !== product.id));
-      addToast('Removed from wishlist', 'info');
+      addToast('Removed from wishlist', 'info', 2500, { desc: product.name });
     } else {
       setWishlistItems((prev) => [...prev, product]);
-      addToast('Added to wishlist', 'success');
+      addToast('Added to wishlist', 'success', 2800, { desc: product.name });
     }
     return true;
   };
@@ -64,13 +64,13 @@ export const WishlistProvider = ({ children }) => {
     const found = wishlistItems.find((item) => item.id === productId);
     if (found) {
       setWishlistItems((prev) => prev.filter((item) => item.id !== productId));
-      addToast('Removed from wishlist', 'info');
+      addToast('Removed from wishlist', 'info', 2500, { desc: found.name });
     }
   };
 
   const clearWishlist = () => {
     setWishlistItems([]);
-    addToast('Wishlist cleared', 'info');
+    addToast('Wishlist cleared', 'info', 2500);
   };
 
   return (

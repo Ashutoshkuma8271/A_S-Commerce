@@ -130,7 +130,9 @@ export const CartProvider = ({ children }) => {
       ];
     });
 
-    addToast('Added to cart', 'success');
+    addToast('Added to bag', 'success', 3000, {
+      desc: `${product.name} (${chosenSize !== 'Standard' ? chosenSize : ''} ${chosenColor !== 'Standard' ? chosenColor : ''})`.trim()
+    });
     if (openDrawer) {
       setIsCartDrawerOpen(true);
     }
@@ -153,13 +155,13 @@ export const CartProvider = ({ children }) => {
     const removed = cartItems.find((i) => i.cartItemId === cartItemId);
     setCartItems((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
     if (removed) {
-      addToast('Item removed from cart', 'info');
+      addToast('Item removed from bag', 'info', 2500, { desc: removed.name });
     }
   };
 
   const clearCart = () => {
     if (cartItems.length > 0) {
-      addToast('Cart cleared', 'info');
+      addToast('Shopping bag cleared', 'info', 2500);
     }
     setCartItems([]);
     setAppliedCoupon(null);
@@ -169,21 +171,23 @@ export const CartProvider = ({ children }) => {
     const cleanCode = couponCode.trim().toUpperCase();
     const found = COUPONS.find((c) => c.code === cleanCode);
     if (!found) {
-      addToast('Invalid coupon code. Try WELCOME10', 'error');
+      addToast('Invalid promotional code', 'error', 3500, { desc: 'Try code WELCOME10 or LUXURY20 for special savings.' });
       return false;
     }
     if (found.minOrder && subtotal < found.minOrder) {
-      addToast(`Min order of ₹${found.minOrder} required for ${cleanCode}`, 'error');
+      addToast(`Minimum bag order required`, 'warning', 3500, { desc: `A minimum cart value of ₹${found.minOrder} is required for ${cleanCode}.` });
       return false;
     }
     setAppliedCoupon(found);
-    addToast(`Coupon ${found.code} applied!`, 'copy');
+    addToast(`Promotional voucher "${found.code}" applied!`, 'gold', 3200, {
+      desc: found.discountPercent ? `${found.discountPercent}% instant discount activated.` : `₹${found.discountAmount} privilege deduction applied.`
+    });
     return true;
   };
 
   const removeCoupon = () => {
     setAppliedCoupon(null);
-    addToast('Coupon removed', 'info');
+    addToast('Promotional voucher removed', 'info', 2500);
   };
 
   return (

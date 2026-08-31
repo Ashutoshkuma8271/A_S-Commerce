@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback } from 'react';
+import React, { createContext, useContext, useCallback, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { 
   CheckCircle2, 
@@ -12,10 +12,31 @@ import {
 const ToastContext = createContext(null);
 
 export const ToastProvider = ({ children }) => {
+  const recentToastsRef = useRef(new Map());
+
   const addToast = useCallback((message, type = 'success', duration = 3000, options = {}) => {
     // Shopify Polaris / Modern luxury toast style with optional subtitle or description
     const title = typeof message === 'string' ? message : (options.title || 'Notification');
     const description = options.description || options.desc || null;
+
+    // Deduplication Key: prevent identical toast triggers within 1200ms
+    const dedupKey = options.id || `${type}:${title}:${description || ''}`;
+    const now = Date.now();
+    const lastTime = recentToastsRef.current.get(dedupKey) || 0;
+
+    if (now - lastTime < 1200) {
+      return; // Suppress duplicate call
+    }
+    recentToastsRef.current.set(dedupKey, now);
+
+    // Clean old entries periodically
+    if (recentToastsRef.current.size > 50) {
+      for (const [key, timestamp] of recentToastsRef.current.entries()) {
+        if (now - timestamp > 5000) {
+          recentToastsRef.current.delete(key);
+        }
+      }
+    }
 
     toast.custom((t) => {
       let icon = <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />;
@@ -96,8 +117,14 @@ export const ToastProvider = ({ children }) => {
     });
   }, []);
 
+  const success = useCallback((msg, desc, options = {}) => addToast(msg, 'success', 3000, { desc, ...options }), [addToast]);
+  const error = useCallback((msg, desc, options = {}) => addToast(msg, 'error', 4000, { desc, ...options }), [addToast]);
+  const warning = useCallback((msg, desc, options = {}) => addToast(msg, 'warning', 3500, { desc, ...options }), [addToast]);
+  const info = useCallback((msg, desc, options = {}) => addToast(msg, 'info', 2800, { desc, ...options }), [addToast]);
+  const gold = useCallback((msg, desc, options = {}) => addToast(msg, 'gold', 3000, { desc, ...options }), [addToast]);
+
   return (
-    <ToastContext.Provider value={{ addToast, toast }}>
+    <ToastContext.Provider value={{ addToast, success, error, warning, info, gold, toast }}>
       {children}
     </ToastContext.Provider>
   );
