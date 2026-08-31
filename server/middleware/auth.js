@@ -102,6 +102,7 @@ export function requireAdmin(req, res, next) {
 export const loginRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10,
+  validate: false,
   message: {
     success: false,
     message: 'Too many login attempts. Please try again after 15 minutes.'
@@ -113,6 +114,7 @@ export const loginRateLimiter = rateLimit({
 export const signupRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 50,
+  validate: false,
   message: {
     success: false,
     message: 'Too many signup attempts. Please try again later.'
