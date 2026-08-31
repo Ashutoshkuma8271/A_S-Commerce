@@ -4,13 +4,13 @@
       "id": "adm-master-ashutosh",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$HB1Nq/2xX3ccbuGIGcEdW.eNlzCpKeJh8fjcwcdubJzTizq35wjtW",
+      "passwordHash": "$2b$12$.aoBAOJ563OuDJIKH.V1HeE/CW6upDpn3fjxUA8KnEgPjvEhcQm9K",
       "role": "admin",
       "isActive": 1,
       "singleAdminLock": 1,
       "createdAt": "2026-08-31T20:41:54.344+00:00",
-      "updatedAt": "2026-08-31T20:52:57.653+00:00",
-      "lastLoginAt": "2026-08-31T20:52:57.652+00:00"
+      "updatedAt": "2026-08-31T20:59:30.333+00:00",
+      "lastLoginAt": "2026-08-31T20:59:30.332+00:00"
     }
   ],
   "password_resets": [
@@ -1986,7 +1986,7 @@
       "name": "Ashutosh kumar",
       "email": "ashukumarfbg8271@gmail.com",
       "phone": "9334993909",
-      "passwordHash": "$2b$10$5RIdwrDxjRnKO1PD39VFRuEWYNs2VPO9uebxuSZ6bddwd0lBNqvEa",
+      "passwordHash": "$2b$10$gnj7ZbOA.ULz35fNLUzsWOH89UxGqB4mC1Mq.WdvQxniQBMMDESuy",
       "role": "customer",
       "isVerified": true,
       "addresses": [
@@ -2007,7 +2007,7 @@
       "verificationOtp": null,
       "otpExpiresAt": null,
       "createdAt": "2026-08-26T20:07:32.477+00:00",
-      "updatedAt": "2026-08-31T20:54:40.487+00:00"
+      "updatedAt": "2026-08-31T21:00:46.374+00:00"
     },
     {
       "id": "usr-1788128171138",
