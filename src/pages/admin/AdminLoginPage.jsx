@@ -86,7 +86,7 @@ export const AdminLoginPage = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="ashutoshkumaryadav933499@gmail.com"
+                placeholder="admin@ascommerce.luxury"
                 className="w-full pl-10 pr-4 py-3 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:outline-none focus:border-gold-500 transition-colors"
               />
             </div>
