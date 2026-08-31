@@ -9,7 +9,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import rateLimit from 'express-rate-limit';
-import { createServer as createViteServer } from 'vite';
 import { db, initDB } from './db.js';
 import adminAuthRouter from './routes/adminAuth.js';
 import adminDashboardRouter from './routes/adminDashboard.js';
@@ -617,6 +616,7 @@ async function startServer() {
 
     // Vite middleware in dev or static files in prod
     if (process.env.NODE_ENV !== 'production') {
+      const { createServer: createViteServer } = await import('vite');
       const vite = await createViteServer({
         server: { middlewareMode: true, host: '0.0.0.0' },
         appType: 'spa',
