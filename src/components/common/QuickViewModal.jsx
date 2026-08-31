@@ -7,20 +7,20 @@ import { useWishlist } from '../../context/WishlistContext';
 import { RatingStars } from './RatingStars';
 
 export const QuickViewModal = ({ product, isOpen, onClose }) => {
-  if (!isOpen || !product) return null;
-
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(
-    (product.colorNames && product.colorNames[0]) || 'Standard'
+    (product?.colorNames && product.colorNames[0]) || 'Standard'
   );
   const [selectedSize, setSelectedSize] = useState(
-    (product.sizes && product.sizes[0]) || 'Standard'
+    (product?.sizes && product.sizes[0]) || 'Standard'
   );
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+
+  if (!isOpen || !product) return null;
 
   const isFavorite = isInWishlist(product.id);
 

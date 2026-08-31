@@ -78,6 +78,33 @@ export const AdminDashboardPage = () => {
   });
   const [uploadingImage, setUploadingImage] = useState(false);
 
+  // Order Delivery Edit Modal
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [orderDeliveryForm, setOrderDeliveryForm] = useState({
+    status: 'Shipped',
+    carrier: 'Bluedart Express',
+    trackingNumber: '',
+  });
+
+  // Coupon Form State
+  const [newCouponCode, setNewCouponCode] = useState('');
+  const [newCouponDiscount, setNewCouponDiscount] = useState('');
+  const [newCouponMinOrder, setNewCouponMinOrder] = useState('');
+  const [newCouponDesc, setNewCouponDesc] = useState('');
+  const [couponSubmitting, setCouponSubmitting] = useState(false);
+
+  // Settings Form State
+  const [settingsSubmitting, setSettingsSubmitting] = useState(false);
+
+  // Change Password Form State
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [passSubmitting, setPassSubmitting] = useState(false);
+
   const handleImageFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -105,33 +132,6 @@ export const AdminDashboardPage = () => {
       setUploadingImage(false);
     }
   };
-
-  // Order Delivery Edit Modal
-  const [editingOrder, setEditingOrder] = useState(null);
-  const [orderDeliveryForm, setOrderDeliveryForm] = useState({
-    status: 'Shipped',
-    carrier: 'Bluedart Express',
-    trackingNumber: '',
-  });
-
-  // Coupon Form State
-  const [newCouponCode, setNewCouponCode] = useState('');
-  const [newCouponDiscount, setNewCouponDiscount] = useState('');
-  const [newCouponMinOrder, setNewCouponMinOrder] = useState('');
-  const [newCouponDesc, setNewCouponDesc] = useState('');
-  const [couponSubmitting, setCouponSubmitting] = useState(false);
-
-  // Settings Form State
-  const [settingsSubmitting, setSettingsSubmitting] = useState(false);
-
-  // Change Password Form State
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showCurrentPass, setShowCurrentPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
-  const [passSubmitting, setPassSubmitting] = useState(false);
 
   const fetchDashboardData = async () => {
     try {

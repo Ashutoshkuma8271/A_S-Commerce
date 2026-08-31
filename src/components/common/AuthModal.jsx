@@ -54,6 +54,7 @@ export const AuthModal = () => {
   const [resetEmail, setResetEmail] = useState('');
   const [resetLinkSent, setResetLinkSent] = useState(false);
   const [resetToken, setResetToken] = useState('');
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -120,8 +121,6 @@ export const AuthModal = () => {
     }
     setSubmitting(false);
   };
-
-  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const handleVerifyOtpSubmit = async (e) => {
     e.preventDefault();

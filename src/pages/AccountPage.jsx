@@ -98,48 +98,17 @@ export const AccountPage = () => {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const avatarInputRef = React.useRef(null);
 
+  // Delete Account Confirmation State
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmationText, setDeleteConfirmationText] = useState('');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
+
   useEffect(() => {
     if (user) {
       setProfileName(user.name || '');
       setProfilePhone(user.phone || '');
     }
   }, [user]);
-
-  if (!isAuthenticated || !user) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center animate-fadeIn">
-        <div className="max-w-md mx-auto bg-white dark:bg-navy-900 rounded-3xl p-10 border border-gray-200 dark:border-gold-500/20 shadow-xl space-y-5">
-          <div className="w-16 h-16 rounded-2xl bg-cream-100 dark:bg-navy-800 mx-auto flex items-center justify-center border border-gold-500/30 shadow-gold-sm">
-            <User className="w-8 h-8 text-gold-600 dark:text-gold-400" />
-          </div>
-          <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">Customer Account</h2>
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-            Sign in to view your orders, manage saved delivery addresses, and track consignments in real time.
-          </p>
-          <div className="flex gap-3 pt-2">
-            <button
-              onClick={() => {
-                setAuthMode('login');
-                setIsAuthModalOpen(true);
-              }}
-              className="flex-1 py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => {
-                setAuthMode('register');
-                setIsAuthModalOpen(true);
-              }}
-              className="flex-1 py-3 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold text-xs rounded-xl hover:bg-navy-850 active:scale-98 transition-all cursor-pointer border border-gold-500/30"
-            >
-              Create Account
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const handleProfileSubmit = (e) => {
     e.preventDefault();
@@ -215,11 +184,6 @@ export const AccountPage = () => {
     }
   };
 
-  // Delete Account Confirmation State
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteConfirmationText, setDeleteConfirmationText] = useState('');
-  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
-
   const handleDeleteAccountConfirm = async () => {
     if (deleteConfirmationText.trim().toLowerCase() !== 'delete') {
       addToast('Please type "DELETE" to confirm account deletion.', 'error');
@@ -235,6 +199,42 @@ export const AccountPage = () => {
       navigate('/', { replace: true });
     }
   };
+
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center animate-fadeIn">
+        <div className="max-w-md mx-auto bg-white dark:bg-navy-900 rounded-3xl p-10 border border-gray-200 dark:border-gold-500/20 shadow-xl space-y-5">
+          <div className="w-16 h-16 rounded-2xl bg-cream-100 dark:bg-navy-800 mx-auto flex items-center justify-center border border-gold-500/30 shadow-gold-sm">
+            <User className="w-8 h-8 text-gold-600 dark:text-gold-400" />
+          </div>
+          <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">Customer Account</h2>
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+            Sign in to view your orders, manage saved delivery addresses, and track consignments in real time.
+          </p>
+          <div className="flex gap-3 pt-2">
+            <button
+              onClick={() => {
+                setAuthMode('login');
+                setIsAuthModalOpen(true);
+              }}
+              className="flex-1 py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 active:scale-98 transition-all cursor-pointer"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => {
+                setAuthMode('register');
+                setIsAuthModalOpen(true);
+              }}
+              className="flex-1 py-3 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold text-xs rounded-xl hover:bg-navy-850 active:scale-98 transition-all cursor-pointer border border-gold-500/30"
+            >
+              Create Account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">

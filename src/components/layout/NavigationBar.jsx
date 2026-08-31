@@ -20,15 +20,15 @@ export const NavigationBar = () => {
     { label: 'New Arrivals', path: '/new-arrivals' },
   ];
 
-  const isActive = (path) => {
-    if (path === '/') return location.pathname === '/';
-    return location.pathname.startsWith(path);
-  };
-
   useEffect(() => {
     // Close menu on route transition
     setIsMegaMenuOpen(false);
   }, [location.pathname]);
+
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div ref={navContainerRef} className="bg-navy-900 text-white border-b border-navy-800/80 relative select-none hidden lg:block">
