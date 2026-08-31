@@ -1,66 +1,97 @@
 import React, { createContext, useContext, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { 
-  Check, 
+  CheckCircle2, 
   AlertCircle, 
   Info, 
-  X 
+  AlertTriangle,
+  X,
+  Sparkles
 } from 'lucide-react';
 
 const ToastContext = createContext(null);
 
 export const ToastProvider = ({ children }) => {
-  const addToast = useCallback((message, type = 'success', duration = 2400, options = {}) => {
-    // Truncate cleanly if too long
-    const cleanMessage = typeof message === 'string' && message.length > 52
-      ? message.slice(0, 50) + '...'
-      : message;
+  const addToast = useCallback((message, type = 'success', duration = 3000, options = {}) => {
+    // Shopify Polaris / Modern luxury toast style with optional subtitle or description
+    const title = typeof message === 'string' ? message : (options.title || 'Notification');
+    const description = options.description || options.desc || null;
 
     toast.custom((t) => {
-      // Clean modern icons & subtle border accent like Shopify / Supabase / GitHub
-      let icon = <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[2.5]" />;
-      let borderAccent = 'border-slate-700/60';
+      let icon = <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />;
+      let borderAccent = 'border-emerald-500/30';
+      let iconBg = 'bg-emerald-500/15 text-emerald-400';
 
       if (type === 'error') {
-        icon = <AlertCircle className="w-4 h-4 text-red-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-red-900/50';
+        icon = <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />;
+        borderAccent = 'border-rose-500/30';
+        iconBg = 'bg-rose-500/15 text-rose-400';
+      } else if (type === 'warning') {
+        icon = <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />;
+        borderAccent = 'border-amber-500/30';
+        iconBg = 'bg-amber-500/15 text-amber-400';
       } else if (type === 'info') {
-        icon = <Info className="w-4 h-4 text-sky-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-sky-900/50';
-      } else if (type === 'gold' || type === 'copy') {
-        icon = <Check className="w-4 h-4 text-gold-400 shrink-0 stroke-[2.5]" />;
-        borderAccent = 'border-gold-500/30';
+        icon = <Info className="w-4 h-4 text-sky-400 shrink-0" />;
+        borderAccent = 'border-sky-500/30';
+        iconBg = 'bg-sky-500/15 text-sky-400';
+      } else if (type === 'gold' || type === 'luxury' || type === 'copy') {
+        icon = <Sparkles className="w-4 h-4 text-gold-400 shrink-0" />;
+        borderAccent = 'border-gold-500/40';
+        iconBg = 'bg-gold-500/15 text-gold-400';
       }
 
       return (
         <div
           className={`
-            pointer-events-auto flex items-center justify-between gap-3 px-3.5 py-2.5 
-            rounded-lg bg-[#07131F]/95 backdrop-blur-md border ${borderAccent}
-            shadow-xl shadow-black/60
-            transition-all duration-200 ease-out transform
-            ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-1.5 opacity-0 scale-98'}
-            max-w-sm select-none
+            pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 
+            rounded-2xl bg-[#091B29]/95 backdrop-blur-xl border ${borderAccent}
+            shadow-[0_12px_32px_-4px_rgba(0,0,0,0.6),0_0_1px_1px_rgba(255,255,255,0.08)]
+            transition-all duration-300 ease-out transform
+            ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-2 opacity-0 scale-95'}
+            max-w-md w-auto min-w-[280px] sm:min-w-[320px] select-none z-[9999]
           `}
+          role="status"
+          aria-live="polite"
         >
-          <div className="flex items-center gap-2.5 min-w-0">
-            {icon}
-            <span className="text-[12.5px] font-medium text-stone-100 tracking-normal truncate">
-              {cleanMessage}
-            </span>
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className={`p-1.5 rounded-xl ${iconBg} shrink-0`}>
+              {icon}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs sm:text-[13px] font-semibold text-white tracking-tight leading-snug truncate">
+                {title}
+              </p>
+              {description && (
+                <p className="text-[11px] text-gray-400 mt-0.5 leading-tight line-clamp-1">
+                  {description}
+                </p>
+              )}
+            </div>
           </div>
+
+          {options.actionLabel && options.onAction && (
+            <button
+              onClick={() => {
+                options.onAction();
+                toast.dismiss(t.id);
+              }}
+              className="text-xs font-bold text-gold-400 hover:text-gold-300 px-2 py-1 rounded-lg bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/20 transition-all shrink-0 cursor-pointer"
+            >
+              {options.actionLabel}
+            </button>
+          )}
 
           <button
             onClick={() => toast.dismiss(t.id)}
-            className="p-1 -mr-1 text-stone-400 hover:text-stone-100 transition-colors rounded"
-            aria-label="Close"
+            className="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
+            aria-label="Close notification"
           >
-            <X className="w-3 h-3 opacity-60 hover:opacity-100" />
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       );
     }, {
-      duration: type === 'error' ? Math.max(duration, 3500) : duration,
+      duration: type === 'error' ? Math.max(duration, 4000) : duration,
       id: options.id || undefined,
     });
   }, []);
@@ -77,5 +108,6 @@ export const useToast = () => {
   if (!context) throw new Error('useToast must be used within ToastProvider');
   return context;
 };
+
 
 

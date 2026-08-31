@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
+import { useToast } from '../../context/ToastContext';
 import { formatINR } from '../../utils/currency';
 import {
   ShieldCheck,
@@ -56,6 +57,7 @@ import { Logo } from '../../components/common/Logo';
 export const AdminDashboardPage = () => {
   const navigate = useNavigate();
   const { admin, token, logout, changePassword } = useAdminAuth();
+  const { addToast } = useToast();
 
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'products' | 'orders' | 'customers' | 'settings' | 'coupons' | 'audit' | 'profile'
   const [stats, setStats] = useState(null);
@@ -142,6 +144,7 @@ export const AdminDashboardPage = () => {
     if (!file) return;
 
     setUploadingImage(true);
+    addToast('Uploading product media to CDN...', 'info', 2000);
     try {
       const formData = new FormData();
       formData.append('image', file);
@@ -157,15 +160,19 @@ export const AdminDashboardPage = () => {
       const data = await res.json();
       if (data.success && data.url) {
         setProductForm((prev) => ({ ...prev, image: data.url }));
+        addToast('Media uploaded successfully', 'success', 2500, { desc: 'Cloudinary CDN asset synchronized.' });
+      } else {
+        addToast(data.message || 'Image upload failed', 'error');
       }
     } catch (err) {
       console.error('Image upload failed', err);
+      addToast('Failed to upload image. Please retry.', 'error');
     } finally {
       setUploadingImage(false);
     }
   };
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (isManualRefresh = false) => {
     try {
       setLoading(true);
       const headers = { Authorization: `Bearer ${token}` };
@@ -208,8 +215,14 @@ export const AdminDashboardPage = () => {
         const d = await settingsRes.json();
         if (d.settings) setSiteSettings(d.settings);
       }
+      if (isManualRefresh) {
+        addToast('Dashboard data refreshed', 'success', 2000, { desc: 'All live catalog & logistics metrics updated.' });
+      }
     } catch (err) {
       console.warn('Backend server offline, loading local dashboard cache');
+      if (isManualRefresh) {
+        addToast('Offline mode active - showing cached metrics', 'warning');
+      }
     } finally {
       setLoading(false);
     }
@@ -261,10 +274,11 @@ export const AdminDashboardPage = () => {
   const handleSaveProduct = async (e) => {
     e.preventDefault();
     try {
-      const url = editingProduct
+      const isEditing = !!editingProduct;
+      const url = isEditing
         ? `/api/admin/products/${editingProduct.id}`
         : '/api/admin/products';
-      const method = editingProduct ? 'PUT' : 'POST';
+      const method = isEditing ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
         method,
@@ -277,25 +291,40 @@ export const AdminDashboardPage = () => {
 
       if (res.ok) {
         setIsProductModalOpen(false);
+        addToast(
+          isEditing ? 'Product updated successfully' : 'Product published to live catalog',
+          'success',
+          3000,
+          { desc: `${productForm.name} is now live across the storefront.` }
+        );
         fetchDashboardData();
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        addToast(errData.message || 'Failed to save product', 'error');
       }
     } catch (err) {
       console.error('Save product error', err);
+      addToast('An error occurred while saving product', 'error');
     }
   };
 
   const handleDeleteProduct = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this product from the live catalog?')) return;
+    const product = products.find(p => p.id === id);
+    if (!window.confirm(`Are you sure you want to delete "${product?.name || 'this item'}" from the catalog?`)) return;
     try {
       const res = await fetch(`/api/admin/products/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
+        addToast('Product removed from catalog', 'success', 2500, { desc: `${product?.name || 'Item'} was permanently archived.` });
         fetchDashboardData();
+      } else {
+        addToast('Failed to delete product', 'error');
       }
     } catch (err) {
       console.error('Delete product error', err);
+      addToast('Failed to delete product', 'error');
     }
   };
 
@@ -334,10 +363,16 @@ export const AdminDashboardPage = () => {
             adminNote: orderDeliveryForm.note
           }));
         }
+        addToast(`Logistics updated for Order #${editingOrder.id}`, 'success', 3000, {
+          desc: `Status set to ${orderDeliveryForm.status} via ${orderDeliveryForm.carrier}.`
+        });
         fetchDashboardData();
+      } else {
+        addToast('Failed to update consignment delivery', 'error');
       }
     } catch (err) {
       console.error('Save order delivery error', err);
+      addToast('Failed to update consignment delivery', 'error');
     }
   };
 
@@ -356,10 +391,16 @@ export const AdminDashboardPage = () => {
         if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
           setSelectedOrderDossier(prev => ({ ...prev, status: newStatus }));
         }
+        addToast(`Order #${orderId} advanced to "${newStatus}"`, 'success', 3000, {
+          desc: 'Live consignment status synchronized with Supabase.'
+        });
         fetchDashboardData();
+      } else {
+        addToast('Failed to update order milestone', 'error');
       }
     } catch (err) {
       console.error('Quick status update error', err);
+      addToast('Failed to update order milestone', 'error');
     }
   };
 
@@ -381,15 +422,19 @@ export const AdminDashboardPage = () => {
     }
   };
 
-  const handleCopyText = (text, id) => {
+  const handleCopyText = (text, id, label = 'Information') => {
     if (!text) return;
     navigator.clipboard.writeText(text);
     setCopiedText(id || text);
+    addToast(`${label} copied to clipboard`, 'gold', 2200, { desc: text });
     setTimeout(() => setCopiedText(''), 2000);
   };
 
   const handleExportOrdersCSV = () => {
-    if (!orders || orders.length === 0) return;
+    if (!orders || orders.length === 0) {
+      addToast('No consignments available to export', 'warning');
+      return;
+    }
     const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Customer Phone', 'Items Count', 'Total INR', 'Payment Method', 'Payment Status', 'Delivery Status', 'Carrier', 'Waybill Tracking', 'Destination Address'];
     const rows = orders.map(o => [
       `"${o.id}"`,
@@ -410,13 +455,16 @@ export const AdminDashboardPage = () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `AS_Commerce_Consignments_${new Date().toISOString().split('T')[0]}.csv`);
+    const fileName = `AS_Commerce_Consignments_${new Date().toISOString().split('T')[0]}.csv`;
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    addToast('Consignments exported to CSV', 'success', 3000, { desc: `Downloaded ${orders.length} order records.` });
   };
 
   const handlePrintInvoice = () => {
+    addToast('Preparing printable GST invoice...', 'info', 1800);
     window.print();
   };
 
@@ -425,7 +473,7 @@ export const AdminDashboardPage = () => {
     e.preventDefault();
     setSettingsSubmitting(true);
     try {
-      await fetch('/api/admin/settings', {
+      const res = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -433,9 +481,15 @@ export const AdminDashboardPage = () => {
         },
         body: JSON.stringify(siteSettings),
       });
-      fetchDashboardData();
+      if (res.ok) {
+        addToast('Storefront configurations saved', 'success', 3000, { desc: 'Homepage banner, announcement, & thresholds published.' });
+        fetchDashboardData();
+      } else {
+        addToast('Failed to save settings', 'error');
+      }
     } catch (err) {
       console.error('Save settings error', err);
+      addToast('Failed to save settings', 'error');
     } finally {
       setSettingsSubmitting(false);
     }
@@ -444,7 +498,10 @@ export const AdminDashboardPage = () => {
   // Coupons
   const handleCreateCoupon = async (e) => {
     e.preventDefault();
-    if (!newCouponCode || !newCouponDesc) return;
+    if (!newCouponCode || !newCouponDesc) {
+      addToast('Please provide both a coupon code and description', 'warning');
+      return;
+    }
 
     setCouponSubmitting(true);
     try {
@@ -455,7 +512,7 @@ export const AdminDashboardPage = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          code: newCouponCode,
+          code: newCouponCode.trim().toUpperCase(),
           discountPercent: newCouponDiscount ? Number(newCouponDiscount) : null,
           minOrder: newCouponMinOrder ? Number(newCouponMinOrder) : 0,
           description: newCouponDesc,
@@ -463,36 +520,60 @@ export const AdminDashboardPage = () => {
       });
 
       if (res.ok) {
+        const createdCode = newCouponCode.trim().toUpperCase();
         setNewCouponCode('');
         setNewCouponDiscount('');
         setNewCouponMinOrder('');
         setNewCouponDesc('');
+        addToast(`Coupon voucher "${createdCode}" created`, 'success', 3000, { desc: 'Clients can now redeem this code during checkout.' });
         fetchDashboardData();
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        addToast(errData.message || 'Failed to create coupon', 'error');
       }
     } catch (err) {
       console.error('Create coupon error', err);
+      addToast('Failed to create coupon voucher', 'error');
     } finally {
       setCouponSubmitting(false);
     }
   };
 
   const handleDeleteCoupon = async (code) => {
+    if (!window.confirm(`Are you sure you want to deactivate voucher "${code}"?`)) return;
     try {
       const res = await fetch(`/api/admin/coupons/${code}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
+        addToast(`Coupon "${code}" deactivated`, 'success', 2500);
         fetchDashboardData();
+      } else {
+        addToast('Failed to delete coupon', 'error');
       }
     } catch (err) {
       console.error('Delete coupon error', err);
+      addToast('Failed to delete coupon', 'error');
     }
   };
 
   // Change Password
   const handleChangePassword = async (e) => {
     e.preventDefault();
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      addToast('Please fill in all password fields', 'warning');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      addToast('New password and confirmation do not match', 'warning');
+      return;
+    }
+    if (newPassword.length < 8) {
+      addToast('New password must be at least 8 characters long', 'warning');
+      return;
+    }
+
     setPassSubmitting(true);
     const result = await changePassword(currentPassword, newPassword, confirmPassword);
     setPassSubmitting(false);
@@ -500,10 +581,14 @@ export const AdminDashboardPage = () => {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      addToast('Master Admin credentials updated', 'success', 3500, { desc: 'Your account security key has been reset.' });
+    } else {
+      addToast(result.error || 'Failed to change admin password', 'error');
     }
   };
 
   const handleLogout = () => {
+    addToast('Logged out of Admin Command Center', 'info', 2000);
     logout();
     navigate('/admin/login');
   };
@@ -728,8 +813,8 @@ export const AdminDashboardPage = () => {
           })}
 
           <button
-            onClick={fetchDashboardData}
-            className="ml-auto p-2.5 rounded-xl bg-navy-900 text-gray-400 hover:text-gold-400 border border-navy-800 transition-colors"
+            onClick={() => fetchDashboardData(true)}
+            className="ml-auto p-2.5 rounded-xl bg-navy-900 text-gray-400 hover:text-gold-400 border border-navy-800 transition-colors cursor-pointer"
             title="Refresh Real-Time Telemetry"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -1197,7 +1282,7 @@ export const AdminDashboardPage = () => {
                             <div className="flex items-center gap-1.5 bg-navy-850 px-3 py-1 rounded-xl border border-navy-750">
                               <span className="text-xs font-mono font-bold text-gold-400">#{order.id}</span>
                               <button
-                                onClick={() => handleCopyText(order.id, `order-${order.id}`)}
+                                onClick={() => handleCopyText(order.id, `order-${order.id}`, 'Consignment ID')}
                                 className="text-gray-400 hover:text-white p-0.5 transition-colors cursor-pointer"
                                 title="Copy Order ID"
                               >
@@ -1403,7 +1488,7 @@ export const AdminDashboardPage = () => {
                               </span>
                               {order.trackingNumber && (
                                 <button
-                                  onClick={() => handleCopyText(order.trackingNumber, `trk-${order.id}`)}
+                                  onClick={() => handleCopyText(order.trackingNumber, `trk-${order.id}`, 'AWB Tracking Number')}
                                   className="text-gray-400 hover:text-white p-0.5 cursor-pointer"
                                   title="Copy Tracking Number"
                                 >

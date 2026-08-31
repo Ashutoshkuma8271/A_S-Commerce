@@ -57,34 +57,35 @@ export function App() {
     <BrowserRouter>
       {/* React Hot Toast Notifications Container */}
       <Toaster
-        position="top-center"
+        position="top-right"
         reverseOrder={false}
-        gutter={8}
+        gutter={10}
         containerStyle={{
           top: 24,
+          right: 24,
+          zIndex: 99999,
         }}
         toastOptions={{
-          duration: 3000,
+          duration: 3200,
           style: {
-            background: 'rgba(6, 26, 39, 0.94)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
+            background: 'rgba(9, 27, 41, 0.96)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
             color: '#FAF7F0',
-            border: '1px solid rgba(245, 184, 61, 0.25)',
-            boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.2)',
-            borderRadius: '12px',
-            padding: '7px 14px',
-            fontSize: '12px',
+            border: '1px solid rgba(245, 184, 61, 0.3)',
+            boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.08)',
+            borderRadius: '16px',
+            padding: '12px 18px',
+            fontSize: '13px',
             fontWeight: '500',
             lineHeight: '1.4',
-            letterSpacing: '0.01em',
-            maxWidth: '380px',
+            maxWidth: '420px',
           },
           success: {
-            duration: 3000,
+            duration: 3200,
             style: {
               border: '1px solid rgba(16, 185, 129, 0.35)',
-              boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(16, 185, 129, 0.15)',
+              boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(16, 185, 129, 0.15)',
             },
             iconTheme: {
               primary: '#10B981',
@@ -92,13 +93,13 @@ export function App() {
             },
           },
           error: {
-            duration: 3800,
+            duration: 4200,
             style: {
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(239, 68, 68, 0.15)',
+              border: '1px solid rgba(244, 63, 94, 0.4)',
+              boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(244, 63, 94, 0.15)',
             },
             iconTheme: {
-              primary: '#EF4444',
+              primary: '#F43F5E',
               secondary: '#061A27',
             },
           },
