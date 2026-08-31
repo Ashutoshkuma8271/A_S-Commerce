@@ -114,7 +114,7 @@ export const OrderProvider = ({ children }) => {
 
     setOrders((prev) => [newOrder, ...prev]);
     setLatestOrder(newOrder);
-    clearCart();
+    clearCart(true); // Silent clear to prevent duplicate 'Shopping bag cleared' toast
 
     // Persist order to Backend server & Supabase database
     try {
@@ -125,7 +125,10 @@ export const OrderProvider = ({ children }) => {
       }).catch((err) => console.warn('Order database sync note:', err));
     } catch (e) {}
 
-    addToast(`Order #${orderId} placed successfully!`, 'success');
+    addToast(`Order #${orderId} placed successfully!`, 'success', 3000, {
+      id: 'order-placed-success',
+      desc: 'Thank you for your order! Confirmation details generated.',
+    });
     return newOrder;
   };
 

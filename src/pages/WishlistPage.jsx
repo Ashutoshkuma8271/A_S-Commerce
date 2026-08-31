@@ -12,10 +12,14 @@ export const WishlistPage = () => {
   const { addToast } = useToast();
 
   const handleAddAllToCart = () => {
+    let addedCount = 0;
     wishlistItems.forEach((product) => {
-      addToCart(product, 1, null, null, false);
+      const added = addToCart(product, 1, null, null, false, false);
+      if (added) addedCount++;
     });
-    addToast('All items added to cart', 'success');
+    if (addedCount > 0) {
+      addToast(`Moved ${addedCount} items to shopping bag`, 'success', 2400);
+    }
   };
 
   if (wishlistCount === 0) {

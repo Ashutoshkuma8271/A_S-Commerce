@@ -93,7 +93,7 @@ export const CartProvider = ({ children }) => {
   }, [originalSubtotal, subtotal, couponDiscount]);
 
   // Enforce Login before Adding to Cart
-  const addToCart = (product, quantity = 1, color = null, size = null, openDrawer = false) => {
+  const addToCart = (product, quantity = 1, color = null, size = null, openDrawer = false, showToast = true) => {
     if (!isAuthenticated) {
       requireAuth(null, 'Please sign in to add items to your cart.');
       return false;
@@ -130,9 +130,12 @@ export const CartProvider = ({ children }) => {
       ];
     });
 
-    addToast('Added to bag', 'success', 3000, {
-      desc: `${product.name} (${chosenSize !== 'Standard' ? chosenSize : ''} ${chosenColor !== 'Standard' ? chosenColor : ''})`.trim()
-    });
+    if (showToast) {
+      addToast('Added to bag', 'success', 2400, {
+        id: 'cart-add-toast',
+        desc: `${product.name} (${chosenSize !== 'Standard' ? chosenSize : ''} ${chosenColor !== 'Standard' ? chosenColor : ''})`.trim()
+      });
+    }
     if (openDrawer) {
       setIsCartDrawerOpen(true);
     }
@@ -155,13 +158,13 @@ export const CartProvider = ({ children }) => {
     const removed = cartItems.find((i) => i.cartItemId === cartItemId);
     setCartItems((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
     if (removed) {
-      addToast('Item removed from bag', 'info', 2500, { desc: removed.name });
+      addToast('Item removed from bag', 'info', 2200, { desc: removed.name });
     }
   };
 
-  const clearCart = () => {
-    if (cartItems.length > 0) {
-      addToast('Shopping bag cleared', 'info', 2500);
+  const clearCart = (silent = false) => {
+    if (!silent && cartItems.length > 0) {
+      addToast('Shopping bag cleared', 'info', 2200);
     }
     setCartItems([]);
     setAppliedCoupon(null);

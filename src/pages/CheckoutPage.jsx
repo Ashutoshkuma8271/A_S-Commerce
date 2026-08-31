@@ -302,9 +302,9 @@ export const CheckoutPage = () => {
     if (paymentMethod === 'cod') {
       setTimeout(() => {
         completeOrderProcess(orderPayload);
-      }, 1000);
+      }, 400);
     } else {
-      const res = processRazorpayPayment({
+      const res = await processRazorpayPayment({
         orderId: `AS-${Date.now().toString().slice(-6)}`,
         amount: finalTotal,
         userName: formData.fullName,
@@ -322,7 +322,7 @@ export const CheckoutPage = () => {
       if (res?.isSimulated) {
         setTimeout(() => {
           completeOrderProcess(orderPayload);
-        }, 1200);
+        }, 500);
       }
     }
   };

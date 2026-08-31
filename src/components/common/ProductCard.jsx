@@ -17,9 +17,11 @@ export const ProductCard = ({ product, onQuickView }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsAdding(true);
-    addToCart(product, 1, null, null, false);
-    setTimeout(() => setIsAdding(false), 1200);
+    const success = addToCart(product, 1, null, null, false);
+    if (success) {
+      setIsAdding(true);
+      setTimeout(() => setIsAdding(false), 800);
+    }
   };
 
   const handleWishlist = (e) => {

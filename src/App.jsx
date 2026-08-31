@@ -59,49 +59,13 @@ export function App() {
       <Toaster
         position="top-center"
         reverseOrder={false}
-        gutter={10}
+        gutter={8}
         containerStyle={{
-          top: 24,
-          zIndex: 99999,
+          top: 20,
+          zIndex: 999999,
         }}
         toastOptions={{
-          duration: 3200,
-          style: {
-            background: 'rgba(9, 27, 41, 0.96)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            color: '#FAF7F0',
-            border: '1px solid rgba(245, 184, 61, 0.3)',
-            boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.08)',
-            borderRadius: '16px',
-            padding: '12px 18px',
-            fontSize: '13px',
-            fontWeight: '500',
-            lineHeight: '1.4',
-            maxWidth: '420px',
-          },
-          success: {
-            duration: 3200,
-            style: {
-              border: '1px solid rgba(16, 185, 129, 0.35)',
-              boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(16, 185, 129, 0.15)',
-            },
-            iconTheme: {
-              primary: '#10B981',
-              secondary: '#061A27',
-            },
-          },
-          error: {
-            duration: 4200,
-            style: {
-              border: '1px solid rgba(244, 63, 94, 0.4)',
-              boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(244, 63, 94, 0.15)',
-            },
-            iconTheme: {
-              primary: '#F43F5E',
-              secondary: '#061A27',
-            },
-          },
+          duration: 2500,
         }}
       />
 
