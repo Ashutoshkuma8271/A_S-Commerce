@@ -418,6 +418,30 @@ export const db = {
     return memoryDB.users || [];
   },
 
+  getUsersAsync: async () => {
+    try {
+      const { data } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+      if (data && data.length > 0) {
+        memoryDB.users = data.map(u => ({
+          id: u.id,
+          name: u.name,
+          email: u.email,
+          phone: u.phone || '',
+          role: 'customer',
+          isVerified: u.is_verified !== false,
+          addresses: u.addresses || [],
+          wishlist: u.wishlist || [],
+          createdAt: u.created_at,
+          updatedAt: u.updated_at
+        }));
+        saveToDisk();
+        return memoryDB.users;
+      }
+    } catch (e) {}
+    loadFromDisk();
+    return memoryDB.users || [];
+  },
+
   getUserById: (id) => {
     loadFromDisk();
     return (memoryDB.users || []).find(u => u.id === id);
@@ -1171,12 +1195,16 @@ export const db = {
     loadFromDisk();
     const products = memoryDB.products || [];
     const orders = memoryDB.orders || [];
+    const users = memoryDB.users || [];
+    const coupons = memoryDB.coupons || [];
     const revenue = orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
     const lowStock = products.filter(p => Number(p.stockCount) < 5).length;
 
     return {
       totalProducts: products.length,
       totalOrders: orders.length,
+      totalCustomers: users.length,
+      totalCoupons: coupons.length,
       totalRevenue: revenue,
       lowStockCount: lowStock,
       recentOrders: orders.slice(0, 5),
@@ -1186,22 +1214,26 @@ export const db = {
 
   getStatsAsync: async () => {
     try {
-      const [orders, logs, products] = await Promise.all([
+      const [orders, logs, products, users, coupons] = await Promise.all([
         db.getOrdersAsync(),
         db.getAuditLogsAsync(10),
-        db.getProductsAsync ? db.getProductsAsync() : Promise.resolve(db.getProducts())
+        db.getProductsAsync ? db.getProductsAsync() : Promise.resolve(db.getProducts()),
+        db.getUsersAsync(),
+        Promise.resolve(db.getCoupons())
       ]);
 
       const totalRev = (orders || []).reduce((sum, o) => sum + (Number(o.total) || 0), 0);
       const lowStock = (products || []).filter(p => Number(p.stockCount) < 5).length;
 
       return {
-        totalProducts: products.length,
-        totalOrders: orders.length,
+        totalProducts: (products || []).length,
+        totalOrders: (orders || []).length,
+        totalCustomers: (users || []).length,
+        totalCoupons: (coupons || []).length,
         totalRevenue: totalRev,
         lowStockCount: lowStock,
-        recentOrders: orders.slice(0, 5),
-        recentAuditLogs: logs.slice(0, 5)
+        recentOrders: (orders || []).slice(0, 5),
+        recentAuditLogs: (logs || []).slice(0, 5)
       };
     } catch (e) {
       return db.getStats();

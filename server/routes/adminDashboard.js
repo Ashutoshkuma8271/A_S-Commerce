@@ -268,6 +268,41 @@ router.put('/settings', async (req, res) => {
   }
 });
 
+// 4.5 CUSTOMERS DIRECTORY
+// GET /api/admin/customers — Registered Customers & Purchasing Behavior
+router.get('/customers', async (req, res) => {
+  try {
+    const [users, orders] = await Promise.all([
+      db.getUsersAsync(),
+      db.getOrdersAsync()
+    ]);
+
+    const customers = (users || []).map(user => {
+      const userOrders = (orders || []).filter(o =>
+        (o.customerEmail || o.email || o.shippingAddress?.email || '').toLowerCase() === user.email.toLowerCase()
+      );
+      const totalSpend = userOrders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone || '—',
+        isVerified: user.isVerified !== false,
+        totalOrders: userOrders.length,
+        totalSpend,
+        addresses: user.addresses || [],
+        createdAt: user.createdAt || user.created_at
+      };
+    });
+
+    return res.json({ success: true, customers });
+  } catch (err) {
+    console.error('Fetch customers error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to fetch customer directory' });
+  }
+});
+
 // 5. COUPONS & PROMOTIONS
 // GET /api/admin/coupons
 router.get('/coupons', (req, res) => {

@@ -39,10 +39,11 @@ export const AdminDashboardPage = () => {
   const navigate = useNavigate();
   const { admin, token, logout, changePassword } = useAdminAuth();
 
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'products' | 'orders' | 'settings' | 'coupons' | 'audit' | 'profile'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'products' | 'orders' | 'customers' | 'settings' | 'coupons' | 'audit' | 'profile'
   const [stats, setStats] = useState(null);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [coupons, setCoupons] = useState([]);
   const [auditLogs, setAuditLogs] = useState([]);
   const [siteSettings, setSiteSettings] = useState({
@@ -62,6 +63,9 @@ export const AdminDashboardPage = () => {
   // Search & Filters in Orders
   const [orderSearch, setOrderSearch] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState('all');
+
+  // Search & Filters in Customers
+  const [customerSearch, setCustomerSearch] = useState('');
 
   // Product Modal State (Add / Edit)
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -142,10 +146,11 @@ export const AdminDashboardPage = () => {
       setLoading(true);
       const headers = { Authorization: `Bearer ${token}` };
 
-      const [statsRes, prodRes, ordersRes, couponsRes, auditRes, settingsRes] = await Promise.all([
+      const [statsRes, prodRes, ordersRes, custRes, couponsRes, auditRes, settingsRes] = await Promise.all([
         fetch('/api/admin/stats', { headers }),
         fetch('/api/admin/products', { headers }),
         fetch('/api/admin/orders', { headers }),
+        fetch('/api/admin/customers', { headers }),
         fetch('/api/admin/coupons', { headers }),
         fetch('/api/admin/audit-logs', { headers }),
         fetch('/api/admin/settings', { headers }),
@@ -162,6 +167,10 @@ export const AdminDashboardPage = () => {
       if (ordersRes.ok) {
         const d = await ordersRes.json();
         setOrders(d.orders || []);
+      }
+      if (custRes.ok) {
+        const d = await custRes.json();
+        setCustomers(d.customers || []);
       }
       if (couponsRes.ok) {
         const d = await couponsRes.json();
@@ -600,6 +609,7 @@ export const AdminDashboardPage = () => {
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'products', label: `Catalog & Products (${products.length})`, icon: Package },
             { id: 'orders', label: `Orders & Delivery (${orders.length})`, icon: ShoppingBag },
+            { id: 'customers', label: `Customers (${customers.length})`, icon: User },
             { id: 'settings', label: 'Website Sections', icon: Sliders },
             { id: 'coupons', label: `Vouchers (${coupons.length})`, icon: Tag },
             { id: 'audit', label: `Security Audit Trail (${auditLogs.length})`, icon: History },
@@ -882,19 +892,23 @@ export const AdminDashboardPage = () => {
                   <span>Order Fulfillment & Delivery Logistics</span>
                 </h3>
                 <p className="text-xs text-gray-400">
-                  Real-time order tracking, live itemized manifests, status synchronization, and carrier dispatch.
+                  Real-time live customer orders synchronized with Supabase database.
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center flex-wrap gap-2">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20 font-medium">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Supabase Live Sync</span>
+                </span>
                 <button
                   onClick={fetchDashboardData}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 text-xs border border-navy-700 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 hover:text-white text-xs border border-navy-700 transition-colors cursor-pointer"
                 >
-                  <RefreshCw className="w-3.5 h-3.5 text-gold-400" />
-                  <span>Refresh Orders</span>
+                  <RefreshCw className={`w-3.5 h-3.5 text-gold-400 ${loading ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
                 </button>
-                <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30">
-                  {orders.length} Total Consignments
+                <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30 font-semibold">
+                  {orders.length} Shipments
                 </span>
               </div>
             </div>
@@ -953,7 +967,7 @@ export const AdminDashboardPage = () => {
                     'In Transit': 'bg-sky-500/15 text-sky-400 border-sky-500/30',
                     Processing: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
                     'Payment Confirmed': 'bg-amber-500/15 text-amber-400 border-amber-500/30',
-                    'Order Placed': 'bg-purple-500/15 text-purple-400 border-purple-500/30',
+                    'Order Placed': 'bg-gold-500/20 text-gold-400 border-gold-500/40',
                     Cancelled: 'bg-red-500/15 text-red-400 border-red-500/30',
                   };
                   const currentStatus = order.status || 'Processing';
@@ -969,16 +983,15 @@ export const AdminDashboardPage = () => {
                         <div className="space-y-1">
                           <div className="flex items-center flex-wrap gap-2">
                             <span className="text-sm font-bold font-mono text-gold-400">Order #{order.id}</span>
+                            <span className="text-xs text-gray-400">• {order.createdAt ? new Date(order.createdAt).toISOString().split('T')[0] : order.date || '2026-08-31'}</span>
                             <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${badgeClass}`}>
-                              ● {currentStatus}
-                            </span>
-                            <span className="text-[11px] text-gray-400">
-                              • {order.createdAt ? new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : order.date || 'Recent'}
+                              {currentStatus}
                             </span>
                           </div>
                           <p className="text-xs text-gray-300">
-                            Customer: <strong className="text-white">{order.customerName || order.shippingAddress?.name || 'Customer'}</strong>
-                            {' '}({order.customerPhone || order.shippingAddress?.phone || 'No phone'} | {order.customerEmail || order.shippingAddress?.email || 'No email'})
+                            Client: <strong className="text-white">{order.customerName || order.shippingAddress?.name || 'Customer'}</strong>
+                            {' '}• {order.customerEmail || order.shippingAddress?.email || 'customer@ascommerce.luxury'}
+                            {order.customerPhone || order.shippingAddress?.phone ? ` • 📞 ${order.customerPhone || order.shippingAddress?.phone}` : ''}
                           </p>
                         </div>
 
@@ -998,8 +1011,9 @@ export const AdminDashboardPage = () => {
                             onChange={(e) => handleQuickStatusUpdate(order.id, e.target.value)}
                             className="px-2.5 py-1.5 bg-navy-900 text-gold-400 border border-navy-700 rounded-xl text-xs font-semibold focus:border-gold-500 focus:outline-none cursor-pointer"
                           >
-                            <option value="Processing">Processing</option>
+                            <option value="Order Placed">Order Placed</option>
                             <option value="Payment Confirmed">Payment Confirmed</option>
+                            <option value="Processing">Processing</option>
                             <option value="Shipped">Shipped</option>
                             <option value="Out for Delivery">Out for Delivery</option>
                             <option value="Delivered">Delivered</option>
@@ -1008,10 +1022,10 @@ export const AdminDashboardPage = () => {
 
                           <button
                             onClick={() => handleOpenDeliveryModal(order)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gold-gradient text-navy-950 font-bold text-xs shadow-gold-sm hover:brightness-105 transition-all cursor-pointer"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gold-gradient text-navy-950 font-bold text-xs shadow-gold-sm hover:brightness-105 transition-all cursor-pointer"
                           >
                             <Truck className="w-3.5 h-3.5" />
-                            <span>Logistics</span>
+                            <span>Update Delivery</span>
                           </button>
                         </div>
                       </div>
@@ -1020,7 +1034,7 @@ export const AdminDashboardPage = () => {
                       {Array.isArray(order.items) && order.items.length > 0 && (
                         <div className="bg-navy-900/60 rounded-xl p-3.5 border border-navy-800/80">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
-                            Ordered Manifest ({order.items.length} {order.items.length === 1 ? 'item' : 'items'})
+                            ORDERED ITEMS ({order.items.length} ITEMS)
                           </span>
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
                             {order.items.map((item, idx) => (
@@ -1036,7 +1050,7 @@ export const AdminDashboardPage = () => {
                                 <div className="min-w-0 flex-1">
                                   <p className="font-medium text-white truncate text-[11px]">{item.name}</p>
                                   <p className="text-[10px] text-gray-400">
-                                    Qty: <strong className="text-gold-400">{item.quantity || 1}</strong> × {formatINR(item.price || 0)}
+                                    Qty: <strong className="text-gold-400">{item.quantity || 1}</strong> • {formatINR(item.price || 0)}
                                   </p>
                                 </div>
                               </div>
@@ -1048,27 +1062,27 @@ export const AdminDashboardPage = () => {
                       {/* Order Details & Logistics */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-300 pt-1">
                         <div className="space-y-1 bg-navy-900/40 p-3 rounded-xl border border-navy-800/60">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-gold-400/90 block">
-                            Destination Address
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
+                            DESTINATION ADDRESS
                           </span>
                           <p className="leading-relaxed text-gray-200">
                             {order.shippingAddress?.street ? (
                               <>
-                                {order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state || ''} - {order.shippingAddress.pincode}
+                                {order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state ? `${order.shippingAddress.state}, ` : ''}PIN: {order.shippingAddress.pincode}
                               </>
                             ) : (
-                              'Standard Express Delivery to Registered Customer Address'
+                              'Standard Delivery to Client Address'
                             )}
                           </p>
                         </div>
 
                         <div className="space-y-1 bg-navy-900/40 p-3 rounded-xl border border-navy-800/60">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-gold-400/90 block">
-                            Carrier & Dispatch Dossier
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
+                            CARRIER DETAILS
                           </span>
                           <p className="leading-relaxed text-gray-200">
-                            Partner: <strong className="text-white">{order.carrier || 'Bluedart Express'}</strong>
-                            {' '}| Waybill: <span className="font-mono text-gold-400 font-semibold">{order.trackingNumber || 'Pending AWB Allocation'}</span>
+                            Carrier: <strong className="text-white">{order.carrier || 'Bluedart Express Luxury Courier'}</strong>
+                            {' '}| Waybill Tracking: <span className="font-mono text-gold-400 font-semibold">{order.trackingNumber || 'Pending AWB'}</span>
                           </p>
                         </div>
                       </div>
@@ -1081,6 +1095,126 @@ export const AdminDashboardPage = () => {
                   <Package className="w-10 h-10 text-gray-500 mx-auto" />
                   <p className="text-sm font-semibold text-gray-300">No orders received yet.</p>
                   <p className="text-xs text-gray-500">Live orders will automatically populate here as customers checkout.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3.5: CUSTOMERS DIRECTORY */}
+        {activeTab === 'customers' && (
+          <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6 animate-fadeIn">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+              <div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <User className="w-6 h-6 text-gold-400" />
+                  <span>Registered Customer Directory</span>
+                </h3>
+                <p className="text-xs text-gray-400">
+                  Customer profiles, verified contact details, purchasing frequency, and lifetime spend.
+                </p>
+              </div>
+              <div className="flex items-center flex-wrap gap-2">
+                <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30 font-semibold">
+                  {customers.length} Patrons Registered
+                </span>
+                <button
+                  onClick={fetchDashboardData}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 hover:text-white text-xs border border-navy-700 transition-colors cursor-pointer"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 text-gold-400 ${loading ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Customer Search */}
+            <div className="max-w-md relative">
+              <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search customers by name, email, phone..."
+                value={customerSearch}
+                onChange={(e) => setCustomerSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+              />
+            </div>
+
+            {/* Customers Table / Card List */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-gray-300">
+                <thead className="bg-navy-950/80 text-gold-400 uppercase font-mono text-[10px] tracking-wider border-b border-navy-800">
+                  <tr>
+                    <th className="py-3.5 px-4 rounded-l-xl">Patron</th>
+                    <th className="py-3.5 px-4">Contact Info</th>
+                    <th className="py-3.5 px-4">Security Verification</th>
+                    <th className="py-3.5 px-4">Consignments</th>
+                    <th className="py-3.5 px-4">Lifetime Spend</th>
+                    <th className="py-3.5 px-4 rounded-r-xl">Joined</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-navy-800/60">
+                  {customers
+                    .filter((c) => {
+                      const q = customerSearch.toLowerCase().trim();
+                      if (!q) return true;
+                      return (
+                        (c.name || '').toLowerCase().includes(q) ||
+                        (c.email || '').toLowerCase().includes(q) ||
+                        (c.phone || '').toLowerCase().includes(q)
+                      );
+                    })
+                    .map((customer) => (
+                      <tr key={customer.id} className="hover:bg-navy-850/50 transition-colors">
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center font-bold font-serif text-gold-400 text-xs">
+                              {(customer.name || 'C').charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <p className="font-bold text-white text-xs">{customer.name}</p>
+                              <p className="text-[10px] font-mono text-gray-400">{customer.id}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-4 space-y-0.5">
+                          <p className="text-gray-200 font-medium">{customer.email}</p>
+                          <p className="text-[11px] text-gray-400">{customer.phone || 'No phone'}</p>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          {customer.isVerified ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold font-mono">
+                              <CheckCircle2 className="w-3 h-3" />
+                              <span>Verified OTP</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 text-[10px] font-bold font-mono">
+                              <Clock className="w-3 h-3" />
+                              <span>Pending OTP</span>
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="px-2.5 py-1 rounded-lg bg-navy-800 text-gold-400 border border-navy-700 font-mono font-bold text-xs">
+                            {customer.totalOrders || 0} Orders
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 font-serif font-bold text-white">
+                          {formatINR(customer.totalSpend || 0)}
+                        </td>
+                        <td className="py-3.5 px-4 text-gray-400 text-[11px]">
+                          {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : '2026-08-31'}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+
+              {customers.length === 0 && (
+                <div className="text-center py-12 rounded-2xl bg-navy-850/50 border border-navy-800 space-y-2 mt-3">
+                  <User className="w-10 h-10 text-gray-500 mx-auto" />
+                  <p className="text-sm font-semibold text-gray-300">No registered patrons yet.</p>
+                  <p className="text-xs text-gray-500">Registered users will appear here automatically.</p>
                 </div>
               )}
             </div>
