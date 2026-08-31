@@ -208,17 +208,17 @@ router.get('/orders', async (req, res) => {
 });
 
 // PUT /api/admin/orders/:id/status — Advance Logistics & Delivery Status
-router.put('/orders/:id/status', (req, res) => {
+router.put('/orders/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
     const { status, carrier, trackingNumber, note } = req.body;
 
-    const previous = db.getOrderById(id);
+    const previous = await db.getOrderByIdAsync(id);
     if (!previous) {
       return res.status(404).json({ success: false, message: 'Order not found.' });
     }
 
-    const updated = db.updateOrderStatus(id, { status, carrier, trackingNumber, note });
+    const updated = await db.updateOrderStatus(id, { status, carrier, trackingNumber, note });
 
     logAudit({
       action: 'Order status updated',
@@ -226,7 +226,7 @@ router.put('/orders/:id/status', (req, res) => {
       adminEmail: req.admin.email,
       ip: req.ip,
       resource: `Order #${id}`,
-      details: `Status advanced to "${status}" (Carrier: ${carrier || updated.carrier}, Tracking: ${trackingNumber || updated.trackingNumber})`
+      details: `Status advanced to "${status}" (Carrier: ${carrier || updated?.carrier}, Tracking: ${trackingNumber || updated?.trackingNumber})`
     });
 
     return res.json({ success: true, message: `Order #${id} logistics updated.`, order: updated });

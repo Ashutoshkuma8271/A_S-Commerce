@@ -829,6 +829,53 @@ export const db = {
     );
   },
 
+  getOrderByIdAsync: async (id) => {
+    loadFromDisk();
+    if (!id) return null;
+    const clean = id.toString().trim();
+    
+    const found = (memoryDB.orders || []).find(o =>
+      o.id?.toUpperCase() === clean.toUpperCase() ||
+      o.trackingNumber?.toUpperCase() === clean.toUpperCase()
+    );
+    if (found) return found;
+
+    try {
+      const { data } = await supabase.from('orders').select('*').eq('id', clean).maybeSingle();
+      if (data) {
+        const order = {
+          id: data.id,
+          customerId: data.customer_id,
+          customerName: data.customer_name,
+          customerEmail: data.user_email || data.customer_email,
+          customerPhone: data.customer_phone,
+          items: data.items || [],
+          subtotal: data.subtotal || data.total_amount,
+          total: data.total_amount,
+          status: data.status || 'Processing',
+          carrier: data.carrier || 'Bluedart Express',
+          trackingNumber: data.tracking_number || '',
+          paymentMethod: data.payment_method || 'Razorpay',
+          paymentStatus: data.payment_status || 'Paid',
+          shippingAddress: {
+            name: data.customer_name || 'Customer',
+            email: data.user_email || data.customer_email || '',
+            phone: data.customer_phone || '',
+            street: data.shipping_street || '',
+            city: data.shipping_city || '',
+            pincode: data.shipping_pincode || '',
+          },
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+        if (!memoryDB.orders) memoryDB.orders = [];
+        memoryDB.orders.unshift(order);
+        return order;
+      }
+    } catch (e) {}
+    return null;
+  },
+
   createOrder: async (orderData) => {
     loadFromDisk();
     const now = new Date().toISOString();
@@ -870,9 +917,9 @@ export const db = {
     try {
       await supabase.from('orders').insert({
         id: newOrder.id,
-        user_email: newOrder.shippingAddress?.email || 'customer@ascommerce.luxury',
-        customer_name: newOrder.shippingAddress?.name || newOrder.shippingAddress?.fullName || 'Customer',
-        customer_phone: newOrder.shippingAddress?.phone || '',
+        user_email: newOrder.shippingAddress?.email || newOrder.customerEmail || 'customer@ascommerce.luxury',
+        customer_name: newOrder.shippingAddress?.name || newOrder.shippingAddress?.fullName || newOrder.customerName || 'Customer',
+        customer_phone: newOrder.shippingAddress?.phone || newOrder.customerPhone || '',
         shipping_street: newOrder.shippingAddress?.street || '',
         shipping_city: newOrder.shippingAddress?.city || '',
         shipping_pincode: newOrder.shippingAddress?.pincode || '',
@@ -891,28 +938,43 @@ export const db = {
     return newOrder;
   },
 
-  updateOrderStatus: async (orderId, { status, carrier, trackingNumber }) => {
+  updateOrderStatus: async (orderId, { status, carrier, trackingNumber, note }) => {
     loadFromDisk();
-    const index = memoryDB.orders.findIndex(o => o.id === orderId);
-    if (index === -1) return null;
-
+    if (!orderId) return null;
+    const clean = orderId.toString().trim();
     const now = new Date().toISOString();
-    memoryDB.orders[index].status = status || memoryDB.orders[index].status;
-    if (carrier) memoryDB.orders[index].carrier = carrier;
-    if (trackingNumber) memoryDB.orders[index].trackingNumber = trackingNumber;
-    memoryDB.orders[index].updatedAt = now;
+
+    let order = (memoryDB.orders || []).find(o => o.id?.toUpperCase() === clean.toUpperCase());
+    if (!order) {
+      order = await db.getOrderByIdAsync(clean);
+    }
+    if (!order) return null;
+
+    if (status) order.status = status;
+    if (carrier) order.carrier = carrier;
+    if (trackingNumber) order.trackingNumber = trackingNumber;
+    if (note) order.adminNote = note;
+    order.updatedAt = now;
+
+    if (memoryDB.orders) {
+      const idx = memoryDB.orders.findIndex(o => o.id === order.id);
+      if (idx !== -1) memoryDB.orders[idx] = { ...order };
+    }
     saveToDisk();
 
     try {
       await supabase.from('orders').update({
-        status,
-        carrier,
-        tracking_number: trackingNumber,
+        status: order.status,
+        carrier: order.carrier,
+        tracking_number: order.trackingNumber,
         updated_at: now
-      }).eq('id', orderId);
-    } catch (e) {}
+      }).eq('id', order.id);
+      console.log(`⚡ Updated Order #${order.id} in Supabase to status: ${order.status}`);
+    } catch (e) {
+      console.warn('Supabase update order status error:', e.message);
+    }
 
-    return memoryDB.orders[index];
+    return order;
   },
 
   // 5. COUPONS & SITE SETTINGS
@@ -959,22 +1021,30 @@ export const db = {
 
   getOrdersAsync: async () => {
     try {
-      const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+      const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
       if (data && data.length > 0) {
         memoryDB.orders = data.map(o => ({
           id: o.id,
           customerId: o.customer_id,
           customerName: o.customer_name,
-          customerEmail: o.customer_email,
+          customerEmail: o.user_email || o.customer_email,
           customerPhone: o.customer_phone,
           items: o.items || [],
+          subtotal: o.subtotal || o.total_amount,
           total: o.total_amount,
-          status: o.status,
-          carrier: o.carrier,
-          trackingNumber: o.tracking_number,
-          paymentMethod: o.payment_method,
-          paymentStatus: o.payment_status,
-          shippingAddress: o.shipping_address,
+          status: o.status || 'Processing',
+          carrier: o.carrier || 'Bluedart Express',
+          trackingNumber: o.tracking_number || '',
+          paymentMethod: o.payment_method || 'Razorpay',
+          paymentStatus: o.payment_status || 'Paid',
+          shippingAddress: {
+            name: o.customer_name || 'Customer',
+            email: o.user_email || o.customer_email || '',
+            phone: o.customer_phone || '',
+            street: o.shipping_street || '',
+            city: o.shipping_city || '',
+            pincode: o.shipping_pincode || '',
+          },
           createdAt: o.created_at,
           updatedAt: o.updated_at
         }));

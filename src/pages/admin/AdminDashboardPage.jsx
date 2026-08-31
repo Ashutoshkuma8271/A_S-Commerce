@@ -59,6 +59,10 @@ export const AdminDashboardPage = () => {
   const [productSearch, setProductSearch] = useState('');
   const [productCategoryFilter, setProductCategoryFilter] = useState('all');
 
+  // Search & Filters in Orders
+  const [orderSearch, setOrderSearch] = useState('');
+  const [orderStatusFilter, setOrderStatusFilter] = useState('all');
+
   // Product Modal State (Add / Edit)
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -291,6 +295,25 @@ export const AdminDashboardPage = () => {
       }
     } catch (err) {
       console.error('Save order delivery error', err);
+    }
+  };
+
+  const handleQuickStatusUpdate = async (orderId, newStatus) => {
+    try {
+      const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+        fetchDashboardData();
+      }
+    } catch (err) {
+      console.error('Quick status update error', err);
     }
   };
 
@@ -859,58 +882,207 @@ export const AdminDashboardPage = () => {
                   <span>Order Fulfillment & Delivery Logistics</span>
                 </h3>
                 <p className="text-xs text-gray-400">
-                  Update delivery stages, carrier tracking numbers, and address dossiers.
+                  Real-time order tracking, live itemized manifests, status synchronization, and carrier dispatch.
                 </p>
               </div>
-              <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1 rounded-full border border-gold-500/30 w-max">
-                {orders.length} Total Shipments
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={fetchDashboardData}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 text-xs border border-navy-700 transition-colors"
+                >
+                  <RefreshCw className="w-3.5 h-3.5 text-gold-400" />
+                  <span>Refresh Orders</span>
+                </button>
+                <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30">
+                  {orders.length} Total Consignments
+                </span>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="p-5 rounded-2xl bg-navy-850 border border-navy-800 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-navy-800 pb-3">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold font-mono text-gold-400">Order #{order.id}</span>
-                        <span className="text-xs text-gray-400">• {order.date}</span>
+            {/* Search & Filter Controls */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="relative">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search by Order ID, customer, phone..."
+                  value={orderSearch}
+                  onChange={(e) => setOrderSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-navy-850 text-white rounded-xl border border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-gray-400" />
+                <select
+                  value={orderStatusFilter}
+                  onChange={(e) => setOrderStatusFilter(e.target.value)}
+                  className="w-full px-3 py-2 bg-navy-850 text-gray-200 rounded-xl border border-navy-700 text-xs focus:border-gold-500 focus:outline-none"
+                >
+                  <option value="all">All Delivery Statuses</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Payment Confirmed">Payment Confirmed</option>
+                  <option value="Shipped">Shipped (In Transit)</option>
+                  <option value="Out for Delivery">Out for Delivery</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Orders List */}
+            <div className="space-y-5">
+              {orders
+                .filter((order) => {
+                  const matchStatus = orderStatusFilter === 'all' || (order.status || '').toLowerCase() === orderStatusFilter.toLowerCase();
+                  const q = orderSearch.toLowerCase().trim();
+                  const matchSearch =
+                    !q ||
+                    (order.id || '').toLowerCase().includes(q) ||
+                    (order.customerName || order.shippingAddress?.name || '').toLowerCase().includes(q) ||
+                    (order.customerEmail || order.shippingAddress?.email || '').toLowerCase().includes(q) ||
+                    (order.customerPhone || order.shippingAddress?.phone || '').toLowerCase().includes(q) ||
+                    (order.trackingNumber || '').toLowerCase().includes(q);
+                  return matchStatus && matchSearch;
+                })
+                .map((order) => {
+                  const statusColors = {
+                    Delivered: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+                    'Out for Delivery': 'bg-sky-500/15 text-sky-400 border-sky-500/30',
+                    Shipped: 'bg-sky-500/15 text-sky-400 border-sky-500/30',
+                    'In Transit': 'bg-sky-500/15 text-sky-400 border-sky-500/30',
+                    Processing: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+                    'Payment Confirmed': 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+                    'Order Placed': 'bg-purple-500/15 text-purple-400 border-purple-500/30',
+                    Cancelled: 'bg-red-500/15 text-red-400 border-red-500/30',
+                  };
+                  const currentStatus = order.status || 'Processing';
+                  const badgeClass = statusColors[currentStatus] || 'bg-gold-500/15 text-gold-400 border-gold-500/30';
+
+                  return (
+                    <div
+                      key={order.id}
+                      className="p-5 sm:p-6 rounded-2xl bg-navy-850 border border-navy-800 hover:border-gold-500/30 transition-all space-y-4 shadow-lg"
+                    >
+                      {/* Order Header */}
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-navy-800 pb-3">
+                        <div className="space-y-1">
+                          <div className="flex items-center flex-wrap gap-2">
+                            <span className="text-sm font-bold font-mono text-gold-400">Order #{order.id}</span>
+                            <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${badgeClass}`}>
+                              ● {currentStatus}
+                            </span>
+                            <span className="text-[11px] text-gray-400">
+                              • {order.createdAt ? new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : order.date || 'Recent'}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-300">
+                            Customer: <strong className="text-white">{order.customerName || order.shippingAddress?.name || 'Customer'}</strong>
+                            {' '}({order.customerPhone || order.shippingAddress?.phone || 'No phone'} | {order.customerEmail || order.shippingAddress?.email || 'No email'})
+                          </p>
+                        </div>
+
+                        <div className="flex items-center flex-wrap gap-3">
+                          <div className="text-right mr-2">
+                            <span className="text-base font-serif font-bold text-white block">
+                              {formatINR(order.total || order.total_amount || 0)}
+                            </span>
+                            <span className="text-[10px] text-gray-400">
+                              {order.paymentMethod || 'Razorpay'} • <span className="text-emerald-400">{order.paymentStatus || 'Paid'}</span>
+                            </span>
+                          </div>
+
+                          {/* Quick Status Select */}
+                          <select
+                            value={currentStatus}
+                            onChange={(e) => handleQuickStatusUpdate(order.id, e.target.value)}
+                            className="px-2.5 py-1.5 bg-navy-900 text-gold-400 border border-navy-700 rounded-xl text-xs font-semibold focus:border-gold-500 focus:outline-none cursor-pointer"
+                          >
+                            <option value="Processing">Processing</option>
+                            <option value="Payment Confirmed">Payment Confirmed</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Out for Delivery">Out for Delivery</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                          </select>
+
+                          <button
+                            onClick={() => handleOpenDeliveryModal(order)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gold-gradient text-navy-950 font-bold text-xs shadow-gold-sm hover:brightness-105 transition-all cursor-pointer"
+                          >
+                            <Truck className="w-3.5 h-3.5" />
+                            <span>Logistics</span>
+                          </button>
+                        </div>
                       </div>
-                      <p className="text-xs text-gray-300 mt-0.5">
-                        Client: <strong className="text-white">{order.shippingAddress?.name}</strong> ({order.shippingAddress?.phone})
-                      </p>
-                    </div>
 
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-serif font-bold text-white">{formatINR(order.total)}</span>
-                      
-                      <button
-                        onClick={() => handleOpenDeliveryModal(order)}
-                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gold-gradient text-navy-950 font-bold text-xs shadow-gold-sm hover:brightness-105 cursor-pointer"
-                      >
-                        <Truck className="w-3.5 h-3.5" />
-                        <span>Update Delivery ({order.status})</span>
-                      </button>
-                    </div>
-                  </div>
+                      {/* Itemized Order Products */}
+                      {Array.isArray(order.items) && order.items.length > 0 && (
+                        <div className="bg-navy-900/60 rounded-xl p-3.5 border border-navy-800/80">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
+                            Ordered Manifest ({order.items.length} {order.items.length === 1 ? 'item' : 'items'})
+                          </span>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                            {order.items.map((item, idx) => (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2.5 p-2 rounded-lg bg-navy-850/80 border border-navy-800 text-xs"
+                              >
+                                <img
+                                  src={item.image || item.images?.[0] || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100'}
+                                  alt={item.name}
+                                  className="w-10 h-10 object-cover rounded-md border border-navy-700 flex-shrink-0"
+                                />
+                                <div className="min-w-0 flex-1">
+                                  <p className="font-medium text-white truncate text-[11px]">{item.name}</p>
+                                  <p className="text-[10px] text-gray-400">
+                                    Qty: <strong className="text-gold-400">{item.quantity || 1}</strong> × {formatINR(item.price || 0)}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-300">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase text-gray-400 block mb-1">Destination Address</span>
-                      <p className="leading-relaxed">
-                        {order.shippingAddress?.street}, {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
-                      </p>
-                    </div>
+                      {/* Order Details & Logistics */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-300 pt-1">
+                        <div className="space-y-1 bg-navy-900/40 p-3 rounded-xl border border-navy-800/60">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gold-400/90 block">
+                            Destination Address
+                          </span>
+                          <p className="leading-relaxed text-gray-200">
+                            {order.shippingAddress?.street ? (
+                              <>
+                                {order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state || ''} - {order.shippingAddress.pincode}
+                              </>
+                            ) : (
+                              'Standard Express Delivery to Registered Customer Address'
+                            )}
+                          </p>
+                        </div>
 
-                    <div>
-                      <span className="text-[10px] font-bold uppercase text-gray-400 block mb-1">Carrier Details</span>
-                      <p className="leading-relaxed">
-                        Carrier: <strong className="text-white">{order.carrier}</strong> | Waybill Tracking: <span className="font-mono text-gold-400">{order.trackingNumber}</span>
-                      </p>
+                        <div className="space-y-1 bg-navy-900/40 p-3 rounded-xl border border-navy-800/60">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gold-400/90 block">
+                            Carrier & Dispatch Dossier
+                          </span>
+                          <p className="leading-relaxed text-gray-200">
+                            Partner: <strong className="text-white">{order.carrier || 'Bluedart Express'}</strong>
+                            {' '}| Waybill: <span className="font-mono text-gold-400 font-semibold">{order.trackingNumber || 'Pending AWB Allocation'}</span>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  );
+                })}
+
+              {orders.length === 0 && (
+                <div className="text-center py-12 rounded-2xl bg-navy-850/50 border border-navy-800 space-y-2">
+                  <Package className="w-10 h-10 text-gray-500 mx-auto" />
+                  <p className="text-sm font-semibold text-gray-300">No orders received yet.</p>
+                  <p className="text-xs text-gray-500">Live orders will automatically populate here as customers checkout.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
