@@ -611,14 +611,9 @@ export const db = {
       console.warn('Supabase admin lookup note:', e.message);
     }
 
-    // Fallback: check if memory has any admin matching the clean email or if only 1 master admin is configured
-    const localMatch = (memoryDB.admins || []).find(a => a.email.toLowerCase() === clean);
+    // Fallback: check if memory has any admin matching the clean email
+    const localMatch = (memoryDB.admins || []).find(a => a.email && a.email.toLowerCase() === clean);
     if (localMatch) return localMatch;
-
-    // If only one admin exists in database, verify if it's the admin trying to log in
-    if (memoryDB.admins && memoryDB.admins.length === 1 && (clean === 'ashukumarfbg8271@gmail.com' || clean === 'ashutoshkumaryadav933499@gmail.com')) {
-      return memoryDB.admins[0];
-    }
 
     return null;
   },
