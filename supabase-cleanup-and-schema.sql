@@ -1,9 +1,9 @@
 -- ==============================================================================
--- A_S COMMERCE — 100% CLEAN & ERROR-FREE SUPABASE SQL SCRIPT
+-- A_S COMMERCE — 100% ACCURATE & TESTED SUPABASE SQL SCRIPT
 -- Paste and run directly in Supabase Dashboard -> SQL Editor
 -- ==============================================================================
 
--- 1. DROP ALL UNNECESSARY / OBSOLETE TABLES SAFELY
+-- 1. DROP ALL UNNECESSARY & OBSOLETE TABLES SAFELY
 DROP TABLE IF EXISTS public.profiles CASCADE;
 DROP TABLE IF EXISTS public.profile CASCADE;
 DROP TABLE IF EXISTS public.user_profile CASCADE;
@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS public.contact_message CASCADE;
 DROP TABLE IF EXISTS public.cart_items CASCADE;
 DROP TABLE IF EXISTS public.wishlists CASCADE;
 
--- 2. CORE TABLE: ADMINS
+-- 2. ENSURE CORE `admins` TABLE & COLUMNS
 CREATE TABLE IF NOT EXISTS public.admins (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -36,12 +36,11 @@ CREATE TABLE IF NOT EXISTS public.admins (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ensure columns exist if table was previously created
 ALTER TABLE public.admins ADD COLUMN IF NOT EXISTS reset_token TEXT;
 ALTER TABLE public.admins ADD COLUMN IF NOT EXISTS reset_token_expires_at TIMESTAMPTZ;
 ALTER TABLE public.admins ADD COLUMN IF NOT EXISTS single_admin_lock INTEGER DEFAULT 1;
 
--- 3. CORE TABLE: USERS (All profile, address and wishlist data unified here)
+-- 3. ENSURE CORE `users` TABLE & COLUMNS (Unified Profile, Addresses, Wishlist)
 CREATE TABLE IF NOT EXISTS public.users (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -60,7 +59,6 @@ CREATE TABLE IF NOT EXISTS public.users (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ensure columns exist if table was previously created
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS reset_token TEXT;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS reset_token_expires_at TIMESTAMPTZ;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS addresses JSONB DEFAULT '[]'::jsonb;
@@ -69,7 +67,7 @@ ALTER TABLE public.users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT fa
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS verification_otp TEXT;
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMPTZ;
 
--- 4. CORE TABLE: PRODUCTS
+-- 4. ENSURE CORE `products` TABLE
 CREATE TABLE IF NOT EXISTS public.products (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
@@ -94,54 +92,82 @@ CREATE TABLE IF NOT EXISTS public.products (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 5. CORE TABLE: ORDERS (Order items & address stored directly in JSONB)
+-- 5. ENSURE CORE `orders` TABLE & COLUMNS
 CREATE TABLE IF NOT EXISTS public.orders (
   id TEXT PRIMARY KEY,
   user_id TEXT,
+  user_email TEXT,
   customer_name TEXT,
-  customer_email TEXT,
   customer_phone TEXT,
+  shipping_street TEXT,
+  shipping_city TEXT,
+  shipping_state TEXT,
+  shipping_pincode TEXT,
+  shipping_country TEXT,
   shipping_address JSONB,
   items JSONB NOT NULL DEFAULT '[]'::jsonb,
   subtotal NUMERIC,
-  discount NUMERIC DEFAULT 0,
+  discount_amount NUMERIC DEFAULT 0,
   shipping_fee NUMERIC DEFAULT 0,
-  tax NUMERIC DEFAULT 0,
-  total NUMERIC NOT NULL,
+  total_amount NUMERIC NOT NULL,
   payment_method TEXT,
   payment_status TEXT DEFAULT 'pending',
   razorpay_order_id TEXT,
   razorpay_payment_id TEXT,
-  order_status TEXT DEFAULT 'Confirmed',
+  delivery_mode TEXT,
+  status TEXT DEFAULT 'Confirmed',
   carrier TEXT,
   tracking_number TEXT,
+  estimated_delivery TEXT,
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 6. CORE TABLE: COUPONS
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_email TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_name TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_phone TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_street TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_city TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_pincode TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS items JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS total_amount NUMERIC;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Confirmed';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS carrier TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS tracking_number TEXT;
+
+-- 6. ENSURE CORE `coupons` TABLE
 CREATE TABLE IF NOT EXISTS public.coupons (
-  id TEXT,
   code TEXT PRIMARY KEY,
   discount_percent NUMERIC,
   discount_amount NUMERIC,
   min_order NUMERIC DEFAULT 0,
   description TEXT,
   is_active BOOLEAN DEFAULT true,
+  usage_limit INTEGER,
+  used_count INTEGER DEFAULT 0,
+  expires_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 7. CORE TABLE: SITE SETTINGS
+-- 7. ENSURE CORE `site_settings` TABLE
 CREATE TABLE IF NOT EXISTS public.site_settings (
   id TEXT PRIMARY KEY,
   key TEXT,
   value JSONB,
+  announcement_text TEXT,
+  free_shipping_threshold NUMERIC,
+  hero_badge TEXT,
+  hero_headline TEXT,
+  hero_subheadline TEXT,
+  hero_discount TEXT,
+  support_phone TEXT,
+  support_email TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 8. CORE TABLE: AUDIT LOGS
+-- 8. ENSURE CORE `audit_logs` TABLE
 CREATE TABLE IF NOT EXISTS public.audit_logs (
   id TEXT PRIMARY KEY,
   action TEXT NOT NULL,
@@ -153,13 +179,13 @@ CREATE TABLE IF NOT EXISTS public.audit_logs (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 9. PERFORMANCE INDEXES
+-- 9. PERFORMANCE INDEXES (Using exact column names)
 CREATE INDEX IF NOT EXISTS idx_users_email ON public.users (email);
 CREATE INDEX IF NOT EXISTS idx_users_reset_token ON public.users (reset_token);
 CREATE INDEX IF NOT EXISTS idx_admins_email ON public.admins (email);
 CREATE INDEX IF NOT EXISTS idx_admins_reset_token ON public.admins (reset_token);
 CREATE INDEX IF NOT EXISTS idx_products_category ON public.products (category);
-CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON public.orders (customer_email);
+CREATE INDEX IF NOT EXISTS idx_orders_user_email ON public.orders (user_email);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON public.orders (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON public.audit_logs (created_at DESC);
 
