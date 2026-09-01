@@ -579,25 +579,31 @@ export const AccountPage = () => {
 
                       {/* Items */}
                       <div className="space-y-2">
-                        {ord.items && ord.items.map((item, idx) => (
-                          <div key={idx} className="flex items-center justify-between text-xs">
-                            <div className="flex items-center gap-3">
-                              <img src={item.image} alt={item.name} className="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-navy-700 bg-white" />
-                              <div>
-                                <p className="font-bold text-navy-950 dark:text-white">{item.name}</p>
-                                <p className="text-gray-500 dark:text-gray-400 text-[11px]">Qty: {item.quantity}</p>
+                        {Array.isArray(ord.items) && ord.items.map((item, idx) => {
+                          const itemImg = item.image || (Array.isArray(item.images) ? item.images[0] : null) || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=400';
+                          const itemQty = Number(item.quantity) || 1;
+                          const itemPrice = Number(item.price) || 0;
+
+                          return (
+                            <div key={idx} className="flex items-center justify-between text-xs">
+                              <div className="flex items-center gap-3">
+                                <img src={itemImg} alt={item.name || 'Product'} className="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-navy-700 bg-white" />
+                                <div>
+                                  <p className="font-bold text-navy-950 dark:text-white">{item.name || 'Luxury Item'}</p>
+                                  <p className="text-gray-500 dark:text-gray-400 text-[11px]">Qty: {itemQty}</p>
+                                </div>
                               </div>
+                              <span className="font-bold text-navy-950 dark:text-white font-serif">
+                                {formatINR(itemPrice * itemQty)}
+                              </span>
                             </div>
-                            <span className="font-bold text-navy-950 dark:text-white font-serif">
-                              {formatINR(item.price * item.quantity)}
-                            </span>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
 
                       <div className="pt-2 border-t border-gray-200 dark:border-navy-700 flex justify-between items-center text-xs">
-                        <span className="text-gray-500 dark:text-gray-400">Payment: {ord.paymentMethod || 'Online Gateway'}</span>
-                        <span className="text-sm font-bold text-gold-600 dark:text-gold-400 font-serif">Total: {formatINR(ord.total)}</span>
+                        <span className="text-gray-500 dark:text-gray-400">Payment: {ord.paymentMethod || 'Razorpay / Online'} ({ord.paymentStatus || 'Paid'})</span>
+                        <span className="text-sm font-bold text-gold-600 dark:text-gold-400 font-serif">Total: {formatINR(Number(ord.total) || 0)}</span>
                       </div>
                     </div>
                   ))}

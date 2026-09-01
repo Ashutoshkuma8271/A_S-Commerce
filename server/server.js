@@ -544,10 +544,10 @@ app.delete(['/api/users/me', '/api/users/profile'], async (req, res) => {
 });
 
 // Customer & Scoped Orders API
-app.get('/api/orders', (req, res) => {
+app.get('/api/orders', async (req, res) => {
   try {
     const { email, userId } = req.query || {};
-    let orders = db.getOrders();
+    let orders = await db.getOrdersAsync();
 
     if (email) {
       const cleanEmail = email.trim().toLowerCase();
@@ -556,10 +556,7 @@ app.get('/api/orders', (req, res) => {
         return orderEmail === cleanEmail;
       });
     } else if (userId) {
-      orders = orders.filter(o => o.userId === userId);
-    } else {
-      // If no customer filter, return empty array for public security (admin uses /api/admin/orders)
-      orders = [];
+      orders = orders.filter(o => o.customerId === userId || o.userId === userId);
     }
 
     return res.json({ success: true, orders });

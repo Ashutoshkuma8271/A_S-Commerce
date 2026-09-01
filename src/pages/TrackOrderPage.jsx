@@ -23,7 +23,7 @@ export const TrackOrderPage = () => {
   const { addToast } = useToast();
 
   const urlId = searchParams.get('id') || '';
-  const [searchQuery, setSearchQuery] = useState(urlId || (orders[0] ? orders[0].id : 'AS-884219'));
+  const [searchQuery, setSearchQuery] = useState(urlId || (orders[0]?.id || ''));
   const [activeOrder, setActiveOrder] = useState(() => getOrderById(urlId) || orders[0] || null);
 
   useEffect(() => {
@@ -33,24 +33,102 @@ export const TrackOrderPage = () => {
         setActiveOrder(found);
         setSearchQuery(urlId);
       }
+    } else if (orders.length > 0 && !activeOrder) {
+      setActiveOrder(orders[0]);
+      setSearchQuery(orders[0].id);
     }
-  }, [urlId]);
+  }, [urlId, orders]);
+
+  // Keep activeOrder synchronized with live status updates from OrderContext
+  useEffect(() => {
+    if (activeOrder && activeOrder.id) {
+      const updated = getOrderById(activeOrder.id);
+      if (updated && (updated.status !== activeOrder.status || updated.trackingNumber !== activeOrder.trackingNumber)) {
+        setActiveOrder(updated);
+      }
+    }
+  }, [orders]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) {
-      addToast('Please enter an Order ID', 'error');
+      addToast('Please enter an Order ID or Tracking Number', 'error');
       return;
     }
     const found = getOrderById(searchQuery.trim());
     if (found) {
       setActiveOrder(found);
-      addToast('Order details found', 'success');
+      addToast('Consignment details found', 'success');
     } else {
       setActiveOrder(null);
-      addToast('No order found with this ID', 'error');
+      addToast('No consignment found with this ID', 'error');
     }
   };
+
+  // Helper to dynamically build timeline milestones based on real-time order status
+  const getOrderTimeline = (order) => {
+    if (!order) return [];
+    if (Array.isArray(order.timeline) && order.timeline.length > 0) {
+      return order.timeline;
+    }
+
+    const status = (order.status || 'Confirmed').toLowerCase();
+    const isPlaced = true;
+    const isPaid = (order.paymentStatus || 'Paid').toLowerCase() === 'paid' || status !== 'pending';
+    const isProcessing = ['processing', 'confirmed', 'shipped', 'out for delivery', 'delivered'].some(s => status.includes(s));
+    const isShipped = ['shipped', 'out for delivery', 'delivered'].some(s => status.includes(s));
+    const isOutForDelivery = ['out for delivery', 'delivered'].some(s => status.includes(s));
+    const isDelivered = status.includes('delivered');
+
+    return [
+      {
+        step: 'Order Placed',
+        time: order.date || 'Confirmed',
+        done: isPlaced,
+        desc: 'Order registered in A_S Commerce master inventory system'
+      },
+      {
+        step: 'Payment Verified',
+        time: order.paymentStatus || 'Paid',
+        done: isPaid,
+        desc: `Payment of ${formatINR(order.total || 0)} verified via ${order.paymentMethod || 'Razorpay'}`
+      },
+      {
+        step: 'Processing & Inspection',
+        time: isProcessing ? 'Completed' : 'Scheduled',
+        done: isProcessing,
+        desc: 'Artisanal packaging, luxury seal, and multi-point quality check'
+      },
+      {
+        step: 'Dispatched with Courier',
+        time: order.trackingNumber ? `Waybill: ${order.trackingNumber}` : (isShipped ? 'In Transit' : 'Pending dispatch'),
+        done: isShipped,
+        desc: `Handed over to ${order.carrier || 'Bluedart Express Luxury Logistics'}`
+      },
+      {
+        step: 'Out for Delivery',
+        time: isOutForDelivery ? 'Out for Delivery' : 'In Transit',
+        done: isOutForDelivery,
+        desc: 'Consignment is in your local delivery hub for scheduled handoff'
+      },
+      {
+        step: 'Delivered',
+        time: isDelivered ? 'Delivered' : `Expected: ${order.estimatedDelivery || 'In 3-4 days'}`,
+        done: isDelivered,
+        desc: 'Successfully delivered to verified recipient address'
+      }
+    ];
+  };
+
+  const timeline = activeOrder ? getOrderTimeline(activeOrder) : [];
+  const shipping = activeOrder?.shippingAddress || {};
+  const recipientName = shipping.name || shipping.fullName || activeOrder?.customerName || 'Valued Customer';
+  const recipientPhone = shipping.phone || activeOrder?.customerPhone || '';
+  const recipientStreet = shipping.street || activeOrder?.shippingStreet || 'Main Delivery Location';
+  const recipientCity = shipping.city || activeOrder?.shippingCity || '';
+  const recipientState = shipping.state || activeOrder?.shippingState || '';
+  const recipientPincode = shipping.pincode || activeOrder?.shippingPincode || '';
+  const itemsList = Array.isArray(activeOrder?.items) ? activeOrder.items : [];
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fadeIn">
@@ -64,7 +142,7 @@ export const TrackOrderPage = () => {
           Track Your Luxury Consignment
         </h1>
         <p className="text-xs sm:text-sm text-gray-500 max-w-md mx-auto mt-2">
-          Enter your A_S Commerce Order ID or Bluedart tracking number to check real-time dispatch milestones.
+          Enter your Order ID or tracking code to view live milestones and download tax invoices.
         </p>
       </div>
 
@@ -77,13 +155,13 @@ export const TrackOrderPage = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="e.g. AS-884219"
+              placeholder="e.g. AS-259049 or Tracking ID"
               className="w-full pl-11 pr-4 py-3 bg-gray-50 text-xs sm:text-sm rounded-2xl border border-gray-200 focus:outline-none focus:border-gold-500 font-mono font-bold uppercase"
             />
           </div>
           <button
             type="submit"
-            className="px-6 py-3 bg-gold-gradient text-navy-950 font-bold text-xs sm:text-sm rounded-2xl shadow-gold-sm hover:brightness-105 transition-all"
+            className="px-6 py-3 bg-gold-gradient text-navy-950 font-bold text-xs sm:text-sm rounded-2xl shadow-gold-sm hover:brightness-105 transition-all cursor-pointer"
           >
             Track Status
           </button>
@@ -91,9 +169,9 @@ export const TrackOrderPage = () => {
 
         {/* Quick Suggestion Pills */}
         {orders.length > 0 && (
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
+          <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
             <span>Recent orders:</span>
-            {orders.slice(0, 3).map((ord) => (
+            {orders.slice(0, 4).map((ord) => (
               <button
                 key={ord.id}
                 type="button"
@@ -101,7 +179,7 @@ export const TrackOrderPage = () => {
                   setSearchQuery(ord.id);
                   setActiveOrder(ord);
                 }}
-                className="font-mono text-gold-700 hover:underline font-bold bg-gold-500/10 px-2 py-0.5 rounded-md"
+                className="font-mono text-gold-700 hover:underline font-bold bg-gold-500/10 px-2.5 py-1 rounded-lg cursor-pointer"
               >
                 #{ord.id}
               </button>
@@ -122,12 +200,17 @@ export const TrackOrderPage = () => {
                   Order #{activeOrder.id}
                 </span>
                 <span className="px-3 py-0.5 bg-gold-500/15 text-navy-950 border border-gold-500/30 text-[11px] font-bold rounded-full">
-                  {activeOrder.status}
+                  {activeOrder.status || 'Confirmed'}
                 </span>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                Placed on {activeOrder.date} via {activeOrder.carrier}
+                Placed on {activeOrder.date || 'Recent'} via {activeOrder.carrier || 'Bluedart Express Luxury Logistics'}
               </p>
+              {activeOrder.trackingNumber && (
+                <p className="text-xs text-gold-700 font-mono font-bold mt-0.5">
+                  Waybill Tracking: {activeOrder.trackingNumber}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col sm:items-end gap-2">
@@ -140,9 +223,9 @@ export const TrackOrderPage = () => {
                 <span>Download Invoice</span>
               </button>
               <div className="text-left sm:text-right">
-                <span className="text-[11px] text-gray-400 block">Expected Delivery</span>
+                <span className="text-[11px] text-gray-400 block">Estimated Delivery</span>
                 <span className="text-sm font-bold text-navy-950 font-serif">
-                  {activeOrder.estimatedDelivery}
+                  {activeOrder.estimatedDelivery || '4-5 Business Days'}
                 </span>
               </div>
             </div>
@@ -155,7 +238,7 @@ export const TrackOrderPage = () => {
             </h3>
 
             <div className="relative pl-6 sm:pl-8 space-y-8 before:absolute before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-gray-200">
-              {activeOrder.timeline.map((item, idx) => (
+              {timeline.map((item, idx) => (
                 <div key={idx} className="relative flex items-start gap-4">
                   {/* Timeline Dot */}
                   <div
@@ -198,22 +281,22 @@ export const TrackOrderPage = () => {
                 <MapPin className="w-3.5 h-3.5 text-gold-600" />
                 <span>Destination Address</span>
               </div>
-              <p className="text-gray-800 font-medium">{activeOrder.shippingAddress.name} ({activeOrder.shippingAddress.phone})</p>
+              <p className="text-gray-800 font-medium">{recipientName} {recipientPhone && `(${recipientPhone})`}</p>
               <p className="text-gray-600">
-                {activeOrder.shippingAddress.street}, {activeOrder.shippingAddress.city}, {activeOrder.shippingAddress.state} - {activeOrder.shippingAddress.pincode}
+                {recipientStreet}{recipientCity && `, ${recipientCity}`}{recipientState && `, ${recipientState}`}{recipientPincode && ` - ${recipientPincode}`}
               </p>
             </div>
 
             <div className="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-2">
               <div className="flex justify-between font-bold text-navy-950">
                 <span>Items in Consignment</span>
-                <span>{activeOrder.items.length} pcs</span>
+                <span>{itemsList.length} items</span>
               </div>
-              <p className="text-gray-600">
-                {activeOrder.items.map((i) => `${i.name} (x${i.quantity})`).join(', ')}
+              <p className="text-gray-600 truncate">
+                {itemsList.length > 0 ? itemsList.map((i) => `${i.name} (x${i.quantity || 1})`).join(', ') : 'Curated Luxury Item'}
               </p>
               <p className="text-gold-700 font-bold">
-                Total Value: {formatINR(activeOrder.total)}
+                Total Value: {formatINR(activeOrder.total || 0)}
               </p>
             </div>
           </div>
@@ -222,13 +305,21 @@ export const TrackOrderPage = () => {
       ) : (
         <div className="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-sm space-y-4">
           <Package className="w-12 h-12 text-gray-400 mx-auto" />
-          <h3 className="font-serif text-xl font-bold text-navy-950">Order Not Found</h3>
+          <h3 className="font-serif text-xl font-bold text-navy-950">No Consignment Found</h3>
           <p className="text-xs text-gray-500 max-w-sm mx-auto">
-            Please verify the order ID or tracking code. Example available order ID is <strong className="text-navy-950">AS-884219</strong>.
+            Please enter your order ID or tracking code. You can also view all your recent consignments under your customer account.
           </p>
+          <Link
+            to="/account/orders"
+            className="inline-block px-6 py-2.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-105"
+          >
+            Go to My Orders
+          </Link>
         </div>
       )}
 
     </div>
   );
 };
+
+export default TrackOrderPage;

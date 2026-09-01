@@ -77,6 +77,8 @@ export const OrderProvider = ({ children }) => {
                     status: updated.status || o.status,
                     carrier: updated.carrier || o.carrier,
                     trackingNumber: updated.tracking_number || o.trackingNumber,
+                    paymentStatus: updated.payment_status || o.paymentStatus,
+                    estimatedDelivery: updated.estimated_delivery || o.estimatedDelivery,
                     updatedAt: updated.updated_at
                   };
                 }
@@ -85,8 +87,37 @@ export const OrderProvider = ({ children }) => {
             );
           } else if (payload.eventType === 'INSERT' && payload.new) {
             const newOrder = payload.new;
-            if (userEmail && (newOrder.user_email || '').toLowerCase() === userEmail) {
-              setOrders((prev) => [newOrder, ...prev.filter(o => o.id !== newOrder.id)]);
+            const mappedOrder = {
+              id: newOrder.id,
+              customerId: newOrder.user_id,
+              customerName: newOrder.customer_name || 'Valued Customer',
+              customerEmail: newOrder.user_email || newOrder.customer_email || '',
+              customerPhone: newOrder.customer_phone || '',
+              items: Array.isArray(newOrder.items) ? newOrder.items : (typeof newOrder.items === 'string' ? JSON.parse(newOrder.items || '[]') : []),
+              subtotal: Number(newOrder.subtotal) || Number(newOrder.total_amount) || 0,
+              total: Number(newOrder.total_amount) || 0,
+              status: newOrder.status || 'Confirmed',
+              carrier: newOrder.carrier || 'Bluedart Express Luxury Courier',
+              trackingNumber: newOrder.tracking_number || '',
+              paymentMethod: newOrder.payment_method || 'Razorpay',
+              paymentStatus: newOrder.payment_status || 'Paid',
+              date: newOrder.created_at ? newOrder.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
+              estimatedDelivery: newOrder.estimated_delivery || '4-5 Business Days',
+              shippingAddress: {
+                name: newOrder.customer_name || 'Customer',
+                email: newOrder.user_email || newOrder.customer_email || '',
+                phone: newOrder.customer_phone || '',
+                street: newOrder.shipping_street || '',
+                city: newOrder.shipping_city || '',
+                state: newOrder.shipping_state || '',
+                pincode: newOrder.shipping_pincode || '',
+              },
+              createdAt: newOrder.created_at,
+              updatedAt: newOrder.updated_at
+            };
+
+            if (!userEmail || (mappedOrder.customerEmail || '').toLowerCase() === userEmail) {
+              setOrders((prev) => [mappedOrder, ...prev.filter(o => o.id !== mappedOrder.id)]);
             }
           }
         }
@@ -175,8 +206,11 @@ export const OrderProvider = ({ children }) => {
 
   const getOrderById = (id) => {
     if (!id) return null;
-    const clean = id.trim().toUpperCase();
-    return orders.find((o) => o.id.toUpperCase() === clean || o.trackingNumber.toUpperCase() === clean);
+    const clean = id.toString().trim().toUpperCase();
+    return orders.find((o) =>
+      (o.id && o.id.toString().toUpperCase() === clean) ||
+      (o.trackingNumber && o.trackingNumber.toString().toUpperCase() === clean)
+    );
   };
 
   return (

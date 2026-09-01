@@ -1154,6 +1154,53 @@ export const db = {
     return memoryDB.orders || [];
   },
 
+  getOrdersAsync: async () => {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        const mapped = data.map(d => ({
+          id: d.id,
+          customerId: d.user_id,
+          customerName: d.customer_name || 'Valued Customer',
+          customerEmail: d.user_email || d.customer_email || '',
+          customerPhone: d.customer_phone || '',
+          items: Array.isArray(d.items) ? d.items : (typeof d.items === 'string' ? JSON.parse(d.items || '[]') : []),
+          subtotal: Number(d.subtotal) || Number(d.total_amount) || 0,
+          total: Number(d.total_amount) || 0,
+          status: d.status || 'Confirmed',
+          carrier: d.carrier || 'Bluedart Express Luxury Courier',
+          trackingNumber: d.tracking_number || '',
+          paymentMethod: d.payment_method || 'Razorpay',
+          paymentStatus: d.payment_status || 'Paid',
+          date: d.created_at ? d.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
+          estimatedDelivery: d.estimated_delivery || '4-5 Business Days',
+          shippingAddress: {
+            name: d.customer_name || 'Customer',
+            email: d.user_email || d.customer_email || '',
+            phone: d.customer_phone || '',
+            street: d.shipping_street || '',
+            city: d.shipping_city || '',
+            state: d.shipping_state || '',
+            pincode: d.shipping_pincode || '',
+          },
+          createdAt: d.created_at,
+          updatedAt: d.updated_at
+        }));
+        memoryDB.orders = mapped;
+        saveToDisk();
+        return mapped;
+      }
+    } catch (e) {
+      console.warn('Supabase getOrdersAsync note:', e.message);
+    }
+    loadFromDisk();
+    return memoryDB.orders || [];
+  },
+
   getOrderById: (id) => {
     loadFromDisk();
     if (!id) return null;
