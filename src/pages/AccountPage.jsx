@@ -119,20 +119,46 @@ export const AccountPage = () => {
     updateProfile({ name: profileName.trim(), phone: profilePhone.trim() });
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
+    if (!currentPassword) {
+      addToast('Please enter your current password.', 'error');
+      return;
+    }
     if (newPassword.length < 8) {
-      addToast('New password must be at least 8 characters with letters, numbers and symbols.', 'error');
+      addToast('New password must be at least 8 characters long.', 'error');
       return;
     }
     if (newPassword !== confirmNewPassword) {
       addToast('New passwords do not match.', 'error');
       return;
     }
-    addToast('Password updated securely!', 'success');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
+
+    try {
+      const res = await fetch('/api/users/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user?.email,
+          currentPassword,
+          newPassword,
+          confirmPassword: confirmNewPassword
+        })
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        addToast(data.message || 'Failed to update password.', 'error');
+        return;
+      }
+
+      addToast('Password updated securely!', 'success', 3000, { desc: 'Credentials synchronized with Supabase.' });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+    } catch (err) {
+      addToast('Cannot connect to authentication server.', 'error');
+    }
   };
 
   const handleSaveAddress = (e) => {
@@ -633,7 +659,7 @@ export const AccountPage = () => {
                 </button>
               </div>
 
-              {!user.addresses || user.addresses.length === 0 ? (
+              {!Array.isArray(user?.addresses) || user.addresses.length === 0 ? (
                 <div className="text-center py-10 space-y-3">
                   <div className="w-12 h-12 rounded-2xl bg-cream-100 dark:bg-navy-850 text-gold-500 flex items-center justify-center mx-auto">
                     <MapPin className="w-6 h-6" />
@@ -651,7 +677,7 @@ export const AccountPage = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {user.addresses.map((addr) => {
+                  {(Array.isArray(user.addresses) ? user.addresses : []).map((addr) => {
                     const isOffice = addr.title?.toLowerCase() === 'office';
                     const isHome = addr.title?.toLowerCase() === 'home';
                     return (

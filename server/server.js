@@ -515,6 +515,50 @@ app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
   }
 });
 
+// Authenticated Customer Password Change
+app.post('/api/users/change-password', async (req, res) => {
+  try {
+    const { email, currentPassword, newPassword, confirmPassword } = req.body || {};
+    const cleanEmail = (email || '').trim().toLowerCase();
+
+    if (!cleanEmail || !currentPassword || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Current password and new password are required.' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 8 characters long.' });
+    }
+
+    if (confirmPassword && newPassword !== confirmPassword) {
+      return res.status(400).json({ success: false, message: 'New passwords do not match.' });
+    }
+
+    const user = await db.getUserByEmailAsync(cleanEmail) || db.getUserByEmail(cleanEmail);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Customer account not found.' });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Current password entered is incorrect.' });
+    }
+
+    const isSameAsOld = await bcrypt.compare(newPassword, user.passwordHash);
+    if (isSameAsOld) {
+      return res.status(400).json({ success: false, message: 'New password cannot be the same as your current password.' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newHash = await bcrypt.hash(newPassword, salt);
+    await db.updateUser(user.id, { passwordHash: newHash });
+
+    return res.json({ success: true, message: 'Your password has been updated securely.' });
+  } catch (err) {
+    console.error('Customer change password error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to update password.' });
+  }
+});
+
 // Delete Customer Account Endpoint (Safely removes data from Supabase & local cache)
 app.delete(['/api/users/me', '/api/users/profile'], async (req, res) => {
   try {
