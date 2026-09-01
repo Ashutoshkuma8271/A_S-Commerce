@@ -15,9 +15,11 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext',
+    target: 'es2020',
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 600,
+    cssMinify: true,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -28,11 +30,12 @@ export default defineConfig({
             if (id.includes('lucide-react')) {
               return 'vendor-icons';
             }
+            if (id.includes('@supabase/supabase-js')) {
+              return 'vendor-supabase';
+            }
           }
         },
       },
     },
   },
 });
-
-
