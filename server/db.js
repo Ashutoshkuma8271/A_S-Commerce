@@ -303,6 +303,39 @@ export const db = {
     return memoryDB.admins.find(a => a.id === id);
   },
 
+  getAdminByIdAsync: async (id) => {
+    loadFromDisk();
+    if (!id) return null;
+
+    try {
+      const { data, error } = await supabase.from('admins').select('*').eq('id', id).maybeSingle();
+      if (!error && data) {
+        const admin = {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          passwordHash: data.password_hash,
+          role: data.role || 'admin',
+          isActive: data.is_active !== false,
+          singleAdminLock: data.single_admin_lock ?? 1,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+        if (memoryDB.admins) {
+          const idx = memoryDB.admins.findIndex(a => a.id === id);
+          if (idx !== -1) memoryDB.admins[idx] = admin;
+          else memoryDB.admins.push(admin);
+        }
+        saveToDisk();
+        return admin;
+      }
+    } catch (e) {
+      console.warn('Supabase getAdminByIdAsync note:', e.message);
+    }
+
+    return (memoryDB.admins || []).find(a => a.id === id) || null;
+  },
+
   createFirstAdmin: async ({ id, name, email, passwordHash, role = 'admin', isActive = 1 }) => {
     loadFromDisk();
     if (memoryDB.admins.length > 0) {

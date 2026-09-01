@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
 import rateLimit from 'express-rate-limit';
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'as_commerce_super_secret_luxury_key_2026_!@#$%^';
+export const JWT_SECRET = process.env.JWT_SECRET || 'as_commerce_master_jwt_secret_key_2026_luxury';
 
 // Audit Logger Helper
 export function logAudit({ action, adminId = null, adminEmail = null, ip = null, resource = null, details = null }) {
@@ -16,7 +16,7 @@ export function logAudit({ action, adminId = null, adminEmail = null, ip = null,
 }
 
 // Strict Admin Authorization Middleware
-export function requireAdmin(req, res, next) {
+export async function requireAdmin(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
     let token = null;
@@ -37,8 +37,14 @@ export function requireAdmin(req, res, next) {
     // Verify token cryptographic signature
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Query the database directly — NEVER trust client claims alone
-    const admin = db.getAdminById(decoded.id);
+    // Query the database directly — Async check against Supabase & local cache
+    let admin = await db.getAdminByIdAsync(decoded.id);
+    if (!admin && decoded.email) {
+      admin = await db.getAdminByEmailAsync(decoded.email);
+    }
+    if (!admin) {
+      admin = db.getAdminById(decoded.id);
+    }
 
     if (!admin) {
       logAudit({
