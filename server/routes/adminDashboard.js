@@ -311,6 +311,42 @@ router.get('/customers', async (req, res) => {
   }
 });
 
+// DELETE /api/admin/customers/:id — Remove Customer Account
+router.delete('/customers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email } = req.query || {};
+
+    const user = db.getUserById(id) || (email ? await db.getUserByEmailAsync(email) : null);
+    const targetEmail = (user?.email || email || '').toLowerCase().trim();
+
+    // Security check: Never allow deleting the Master Administrator
+    const masterAdminEmail = (process.env.ADMIN_EMAIL || 'ashutoshkumaryadav933499@gmail.com').toLowerCase();
+    if (targetEmail === masterAdminEmail) {
+      return res.status(403).json({ success: false, message: 'Master Administrator account cannot be deleted.' });
+    }
+
+    await db.deleteUser(id, targetEmail);
+
+    logAudit({
+      action: 'Customer account deleted',
+      adminId: req.admin.id,
+      adminEmail: req.admin.email,
+      ip: req.ip,
+      resource: `Customer ${id}`,
+      details: `Administrator removed customer account: ${targetEmail || id}`
+    });
+
+    return res.json({
+      success: true,
+      message: `Customer account (${targetEmail || id}) has been removed from database.`
+    });
+  } catch (err) {
+    console.error('Delete customer error:', err);
+    return res.status(500).json({ success: false, message: 'Failed to delete customer' });
+  }
+});
+
 // 5. COUPONS & PROMOTIONS
 // GET /api/admin/coupons
 router.get('/coupons', async (req, res) => {

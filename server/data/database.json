@@ -1,1117 +1,140 @@
 {
-  "admins": [
-    {
-      "id": "adm-master-ashutosh",
-      "name": "Ashutosh Yadav",
-      "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$.aoBAOJ563OuDJIKH.V1HeE/CW6upDpn3fjxUA8KnEgPjvEhcQm9K",
-      "role": "admin",
-      "isActive": 1,
-      "singleAdminLock": 1,
-      "createdAt": "2026-08-31T20:41:54.344+00:00",
-      "updatedAt": "2026-08-31T20:59:30.333+00:00",
-      "lastLoginAt": "2026-08-31T20:59:30.332+00:00"
-    }
-  ],
-  "password_resets": [
-    {
-      "id": "rst-1788117340706",
-      "email": "bholukumaryadav8226@gmail.com",
-      "role": "customer",
-      "action": "Password Reset via Email Link",
-      "status": "Completed",
-      "ip": "127.0.0.1",
-      "createdAt": "2026-08-30T19:15:40.727Z"
-    },
-    {
-      "id": "rst-1787814823848",
-      "email": "ashukumarfbg8271@gmail.com",
-      "role": "customer",
-      "action": "Password Reset via Email Link",
-      "status": "Completed",
-      "ip": "127.0.0.1",
-      "createdAt": "2026-08-27T07:13:43.865Z"
-    },
-    {
-      "id": "rst-1787768403984",
-      "email": "aryan.luxury2026@gmail.com",
-      "role": "customer",
-      "action": "Password Reset via Email Link",
-      "status": "Completed",
-      "ip": "127.0.0.1",
-      "createdAt": "2026-08-26T18:20:04.019Z"
-    },
-    {
-      "id": "rst-1787763300857",
-      "email": "ashukumarfbg8271@gmail.com",
-      "role": "customer",
-      "action": "Password Reset (Customer)",
-      "status": "Completed",
-      "ip": "127.0.0.1",
-      "createdAt": "2026-08-26T16:55:00.962Z"
-    },
-    {
-      "token": "d0de1c90eee4952b36cf592cdbeed69909a6398a8a51cb7074d3536cc36ca0f2",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787757763247,
-      "used": false,
-      "createdAt": "2026-08-26T15:07:43.247Z"
-    },
-    {
-      "token": "b831a284b25e19a362c13c165d6ae4bcb018269684414d6e40ce701aaa7dbdfa",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787758682672,
-      "used": false,
-      "createdAt": "2026-08-26T15:23:02.673Z"
-    },
-    {
-      "token": "e0ed47a8886ff3228e963492dfa690ca1c8a1fe7ea950bd7a4e48a78d897f7a7",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787762159352,
-      "used": false,
-      "createdAt": "2026-08-26T16:20:59.353Z"
-    },
-    {
-      "token": "193f834791379bfe21679356d5878c5417c0f810e9360c8a71adab9a4f73f180",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787762805133,
-      "used": true,
-      "createdAt": "2026-08-26T16:31:45.134Z"
-    },
-    {
-      "token": "2572fca217761923854ce5e46871400275cb8c8fd65367f6b2f10df00c32cbf2",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787763786758,
-      "used": true,
-      "createdAt": "2026-08-26T16:48:06.760Z"
-    },
-    {
-      "token": "d970ddb9d6b680d310629ec5844539093fc8c4c5fc2d4e718cfbf3de30f14243",
-      "adminEmail": "aryan.luxury2026@gmail.com",
-      "expiresAt": 1787769245976,
-      "used": true,
-      "createdAt": "2026-08-26T18:19:05.977Z"
-    },
-    {
-      "token": "f9dca0a8bf40e7bb6ef1fccc4e6cb3232da22babb2c25c44b1d7f3b5683578df",
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "expiresAt": 1787770323656,
-      "used": false,
-      "createdAt": "2026-08-26T18:37:03.674Z"
-    },
-    {
-      "token": "b23f59188534aa7a6d14b1f6bcf43c85eb6f826236252d1a6490db16dfd4fccf",
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "expiresAt": 1787770380506,
-      "used": false,
-      "createdAt": "2026-08-26T18:38:00.510Z"
-    },
-    {
-      "token": "b9db8242e37ba893f9c41c0c6f9a637ba0d3f030dcf4e5a4b2892e0dc0dbef39",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787771721580,
-      "used": false,
-      "createdAt": "2026-08-26T19:00:21.582Z"
-    },
-    {
-      "token": "9823713799d88e692644be09fb788c30a94c74527696f87c7147ae2ea6a80e1a",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787771787990,
-      "used": false,
-      "createdAt": "2026-08-26T19:01:27.991Z"
-    },
-    {
-      "token": "5aeb8decd8dcea43b828f4457e00c9509c6693f0fe4e9f6edf394a23faaa4893",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787772588312,
-      "used": false,
-      "createdAt": "2026-08-26T19:14:48.318Z"
-    },
-    {
-      "token": "0584126684db3679e1722f82086ff4228b03be5e163e115b689d43481fc8e7b1",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787773089751,
-      "used": false,
-      "createdAt": "2026-08-26T19:23:09.753Z"
-    },
-    {
-      "token": "5506ebf458d0f6f6925d547be5a62ead9b07ce299f17b5ce20a134bab2f1dfa7",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787773111324,
-      "used": false,
-      "createdAt": "2026-08-26T19:23:31.325Z"
-    },
-    {
-      "token": "09af2abf74a50513586a2b542143c6d5c44edccf9079db71743038af45d18b3b",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787773164103,
-      "used": false,
-      "createdAt": "2026-08-26T19:24:24.105Z"
-    },
-    {
-      "token": "34f5d282fa51a73e87ad6f12282ddd2e3e72777693f8469663c302176186ff7b",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787773267169,
-      "used": false,
-      "createdAt": "2026-08-26T19:26:07.170Z"
-    },
-    {
-      "token": "e6fff3fee2d2d32ffe808a1de476b9379cf63cd3be99b31204455077680b5aaf",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787774226480,
-      "used": false,
-      "createdAt": "2026-08-26T19:42:06.481Z"
-    },
-    {
-      "token": "471c14377d1f332debbda025a91376fff28122e23e7ce62107588d00e7ab06ad",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787774578878,
-      "used": false,
-      "createdAt": "2026-08-26T19:47:58.879Z"
-    },
-    {
-      "token": "f35ddcabede9590e43f271b3040ac7e3a0c411ff14ca4efae889cb17e50ab15b",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787774691180,
-      "used": false,
-      "createdAt": "2026-08-26T19:49:51.180Z"
-    },
-    {
-      "token": "1d18a016c17f2962f20ffb463327fdaec613e87b83b263b0421b03e564e91880",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787775345120,
-      "used": false,
-      "createdAt": "2026-08-26T20:00:45.122Z"
-    },
-    {
-      "token": "98d62b3afccac7119b0b7bcc58e91a164a12c92c1fd77bbca78342f855072767",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787776588137,
-      "used": false,
-      "createdAt": "2026-08-26T20:21:28.139Z"
-    },
-    {
-      "token": "09e011bb9b4398ad00579cb531ba6190cff93b57e85f44050414b5f06a3a8462",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787777671320,
-      "used": false,
-      "createdAt": "2026-08-26T20:39:31.321Z"
-    },
-    {
-      "token": "a453095aaac467e7e6391e869196d3d595286948ac880b7c413b90d7d7c0399c",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787778605332,
-      "used": false,
-      "createdAt": "2026-08-26T20:55:05.333Z"
-    },
-    {
-      "token": "e29108e77579db6f680c2d6081c69dd4efa3fba840c8acc58305a1ec13dc7f56",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787779357170,
-      "used": false,
-      "createdAt": "2026-08-26T21:07:37.171Z"
-    },
-    {
-      "token": "2ec46cd5eae9684287665144fa2e02e78695ebb633863aed4a473cf74de7b386",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787779549055,
-      "used": false,
-      "createdAt": "2026-08-26T21:10:49.057Z"
-    },
-    {
-      "token": "ae0e107efa81ac5ec72a085dec22baa3339862ecd0ec96ad9269aa096b94b32a",
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "expiresAt": 1787780719168,
-      "used": false,
-      "createdAt": "2026-08-26T21:30:19.171Z"
-    },
-    {
-      "token": "ad0d4a62f3bec8940e03ab726b37255ed537b72d36ad84324b27f8c8173cd85b",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787781564530,
-      "used": true,
-      "createdAt": "2026-08-26T21:44:24.531Z"
-    },
-    {
-      "token": "03a00dfc78313a94693208f32fd97d8f5914c5375bc18730b0d2ac322dedff23",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "expiresAt": 1787781629115,
-      "used": true,
-      "createdAt": "2026-08-26T21:45:29.117Z"
-    },
-    {
-      "token": "ebc6b0a70fc545e0d3c067c87daad0e3a8b2b80ddb22a810278171c6897904f6",
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "expiresAt": 1787781927497,
-      "used": false,
-      "createdAt": "2026-08-26T21:50:27.500Z"
-    },
-    {
-      "token": "58ad9a9ac8f53d89f8807d6b07279a8a3bee1e43cf2946c013c6e19f44b22da4",
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "expiresAt": 1787815649256,
-      "used": true,
-      "createdAt": "2026-08-27T07:12:29.259Z"
-    },
-    {
-      "token": "55b292daa8e2c8b83aa83e797288981b17190212f86bcee410871ac11d2e49b5",
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "expiresAt": 1788118047171,
-      "used": true,
-      "createdAt": "2026-08-30T19:12:27.172Z"
-    },
-    {
-      "id": "rst-1788124718658-ad50v",
-      "token": "test-token-1788124718656",
-      "adminEmail": "test@example.com",
-      "email": "test@example.com",
-      "role": "admin",
-      "expiresAt": 1788125618656,
-      "used": false,
-      "createdAt": "2026-08-30T21:18:38.658Z"
-    },
-    {
-      "id": "rst-1788125792301-vihbe",
-      "token": "test-token-fixed-1788125792290",
-      "adminEmail": "test@example.com",
-      "email": "test@example.com",
-      "role": "admin",
-      "expiresAt": 1788126692290,
-      "used": false,
-      "createdAt": "2026-08-30T21:36:32.333Z"
-    }
-  ],
-  "audit_logs": [
-    {
-      "id": "audit-1788116895413-mnrrx",
-      "action": "Password reset link sent",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Password reset email link dispatched",
-      "createdAt": "2026-08-30T19:08:15.413+00:00",
-      "timestamp": "2026-08-30T19:08:15.413+00:00"
-    },
-    {
-      "id": "audit-1788116505619-l30j6",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.87.102",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-30T19:01:45.621+00:00",
-      "timestamp": "2026-08-30T19:01:45.621+00:00"
-    },
-    {
-      "id": "audit-1788116500404-o6op3",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.87.102",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T19:01:40.404+00:00",
-      "timestamp": "2026-08-30T19:01:40.404+00:00"
-    },
-    {
-      "id": "audit-1788116486886-6gn82",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.87.102",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-30T19:01:26.887+00:00",
-      "timestamp": "2026-08-30T19:01:26.887+00:00"
-    },
-    {
-      "id": "audit-1788116447359-h28wk",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T19:00:47.359+00:00",
-      "timestamp": "2026-08-30T19:00:47.359+00:00"
-    },
-    {
-      "id": "audit-1788116435890-34n83",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-30T19:00:35.89+00:00",
-      "timestamp": "2026-08-30T19:00:35.89+00:00"
-    },
-    {
-      "id": "audit-1788116399205-wlwuv",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-30T18:59:59.205+00:00",
-      "timestamp": "2026-08-30T18:59:59.205+00:00"
-    },
-    {
-      "id": "audit-1788116388561-2hoah",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T18:59:48.562+00:00",
-      "timestamp": "2026-08-30T18:59:48.562+00:00"
-    },
-    {
-      "id": "audit-1788116296390-ogd6i",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-30T18:58:16.39+00:00",
-      "timestamp": "2026-08-30T18:58:16.39+00:00"
-    },
-    {
-      "id": "audit-1788116009138-6alz8",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "152.58.117.195",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T18:53:29.138+00:00",
-      "timestamp": "2026-08-30T18:53:29.138+00:00"
-    },
-    {
-      "id": "audit-1788114241444-gq53s",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T18:24:01.461+00:00",
-      "timestamp": "2026-08-30T18:24:01.461+00:00"
-    },
-    {
-      "id": "audit-1788114216783-pb6ou",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-30T18:23:36.785+00:00",
-      "timestamp": "2026-08-30T18:23:36.785+00:00"
-    },
-    {
-      "id": "audit-1788112114477-9a9cz",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T17:48:34.478+00:00",
-      "timestamp": "2026-08-30T17:48:34.478+00:00"
-    },
-    {
-      "id": "audit-1788111287641-c0vcx",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T17:34:47.642+00:00",
-      "timestamp": "2026-08-30T17:34:47.642+00:00"
-    },
-    {
-      "id": "audit-1788075001881-1ct8t",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-30T07:30:01.882+00:00",
-      "timestamp": "2026-08-30T07:30:01.882+00:00"
-    },
-    {
-      "id": "audit-1787780869547-bp6ui",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T21:47:49.552+00:00",
-      "timestamp": "2026-08-26T21:47:49.552+00:00"
-    },
-    {
-      "id": "audit-1787780836910-g5zb6",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password successfully reset using recovery token",
-      "createdAt": "2026-08-26T21:47:16.94+00:00",
-      "timestamp": "2026-08-26T21:47:16.94+00:00"
-    },
-    {
-      "id": "audit-1787780730253-1xp8f",
-      "action": "Password reset link sent",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset email link dispatched",
-      "createdAt": "2026-08-26T21:45:30.255+00:00",
-      "timestamp": "2026-08-26T21:45:30.255+00:00"
-    },
-    {
-      "id": "audit-1787780718396-hf8xy",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T21:45:18.398+00:00",
-      "timestamp": "2026-08-26T21:45:18.398+00:00"
-    },
-    {
-      "id": "audit-1787780674404-9ogmd",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password successfully reset using recovery token",
-      "createdAt": "2026-08-26T21:44:34.436+00:00",
-      "timestamp": "2026-08-26T21:44:34.436+00:00"
-    },
-    {
-      "id": "audit-1787780665412-4ea4n",
-      "action": "Password reset link sent",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset email link dispatched",
-      "createdAt": "2026-08-26T21:44:25.415+00:00",
-      "timestamp": "2026-08-26T21:44:25.415+00:00"
-    },
-    {
-      "id": "audit-1787779698498-gcumn",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T21:28:18.519+00:00",
-      "timestamp": "2026-08-26T21:28:18.519+00:00"
-    },
-    {
-      "id": "audit-1787779667827-wseyi",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T21:27:47.828+00:00",
-      "timestamp": "2026-08-26T21:27:47.828+00:00"
-    },
-    {
-      "id": "audit-1787779665190-vls3w",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T21:27:45.191+00:00",
-      "timestamp": "2026-08-26T21:27:45.191+00:00"
-    },
-    {
-      "id": "audit-1787779372860-fag80",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T21:22:52.861+00:00",
-      "timestamp": "2026-08-26T21:22:52.861+00:00"
-    },
-    {
-      "id": "audit-1787778507226-k60n5",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T21:08:27.271+00:00",
-      "timestamp": "2026-08-26T21:08:27.271+00:00"
-    },
-    {
-      "id": "audit-1787778464023-5tqam",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "bholukumaryadav8226@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T21:07:44.024+00:00",
-      "timestamp": "2026-08-26T21:07:44.024+00:00"
-    },
-    {
-      "id": "audit-1787778457174-v0z3z",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T21:07:37.194+00:00",
-      "timestamp": "2026-08-26T21:07:37.194+00:00"
-    },
-    {
-      "id": "audit-1787778451018-rguaw",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T21:07:31.02+00:00",
-      "timestamp": "2026-08-26T21:07:31.02+00:00"
-    },
-    {
-      "id": "audit-1787776786447-ikxri",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T20:39:46.457+00:00",
-      "timestamp": "2026-08-26T20:39:46.457+00:00"
-    },
-    {
-      "id": "audit-1787776771326-xryud",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T20:39:31.344+00:00",
-      "timestamp": "2026-08-26T20:39:31.344+00:00"
-    },
-    {
-      "id": "audit-1787776765414-fcpsu",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T20:39:25.418+00:00",
-      "timestamp": "2026-08-26T20:39:25.418+00:00"
-    },
-    {
-      "id": "audit-1787775835491-30jgi",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T20:23:55.541+00:00",
-      "timestamp": "2026-08-26T20:23:55.541+00:00"
-    },
-    {
-      "id": "audit-1787772099946-6whkh",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T19:21:39.958+00:00",
-      "timestamp": "2026-08-26T19:21:39.958+00:00"
-    },
-    {
-      "id": "audit-1787772080947-s73jf",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T19:21:20.948+00:00",
-      "timestamp": "2026-08-26T19:21:20.948+00:00"
-    },
-    {
-      "id": "audit-1787772066290-uxo7m",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T19:21:06.293+00:00",
-      "timestamp": "2026-08-26T19:21:06.293+00:00"
-    },
-    {
-      "id": "audit-1787770905893-52k2x",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T19:01:45.913+00:00",
-      "timestamp": "2026-08-26T19:01:45.913+00:00"
-    },
-    {
-      "id": "audit-1787770887996-a1920",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T19:01:28.02+00:00",
-      "timestamp": "2026-08-26T19:01:28.02+00:00"
-    },
-    {
-      "id": "audit-1787770882911-babm9",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T19:01:22.914+00:00",
-      "timestamp": "2026-08-26T19:01:22.914+00:00"
-    },
-    {
-      "id": "audit-1787770869832-wt5mx",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T19:01:09.834+00:00",
-      "timestamp": "2026-08-26T19:01:09.834+00:00"
-    },
-    {
-      "id": "audit-1787763815707-hwlh3",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T17:03:35.708+00:00",
-      "timestamp": "2026-08-26T17:03:35.708+00:00"
-    },
-    {
-      "id": "audit-1787763796653-uetys",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T17:03:16.655+00:00",
-      "timestamp": "2026-08-26T17:03:16.655+00:00"
-    },
-    {
-      "id": "audit-1787763775237-743cs",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T17:02:55.239+00:00",
-      "timestamp": "2026-08-26T17:02:55.239+00:00"
-    },
-    {
-      "id": "audit-1787762925506-hcda4",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T16:48:45.511+00:00",
-      "timestamp": "2026-08-26T16:48:45.511+00:00"
-    },
-    {
-      "id": "audit-1787762905747-iv5ht",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password successfully reset using recovery token",
-      "createdAt": "2026-08-26T16:48:25.795+00:00",
-      "timestamp": "2026-08-26T16:48:25.795+00:00"
-    },
-    {
-      "id": "audit-1787762886770-lx4pi",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T16:48:06.825+00:00",
-      "timestamp": "2026-08-26T16:48:06.825+00:00"
-    },
-    {
-      "id": "audit-1787762875145-gw0on",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T16:47:55.148+00:00",
-      "timestamp": "2026-08-26T16:47:55.148+00:00"
-    },
-    {
-      "id": "audit-1787761930142-lj7rt",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password successfully reset using recovery token",
-      "createdAt": "2026-08-26T16:32:10.175+00:00",
-      "timestamp": "2026-08-26T16:32:10.175+00:00"
-    },
-    {
-      "id": "audit-1787761905137-d5x73",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T16:31:45.174+00:00",
-      "timestamp": "2026-08-26T16:31:45.174+00:00"
-    },
-    {
-      "id": "audit-1787761259356-xwflp",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T16:20:59.378+00:00",
-      "timestamp": "2026-08-26T16:20:59.378+00:00"
-    },
-    {
-      "id": "audit-1787761253942-94wa3",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T16:20:53.943+00:00",
-      "timestamp": "2026-08-26T16:20:53.943+00:00"
-    },
-    {
-      "id": "audit-1787759421355-0tdcq",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T15:50:21.371+00:00",
-      "timestamp": "2026-08-26T15:50:21.371+00:00"
-    },
-    {
-      "id": "audit-1787759405845-d1daw",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T15:50:05.846+00:00",
-      "timestamp": "2026-08-26T15:50:05.846+00:00"
-    },
-    {
-      "id": "audit-1787759387822-trsp1",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T15:49:47.823+00:00",
-      "timestamp": "2026-08-26T15:49:47.823+00:00"
-    },
-    {
-      "id": "audit-1787759377788-6503b",
-      "action": "Password changed",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password updated from admin profile",
-      "createdAt": "2026-08-26T15:49:37.877+00:00",
-      "timestamp": "2026-08-26T15:49:37.877+00:00"
-    },
-    {
-      "id": "audit-1787759310308-qxndw",
-      "action": "Order status updated",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": "Order #AS-889911",
-      "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express, Tracking: BD-612260704IN)",
-      "createdAt": "2026-08-26T15:48:30.332+00:00",
-      "timestamp": "2026-08-26T15:48:30.332+00:00"
-    },
-    {
-      "id": "audit-1787759282709-2mj23",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T15:48:02.782+00:00",
-      "timestamp": "2026-08-26T15:48:02.782+00:00"
-    },
-    {
-      "id": "audit-1787758263910-ck1j4",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T15:31:03.929+00:00",
-      "timestamp": "2026-08-26T15:31:03.929+00:00"
-    },
-    {
-      "id": "audit-1787758254983-re0q2",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T15:30:54.984+00:00",
-      "timestamp": "2026-08-26T15:30:54.984+00:00"
-    },
-    {
-      "id": "audit-1787758235843-8zf4f",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T15:30:35.844+00:00",
-      "timestamp": "2026-08-26T15:30:35.844+00:00"
-    },
-    {
-      "id": "audit-1787758225369-oj9ij",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-26T15:30:25.371+00:00",
-      "timestamp": "2026-08-26T15:30:25.371+00:00"
-    },
-    {
-      "id": "audit-1787758209061-qssmg",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T15:30:09.063+00:00",
-      "timestamp": "2026-08-26T15:30:09.063+00:00"
-    },
-    {
-      "id": "audit-1787758119890-bn37y",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T15:28:39.895+00:00",
-      "timestamp": "2026-08-26T15:28:39.895+00:00"
-    },
-    {
-      "id": "audit-1787757782685-xdm25",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T15:23:02.883+00:00",
-      "timestamp": "2026-08-26T15:23:02.883+00:00"
-    },
-    {
-      "id": "audit-1787756863258-c8g76",
-      "action": "Password reset",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Password reset token generated",
-      "createdAt": "2026-08-26T15:07:43.293+00:00",
-      "timestamp": "2026-08-26T15:07:43.293+00:00"
-    },
-    {
-      "id": "audit-1787756289737-9eyx3",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T14:58:09.834+00:00",
-      "timestamp": "2026-08-26T14:58:09.834+00:00"
-    },
-    {
-      "id": "audit-1787756280575-m39so",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T14:58:00.576+00:00",
-      "timestamp": "2026-08-26T14:58:00.576+00:00"
-    },
-    {
-      "id": "audit-1787756261023-vxsyg",
-      "action": "Failed login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Incorrect password",
-      "createdAt": "2026-08-26T14:57:41.023+00:00",
-      "timestamp": "2026-08-26T14:57:41.023+00:00"
-    },
-    {
-      "id": "audit-1787756214208-snbio",
-      "action": "Failed login",
-      "adminId": null,
-      "adminEmail": "ashukumarfbg8271@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Invalid admin email",
-      "createdAt": "2026-08-26T14:56:54.208+00:00",
-      "timestamp": "2026-08-26T14:56:54.208+00:00"
-    },
-    {
-      "id": "audit-1787756204617-65ddn",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-26T14:56:44.619+00:00",
-      "timestamp": "2026-08-26T14:56:44.619+00:00"
-    },
-    {
-      "id": "audit-1787691853059-blv50",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-25T21:04:13.061+00:00",
-      "timestamp": "2026-08-25T21:04:13.061+00:00"
-    },
-    {
-      "id": "audit-1787691848996-z29v8",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-25T21:04:08.999+00:00",
-      "timestamp": "2026-08-25T21:04:08.999+00:00"
-    },
-    {
-      "id": "audit-1787691708888-5fcov",
-      "action": "Logout",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged out",
-      "createdAt": "2026-08-25T21:01:48.89+00:00",
-      "timestamp": "2026-08-25T21:01:48.89+00:00"
-    },
-    {
-      "id": "audit-1787691703361-hn68g",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-25T21:01:43.363+00:00",
-      "timestamp": "2026-08-25T21:01:43.363+00:00"
-    },
-    {
-      "id": "audit-1787681810284-7hqpm",
-      "action": "Admin login",
-      "adminId": "adm-1787676210406",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": null,
-      "details": "Administrator logged in successfully",
-      "createdAt": "2026-08-25T18:16:50.286+00:00",
-      "timestamp": "2026-08-25T18:16:50.286+00:00"
-    }
-  ],
+  "admins": [],
+  "users": [],
+  "password_resets": [],
+  "audit_logs": [],
   "orders": [
+    {
+      "id": "AS-964202",
+      "customerName": "Ashutosh kumar",
+      "customerEmail": "ashukumarfbg8271@gmail.com",
+      "customerPhone": "9334993909",
+      "items": [
+        {
+          "id": "prod-tikka",
+          "name": "Chicken Tikka",
+          "brand": "A_S FOODY Gourmet Meat Lab",
+          "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+          "price": 225,
+          "discount": 13,
+          "quantity": 1,
+          "cartItemId": "prod-tikka-Tandoori Red-250 g (6-8 Pcs)",
+          "selectedSize": "250 g (6-8 Pcs)",
+          "originalPrice": 260,
+          "selectedColor": "Tandoori Red"
+        }
+      ],
+      "subtotal": 225,
+      "total": 473,
+      "status": "Order Placed",
+      "carrier": "Bluedart Express",
+      "trackingNumber": "",
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "shippingAddress": {
+        "name": "Ashutosh kumar",
+        "email": "ashukumarfbg8271@gmail.com",
+        "phone": "9334993909",
+        "street": "Narpatganj ,araria bihar",
+        "city": "Delhi",
+        "pincode": "110009"
+      },
+      "createdAt": "2026-08-31T21:10:34.817+00:00",
+      "updatedAt": "2026-08-31T21:10:34.817+00:00"
+    },
+    {
+      "id": "AS-923135",
+      "customerName": "Ayush kumar",
+      "customerEmail": "aayushyadav807666@gmail.com",
+      "customerPhone": "9472109615",
+      "items": [
+        {
+          "id": "prod-2",
+          "name": "Royal Chronograph Gold Wristwatch",
+          "brand": "A_S Horology",
+          "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
+          "price": 8999,
+          "discount": 40,
+          "quantity": 1,
+          "cartItemId": "prod-2-Royal Gold-40mm Dial",
+          "selectedSize": "40mm Dial",
+          "originalPrice": 14999,
+          "selectedColor": "Royal Gold"
+        },
+        {
+          "id": "prod-3",
+          "name": "AeroFlex Midnight Performance Sneakers",
+          "brand": "A_S Motion",
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
+          "price": 3299,
+          "discount": 45,
+          "quantity": 1,
+          "cartItemId": "prod-3-Navy / Gold-UK 7",
+          "selectedSize": "UK 7",
+          "originalPrice": 5999,
+          "selectedColor": "Navy / Gold"
+        }
+      ],
+      "subtotal": 12298,
+      "total": 12547,
+      "status": "Shipped",
+      "carrier": "Bluedart Express",
+      "trackingNumber": "BD-706721102IN",
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "shippingAddress": {
+        "name": "Ayush kumar",
+        "email": "aayushyadav807666@gmail.com",
+        "phone": "9472109615",
+        "street": "H no 132 2nd floor Dhaka Village near kumar tailor,Pin code 110009",
+        "city": "Delhi",
+        "pincode": "110009"
+      },
+      "createdAt": "2026-08-31T15:58:07.4+00:00",
+      "updatedAt": "2026-08-31T16:50:11.024+00:00"
+    },
+    {
+      "id": "AS-776984",
+      "customerName": "shruti Bharti",
+      "customerEmail": "shrutiashutosh139@gmail.com",
+      "customerPhone": "8271936044",
+      "items": [
+        {
+          "id": "prod-4",
+          "name": "Aviator 24K Gold Polarized Sunglasses",
+          "brand": "A_S Optix",
+          "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
+          "price": 1899,
+          "discount": 45,
+          "quantity": 1,
+          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
+          "selectedSize": "Standard 58mm",
+          "originalPrice": 3499,
+          "selectedColor": "Gold & Midnight Tint"
+        }
+      ],
+      "subtotal": 1899,
+      "total": 2148,
+      "status": "Delivered",
+      "carrier": "Bluedart Express",
+      "trackingNumber": "BD-334639503IN",
+      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
+      "paymentStatus": "Pending (Cash on Delivery)",
+      "shippingAddress": {
+        "name": "shruti Bharti",
+        "email": "shrutiashutosh139@gmail.com",
+        "phone": "8271936044",
+        "street": "H no 132 2nd floor Dhaka Village near kumar tailor,Pin code 110009",
+        "city": "Delhi",
+        "pincode": "110009"
+      },
+      "createdAt": "2026-08-30T22:19:50.344+00:00",
+      "updatedAt": "2026-08-31T16:20:11.163+00:00"
+    },
     {
       "id": "AS-916971",
       "customerName": "Bholu Yadav",
+      "customerEmail": "bholukumaryadav8226@gmail.com",
       "customerPhone": "8226812720",
       "items": [
         {
@@ -1141,174 +164,23 @@
           "selectedColor": "Navy / Gold"
         }
       ],
+      "subtotal": 5198,
       "total": 5198,
       "status": "Order Placed",
       "carrier": "Bluedart Express",
-      "trackingNumber": null,
+      "trackingNumber": "",
       "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
       "paymentStatus": "Pending (Cash on Delivery)",
+      "shippingAddress": {
+        "name": "Bholu Yadav",
+        "email": "bholukumaryadav8226@gmail.com",
+        "phone": "8226812720",
+        "street": "Narpatganj ,araria bihar",
+        "city": "Delhi",
+        "pincode": "110009"
+      },
       "createdAt": "2026-08-30T18:51:06.14+00:00",
       "updatedAt": "2026-08-30T18:51:06.14+00:00"
-    },
-    {
-      "id": "AS-141284",
-      "customerName": "Ashutosh Kumar(0157AL221059)",
-      "customerPhone": "9334993909",
-      "items": [
-        {
-          "id": "prod-8",
-          "name": "Nordic Velvet Armchair & Floor Lamp Set",
-          "brand": "A_S Living",
-          "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80",
-          "price": 12999,
-          "discount": 35,
-          "quantity": 1,
-          "cartItemId": "prod-8-Forest Green-Standard Lounge (32x34x38 in)",
-          "selectedSize": "Standard Lounge (32x34x38 in)",
-          "originalPrice": 19999,
-          "selectedColor": "Forest Green"
-        }
-      ],
-      "total": 12999,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": null,
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "createdAt": "2026-08-30T17:52:14.643+00:00",
-      "updatedAt": "2026-08-30T17:52:14.643+00:00"
-    },
-    {
-      "id": "AS-540446",
-      "customerName": "Ashutosh Kumar(0157AL221059)",
-      "customerPhone": "9334993909",
-      "items": [
-        {
-          "id": "prod-1",
-          "name": "Premium Navy Leather Handbag",
-          "brand": "A_S Signature",
-          "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
-          "price": 2499,
-          "discount": 50,
-          "quantity": 1,
-          "cartItemId": "prod-1-Midnight Navy-Medium (12x9 in)",
-          "selectedSize": "Medium (12x9 in)",
-          "originalPrice": 4999,
-          "selectedColor": "Midnight Navy"
-        }
-      ],
-      "total": 2499,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": null,
-      "paymentMethod": "NetBanking Direct (All Major Indian Banks)",
-      "paymentStatus": "Paid (Verified by Razorpay)",
-      "createdAt": "2026-08-28T07:31:26.168+00:00",
-      "updatedAt": "2026-08-28T07:31:26.168+00:00"
-    },
-    {
-      "id": "AS-860068",
-      "customerName": "Ashutosh kumar",
-      "customerPhone": "9572804194",
-      "items": [
-        {
-          "id": "prod-6",
-          "name": "Bespoke Midnight Navy Wool Blazer",
-          "brand": "A_S Sartorial",
-          "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&auto=format&fit=crop&q=80",
-          "price": 4999,
-          "discount": 44,
-          "quantity": 1,
-          "cartItemId": "prod-6-Deep Navy-38R",
-          "selectedSize": "38R",
-          "originalPrice": 8999,
-          "selectedColor": "Deep Navy"
-        }
-      ],
-      "total": 4999,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": null,
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "createdAt": "2026-08-26T17:01:12.416+00:00",
-      "updatedAt": "2026-08-26T17:01:12.416+00:00"
-    },
-    {
-      "id": "AS-701528",
-      "customerName": "Ashutosh kumar yadav",
-      "customerPhone": "8271936044",
-      "items": [
-        {
-          "id": "prod-2",
-          "name": "Royal Chronograph Gold Wristwatch",
-          "brand": "A_S Horology",
-          "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
-          "price": 8999,
-          "discount": 40,
-          "quantity": 1,
-          "cartItemId": "prod-2-Royal Gold-40mm Dial",
-          "selectedSize": "40mm Dial",
-          "originalPrice": 14999,
-          "selectedColor": "Royal Gold"
-        }
-      ],
-      "total": 9248,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": null,
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "createdAt": "2026-08-26T16:36:50.304+00:00",
-      "updatedAt": "2026-08-26T16:36:50.304+00:00"
-    },
-    {
-      "id": "AS-276410",
-      "customerName": "Ashutosh kumar",
-      "customerPhone": "9572804194",
-      "items": [
-        {
-          "id": "prod-4",
-          "name": "Aviator 24K Gold Polarized Sunglasses",
-          "brand": "A_S Optix",
-          "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
-          "price": 1899,
-          "discount": 45,
-          "quantity": 1,
-          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
-          "selectedSize": "Standard 58mm",
-          "originalPrice": 3499,
-          "selectedColor": "Gold & Midnight Tint"
-        }
-      ],
-      "total": 2048,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": null,
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "createdAt": "2026-08-26T16:09:23.407+00:00",
-      "updatedAt": "2026-08-26T16:09:23.407+00:00"
-    },
-    {
-      "id": "AS-889911",
-      "customerName": "Ashutosh kumar",
-      "customerPhone": "9572804194",
-      "items": [
-        {
-          "name": "Royal Chronograph Watch",
-          "price": 45999,
-          "quantity": 1
-        }
-      ],
-      "total": 45999,
-      "status": "Shipped",
-      "carrier": "Bluedart Express",
-      "trackingNumber": "BD-612260704IN",
-      "paymentMethod": "Razorpay / Online",
-      "paymentStatus": "Paid",
-      "createdAt": "2026-08-26T15:42:40.831+00:00",
-      "updatedAt": "2026-08-26T15:48:30.304+00:00"
     }
   ],
   "coupons": [
@@ -1389,6 +261,48 @@
       "updatedAt": "2026-08-31T19:06:27.733459+00:00"
     },
     {
+      "id": "prod-tikka",
+      "name": "Chicken Tikka",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 225,
+      "originalPrice": 260,
+      "discount": 13,
+      "rating": 5,
+      "reviewCount": 520,
+      "stockCount": 39,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
+      "images": [
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [
+        "#B91C1C"
+      ],
+      "colorNames": [
+        "Tandoori Red"
+      ],
+      "sizes": [
+        "250 g (6-8 Pcs)",
+        "500 g (12-16 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Grill or pan sear for 6-8 mins",
+        "Protein": "19 g protein per serving",
+        "Storage": "Store at 0°C to 4°C",
+        "Serving Size": "250 g (6-8 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T21:10:34.817+00:00"
+    },
+    {
       "id": "prod-sausages",
       "name": "Smoked German Chicken Sausages",
       "brand": "A_S FOODY Gourmet Meat Lab",
@@ -1464,48 +378,6 @@
         "Cooking": "Shallow fry in pure ghee for 2 mins",
         "Storage": "Keep frozen at -18°C",
         "Serving Size": "300 g (6 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
-    },
-    {
-      "id": "prod-tikka",
-      "name": "Chicken Tikka",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 225,
-      "originalPrice": 260,
-      "discount": 13,
-      "rating": 5,
-      "reviewCount": 520,
-      "stockCount": 40,
-      "inStock": true,
-      "badge": "BESTSELLER",
-      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
-      "images": [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": true,
-      "colors": [
-        "#B91C1C"
-      ],
-      "colorNames": [
-        "Tandoori Red"
-      ],
-      "sizes": [
-        "250 g (6-8 Pcs)",
-        "500 g (12-16 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Grill or pan sear for 6-8 mins",
-        "Protein": "19 g protein per serving",
-        "Storage": "Store at 0°C to 4°C",
-        "Serving Size": "250 g (6-8 Pcs)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
       "updatedAt": "2026-08-31T19:06:27.733459+00:00"
@@ -1934,95 +806,5 @@
     "heroCtaText": "Shop Best Sellers",
     "heroCtaLink": "/shop",
     "supportAddress": "Sector 62, Noida, Uttar Pradesh 201301"
-  },
-  "users": [
-    {
-      "id": "usr-1787768301309",
-      "name": "Aryan Sharma",
-      "email": "aryan.luxury2026@gmail.com",
-      "phone": "9876543210",
-      "passwordHash": "$2b$10$WhW4ACabOkgl1F//cAtMRuOaddjdtFMa6hGiJVgl5k1ah8jIBEv5.",
-      "role": "customer",
-      "isVerified": true,
-      "verificationOtp": null,
-      "otpExpiresAt": null,
-      "addresses": [],
-      "wishlist": [],
-      "createdAt": "2026-08-26T18:18:21.297Z",
-      "updatedAt": "2026-08-26T18:20:03.873Z"
-    },
-    {
-      "id": "usr-1787769250807",
-      "name": "Bholu Yadav",
-      "email": "bholukumaryadav8226@gmail.com",
-      "phone": "8226812720",
-      "passwordHash": "$2b$10$ba6U2730W.0TTE9HBg.TnOcFvyzPRD49Ix1aFuDM/S.mrJ65rx9ba",
-      "role": "customer",
-      "isVerified": true,
-      "verificationOtp": null,
-      "otpExpiresAt": null,
-      "addresses": [],
-      "wishlist": [],
-      "createdAt": "2026-08-26T18:34:10.807Z",
-      "updatedAt": "2026-08-30T20:36:09.713Z"
-    },
-    {
-      "id": "usr-1787769993869",
-      "name": "Rahul Roy",
-      "email": "rahul.test2026@gmail.com",
-      "phone": "9876543210",
-      "passwordHash": "$2b$10$XpZBBtPoKH2VPE57bKTtEO/xOAAWMHPRDcpTWOJDZDosxE3v5reDe",
-      "role": "customer",
-      "isVerified": false,
-      "verificationOtp": "542613",
-      "otpExpiresAt": 1787770893757,
-      "addresses": [],
-      "wishlist": [],
-      "createdAt": "2026-08-26T18:46:33.867Z",
-      "updatedAt": "2026-08-26T18:46:33.867Z"
-    },
-    {
-      "id": "usr-1787774852478",
-      "name": "Ashutosh kumar",
-      "email": "ashukumarfbg8271@gmail.com",
-      "phone": "9334993909",
-      "passwordHash": "$2b$10$gnj7ZbOA.ULz35fNLUzsWOH89UxGqB4mC1Mq.WdvQxniQBMMDESuy",
-      "role": "customer",
-      "isVerified": true,
-      "addresses": [
-        {
-          "id": "addr-1787779440270",
-          "city": "Bhopal",
-          "name": "Ashutosh Kumar(0157AL221059)",
-          "phone": "9334993909",
-          "state": "Madhya Pradesh",
-          "title": "Home",
-          "street": "C/O Tushar Mandle  House No 42 , sudama Suncity , Sundar Nagar  Ayodhya bypass road  Bhopal ,MP 462042",
-          "pincode": "462042",
-          "landmark": "dhaka village",
-          "isDefault": true
-        }
-      ],
-      "wishlist": [],
-      "verificationOtp": null,
-      "otpExpiresAt": null,
-      "createdAt": "2026-08-26T20:07:32.477+00:00",
-      "updatedAt": "2026-08-31T21:00:46.374+00:00"
-    },
-    {
-      "id": "usr-1788128171138",
-      "name": "Shruti Kumari Recreated",
-      "email": "shrutiashutosh139@gmail.com",
-      "phone": "9876543210",
-      "passwordHash": "$2b$10$lLOGE3CdVoFkhCf9.LHRnO3JhkhYGAzlB5Xpj52Q6nYGIeBPPY0lu",
-      "role": "customer",
-      "isVerified": false,
-      "verificationOtp": "473070",
-      "otpExpiresAt": 1788129071036,
-      "addresses": [],
-      "wishlist": [],
-      "createdAt": "2026-08-30T22:16:11.138Z",
-      "updatedAt": "2026-08-30T22:16:11.138Z"
-    }
-  ]
+  }
 }

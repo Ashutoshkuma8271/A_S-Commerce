@@ -507,7 +507,7 @@ app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
     if (wishlist !== undefined) updates.wishlist = wishlist;
     if (avatar !== undefined) updates.avatar = avatar;
 
-    const updated = db.updateUser(user.id, updates);
+    const updated = await db.updateUser(user.id, updates);
     return res.json({ success: true, message: 'Profile updated successfully', user: updated });
   } catch (err) {
     console.error('Update profile error:', err);

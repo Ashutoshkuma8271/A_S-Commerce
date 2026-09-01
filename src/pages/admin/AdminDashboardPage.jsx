@@ -587,6 +587,27 @@ export const AdminDashboardPage = () => {
     }
   };
 
+  // Delete Customer Account
+  const handleDeleteCustomer = async (customer) => {
+    if (!window.confirm(`Are you sure you want to permanently delete customer "${customer.name || customer.email}"? This user will be purged from Supabase and can re-register as a new user.`)) return;
+    try {
+      const res = await fetch(`/api/admin/customers/${customer.id}?email=${encodeURIComponent(customer.email)}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        addToast('Customer account removed', 'success', 3000, { desc: `${customer.name || customer.email} data purged successfully.` });
+        fetchDashboardData();
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        addToast(errData.message || 'Failed to delete customer', 'error');
+      }
+    } catch (err) {
+      console.error('Delete customer error', err);
+      addToast('Failed to delete customer', 'error');
+    }
+  };
+
   // Change Password
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -1649,7 +1670,8 @@ export const AdminDashboardPage = () => {
                     <th className="py-3.5 px-4">Security Verification</th>
                     <th className="py-3.5 px-4">Consignments</th>
                     <th className="py-3.5 px-4">Lifetime Spend</th>
-                    <th className="py-3.5 px-4 rounded-r-xl">Joined</th>
+                    <th className="py-3.5 px-4">Joined</th>
+                    <th className="py-3.5 px-4 rounded-r-xl text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-navy-800/60">
@@ -1703,6 +1725,16 @@ export const AdminDashboardPage = () => {
                         </td>
                         <td className="py-3.5 px-4 text-gray-400 text-[11px]">
                           {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : '2026-08-31'}
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <button
+                            onClick={() => handleDeleteCustomer(customer)}
+                            title="Delete patron record & reset data"
+                            className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all hover:scale-105 cursor-pointer inline-flex items-center gap-1"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-medium hidden sm:inline">Delete</span>
+                          </button>
                         </td>
                       </tr>
                     ))}

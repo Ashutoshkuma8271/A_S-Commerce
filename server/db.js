@@ -398,42 +398,54 @@ export const db = {
     };
 
     if (!memoryDB.password_resets) memoryDB.password_resets = [];
-    memoryDB.password_resets = memoryDB.password_resets.filter(r => r.token !== token);
+    memoryDB.password_resets = memoryDB.password_resets.filter(r => r.token !== token && r.email !== targetEmail);
     memoryDB.password_resets.push(entry);
     saveToDisk();
 
     try {
-      await supabase.from('password_resets').delete().eq('token', token);
-      const { error } = await supabase.from('password_resets').insert({
-        id: resetId,
-        token,
-        email: targetEmail,
-        expires_at: expiresIso,
-        is_used: false,
-        created_at: now
-      });
-      if (error) {
-        console.warn('Supabase password_resets insert note:', error.message);
+      if (role === 'admin') {
+        await supabase.from('admins').update({
+          reset_token: token,
+          reset_token_expires_at: expiresIso
+        }).eq('email', targetEmail);
+      } else {
+        await supabase.from('users').update({
+          reset_token: token,
+          reset_token_expires_at: expiresIso
+        }).eq('email', targetEmail);
       }
     } catch (e) {
-      console.warn('Supabase password_resets write note:', e.message);
+      console.warn('Supabase password reset token save note:', e.message);
     }
   },
 
   createPasswordResetRecord: async ({ id, email, role = 'customer', action = 'Password Reset', status = 'Completed', ip = '127.0.0.1' }) => {
     loadFromDisk();
-    if (!memoryDB.password_resets) memoryDB.password_resets = [];
     const record = {
       id: id || `rst-${Date.now()}`,
-      email,
-      role,
-      action,
-      status,
+      action: `${action} (${role}) - ${status}`,
+      admin_email: email,
       ip,
-      createdAt: new Date().toISOString()
+      resource: `Account ${email}`,
+      details: `Password reset execution completed for ${role} account: ${email}`,
+      created_at: new Date().toISOString()
     };
-    memoryDB.password_resets.unshift(record);
+    if (!memoryDB.audit_logs) memoryDB.audit_logs = [];
+    memoryDB.audit_logs.unshift(record);
     saveToDisk();
+
+    try {
+      await supabase.from('audit_logs').insert({
+        id: record.id,
+        action: record.action,
+        admin_email: record.admin_email,
+        ip: record.ip,
+        resource: record.resource,
+        details: record.details,
+        created_at: record.created_at
+      });
+    } catch (e) {}
+
     return record;
   },
 
@@ -448,42 +460,83 @@ export const db = {
     if (!cleanToken) return null;
 
     try {
-      const { data, error } = await supabase.from('password_resets').select('*').eq('token', cleanToken).maybeSingle();
-      if (data && !error) {
-        const isUsed = data.is_used === true || data.used === true;
-        const expiresTime = new Date(data.expires_at).getTime() || Number(data.expires_at) || 0;
-        
-        if (!isUsed) {
+      // 1. Check if token belongs to an administrator in Supabase
+      const { data: adminData, error: adminErr } = await supabase
+        .from('admins')
+        .select('*')
+        .eq('reset_token', cleanToken)
+        .maybeSingle();
+
+      if (adminData && !adminErr) {
+        const expiresTime = adminData.reset_token_expires_at
+          ? new Date(adminData.reset_token_expires_at).getTime()
+          : 0;
+        if (expiresTime > Date.now()) {
           return {
-            id: data.id,
-            token: data.token,
-            adminEmail: data.email,
-            email: data.email,
+            id: `rst-adm-${adminData.id}`,
+            token: cleanToken,
+            adminEmail: adminData.email,
+            email: adminData.email,
+            role: 'admin',
+            expiresAt: expiresTime,
+            used: false
+          };
+        }
+      }
+
+      // 2. Check if token belongs to a customer in Supabase
+      const { data: userData, error: userErr } = await supabase
+        .from('users')
+        .select('*')
+        .eq('reset_token', cleanToken)
+        .maybeSingle();
+
+      if (userData && !userErr) {
+        const expiresTime = userData.reset_token_expires_at
+          ? new Date(userData.reset_token_expires_at).getTime()
+          : 0;
+        if (expiresTime > Date.now()) {
+          return {
+            id: `rst-usr-${userData.id}`,
+            token: cleanToken,
+            adminEmail: userData.email,
+            email: userData.email,
             role: 'customer',
             expiresAt: expiresTime,
             used: false
           };
         }
-        return null;
       }
     } catch (e) {
       console.warn('Supabase getPasswordResetAsync note:', e.message);
     }
 
-    return (memoryDB.password_resets || []).find(r => r.token === cleanToken && !r.used) || null;
+    // 3. Fallback to local memory/disk cache
+    return (memoryDB.password_resets || []).find(
+      r => r.token === cleanToken && !r.used && r.expiresAt > Date.now()
+    ) || null;
   },
 
   markPasswordResetUsed: async (token) => {
     loadFromDisk();
     const cleanToken = (token || '').trim();
-    const index = (memoryDB.password_resets || []).findIndex(r => r.token === cleanToken);
-    if (index !== -1) {
-      memoryDB.password_resets[index].used = true;
-      saveToDisk();
+    if (memoryDB.password_resets) {
+      const index = memoryDB.password_resets.findIndex(r => r.token === cleanToken);
+      if (index !== -1) {
+        memoryDB.password_resets[index].used = true;
+        saveToDisk();
+      }
     }
 
     try {
-      await supabase.from('password_resets').update({ is_used: true }).eq('token', cleanToken);
+      await supabase
+        .from('admins')
+        .update({ reset_token: null, reset_token_expires_at: null })
+        .eq('reset_token', cleanToken);
+      await supabase
+        .from('users')
+        .update({ reset_token: null, reset_token_expires_at: null })
+        .eq('reset_token', cleanToken);
     } catch (e) {}
   },
 
@@ -495,8 +548,8 @@ export const db = {
 
   getUsersAsync: async () => {
     try {
-      const { data } = await supabase.from('users').select('*').order('created_at', { ascending: false });
-      if (data && data.length > 0) {
+      const { data, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+      if (!error && Array.isArray(data)) {
         memoryDB.users = data.map(u => ({
           id: u.id,
           name: u.name,
