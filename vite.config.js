@@ -15,27 +15,8 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es2020',
+    target: 'esnext',
     cssCodeSplit: true,
-    cssMinify: true,
-    minify: 'esbuild',
-    chunkSizeWarningLimit: 800,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
-              return 'vendor-react';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons';
-            }
-            if (id.includes('@supabase/supabase-js')) {
-              return 'vendor-supabase';
-            }
-          }
-        },
-      },
-    },
+    chunkSizeWarningLimit: 1500,
   },
 });
