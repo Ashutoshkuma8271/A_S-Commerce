@@ -1,9 +1,51 @@
 {
   "admins": [],
   "users": [],
-  "password_resets": [],
+  "password_resets": [
+    {
+      "id": "rst-1788239257161-bgl41",
+      "token": "crypto_tok_1788239257157",
+      "adminEmail": "production_buyer_1788239253727@ascommerce.luxury",
+      "email": "production_buyer_1788239253727@ascommerce.luxury",
+      "role": "customer",
+      "expiresAt": 1788240157157,
+      "used": true,
+      "createdAt": "2026-09-01T05:07:37.161Z"
+    }
+  ],
   "audit_logs": [],
   "orders": [
+    {
+      "id": "AS-259049",
+      "customerName": "Production Buyer",
+      "customerEmail": "production_buyer_1788239253727@ascommerce.luxury",
+      "customerPhone": "+91 9876543210",
+      "shippingAddress": {
+        "fullName": "Production Buyer",
+        "email": "production_buyer_1788239253727@ascommerce.luxury",
+        "phone": "+91 9876543210",
+        "street": "42 Marine Drive",
+        "city": "Mumbai",
+        "pincode": "400020"
+      },
+      "items": [
+        {
+          "id": "prod-patty",
+          "name": "Chicken Burger Patty",
+          "price": 190,
+          "quantity": 1
+        }
+      ],
+      "subtotal": 190,
+      "total": 190,
+      "paymentMethod": "Razorpay",
+      "paymentStatus": "Paid",
+      "status": "Shipped",
+      "createdAt": "2026-09-01T05:07:39.049Z",
+      "updatedAt": "2026-09-01T05:07:39.499Z",
+      "carrier": "Bluedart Luxury Express",
+      "trackingNumber": "BD-99887766IN"
+    },
     {
       "id": "AS-964202",
       "customerName": "Ashutosh kumar",
@@ -229,7 +271,7 @@
       "discount": 13,
       "rating": 4.9,
       "reviewCount": 390,
-      "stockCount": 45,
+      "stockCount": 44,
       "inStock": true,
       "badge": "BESTSELLER",
       "description": "Juicy, flame-grilled ground chicken breast burger patties seasoned with aromatic herbs and black pepper.",
