@@ -4,6 +4,8 @@ import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useToast } from '../../context/ToastContext';
 import { supabase } from '../../lib/supabase';
 import { formatINR } from '../../utils/currency';
+import { Logo } from '../../components/common/Logo';
+import { ThemeToggle } from '../../components/common/ThemeToggle';
 import {
   ShieldCheck,
   TrendingUp,
@@ -53,8 +55,6 @@ import {
   Box,
   CircleDot,
 } from 'lucide-react';
-import { Logo } from '../../components/common/Logo';
-
 export const AdminDashboardPage = () => {
   const navigate = useNavigate();
   const { admin, token, logout, changePassword } = useAdminAuth();
@@ -672,54 +672,54 @@ export const AdminDashboardPage = () => {
           {/* Stats Grid Skeleton */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="p-6 rounded-3xl bg-navy-900 border border-gold-500/10 shadow-xl space-y-4 animate-pulse">
+              <div key={i} className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/10 shadow-sm dark:shadow-xl space-y-4 animate-pulse">
                 <div className="flex items-center justify-between">
-                  <div className="h-3 w-24 bg-navy-800 rounded" />
+                  <div className="h-3 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
                   <div className="w-10 h-10 rounded-2xl bg-navy-800" />
                 </div>
-                <div className="h-8 w-32 bg-navy-800 rounded" />
-                <div className="h-3.5 w-28 bg-navy-800 rounded" />
+                <div className="h-8 w-32 bg-gray-200 dark:bg-navy-800 rounded" />
+                <div className="h-3.5 w-28 bg-gray-200 dark:bg-navy-800 rounded" />
               </div>
             ))}
           </div>
 
           {/* Quick Actions & Recent Orders Skeleton */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7 p-6 rounded-3xl bg-navy-900 border border-gold-500/10 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-                <div className="h-5 w-48 bg-navy-800 rounded animate-pulse" />
-                <div className="h-3 w-20 bg-navy-800 rounded animate-pulse" />
+            <div className="lg:col-span-7 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/10 shadow-sm dark:shadow-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
+                <div className="h-5 w-48 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
+                <div className="h-3 w-20 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
               </div>
               <div className="space-y-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="p-4 rounded-2xl bg-navy-850 border border-navy-800 flex items-center justify-between gap-4 animate-pulse">
+                  <div key={i} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4 animate-pulse">
                     <div className="space-y-2">
-                      <div className="h-3.5 w-16 bg-navy-800 rounded" />
-                      <div className="h-3 w-24 bg-navy-800 rounded" />
-                      <div className="h-2.5 w-32 bg-navy-800 rounded" />
+                      <div className="h-3.5 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
+                      <div className="h-3 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
+                      <div className="h-2.5 w-32 bg-gray-200 dark:bg-navy-800 rounded" />
                     </div>
                     <div className="text-right space-y-2">
-                      <div className="h-4 w-20 bg-navy-800 rounded ml-auto" />
-                      <div className="h-5 w-16 bg-navy-800 rounded-full ml-auto" />
+                      <div className="h-4 w-20 bg-gray-200 dark:bg-navy-800 rounded ml-auto" />
+                      <div className="h-5 w-16 bg-gray-200 dark:bg-navy-800 rounded-full ml-auto" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-5 p-6 rounded-3xl bg-navy-900 border border-gold-500/10 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-                <div className="h-5 w-36 bg-navy-800 rounded animate-pulse" />
-                <div className="h-3 w-16 bg-navy-800 rounded animate-pulse" />
+            <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/10 shadow-sm dark:shadow-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
+                <div className="h-5 w-36 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
+                <div className="h-3 w-16 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
               </div>
               <div className="space-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-navy-850 border border-navy-800 space-y-2 animate-pulse">
+                  <div key={i} className="p-3 rounded-xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2 animate-pulse">
                     <div className="flex items-center justify-between">
-                      <div className="h-3.5 w-24 bg-navy-800 rounded" />
-                      <div className="h-2.5 w-10 bg-navy-800 rounded" />
+                      <div className="h-3.5 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
+                      <div className="h-2.5 w-10 bg-gray-200 dark:bg-navy-800 rounded" />
                     </div>
-                    <div className="h-3 w-full bg-navy-800 rounded" />
+                    <div className="h-3 w-full bg-gray-200 dark:bg-navy-800 rounded" />
                   </div>
                 ))}
               </div>
@@ -744,43 +744,43 @@ export const AdminDashboardPage = () => {
       };
 
       return (
-        <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/10 shadow-xl space-y-6 animate-fadeIn">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/10 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
             <div className="space-y-2">
-              <div className="h-6 w-56 bg-navy-800 rounded animate-pulse" />
-              <div className="h-3.5 w-80 bg-navy-800 rounded animate-pulse" />
+              <div className="h-6 w-56 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
+              <div className="h-3.5 w-80 bg-gray-200 dark:bg-navy-800 rounded animate-pulse" />
             </div>
             {activeTab === 'products' && (
-              <div className="h-10 w-36 bg-navy-850 rounded-xl animate-pulse" />
+              <div className="h-10 w-36 bg-gray-100 dark:bg-navy-850 rounded-xl animate-pulse" />
             )}
           </div>
 
           {/* Search/Filters Skeleton */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="h-10 flex-1 bg-navy-850 rounded-xl border border-navy-700 animate-pulse" />
-            <div className="h-10 w-40 bg-navy-850 rounded-xl border border-navy-700 animate-pulse" />
+            <div className="h-10 flex-1 bg-gray-100 dark:bg-navy-850 rounded-xl border border-navy-700 animate-pulse" />
+            <div className="h-10 w-40 bg-gray-100 dark:bg-navy-850 rounded-xl border border-navy-700 animate-pulse" />
           </div>
 
           {/* Table List Skeleton */}
           <div className="overflow-x-auto space-y-3">
             <div className="h-10 bg-navy-950 rounded-t-xl animate-pulse flex items-center px-4 justify-between">
-              <div className="h-3 w-16 bg-navy-800 rounded" />
-              <div className="h-3 w-24 bg-navy-800 rounded" />
-              <div className="h-3 w-16 bg-navy-800 rounded" />
-              <div className="h-3 w-16 bg-navy-800 rounded" />
+              <div className="h-3 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
+              <div className="h-3 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
+              <div className="h-3 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
+              <div className="h-3 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
             </div>
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="p-4 bg-navy-850 border border-navy-800 rounded-xl flex items-center justify-between gap-4 animate-pulse">
+              <div key={i} className="p-4 bg-gray-100 dark:bg-navy-850 border border-navy-800 rounded-xl flex items-center justify-between gap-4 animate-pulse">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-navy-800 shrink-0" />
                   <div className="space-y-1.5">
-                    <div className="h-3.5 w-40 bg-navy-800 rounded" />
-                    <div className="h-2.5 w-20 bg-navy-800 rounded" />
+                    <div className="h-3.5 w-40 bg-gray-200 dark:bg-navy-800 rounded" />
+                    <div className="h-2.5 w-20 bg-gray-200 dark:bg-navy-800 rounded" />
                   </div>
                 </div>
-                <div className="h-3.5 w-24 bg-navy-800 rounded" />
-                <div className="h-3.5 w-16 bg-navy-800 rounded" />
-                <div className="h-8 w-16 bg-navy-850 rounded-lg border border-navy-800" />
+                <div className="h-3.5 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
+                <div className="h-3.5 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
+                <div className="h-8 w-16 bg-gray-100 dark:bg-navy-850 rounded-lg border border-navy-800" />
               </div>
             ))}
           </div>
@@ -790,18 +790,18 @@ export const AdminDashboardPage = () => {
 
     // Fallback or simple section loader for Profile and Settings
     return (
-      <div className="p-8 rounded-3xl bg-navy-900 border border-gold-500/10 shadow-xl flex flex-col items-center justify-center space-y-4 animate-pulse">
-        <div className="w-12 h-12 rounded-full bg-navy-850 border border-navy-700 animate-spin border-t-gold-500" />
-        <div className="h-4 w-32 bg-navy-850 rounded" />
+      <div className="p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/10 shadow-sm dark:shadow-xl flex flex-col items-center justify-center space-y-4 animate-pulse">
+        <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-navy-850 border border-navy-700 animate-spin border-t-gold-500" />
+        <div className="h-4 w-32 bg-gray-100 dark:bg-navy-850 rounded" />
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-navy-950 text-white selection:bg-gold-500/30 flex flex-col font-sans">
+    <div className="min-h-screen bg-cream-50 dark:bg-navy-950 text-navy-950 dark:text-white transition-colors selection:bg-gold-500/30 flex flex-col font-sans">
       
       {/* Top Admin Header */}
-      <header className="bg-navy-900 border-b border-gold-500/20 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-xl backdrop-blur-md">
+      <header className="bg-white/95 dark:bg-navy-900/95 border-b border-gray-200/80 dark:border-gold-500/20 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm dark:shadow-xl backdrop-blur-md transition-colors">
         <div className="flex items-center gap-4">
           <Logo size="small" />
           <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-gold-500/10 border border-gold-500/30 rounded-full text-gold-400 text-xs font-mono">
@@ -810,27 +810,29 @@ export const AdminDashboardPage = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <ThemeToggle />
+
           <Link
             to="/"
             target="_blank"
-            className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-gold-400 font-medium px-3 py-1.5 rounded-xl hover:bg-navy-800 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300 hover:text-navy-950 dark:hover:text-gold-400 font-medium px-3 py-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-navy-800 transition-colors"
           >
             <span>Live Storefront</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
 
-          <div className="h-4 w-px bg-navy-750 hidden sm:block" />
+          <div className="h-4 w-px bg-gray-200 dark:bg-navy-750 hidden sm:block" />
 
           <div className="flex items-center gap-3">
             <div className="text-right hidden md:block">
-              <p className="text-xs font-bold text-white leading-tight">{admin?.name || 'Alexander Sterling'}</p>
+              <p className="text-xs font-bold text-navy-950 dark:text-white leading-tight">{admin?.name || 'Alexander Sterling'}</p>
               <p className="text-[10px] font-mono text-gold-400">Master Administrator</p>
             </div>
 
             <button
               onClick={handleLogout}
-              className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-navy-800 hover:bg-red-900/40 text-gray-300 hover:text-red-300 border border-navy-700 hover:border-red-500/40 transition-all flex items-center gap-1.5 text-xs cursor-pointer"
+              className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-gray-100 dark:bg-navy-800 hover:bg-red-50 dark:hover:bg-red-900/40 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-300 border border-gray-200 dark:border-navy-700 hover:border-red-500/40 transition-all flex items-center gap-1.5 text-xs cursor-pointer"
               title="Logout from Admin Portal"
             >
               <LogOut className="w-4 h-4" />
@@ -844,7 +846,7 @@ export const AdminDashboardPage = () => {
       <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-navy-800">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-gray-200 dark:border-navy-800">
           {[
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'products', label: `Catalog & Products (${products.length})`, icon: Package },
@@ -864,7 +866,7 @@ export const AdminDashboardPage = () => {
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'bg-gold-gradient text-navy-950 shadow-gold-sm'
-                    : 'bg-navy-900 text-gray-300 hover:bg-navy-850 hover:text-white border border-navy-800'
+                    : 'bg-white dark:bg-navy-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-100 dark:bg-navy-850 hover:text-navy-950 dark:hover:text-white border border-gray-200 dark:border-navy-800 shadow-xs'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -875,7 +877,7 @@ export const AdminDashboardPage = () => {
 
           <button
             onClick={() => fetchDashboardData(true)}
-            className="ml-auto p-2.5 rounded-xl bg-navy-900 text-gray-400 hover:text-gold-400 border border-navy-800 transition-colors cursor-pointer"
+            className="ml-auto p-2.5 rounded-xl bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-400 hover:text-gold-600 dark:hover:text-gold-400 border border-gray-200 dark:border-navy-800 transition-colors cursor-pointer shadow-xs"
             title="Refresh Real-Time Telemetry"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -890,48 +892,48 @@ export const AdminDashboardPage = () => {
             {activeTab === 'overview' && (
           <div className="space-y-8 animate-fadeIn">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-2">
+              <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Gross Sales</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Gross Sales</span>
                   <div className="w-10 h-10 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400">
                     <TrendingUp className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="font-serif text-3xl font-bold text-white">
+                <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {formatINR(stats?.totalRevenue || 2249)}
                 </h3>
                 <span className="text-[11px] text-green-400 font-medium">✓ Razorpay Verified Revenue</span>
               </div>
 
-              <div className="p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-2">
+              <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Total Consignments</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Total Consignments</span>
                   <div className="w-10 h-10 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
                     <ShoppingBag className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="font-serif text-3xl font-bold text-white">
+                <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {orders.length} Orders
                 </h3>
                 <span className="text-[11px] text-gold-400 font-medium">● Live Carrier Integration</span>
               </div>
 
-              <div className="p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-2">
+              <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Catalog Inventory</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Catalog Inventory</span>
                   <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
                     <Package className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="font-serif text-3xl font-bold text-white">
+                <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {products.length} Products
                 </h3>
                 <span className="text-[11px] text-gray-400 font-medium">Across 7 Main Departments</span>
               </div>
 
-              <div className="p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-2">
+              <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Security State</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider">Security State</span>
                   <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
@@ -945,9 +947,9 @@ export const AdminDashboardPage = () => {
 
             {/* Quick Actions & Recent Orders */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-7 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-4">
-                <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-                  <h4 className="font-serif text-lg font-bold text-white flex items-center gap-2">
+              <div className="lg:col-span-7 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-4 transition-colors">
+                <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
+                  <h4 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2">
                     <ShoppingBag className="w-5 h-5 text-gold-400" />
                     <span>Recent Customer Consignments</span>
                   </h4>
@@ -958,14 +960,14 @@ export const AdminDashboardPage = () => {
 
                 <div className="space-y-3">
                   {orders.slice(0, 4).map((order) => (
-                    <div key={order.id} className="p-4 rounded-2xl bg-navy-850 border border-navy-800 flex items-center justify-between gap-4">
+                    <div key={order.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                       <div>
                         <span className="text-xs font-mono font-bold text-gold-400">#{order.id}</span>
-                        <p className="text-xs text-white font-medium mt-0.5">{order.shippingAddress?.name}</p>
+                        <p className="text-xs text-navy-950 dark:text-white font-medium mt-0.5">{order.shippingAddress?.name}</p>
                         <span className="text-[10px] text-gray-400">{order.date} • {order.carrier}</span>
                       </div>
                       <div className="text-right space-y-1">
-                        <span className="text-xs font-bold text-white block">{formatINR(order.total)}</span>
+                        <span className="text-xs font-bold text-navy-950 dark:text-white block">{formatINR(order.total)}</span>
                         <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gold-500/20 text-gold-400 border border-gold-500/30">
                           {order.status}
                         </span>
@@ -975,9 +977,9 @@ export const AdminDashboardPage = () => {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-4">
-                <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-                  <h4 className="font-serif text-lg font-bold text-white flex items-center gap-2">
+              <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-4 transition-colors">
+                <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
+                  <h4 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2">
                     <History className="w-5 h-5 text-gold-400" />
                     <span>Security Audit Feed</span>
                   </h4>
@@ -988,7 +990,7 @@ export const AdminDashboardPage = () => {
 
                 <div className="space-y-2.5">
                   {auditLogs.slice(0, 5).map((log) => (
-                    <div key={log.id} className="p-3 rounded-xl bg-navy-850 border border-navy-800 text-xs space-y-1">
+                    <div key={log.id} className="p-3 rounded-xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 text-xs space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-gold-400">{log.action}</span>
                         <span className="text-[10px] text-gray-400 font-mono">
@@ -1006,10 +1008,10 @@ export const AdminDashboardPage = () => {
 
         {/* TAB 2: PRODUCTS CATALOG MANAGEMENT */}
         {activeTab === 'products' && (
-          <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6 animate-fadeIn">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
               <div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white">
                   Catalog & Product Management
                 </h3>
                 <p className="text-xs text-gray-400">
@@ -1035,14 +1037,14 @@ export const AdminDashboardPage = () => {
                   value={productSearch}
                   onChange={(e) => setProductSearch(e.target.value)}
                   placeholder="Search products by title or brand..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white placeholder-gray-500 text-xs rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-xs rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
               <select
                 value={productCategoryFilter}
                 onChange={(e) => setProductCategoryFilter(e.target.value)}
-                className="px-4 py-2.5 bg-navy-850 text-gold-400 rounded-xl border border-navy-700 text-xs font-semibold focus:border-gold-500 cursor-pointer"
+                className="px-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gold-600 dark:text-gold-400 rounded-xl border border-gray-200 dark:border-navy-700 text-xs font-semibold focus:border-gold-500 cursor-pointer"
               >
                 <option value="all">All Departments</option>
                 <option value="men">Men Fashion</option>
@@ -1057,8 +1059,8 @@ export const AdminDashboardPage = () => {
 
             {/* Products Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-gray-300">
-                <thead className="bg-navy-950 text-gray-400 font-mono text-[11px] uppercase border-b border-navy-800">
+              <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
+                <thead className="bg-gray-100 dark:bg-navy-950 text-gray-600 dark:text-gray-400 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
                   <tr>
                     <th className="p-3.5">Item</th>
                     <th className="p-3.5">Department</th>
@@ -1068,9 +1070,9 @@ export const AdminDashboardPage = () => {
                     <th className="p-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-navy-800">
+                <tbody className="divide-y divide-gray-100 dark:divide-navy-800">
                   {filteredProducts.map((prod) => (
-                    <tr key={prod.id} className="hover:bg-navy-850/50 transition-colors">
+                    <tr key={prod.id} className="hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-navy-850/50 transition-colors">
                       <td className="p-3.5">
                         <div className="flex items-center gap-3">
                           <img
@@ -1079,7 +1081,7 @@ export const AdminDashboardPage = () => {
                             className="w-10 h-10 rounded-xl object-cover border border-navy-700 shrink-0"
                           />
                           <div>
-                            <span className="font-bold text-white block">{prod.name}</span>
+                            <span className="font-bold text-navy-950 dark:text-white block">{prod.name}</span>
                             <span className="text-[10px] text-gray-400">{prod.brand}</span>
                           </div>
                         </div>
@@ -1101,14 +1103,14 @@ export const AdminDashboardPage = () => {
                       <td className="p-3.5 text-right space-x-2 whitespace-nowrap">
                         <button
                           onClick={() => handleOpenEditProduct(prod)}
-                          className="p-1.5 text-gray-300 hover:text-gold-400 hover:bg-navy-800 rounded-lg transition-colors cursor-pointer"
+                          className="p-1.5 text-gray-300 hover:text-gold-400 hover:bg-gray-200 dark:bg-navy-800 rounded-lg transition-colors cursor-pointer"
                           title="Edit Product"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteProduct(prod.id)}
-                          className="p-1.5 text-gray-300 hover:text-red-400 hover:bg-navy-800 rounded-lg transition-colors cursor-pointer"
+                          className="p-1.5 text-gray-300 hover:text-red-400 hover:bg-gray-200 dark:bg-navy-800 rounded-lg transition-colors cursor-pointer"
                           title="Delete Product"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -1127,9 +1129,9 @@ export const AdminDashboardPage = () => {
           <div className="space-y-6 animate-fadeIn">
             {/* Header & Controls */}
             <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                     <Truck className="w-6 h-6 text-gold-400" />
                     <span>Orders & Logistics Management</span>
                   </h3>
@@ -1162,17 +1164,17 @@ export const AdminDashboardPage = () => {
 
               {/* Order KPI Summary Ribbon */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div className="p-4 rounded-2xl bg-navy-850 border border-navy-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-1">
                   <span className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Total Consignments</span>
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xl sm:text-2xl font-bold font-serif text-white">{orders.length}</span>
+                    <span className="text-xl sm:text-2xl font-bold font-serif text-navy-950 dark:text-white">{orders.length}</span>
                     <span className="text-xs font-mono text-gold-400 font-bold">
                       {formatINR(orders.reduce((acc, o) => acc + Number(o.total || o.total_amount || 0), 0))}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-navy-850 border border-amber-500/20 space-y-1">
+                <div className="p-4 rounded-2xl bg-gray-100 dark:bg-navy-850 border border-amber-500/20 space-y-1">
                   <span className="text-[10px] text-amber-400 uppercase font-semibold tracking-wider">Pending Fulfillment</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-xl sm:text-2xl font-bold font-serif text-amber-400">
@@ -1182,7 +1184,7 @@ export const AdminDashboardPage = () => {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-navy-850 border border-sky-500/20 space-y-1">
+                <div className="p-4 rounded-2xl bg-gray-100 dark:bg-navy-850 border border-sky-500/20 space-y-1">
                   <span className="text-[10px] text-sky-400 uppercase font-semibold tracking-wider">In Transit Logistics</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-xl sm:text-2xl font-bold font-serif text-sky-400">
@@ -1192,7 +1194,7 @@ export const AdminDashboardPage = () => {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-navy-850 border border-emerald-500/20 space-y-1">
+                <div className="p-4 rounded-2xl bg-gray-100 dark:bg-navy-850 border border-emerald-500/20 space-y-1">
                   <span className="text-[10px] text-emerald-400 uppercase font-semibold tracking-wider">Delivered & Complete</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-xl sm:text-2xl font-bold font-serif text-emerald-400">
@@ -1223,7 +1225,7 @@ export const AdminDashboardPage = () => {
                       className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                         isSelected
                           ? 'bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-                          : 'bg-navy-850/60 text-gray-400 hover:text-white hover:bg-navy-800 border border-navy-800'
+                          : 'bg-gray-100 dark:bg-navy-850/60 text-gray-400 hover:text-white hover:bg-navy-800 border border-navy-800'
                       }`}
                     >
                       <span>{tab.label}</span>
@@ -1246,7 +1248,7 @@ export const AdminDashboardPage = () => {
                     placeholder="Search by Order ID, customer, phone, email, tracking AWB..."
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
                   />
                 </div>
 
@@ -1254,7 +1256,7 @@ export const AdminDashboardPage = () => {
                   <select
                     value={orderStatusFilter}
                     onChange={(e) => setOrderStatusFilter(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-navy-850 text-gray-200 rounded-xl border border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
                   >
                     <option value="all">All Delivery Statuses</option>
                     <option value="Order Placed">Order Placed</option>
@@ -1271,7 +1273,7 @@ export const AdminDashboardPage = () => {
                   <select
                     value={orderSortBy}
                     onChange={(e) => setOrderSortBy(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-navy-850 text-gray-200 rounded-xl border border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
                   >
                     <option value="newest">Sort: Newest First</option>
                     <option value="oldest">Sort: Oldest First</option>
@@ -1334,13 +1336,13 @@ export const AdminDashboardPage = () => {
                   return (
                     <div
                       key={order.id}
-                      className="p-5 sm:p-7 rounded-3xl bg-navy-900 border border-gold-500/20 hover:border-gold-500/40 transition-all space-y-5 shadow-xl"
+                      className="p-5 sm:p-7 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 hover:border-gold-500/40 transition-all space-y-5 shadow-sm dark:shadow-xl"
                     >
                       {/* Order Header & Identity */}
-                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
                         <div className="space-y-1.5">
                           <div className="flex items-center flex-wrap gap-2.5">
-                            <div className="flex items-center gap-1.5 bg-navy-850 px-3 py-1 rounded-xl border border-navy-750">
+                            <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-navy-850 px-3 py-1 rounded-xl border border-navy-750">
                               <span className="text-xs font-mono font-bold text-gold-400">#{order.id}</span>
                               <button
                                 onClick={() => handleCopyText(order.id, `order-${order.id}`, 'Consignment ID')}
@@ -1371,7 +1373,7 @@ export const AdminDashboardPage = () => {
 
                           {/* Customer Contact Bar with Quick Action Links */}
                           <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-gray-300">
-                            <span className="font-semibold text-white flex items-center gap-1.5">
+                            <span className="font-semibold text-navy-950 dark:text-white flex items-center gap-1.5">
                               <User className="w-3.5 h-3.5 text-gold-400" />
                               {customerName}
                             </span>
@@ -1388,7 +1390,7 @@ export const AdminDashboardPage = () => {
                         {/* Total & Quick Next Action */}
                         <div className="flex items-center flex-wrap justify-between lg:justify-end gap-3 pt-2 lg:pt-0">
                           <div className="text-left lg:text-right">
-                            <span className="text-xl sm:text-2xl font-serif font-bold text-white block">
+                            <span className="text-xl sm:text-2xl font-serif font-bold text-navy-950 dark:text-white block">
                               {formatINR(order.total || order.total_amount || 0)}
                             </span>
                             <span className="text-[10px] text-gray-400">
@@ -1413,7 +1415,7 @@ export const AdminDashboardPage = () => {
                             <select
                               value={currentStatus}
                               onChange={(e) => handleQuickStatusUpdate(order.id, e.target.value)}
-                              className="px-2.5 py-2 bg-navy-850 text-gold-400 border border-navy-700 rounded-xl text-xs font-semibold focus:border-gold-500 focus:outline-none cursor-pointer"
+                              className="px-2.5 py-2 bg-gray-100 dark:bg-navy-850 text-gold-400 border border-navy-700 rounded-xl text-xs font-semibold focus:border-gold-500 focus:outline-none cursor-pointer"
                             >
                               <option value="Order Placed">Order Placed</option>
                               <option value="Payment Confirmed">Payment Confirmed</option>
@@ -1429,7 +1431,7 @@ export const AdminDashboardPage = () => {
 
                       {/* Interactive Logistics Stepper (Pipeline Tracker) */}
                       {currentStatus !== 'Cancelled' && (
-                        <div className="bg-navy-850/70 p-4 rounded-2xl border border-navy-800">
+                        <div className="bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/70 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800">
                           <div className="grid grid-cols-6 gap-1 sm:gap-2">
                             {stages.map((stage, sIdx) => {
                               const isCompleted = currentStageIdx >= sIdx;
@@ -1471,7 +1473,7 @@ export const AdminDashboardPage = () => {
 
                       {/* Itemized Preview of Consignment */}
                       {Array.isArray(order.items) && order.items.length > 0 && (
-                        <div className="bg-navy-850/40 rounded-2xl p-4 border border-navy-800/80 space-y-2.5">
+                        <div className="bg-gray-50/60 dark:bg-gray-100 dark:bg-navy-850/40 rounded-2xl p-4 border border-gray-200/80 dark:border-navy-800/80 space-y-2.5">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
                             ORDERED LUXURY CONSIGNMENT ({order.items.length} ITEM{order.items.length > 1 ? 'S' : ''})
                           </span>
@@ -1479,7 +1481,7 @@ export const AdminDashboardPage = () => {
                             {order.items.map((item, idx) => (
                               <div
                                 key={idx}
-                                className="flex items-center gap-3 p-2.5 rounded-xl bg-navy-850 border border-navy-800 text-xs"
+                                className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-100 dark:bg-navy-850 border border-navy-800 text-xs"
                               >
                                 <img
                                   src={item.image || item.images?.[0] || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100'}
@@ -1487,7 +1489,7 @@ export const AdminDashboardPage = () => {
                                   className="w-12 h-12 object-cover rounded-lg border border-navy-750 shrink-0"
                                 />
                                 <div className="min-w-0 flex-1">
-                                  <p className="font-semibold text-white truncate text-xs">{item.name}</p>
+                                  <p className="font-semibold text-navy-950 dark:text-white truncate text-xs">{item.name}</p>
                                   <div className="flex items-center justify-between text-[11px] text-gray-400 mt-0.5">
                                     <span>Qty: <strong className="text-gold-400">{item.quantity || 1}</strong></span>
                                     <span className="font-mono text-gray-200">{formatINR(item.price || 0)}</span>
@@ -1502,7 +1504,7 @@ export const AdminDashboardPage = () => {
                       {/* Destination Address & Logistics Footer */}
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
                         {/* Address Dossier */}
-                        <div className="md:col-span-6 bg-navy-850/50 p-4 rounded-2xl border border-navy-800 space-y-1.5">
+                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1">
                               <MapPin className="w-3 h-3 text-gold-400" />
@@ -1523,7 +1525,7 @@ export const AdminDashboardPage = () => {
                           <p className="text-gray-200 leading-relaxed text-xs">
                             {order.shippingAddress?.street ? (
                               <>
-                                <strong className="text-white block">{order.shippingAddress.name || customerName}</strong>
+                                <strong className="text-navy-950 dark:text-white block">{order.shippingAddress.name || customerName}</strong>
                                 {order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state ? `${order.shippingAddress.state}, ` : ''}PIN: {order.shippingAddress.pincode}
                               </>
                             ) : (
@@ -1533,14 +1535,14 @@ export const AdminDashboardPage = () => {
                         </div>
 
                         {/* Carrier & Tracking */}
-                        <div className="md:col-span-6 bg-navy-850/50 p-4 rounded-2xl border border-navy-800 space-y-1.5">
+                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1">
                             <Truck className="w-3 h-3 text-gold-400" />
                             CARRIER LOGISTICS
                           </span>
                           <div className="text-gray-200 space-y-1">
                             <p>
-                              Partner: <strong className="text-white">{order.carrier || 'Bluedart Express Luxury Courier'}</strong>
+                              Partner: <strong className="text-navy-950 dark:text-white">{order.carrier || 'Bluedart Express Luxury Courier'}</strong>
                             </p>
                             <div className="flex items-center gap-2">
                               <span>AWB Tracking:</span>
@@ -1566,7 +1568,7 @@ export const AdminDashboardPage = () => {
                       </div>
 
                       {/* Action Command Center Buttons */}
-                      <div className="flex items-center flex-wrap justify-between gap-3 pt-2 border-t border-navy-800">
+                      <div className="flex items-center flex-wrap justify-between gap-3 pt-2 border-t border-gray-100 dark:border-navy-800">
                         {/* Direct Customer Connect Links */}
                         <div className="flex items-center gap-2">
                           {cleanPhone && (
@@ -1638,10 +1640,10 @@ export const AdminDashboardPage = () => {
 
         {/* TAB 3.5: CUSTOMERS DIRECTORY */}
         {activeTab === 'customers' && (
-          <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6 animate-fadeIn">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
               <div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                   <User className="w-6 h-6 text-gold-400" />
                   <span>Registered Customer Directory</span>
                 </h3>
@@ -1671,14 +1673,14 @@ export const AdminDashboardPage = () => {
                 placeholder="Search customers by name, email, phone..."
                 value={customerSearch}
                 onChange={(e) => setCustomerSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
               />
             </div>
 
             {/* Customers Table / Card List */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-gray-300">
-                <thead className="bg-navy-950/80 text-gold-400 uppercase font-mono text-[10px] tracking-wider border-b border-navy-800">
+              <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
+                <thead className="bg-gray-100 dark:bg-navy-950/80 text-gold-600 dark:text-gold-400 uppercase font-mono text-[10px] tracking-wider border-b border-gray-200 dark:border-navy-800">
                   <tr>
                     <th className="py-3.5 px-4 rounded-l-xl">Patron</th>
                     <th className="py-3.5 px-4">Contact Info</th>
@@ -1689,7 +1691,7 @@ export const AdminDashboardPage = () => {
                     <th className="py-3.5 px-4 rounded-r-xl text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-navy-800/60">
+                <tbody className="divide-y divide-gray-100 dark:divide-navy-800/60">
                   {customers
                     .filter((c) => {
                       const q = customerSearch.toLowerCase().trim();
@@ -1701,14 +1703,14 @@ export const AdminDashboardPage = () => {
                       );
                     })
                     .map((customer) => (
-                      <tr key={customer.id} className="hover:bg-navy-850/50 transition-colors">
+                      <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-navy-850/50 transition-colors">
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center font-bold font-serif text-gold-400 text-xs">
                               {(customer.name || 'C').charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <p className="font-bold text-white text-xs">{customer.name}</p>
+                              <p className="font-bold text-navy-950 dark:text-white text-xs">{customer.name}</p>
                               <p className="text-[10px] font-mono text-gray-400">{customer.id}</p>
                             </div>
                           </div>
@@ -1735,7 +1737,7 @@ export const AdminDashboardPage = () => {
                             {customer.totalOrders || 0} Orders
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 font-serif font-bold text-white">
+                        <td className="py-3.5 px-4 font-serif font-bold text-navy-950 dark:text-white">
                           {formatINR(customer.totalSpend || 0)}
                         </td>
                         <td className="py-3.5 px-4 text-gray-400 text-[11px]">
@@ -1757,7 +1759,7 @@ export const AdminDashboardPage = () => {
               </table>
 
               {customers.length === 0 && (
-                <div className="text-center py-12 rounded-2xl bg-navy-850/50 border border-navy-800 space-y-2 mt-3">
+                <div className="text-center py-12 rounded-2xl bg-gray-100 dark:bg-navy-850/50 border border-navy-800 space-y-2 mt-3">
                   <User className="w-10 h-10 text-gray-500 mx-auto" />
                   <p className="text-sm font-semibold text-gray-300">No registered patrons yet.</p>
                   <p className="text-xs text-gray-500">Registered users will appear here automatically.</p>
@@ -1769,9 +1771,9 @@ export const AdminDashboardPage = () => {
 
         {/* TAB 4: WEBSITE SECTIONS & CONTENT CUSTOMIZER */}
         {activeTab === 'settings' && (
-          <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6 animate-fadeIn">
-            <div className="border-b border-navy-800 pb-4">
-              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+            <div className="border-b border-gray-100 dark:border-navy-800 pb-4">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                 <Sliders className="w-6 h-6 text-gold-400" />
                 <span>Website Sections & Content Customizer</span>
               </h3>
@@ -1791,7 +1793,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.announcementText}
                     onChange={(e) => setSiteSettings({ ...siteSettings, announcementText: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1800,7 +1802,7 @@ export const AdminDashboardPage = () => {
                     type="number"
                     value={siteSettings.freeShippingThreshold}
                     onChange={(e) => setSiteSettings({ ...siteSettings, freeShippingThreshold: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -1815,7 +1817,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroBadge}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroBadge: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1824,7 +1826,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroHeadline}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroHeadline: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500 font-serif text-sm"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-serif text-sm"
                   />
                 </div>
                 <div>
@@ -1833,7 +1835,7 @@ export const AdminDashboardPage = () => {
                     rows={2}
                     value={siteSettings.heroSubheadline}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroSubheadline: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1842,7 +1844,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroDiscount}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroDiscount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -1861,8 +1863,8 @@ export const AdminDashboardPage = () => {
         {/* TAB 5: COUPONS & PROMOTIONS */}
         {activeTab === 'coupons' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fadeIn">
-            <div className="lg:col-span-5 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-5">
-              <h3 className="font-serif text-lg font-bold text-white flex items-center gap-2">
+            <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-5 transition-colors">
+              <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2">
                 <Plus className="w-5 h-5 text-gold-400" />
                 <span>Create New Promo Voucher</span>
               </h3>
@@ -1876,7 +1878,7 @@ export const AdminDashboardPage = () => {
                     value={newCouponCode}
                     onChange={(e) => setNewCouponCode(e.target.value.toUpperCase())}
                     placeholder="e.g. LUXURY25"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white font-mono rounded-xl border border-navy-700 focus:border-gold-500 uppercase"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 uppercase"
                   />
                 </div>
 
@@ -1888,7 +1890,7 @@ export const AdminDashboardPage = () => {
                       value={newCouponDiscount}
                       onChange={(e) => setNewCouponDiscount(e.target.value)}
                       placeholder="e.g. 25"
-                      className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                   </div>
                   <div>
@@ -1898,7 +1900,7 @@ export const AdminDashboardPage = () => {
                       value={newCouponMinOrder}
                       onChange={(e) => setNewCouponMinOrder(e.target.value)}
                       placeholder="e.g. 2999"
-                      className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                   </div>
                 </div>
@@ -1911,7 +1913,7 @@ export const AdminDashboardPage = () => {
                     value={newCouponDesc}
                     onChange={(e) => setNewCouponDesc(e.target.value)}
                     placeholder="e.g. 25% Off on Summer Luxury Collection"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
 
@@ -1925,15 +1927,15 @@ export const AdminDashboardPage = () => {
               </form>
             </div>
 
-            <div className="lg:col-span-7 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-4">
-              <h3 className="font-serif text-lg font-bold text-white flex items-center gap-2 border-b border-navy-800 pb-3">
+            <div className="lg:col-span-7 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-4 transition-colors">
+              <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-navy-800 pb-3">
                 <Tag className="w-5 h-5 text-gold-400" />
                 <span>Active Store Coupons</span>
               </h3>
 
               <div className="space-y-3">
                 {coupons.map((coupon) => (
-                  <div key={coupon.code} className="p-4 rounded-2xl bg-navy-850 border border-navy-800 flex items-center justify-between gap-4">
+                  <div key={coupon.code} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-sm font-bold text-gold-400 bg-navy-950 px-2.5 py-0.5 rounded-lg border border-gold-500/30">
@@ -1948,7 +1950,7 @@ export const AdminDashboardPage = () => {
 
                     <button
                       onClick={() => handleDeleteCoupon(coupon.code)}
-                      className="p-2 text-gray-400 hover:text-red-400 hover:bg-navy-800 rounded-xl transition-colors cursor-pointer"
+                      className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-200 dark:bg-navy-800 rounded-xl transition-colors cursor-pointer"
                       title="Delete Coupon"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -1962,10 +1964,10 @@ export const AdminDashboardPage = () => {
 
         {/* TAB 6: SECURITY AUDIT LOG */}
         {activeTab === 'audit' && (
-          <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6 animate-fadeIn">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
               <div>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-gold-400" />
                   <span>Immutable Security Audit Trail</span>
                 </h3>
@@ -1979,8 +1981,8 @@ export const AdminDashboardPage = () => {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-gray-300">
-                <thead className="bg-navy-950 text-gray-400 font-mono text-[11px] uppercase border-b border-navy-800">
+              <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
+                <thead className="bg-gray-100 dark:bg-navy-950 text-gray-600 dark:text-gray-400 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
                   <tr>
                     <th className="p-3.5">Timestamp</th>
                     <th className="p-3.5">Security Action</th>
@@ -1988,9 +1990,9 @@ export const AdminDashboardPage = () => {
                     <th className="p-3.5">Event Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-navy-800">
+                <tbody className="divide-y divide-gray-100 dark:divide-navy-800">
                   {auditLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-navy-850/60 transition-colors">
+                    <tr key={log.id} className="hover:bg-gray-100 dark:bg-navy-850/60 transition-colors">
                       <td className="p-3.5 font-mono text-[11px] text-gray-400 whitespace-nowrap">
                         {new Date(log.timestamp).toLocaleString()}
                       </td>
@@ -2014,18 +2016,18 @@ export const AdminDashboardPage = () => {
         {/* TAB 7: ADMIN PROFILE & MASTER PASSWORD */}
         {activeTab === 'profile' && (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 animate-fadeIn">
-            <div className="md:col-span-5 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6">
+            <div className="md:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 transition-colors">
               <div className="text-center space-y-3">
                 <div className="w-20 h-20 rounded-full bg-navy-800 border-2 border-gold-500/40 mx-auto flex items-center justify-center shadow-gold-sm">
                   <ShieldCheck className="w-10 h-10 text-gold-400" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-xl font-bold text-white">{admin?.name}</h4>
+                  <h4 className="font-serif text-xl font-bold text-navy-950 dark:text-white">{admin?.name}</h4>
                   <p className="text-xs font-mono text-gold-400">{admin?.email}</p>
                 </div>
               </div>
 
-              <div className="space-y-2.5 pt-2 border-t border-navy-800 text-xs">
+              <div className="space-y-2.5 pt-2 border-t border-gray-100 dark:border-navy-800 text-xs">
                 <div className="flex justify-between py-1.5 border-b border-navy-800/60">
                   <span className="text-gray-400">Assigned Role:</span>
                   <span className="font-bold text-gold-400 uppercase">Master Administrator</span>
@@ -2041,8 +2043,8 @@ export const AdminDashboardPage = () => {
               </div>
             </div>
 
-            <div className="md:col-span-7 p-6 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-5">
-              <h3 className="font-serif text-lg font-bold text-white flex items-center gap-2 border-b border-navy-800 pb-3">
+            <div className="md:col-span-7 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-5 transition-colors">
+              <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-navy-800 pb-3">
                 <KeyRound className="w-5 h-5 text-gold-400" />
                 <span>Update Master Admin Password</span>
               </h3>
@@ -2057,7 +2059,7 @@ export const AdminDashboardPage = () => {
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2079,7 +2081,7 @@ export const AdminDashboardPage = () => {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2101,7 +2103,7 @@ export const AdminDashboardPage = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2134,9 +2136,9 @@ export const AdminDashboardPage = () => {
       {isProductModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none animate-fadeIn">
           <div onClick={() => setIsProductModalOpen(false)} className="fixed inset-0 bg-navy-950/80 backdrop-blur-md" />
-          <div className="relative w-full max-w-2xl bg-navy-900 border border-gold-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-5">
-            <div className="flex items-center justify-between border-b border-navy-800 pb-3">
-              <h3 className="font-serif text-lg font-bold text-white">
+          <div className="relative w-full max-w-2xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-5 text-navy-950 dark:text-white">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
+              <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white">
                 {editingProduct ? 'Edit Catalog Product' : 'Add New Luxury Product'}
               </h3>
               <button onClick={() => setIsProductModalOpen(false)} className="p-1.5 text-gray-400 hover:text-white rounded-lg">
@@ -2153,7 +2155,7 @@ export const AdminDashboardPage = () => {
                   value={productForm.name}
                   onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                   placeholder="e.g. Royal Chronograph Gold Wristwatch"
-                  className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2166,7 +2168,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.brand}
                     onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
                     placeholder="e.g. A_S Signature"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
 
@@ -2179,7 +2181,7 @@ export const AdminDashboardPage = () => {
                       const catNames = { men: 'Men Fashion', women: 'Women Fashion', electronics: 'Electronics', 'home-living': 'Home & Living', beauty: 'Beauty', accessories: 'Accessories', footwear: 'Footwear' };
                       setProductForm({ ...productForm, category: cat, categoryName: catNames[cat] || cat });
                     }}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   >
                     <option value="men">Men Fashion</option>
                     <option value="women">Women Fashion</option>
@@ -2201,7 +2203,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.price}
                     onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
                     placeholder="2499"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
                   />
                 </div>
                 <div>
@@ -2211,7 +2213,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.originalPrice}
                     onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
                     placeholder="4999"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
                   />
                 </div>
                 <div>
@@ -2221,7 +2223,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.discount}
                     onChange={(e) => setProductForm({ ...productForm, discount: e.target.value })}
                     placeholder="50"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -2233,7 +2235,7 @@ export const AdminDashboardPage = () => {
                     type="number"
                     value={productForm.stockCount}
                     onChange={(e) => setProductForm({ ...productForm, stockCount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -2243,7 +2245,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.badge}
                     onChange={(e) => setProductForm({ ...productForm, badge: e.target.value })}
                     placeholder="e.g. BESTSELLER / 50% OFF"
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -2275,7 +2277,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.image}
                     onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
                     placeholder="https://res.cloudinary.com/... or https://images.unsplash.com/..."
-                    className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500 text-xs"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 text-xs"
                   />
 
                   {productForm.image && (
@@ -2301,7 +2303,7 @@ export const AdminDashboardPage = () => {
                   value={productForm.description}
                   onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                   placeholder="Write description with luxury materials, craftsmanship..."
-                  className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2320,8 +2322,8 @@ export const AdminDashboardPage = () => {
       {editingOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none animate-fadeIn">
           <div onClick={() => setEditingOrder(null)} className="fixed inset-0 bg-navy-950/80 backdrop-blur-md" />
-          <div className="relative w-full max-w-md bg-navy-900 border border-gold-500/30 rounded-3xl p-6 shadow-2xl z-10 space-y-5">
-            <div className="flex items-center justify-between border-b border-navy-800 pb-3">
+          <div className="relative w-full max-w-md bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/30 rounded-3xl p-6 shadow-2xl z-10 space-y-5 text-navy-950 dark:text-white">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-3">
               <div>
                 <h3 className="font-serif text-base font-bold text-white">
                   Update Logistics for Order #{editingOrder.id}
@@ -2339,7 +2341,7 @@ export const AdminDashboardPage = () => {
                 <select
                   value={orderDeliveryForm.status}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, status: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-navy-850 text-gold-400 font-bold rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-100 dark:bg-navy-850 text-gold-400 font-bold rounded-xl border border-navy-700 focus:border-gold-500"
                 >
                   <option value="Order Placed">1. Order Placed</option>
                   <option value="Payment Confirmed">2. Payment Confirmed</option>
@@ -2359,7 +2361,7 @@ export const AdminDashboardPage = () => {
                   value={orderDeliveryForm.carrier}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, carrier: e.target.value })}
                   placeholder="e.g. Bluedart Express / Delhivery"
-                  className="w-full px-3.5 py-2.5 bg-navy-850 text-white rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2371,7 +2373,7 @@ export const AdminDashboardPage = () => {
                   value={orderDeliveryForm.trackingNumber}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, trackingNumber: e.target.value })}
                   placeholder="e.g. BD-889021482IN"
-                  className="w-full px-3.5 py-2.5 bg-navy-850 text-white font-mono rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2393,10 +2395,10 @@ export const AdminDashboardPage = () => {
             onClick={() => setSelectedOrderDossier(null)}
             className="fixed inset-0 bg-navy-950/85 backdrop-blur-md"
           />
-          <div className="relative w-full max-w-3xl bg-navy-900 border border-gold-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6">
+          <div className="relative w-full max-w-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-gold-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6 text-navy-950 dark:text-white">
             
             {/* Modal Controls Header */}
-            <div className="flex items-center justify-between border-b border-navy-800 pb-4">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-navy-800 pb-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2.5">
                   <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
@@ -2444,7 +2446,7 @@ export const AdminDashboardPage = () => {
                   <span className="text-[10px] text-gray-400">Authorized Luxury Merchant • GST Registered</span>
                 </div>
                 <div className="text-right space-y-0.5">
-                  <span className="text-xs font-bold text-white block">Payment: {selectedOrderDossier.paymentMethod || 'Razorpay'}</span>
+                  <span className="text-xs font-bold text-navy-950 dark:text-white block">Payment: {selectedOrderDossier.paymentMethod || 'Razorpay'}</span>
                   <span className="text-emerald-400 font-semibold text-[11px]">Status: {selectedOrderDossier.paymentStatus || 'Verified Paid'}</span>
                   <span className="text-[10px] text-gray-400 block">Currency: INR (₹)</span>
                 </div>
@@ -2454,7 +2456,7 @@ export const AdminDashboardPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
                 {/* Client Profile */}
-                <div className="p-4 rounded-2xl bg-navy-850 border border-navy-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
                   <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider block">
                     PATRON & CONTACT DOSSIER
                   </span>
@@ -2475,7 +2477,7 @@ export const AdminDashboardPage = () => {
                   </div>
 
                   {/* Customer Quick Links */}
-                  <div className="flex items-center gap-2 pt-2 border-t border-navy-800">
+                  <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-navy-800">
                     {(selectedOrderDossier.customerPhone || selectedOrderDossier.shippingAddress?.phone) && (
                       <a
                         href={`https://wa.me/91${(selectedOrderDossier.customerPhone || selectedOrderDossier.shippingAddress?.phone || '').replace(/[^0-9]/g, '')}`}
@@ -2500,7 +2502,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 {/* Delivery Logistics */}
-                <div className="p-4 rounded-2xl bg-navy-850 border border-navy-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
                   <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider block">
                     DESTINATION & CARRIER
                   </span>
@@ -2514,7 +2516,7 @@ export const AdminDashboardPage = () => {
                     )}
                   </p>
                   <div className="pt-1 text-[11px] space-y-1 text-gray-300">
-                    <p>Carrier: <strong className="text-white">{selectedOrderDossier.carrier || 'Bluedart Express'}</strong></p>
+                    <p>Carrier: <strong className="text-navy-950 dark:text-white">{selectedOrderDossier.carrier || 'Bluedart Express'}</strong></p>
                     <p>AWB: <span className="font-mono text-gold-400 font-bold">{selectedOrderDossier.trackingNumber || 'Pending Assignment'}</span></p>
                   </div>
                 </div>
@@ -2525,7 +2527,7 @@ export const AdminDashboardPage = () => {
                 <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider block">
                   ORDERED LINE ITEMS ({selectedOrderDossier.items?.length || 1})
                 </span>
-                <div className="overflow-x-auto rounded-2xl border border-navy-800 bg-navy-850">
+                <div className="overflow-x-auto rounded-2xl border border-navy-800 bg-gray-100 dark:bg-navy-850">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-navy-950/80 text-gray-400 font-mono text-[10px] uppercase border-b border-navy-800">
                       <tr>
@@ -2569,7 +2571,7 @@ export const AdminDashboardPage = () => {
               </div>
 
               {/* Financial Calculation Summary */}
-              <div className="p-4 rounded-2xl bg-navy-850 border border-gold-500/20 space-y-2 max-w-xs ml-auto text-xs">
+              <div className="p-4 rounded-2xl bg-gray-100 dark:bg-navy-850 border border-gold-500/20 space-y-2 max-w-xs ml-auto text-xs">
                 <div className="flex justify-between text-gray-400">
                   <span>Subtotal</span>
                   <span className="font-mono text-gray-200">{formatINR(selectedOrderDossier.total || selectedOrderDossier.total_amount || 0)}</span>
@@ -2582,7 +2584,7 @@ export const AdminDashboardPage = () => {
                   <span>GST & Handling</span>
                   <span className="text-gray-300">Included</span>
                 </div>
-                <div className="flex justify-between text-white font-bold border-t border-navy-800 pt-2 text-sm">
+                <div className="flex justify-between text-white font-bold border-t border-gray-100 dark:border-navy-800 pt-2 text-sm">
                   <span>Grand Total</span>
                   <span className="font-mono text-gold-400 font-serif text-base">
                     {formatINR(selectedOrderDossier.total || selectedOrderDossier.total_amount || 0)}
@@ -2592,7 +2594,7 @@ export const AdminDashboardPage = () => {
             </div>
 
             {/* Modal Bottom Actions */}
-            <div className="flex items-center justify-between border-t border-navy-800 pt-4">
+            <div className="flex items-center justify-between border-t border-gray-100 dark:border-navy-800 pt-4">
               <button
                 onClick={() => {
                   handleOpenDeliveryModal(selectedOrderDossier);

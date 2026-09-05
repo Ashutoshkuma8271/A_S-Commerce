@@ -81,9 +81,29 @@
       "expiresAt": 1788607163227,
       "used": true,
       "createdAt": "2026-09-05T11:04:23.229Z"
+    },
+    {
+      "id": "rst-1788608881591-3bzc1",
+      "token": "rst_tok_1788608881588",
+      "adminEmail": "production_test_1788608878714@ascommerce.luxury",
+      "email": "production_test_1788608878714@ascommerce.luxury",
+      "role": "customer",
+      "expiresAt": 1788609781588,
+      "used": true,
+      "createdAt": "2026-09-05T11:48:01.591Z"
     }
   ],
   "audit_logs": [
+    {
+      "id": "audit-1788608884111-6ja00",
+      "action": "Admin Dispatched Consignment",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": "Order #AS-883483",
+      "details": "Dispatched with Bluedart Express",
+      "createdAt": "2026-09-05T11:48:04.111Z"
+    },
     {
       "id": "audit-1788606265341-th84d",
       "action": "Admin Dispatched Consignment",
@@ -126,6 +146,38 @@
     }
   ],
   "orders": [
+    {
+      "id": "AS-883483",
+      "customerName": "Eleanor Vance",
+      "customerEmail": "production_test_1788608878714@ascommerce.luxury",
+      "customerPhone": "+91 9123456789",
+      "shippingAddress": {
+        "name": "Eleanor Vance",
+        "email": "production_test_1788608878714@ascommerce.luxury",
+        "phone": "+91 9123456789",
+        "street": "Penthouse 12, Skyline Towers",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      },
+      "items": [
+        {
+          "id": "prod-sausages",
+          "name": "Smoked German Chicken Sausages",
+          "price": 249,
+          "quantity": 1
+        }
+      ],
+      "subtotal": 249,
+      "total": 249,
+      "paymentMethod": "Razorpay",
+      "paymentStatus": "Paid",
+      "status": "Shipped",
+      "createdAt": "2026-09-05T11:48:03.483Z",
+      "updatedAt": "2026-09-05T11:48:03.875Z",
+      "carrier": "Bluedart Express Luxury Logistics",
+      "trackingNumber": "BD-987654321IN"
+    },
     {
       "id": "AS-264763",
       "customerName": "Eleanor Vance",
@@ -301,7 +353,7 @@
       "discount": 11,
       "rating": 4.8,
       "reviewCount": 310,
-      "stockCount": 29,
+      "stockCount": 27,
       "inStock": true,
       "badge": "TOP CHOICE",
       "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
@@ -328,7 +380,47 @@
         "Serving Size": "250 g (5 Sausages)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T10:57:38.025+00:00"
+      "updatedAt": "2026-09-05T11:13:10.915+00:00"
+    },
+    {
+      "id": "prod-galouti",
+      "name": "Awadhi Mutton Galouti Kebab",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 349,
+      "originalPrice": 399,
+      "discount": 12,
+      "rating": 4.9,
+      "reviewCount": 610,
+      "stockCount": 25,
+      "inStock": true,
+      "badge": "ROYAL SPECIALTY",
+      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
+      "images": [
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
+      "colors": [
+        "#991B1B"
+      ],
+      "colorNames": [
+        "Rich Brown"
+      ],
+      "sizes": [
+        "300 g (6 Pcs)",
+        "600 g (12 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Shallow fry in pure ghee for 2 mins",
+        "Storage": "Keep frozen at -18°C",
+        "Serving Size": "300 g (6 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-09-05T11:41:57.87+00:00"
     },
     {
       "id": "prod-patty",
@@ -413,46 +505,6 @@
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
       "updatedAt": "2026-09-05T10:23:13.163+00:00"
-    },
-    {
-      "id": "prod-galouti",
-      "name": "Awadhi Mutton Galouti Kebab",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 349,
-      "originalPrice": 399,
-      "discount": 12,
-      "rating": 4.9,
-      "reviewCount": 610,
-      "stockCount": 29,
-      "inStock": true,
-      "badge": "ROYAL SPECIALTY",
-      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
-      "images": [
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": false,
-      "isSpecialOffer": true,
-      "colors": [
-        "#991B1B"
-      ],
-      "colorNames": [
-        "Rich Brown"
-      ],
-      "sizes": [
-        "300 g (6 Pcs)",
-        "600 g (12 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Shallow fry in pure ghee for 2 mins",
-        "Storage": "Keep frozen at -18°C",
-        "Serving Size": "300 g (6 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-01T06:09:36.747+00:00"
     },
     {
       "id": "prod-momos",
