@@ -267,291 +267,149 @@ export const AccountPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fadeIn">
-      {/* Mobile Top Profile Banner (Visible on mobile/tablet screens < 1024px) */}
-      <div className="lg:hidden mb-6 bg-white dark:bg-navy-900 rounded-3xl p-5 border border-gray-200/80 dark:border-navy-750 shadow-sm flex items-center gap-4">
-        <div className="relative group shrink-0">
-          <input
-            type="file"
-            ref={avatarInputRef}
-            onChange={handleAvatarFileChange}
-            accept="image/*"
-            className="hidden"
-          />
-          <div className="w-14 h-14 rounded-full bg-navy-900 dark:bg-navy-800 border-2 border-gold-500 overflow-hidden shadow-gold-sm flex items-center justify-center text-white font-serif font-bold text-lg">
-            {user?.avatar ? (
-              <img src={user.avatar} alt={user?.name || 'Customer'} className="w-full h-full object-cover" />
-            ) : (
-              <span>{user?.name ? user.name.charAt(0).toUpperCase() : 'C'}</span>
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={() => avatarInputRef.current?.click()}
-            disabled={uploadingAvatar}
-            title="Upload profile photo"
-            className="absolute inset-0 bg-navy-950/70 rounded-full opacity-0 hover:opacity-100 flex items-center justify-center text-gold-400 transition-all cursor-pointer"
-          >
-            <Camera className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user?.name || 'Valued Patron'}</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email || ''}</p>
-          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-            <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
-              <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
-            </span>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fadeIn">
+      {/* Sleek Top Profile Header Card (Laptop & Mobile Unified) */}
+      <div className="bg-white dark:bg-navy-900 rounded-2xl p-5 sm:p-6 border border-gray-100 dark:border-navy-800 shadow-xs mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <div className="relative group shrink-0">
+            <input
+              type="file"
+              ref={avatarInputRef}
+              onChange={handleAvatarFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-navy-900 dark:bg-navy-800 border-2 border-emerald-500/40 dark:border-gold-500 overflow-hidden shadow-xs flex items-center justify-center text-white font-serif font-bold text-lg sm:text-xl">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user?.name || 'Customer'} className="w-full h-full object-cover" />
+              ) : (
+                <span>{user?.name ? user.name.charAt(0).toUpperCase() : 'C'}</span>
+              )}
+            </div>
             <button
               type="button"
               onClick={() => avatarInputRef.current?.click()}
               disabled={uploadingAvatar}
-              className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+              title="Upload profile photo"
+              className="absolute inset-0 bg-navy-950/70 rounded-full opacity-0 hover:opacity-100 flex items-center justify-center text-gold-400 transition-all cursor-pointer"
             >
-              <Camera className="w-3 h-3" />
-              <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
+              <Camera className="w-4 h-4" />
             </button>
           </div>
+
+          <div className="flex-1 min-w-0">
+            <h2 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg truncate">
+              {user?.name || 'Valued Patron'}
+            </h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email || ''}</p>
+            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+              <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
+                <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => avatarInputRef.current?.click()}
+                disabled={uploadingAvatar}
+                className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+              >
+                <Camera className="w-3 h-3" />
+                <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions on Header */}
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 dark:border-navy-800">
+          <Link
+            to="/track-order"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-50 dark:bg-navy-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-navy-700 hover:bg-gray-100 transition-colors flex items-center gap-1.5"
+          >
+            <Truck className="w-3.5 h-3.5" />
+            <span>Track Order</span>
+          </Link>
+          <button
+            onClick={() => {
+              logout();
+              navigate('/', { replace: true });
+            }}
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 border border-rose-200/60 dark:border-rose-900/40 hover:bg-rose-100 transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Log Out</span>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Horizontal Tab Navigation (lg:hidden) */}
-      <div className="lg:hidden mb-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+      {/* Horizontal Tab Navigation (Laptop & Mobile Unified) */}
+      <div className="mb-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-gray-100 dark:border-navy-800">
         <Link
           to="/account"
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+          className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
             activeTab === 'dashboard'
-              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+              ? 'bg-[#0A1924] dark:bg-gold-500 text-white dark:text-navy-950 shadow-xs'
+              : 'bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50'
           }`}
         >
           <User className="w-3.5 h-3.5" />
-          <span>Dashboard</span>
+          <span>Dashboard Overview</span>
         </Link>
         <Link
           to="/account/orders"
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+          className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
             activeTab === 'orders'
-              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+              ? 'bg-[#0A1924] dark:bg-gold-500 text-white dark:text-navy-950 shadow-xs'
+              : 'bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50'
           }`}
         >
           <Package className="w-3.5 h-3.5" />
-          <span>Orders ({(orders || []).length})</span>
+          <span>My Orders ({(orders || []).length})</span>
         </Link>
         <Link
           to="/account/addresses"
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+          className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
             activeTab === 'addresses'
-              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+              ? 'bg-[#0A1924] dark:bg-gold-500 text-white dark:text-navy-950 shadow-xs'
+              : 'bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50'
           }`}
         >
           <MapPin className="w-3.5 h-3.5" />
-          <span>Addresses ({user?.addresses?.length || 0})</span>
+          <span>Saved Addresses ({user?.addresses?.length || 0})</span>
         </Link>
         <Link
           to="/account/profile"
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+          className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
             activeTab === 'profile'
-              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+              ? 'bg-[#0A1924] dark:bg-gold-500 text-white dark:text-navy-950 shadow-xs'
+              : 'bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50'
           }`}
         >
           <Edit2 className="w-3.5 h-3.5" />
-          <span>Profile</span>
+          <span>Profile Settings</span>
         </Link>
         <Link
           to="/account/security"
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+          className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
             activeTab === 'security'
-              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
-              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+              ? 'bg-[#0A1924] dark:bg-gold-500 text-white dark:text-navy-950 shadow-xs'
+              : 'bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50'
           }`}
         >
           <Lock className="w-3.5 h-3.5" />
-          <span>Security</span>
+          <span>Account Security</span>
         </Link>
         <Link
-          to="/track-order"
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750 shrink-0 hover:text-gold-400"
+          to="/wishlist"
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-white dark:bg-navy-900 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-navy-750 hover:bg-gray-50 shrink-0"
         >
-          <Truck className="w-3.5 h-3.5" />
-          <span>Track Order</span>
+          <Heart className="w-3.5 h-3.5 text-red-500" />
+          <span>Wishlist ({wishlistCount})</span>
         </Link>
       </div>
 
-      {/* Account Dashboard Layout: Sidebar + Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Left Navigation Card (Col 4) */}
-        <div className="hidden lg:block lg:col-span-4 space-y-6">
-          <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6">
-            
-            {/* User Profile Banner with Avatar Upload */}
-            <div className="flex items-center gap-4 pb-6 border-b border-gray-100 dark:border-navy-800">
-              <div className="relative group shrink-0">
-                <input
-                  type="file"
-                  ref={avatarInputRef}
-                  onChange={handleAvatarFileChange}
-                  accept="image/*"
-                  className="hidden"
-                />
-                <div className="w-16 h-16 rounded-full bg-navy-900 dark:bg-navy-800 border-2 border-gold-500 overflow-hidden shadow-gold-sm flex items-center justify-center text-white font-serif font-bold text-xl">
-                  {user.avatar ? (
-                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <span>{user.name ? user.name.charAt(0).toUpperCase() : 'C'}</span>
-                  )}
-                </div>
-                {/* Camera Overlay Button */}
-                <button
-                  type="button"
-                  onClick={() => avatarInputRef.current?.click()}
-                  disabled={uploadingAvatar}
-                  title="Upload profile photo"
-                  className="absolute inset-0 bg-navy-950/70 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-gold-400 transition-all cursor-pointer backdrop-blur-xs"
-                >
-                  <Camera className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user.name}</h3>
-                </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
-                <div className="flex items-center gap-2 mt-2 flex-wrap">
-                  <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
-                    <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => avatarInputRef.current?.click()}
-                    disabled={uploadingAvatar}
-                    className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
-                  >
-                    <Camera className="w-3 h-3" />
-                    <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation Links */}
-            <nav className="space-y-1.5 text-xs font-semibold">
-              <Link
-                to="/account"
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
-                  activeTab === 'dashboard'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <User className="w-4 h-4 text-gold-400" />
-                  <span>Dashboard Overview</span>
-                </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              </Link>
-
-              <Link
-                to="/account/orders"
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
-                  activeTab === 'orders'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Package className="w-4 h-4 text-gold-400" />
-                  <span>Orders & Delivery</span>
-                </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
-                  {orders.length}
-                </span>
-              </Link>
-
-              <Link
-                to="/account/addresses"
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
-                  activeTab === 'addresses'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-gold-400" />
-                  <span>Saved Addresses</span>
-                </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
-                  {user.addresses?.length || 0}
-                </span>
-              </Link>
-
-              <Link
-                to="/account/profile"
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
-                  activeTab === 'profile'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Edit2 className="w-4 h-4 text-gold-400" />
-                  <span>Profile Information</span>
-                </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              </Link>
-
-              <Link
-                to="/account/security"
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
-                  activeTab === 'security'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Lock className="w-4 h-4 text-gold-400" />
-                  <span>Account Security</span>
-                </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              </Link>
-
-              <Link
-                to="/wishlist"
-                className="flex items-center justify-between px-4 py-3 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800 transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <Heart className="w-4 h-4 text-red-500" />
-                  <span>Wishlist Items</span>
-                </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
-                  {wishlistCount}
-                </span>
-              </Link>
-
-              <button
-                onClick={() => {
-                  logout();
-                  navigate('/', { replace: true });
-                }}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all text-left pt-3 border-t border-gray-100 dark:border-navy-800 mt-2 cursor-pointer"
-              >
-                <LogOut className="w-4 h-4" />
-                <span>Log Out</span>
-              </button>
-            </nav>
-          </div>
-        </div>
-
-        {/* Right Content Area (Col 8) */}
-        <div className="lg:col-span-8 space-y-6">
+      {/* Main Tab Content Area */}
+      <div className="space-y-6">
           
           {/* TAB 1: Dashboard Overview */}
           {activeTab === 'dashboard' && (
@@ -579,29 +437,37 @@ export const AccountPage = () => {
               </div>
 
               {/* Quick Stat Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
-                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Orders</span>
-                  <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{orders.length}</p>
-                  <Link to="/account/orders" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div className="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-gray-100 dark:border-navy-800 shadow-xs space-y-1">
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">Total Orders</span>
+                  <p className="text-xl sm:text-2xl font-bold text-navy-950 dark:text-white font-sans">{orders.length}</p>
+                  <Link to="/account/orders" className="text-[10.5px] text-emerald-700 dark:text-gold-400 font-semibold hover:underline block">
                     View Orders →
                   </Link>
                 </div>
 
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
-                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Saved Addresses</span>
-                  <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{user.addresses?.length || 0}</p>
-                  <Link to="/account/addresses" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
-                    Manage Addresses →
+                <div className="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-gray-100 dark:border-navy-800 shadow-xs space-y-1">
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">Saved Addresses</span>
+                  <p className="text-xl sm:text-2xl font-bold text-navy-950 dark:text-white font-sans">{user.addresses?.length || 0}</p>
+                  <Link to="/account/addresses" className="text-[10.5px] text-emerald-700 dark:text-gold-400 font-semibold hover:underline block">
+                    Manage →
                   </Link>
                 </div>
 
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
-                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Wishlisted Items</span>
-                  <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{wishlistCount}</p>
-                  <Link to="/wishlist" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
-                    View Wishlist →
+                <div className="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-gray-100 dark:border-navy-800 shadow-xs space-y-1">
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">Wishlist Items</span>
+                  <p className="text-xl sm:text-2xl font-bold text-navy-950 dark:text-white font-sans">{wishlistCount}</p>
+                  <Link to="/wishlist" className="text-[10.5px] text-emerald-700 dark:text-gold-400 font-semibold hover:underline block">
+                    View Items →
                   </Link>
+                </div>
+
+                <div className="bg-white dark:bg-navy-900 p-4 rounded-2xl border border-gray-100 dark:border-navy-800 shadow-xs space-y-1">
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">Member Status</span>
+                  <p className="text-sm font-bold text-[#1e5a38] dark:text-emerald-400 truncate pt-1">
+                    {user?.membershipTier || 'Fresh VIP'}
+                  </p>
+                  <span className="text-[10.5px] text-gray-400 block">Active Privileges</span>
                 </div>
               </div>
 
@@ -1057,8 +923,6 @@ export const AccountPage = () => {
           )}
 
         </div>
-
-      </div>
 
       {/* Add Address Modal */}
       {isAddressModalOpen && (
