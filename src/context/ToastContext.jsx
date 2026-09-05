@@ -18,20 +18,21 @@ export const ToastProvider = ({ children }) => {
     const title = typeof message === 'string' ? message : (options.title || 'Notification');
     const description = options.description || options.desc || null;
 
-    // Deduplication Key: prevent exact same toast flood within 800ms, but refresh if different
-    const dedupKey = options.id || `${type}:${title}:${description || ''}`;
+    // Deduplication Key: prevent exact same toast flood, deduplicate across renders
+    const dedupKey = options.id || `${type}:${title.toLowerCase().trim()}:${(description || '').toLowerCase().trim()}`;
     const now = Date.now();
     const lastTime = recentToastsRef.current.get(dedupKey) || 0;
 
-    if (now - lastTime < 800) {
-      return; // Fast debounce identical rapid triggers
+    // Suppress rapid identical toasts within 1500ms
+    if (now - lastTime < 1500) {
+      return;
     }
     recentToastsRef.current.set(dedupKey, now);
 
     // Garbage collect dedup map
-    if (recentToastsRef.current.size > 30) {
+    if (recentToastsRef.current.size > 50) {
       for (const [key, timestamp] of recentToastsRef.current.entries()) {
-        if (now - timestamp > 4000) {
+        if (now - timestamp > 5000) {
           recentToastsRef.current.delete(key);
         }
       }
@@ -117,7 +118,7 @@ export const ToastProvider = ({ children }) => {
       );
     }, {
       duration: toastDuration,
-      id: options.id || undefined,
+      id: dedupKey,
     });
   }, []);
 

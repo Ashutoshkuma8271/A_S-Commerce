@@ -37,6 +37,7 @@ import {
   FileText,
   AlertTriangle,
   Loader2,
+  Truck,
 } from 'lucide-react';
 
 export const AccountPage = () => {
