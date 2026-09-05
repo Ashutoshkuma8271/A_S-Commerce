@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS public.orders (
   razorpay_order_id TEXT,
   razorpay_payment_id TEXT,
   delivery_mode TEXT,
-  status TEXT DEFAULT 'Confirmed',
+  status TEXT DEFAULT 'Order Placed',
   carrier TEXT,
   tracking_number TEXT,
   estimated_delivery TEXT,
@@ -149,7 +149,7 @@ ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_status TEXT DEFAULT '
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS razorpay_order_id TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS razorpay_payment_id TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_mode TEXT;
-ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Confirmed';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Order Placed';
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS carrier TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS tracking_number TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS estimated_delivery TEXT;
@@ -225,6 +225,8 @@ ALTER TABLE public.coupons ADD CONSTRAINT coupons_discount_valid CHECK (
   AND (discount_amount IS NULL OR discount_amount >= 0)
 );
 
+UPDATE public.orders SET status = 'Order Placed' WHERE status = 'Confirmed';
+ALTER TABLE public.orders ALTER COLUMN status SET DEFAULT 'Order Placed';
 ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_status_check;
 ALTER TABLE public.orders ADD CONSTRAINT orders_status_check CHECK (
   status IN ('Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled')

@@ -41,23 +41,44 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('as_commerce_token');
-    if (!token) return;
+    if (!token) {
+      setUser(null);
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
 
-    fetch('/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
+    const controller = new AbortController();
+
+    fetch('/api/users/me', {
+      headers: { Authorization: `Bearer ${token}` },
+      signal: controller.signal,
+    })
       .then(async (res) => {
-        if (!res.ok) throw new Error('Session expired');
+        if (res.status === 401 || res.status === 403) {
+          setUser(null);
+          localStorage.removeItem('as_commerce_token');
+          localStorage.removeItem(STORAGE_KEY);
+          return;
+        }
+        if (!res.ok) {
+          // Transient server error: preserve cached session
+          return;
+        }
         const data = await res.json();
         if (data.success && data.user) {
-          setUser(data.user);
-        } else {
-          throw new Error('User not found');
+          if (localStorage.getItem('as_commerce_token') === token) {
+            setUser(data.user);
+          }
         }
       })
-      .catch(() => {
-        setUser(null);
-        localStorage.removeItem('as_commerce_token');
-        localStorage.removeItem(STORAGE_KEY);
+      .catch((err) => {
+        if (err.name === 'AbortError') return;
+        // Transient network/parsing error: preserve cached session
       });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const requireAuth = (callback, noticeText = 'Please sign in to proceed with this action') => {

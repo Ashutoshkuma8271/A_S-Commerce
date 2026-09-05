@@ -173,9 +173,16 @@ export const AdminDashboardPage = () => {
     }
   };
 
+  const dashboardFetchGenRef = React.useRef(0);
+  const isFetchingDashboardRef = React.useRef(false);
+
   const fetchDashboardData = async (isManualRefresh = false) => {
+    if (isFetchingDashboardRef.current && !isManualRefresh) return;
+    isFetchingDashboardRef.current = true;
+    const currentGen = ++dashboardFetchGenRef.current;
+
     try {
-      setLoading(true);
+      if (isManualRefresh) setLoading(true);
       const headers = { Authorization: `Bearer ${token}` };
 
       const [statsRes, prodRes, ordersRes, custRes, couponsRes, auditRes, settingsRes] = await Promise.all([
@@ -188,33 +195,35 @@ export const AdminDashboardPage = () => {
         fetch('/api/admin/settings', { headers }),
       ]);
 
+      if (currentGen !== dashboardFetchGenRef.current) return;
+
       if (statsRes.ok) {
         const d = await statsRes.json();
-        setStats(d.stats);
+        if (currentGen === dashboardFetchGenRef.current) setStats(d.stats);
       }
       if (prodRes.ok) {
         const d = await prodRes.json();
-        setProducts(d.products || []);
+        if (currentGen === dashboardFetchGenRef.current) setProducts(d.products || []);
       }
       if (ordersRes.ok) {
         const d = await ordersRes.json();
-        setOrders(d.orders || []);
+        if (currentGen === dashboardFetchGenRef.current) setOrders(d.orders || []);
       }
       if (custRes.ok) {
         const d = await custRes.json();
-        setCustomers(d.customers || []);
+        if (currentGen === dashboardFetchGenRef.current) setCustomers(d.customers || []);
       }
       if (couponsRes.ok) {
         const d = await couponsRes.json();
-        setCoupons(d.coupons || []);
+        if (currentGen === dashboardFetchGenRef.current) setCoupons(d.coupons || []);
       }
       if (auditRes.ok) {
         const d = await auditRes.json();
-        setAuditLogs(d.logs || []);
+        if (currentGen === dashboardFetchGenRef.current) setAuditLogs(d.logs || []);
       }
       if (settingsRes.ok) {
         const d = await settingsRes.json();
-        if (d.settings) setSiteSettings(d.settings);
+        if (currentGen === dashboardFetchGenRef.current && d.settings) setSiteSettings(d.settings);
       }
       if (isManualRefresh) {
         addToast('Dashboard data refreshed', 'success', 2000, { desc: 'All live catalog & logistics metrics updated.' });
@@ -225,12 +234,13 @@ export const AdminDashboardPage = () => {
         addToast('Offline mode active - showing cached metrics', 'warning');
       }
     } finally {
+      isFetchingDashboardRef.current = false;
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    fetchDashboardData(true);
   }, [token]);
 
   // Realtime Supabase Multi-Table Subscriptions & Polling for Admin Control Center

@@ -1355,9 +1355,18 @@ export const db = {
     loadFromDisk();
     const now = new Date().toISOString();
     const id = `AS-${Date.now().toString().slice(-6)}`;
+    const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    let safeStatus = 'Order Placed';
+    if (orderData?.status && VALID_ORDER_STATUSES.includes(orderData.status)) {
+      safeStatus = orderData.status;
+    } else if (orderData?.status === 'Confirmed' || orderData?.status === 'Pending') {
+      safeStatus = 'Order Placed';
+    }
+
     const newOrder = {
       id,
       ...orderData,
+      status: safeStatus,
       createdAt: now,
       updatedAt: now
     };
@@ -1390,15 +1399,6 @@ export const db = {
     }
 
     saveToDisk();
-
-    const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
-    let safeStatus = 'Order Placed';
-    if (newOrder.status && VALID_ORDER_STATUSES.includes(newOrder.status)) {
-      safeStatus = newOrder.status;
-    } else if (newOrder.status === 'Confirmed' || newOrder.status === 'Pending') {
-      safeStatus = 'Order Placed';
-    }
-    newOrder.status = safeStatus;
 
     try {
       const { error } = await supabase.from('orders').insert({
@@ -1473,13 +1473,11 @@ export const db = {
 
     const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
     if (status) {
-      let normalizedStatus = status;
-      if (status === 'Confirmed') normalizedStatus = 'Order Placed';
-      if (VALID_ORDER_STATUSES.includes(normalizedStatus)) {
-        order.status = normalizedStatus;
-      } else {
-        order.status = status;
+      const normalizedStatus = status === 'Confirmed' ? 'Order Placed' : status;
+      if (!VALID_ORDER_STATUSES.includes(normalizedStatus)) {
+        return null;
       }
+      order.status = normalizedStatus;
     }
     if (carrier) order.carrier = carrier;
     if (trackingNumber) order.trackingNumber = trackingNumber;

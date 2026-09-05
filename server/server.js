@@ -102,21 +102,23 @@ const allowedOrigins = [
   ...(process.env.PUBLIC_APP_URL ? [process.env.PUBLIC_APP_URL.trim()] : [])
 ];
 
+export function isOriginApproved(origin) {
+  if (!origin) return false;
+  return allowedOrigins.some(allowed => {
+    if (allowed === origin) return true;
+    try {
+      const allowedUrl = new URL(allowed);
+      const originUrl = new URL(origin);
+      return allowedUrl.origin === originUrl.origin;
+    } catch (e) {
+      return false;
+    }
+  }) || origin.endsWith('.vercel.app') || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+}
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    const isAllowed = allowedOrigins.some(allowed => {
-      if (allowed === origin) return true;
-      try {
-        const allowedUrl = new URL(allowed);
-        const originUrl = new URL(origin);
-        return allowedUrl.origin === originUrl.origin;
-      } catch (e) {
-        return false;
-      }
-    }) || origin.endsWith('.vercel.app') || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-
-    if (isAllowed) {
+    if (!origin || isOriginApproved(origin)) {
       return callback(null, true);
     }
     return callback(null, false);
@@ -400,26 +402,20 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
 
-    let baseUrl = process.env.PUBLIC_APP_URL;
-    if (!baseUrl && req.headers.origin) {
-      baseUrl = req.headers.origin;
-    }
-    if (!baseUrl && req.headers.referer) {
+    let trustedBaseUrl = 'https://ascommerce.vercel.app';
+    if (process.env.PUBLIC_APP_URL) {
       try {
-        baseUrl = new URL(req.headers.referer).origin;
+        const parsed = new URL(process.env.PUBLIC_APP_URL);
+        trustedBaseUrl = parsed.origin;
       } catch (e) {}
-    }
-    if (!baseUrl) {
-      baseUrl = process.env.NODE_ENV === 'production' ? 'https://ascommerce.vercel.app' : `http://localhost:${PORT || 5000}`;
+    } else if (req.headers.origin && isOriginApproved(req.headers.origin)) {
+      try {
+        trustedBaseUrl = new URL(req.headers.origin).origin;
+      } catch (e) {}
+    } else if (process.env.NODE_ENV !== 'production') {
+      trustedBaseUrl = `http://localhost:${PORT || 5000}`;
     }
 
-    let trustedBaseUrl = baseUrl;
-    try {
-      const parsedUrl = new URL(baseUrl);
-      trustedBaseUrl = parsedUrl.origin;
-    } catch (error) {
-      trustedBaseUrl = 'https://ascommerce.vercel.app';
-    }
     await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
     const resetUrl = `${trustedBaseUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(cleanEmail)}`;
 

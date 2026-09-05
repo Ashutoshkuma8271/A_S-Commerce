@@ -4,7 +4,6 @@
       "id": "adm-master-ashutosh",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$1j6pxKqazat4Q91sfaAC6e.pLEtLmvFdCvLvDQx8nEwJpMkLpuIhm",
       "role": "admin",
       "isActive": 1,
       "singleAdminLock": 1,
@@ -15,35 +14,20 @@
   ],
   "users": [
     {
-      "id": "usr-1788239515030",
-      "name": "Ashutosh kumar",
-      "email": "ashukumarfbg8271@gmail.com",
-      "phone": "9334993909",
-      "passwordHash": "$2b$10$0NKE7R5jU2CJqrFKhHq32uVFtSXTHcR.1kFBFNpZA2OsQa0IuAGdK",
-      "role": "customer",
-      "isVerified": true,
-      "addresses": [],
-      "wishlist": [],
-      "verificationOtp": null,
-      "otpExpiresAt": null,
-      "createdAt": "2026-09-01T05:11:55.03+00:00",
-      "updatedAt": "2026-09-05T07:37:24.749+00:00"
-    },
-    {
-      "id": "usr-1788603787781",
-      "name": "Eleanor Vance",
-      "email": "production_test_1788603787656@ascommerce.luxury",
-      "phone": "+91 9123456789",
-      "passwordHash": "$2b$10$7afNR6NxGExi0MfNIYRFlOXbzPTBmOuGIcQIxmHuAjknp/K/bSqC6",
+      "id": "usr-synthetic-demo",
+      "name": "Demo Patron",
+      "email": "patron.demo@ascommerce.luxury",
+      "phone": "+91 90000 00000",
+      "passwordHash": "$2b$10$e8wZ3WcW3YqN6Q4D6I6DSeK2jO8jU6eL1wR9mY7aP5qL8uB0eC1Gy",
       "role": "customer",
       "isVerified": true,
       "addresses": [
         {
-          "id": "addr-1",
-          "title": "Home",
-          "name": "Eleanor Vance",
-          "phone": "+91 9123456789",
-          "street": "Penthouse 12, Skyline Towers",
+          "id": "addr-demo-1",
+          "title": "Residence",
+          "name": "Demo Patron",
+          "phone": "+91 90000 00000",
+          "street": "101 Luxury Boulevard",
           "city": "Mumbai",
           "state": "Maharashtra",
           "pincode": "400001",
@@ -53,115 +37,43 @@
       "wishlist": [],
       "verificationOtp": null,
       "otpExpiresAt": null,
-      "createdAt": "2026-09-05T10:23:07.77+00:00",
-      "updatedAt": "2026-09-05T10:23:09.409Z"
+      "createdAt": "2026-09-01T00:00:00.000Z",
+      "updatedAt": "2026-09-01T00:00:00.000Z"
     }
   ],
   "password_resets": [
     {
-      "id": "rst-1788239257161-bgl41",
-      "token": "crypto_tok_1788239257157",
-      "adminEmail": "production_buyer_1788239253727@ascommerce.luxury",
-      "email": "production_buyer_1788239253727@ascommerce.luxury",
+      "id": "rst-1788605192237-0sg5d",
+      "token": "rst_tok_1788605192234",
+      "adminEmail": "production_test_1788605188848@ascommerce.luxury",
+      "email": "production_test_1788605188848@ascommerce.luxury",
       "role": "customer",
-      "expiresAt": 1788240157157,
+      "expiresAt": 1788606092234,
       "used": true,
-      "createdAt": "2026-09-01T05:07:37.161Z"
-    },
-    {
-      "id": "rst-1788247023358-2e5im",
-      "token": "rst_tok_1788247023356",
-      "adminEmail": "production_test_1788247019793@ascommerce.luxury",
-      "email": "production_test_1788247019793@ascommerce.luxury",
-      "role": "customer",
-      "expiresAt": 1788247923356,
-      "used": true,
-      "createdAt": "2026-09-01T07:17:03.358Z"
-    },
-    {
-      "id": "rst-1788603790347-rjz8k",
-      "token": "rst_tok_1788603790345",
-      "adminEmail": "production_test_1788603787656@ascommerce.luxury",
-      "email": "production_test_1788603787656@ascommerce.luxury",
-      "role": "customer",
-      "expiresAt": 1788604690345,
-      "used": true,
-      "createdAt": "2026-09-05T10:23:10.347Z"
-    },
-    {
-      "id": "rst-1788604024752-utkpl",
-      "token": "rst_tok_1788604024750",
-      "adminEmail": "production_test_1788604022458@ascommerce.luxury",
-      "email": "production_test_1788604022458@ascommerce.luxury",
-      "role": "customer",
-      "expiresAt": 1788604924750,
-      "used": true,
-      "createdAt": "2026-09-05T10:27:04.752Z"
+      "createdAt": "2026-09-05T10:46:32.237Z"
     }
   ],
   "audit_logs": [
     {
-      "id": "audit-1788604026975-wehz0",
+      "id": "audit-1788605194393-csyr5",
       "action": "Admin Dispatched Consignment",
       "adminId": "adm-master-ashutosh",
       "adminEmail": "ashutoshkumaryadav933499@gmail.com",
       "ip": "127.0.0.1",
-      "resource": "Order #AS-026401",
+      "resource": "Order #AS-193792",
       "details": "Dispatched with Bluedart Express",
-      "createdAt": "2026-09-05T10:27:06.975Z"
-    },
-    {
-      "id": "audit-1788247025897-8xuu8",
-      "action": "Admin Dispatched Consignment",
-      "adminId": "adm-master-ashutosh",
-      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
-      "ip": "127.0.0.1",
-      "resource": "Order #AS-024812",
-      "details": "Dispatched with Bluedart Express",
-      "createdAt": "2026-09-01T07:17:05.897Z"
+      "createdAt": "2026-09-05T10:46:34.393Z"
     }
   ],
   "orders": [
     {
-      "id": "AS-026401",
+      "id": "AS-193792",
       "customerName": "Eleanor Vance",
-      "customerEmail": "production_test_1788604022458@ascommerce.luxury",
+      "customerEmail": "production_test_1788605188848@ascommerce.luxury",
       "customerPhone": "+91 9123456789",
       "shippingAddress": {
         "name": "Eleanor Vance",
-        "email": "production_test_1788604022458@ascommerce.luxury",
-        "phone": "+91 9123456789",
-        "street": "Penthouse 12, Skyline Towers",
-        "city": "Mumbai",
-        "state": "Maharashtra",
-        "pincode": "400001"
-      },
-      "items": [
-        {
-          "id": "prod-patty",
-          "name": "Chicken Burger Patty",
-          "price": 190,
-          "quantity": 1
-        }
-      ],
-      "subtotal": 190,
-      "total": 190,
-      "paymentMethod": "Razorpay",
-      "paymentStatus": "Paid",
-      "status": "Shipped",
-      "createdAt": "2026-09-05T10:27:06.401Z",
-      "updatedAt": "2026-09-05T10:27:06.782Z",
-      "carrier": "Bluedart Express Luxury Logistics",
-      "trackingNumber": "BD-987654321IN"
-    },
-    {
-      "id": "AS-024812",
-      "customerName": "Eleanor Vance",
-      "customerEmail": "production_test_1788247019793@ascommerce.luxury",
-      "customerPhone": "+91 9123456789",
-      "shippingAddress": {
-        "name": "Eleanor Vance",
-        "email": "production_test_1788247019793@ascommerce.luxury",
+        "email": "production_test_1788605188848@ascommerce.luxury",
         "phone": "+91 9123456789",
         "street": "Penthouse 12, Skyline Towers",
         "city": "Mumbai",
@@ -181,219 +93,10 @@
       "paymentMethod": "Razorpay",
       "paymentStatus": "Paid",
       "status": "Shipped",
-      "createdAt": "2026-09-01T07:17:04.812Z",
-      "updatedAt": "2026-09-01T07:17:05.332Z",
+      "createdAt": "2026-09-05T10:46:33.792Z",
+      "updatedAt": "2026-09-05T10:46:34.190Z",
       "carrier": "Bluedart Express Luxury Logistics",
       "trackingNumber": "BD-987654321IN"
-    },
-    {
-      "id": "AS-259049",
-      "customerName": "Production Buyer",
-      "customerEmail": "production_buyer_1788239253727@ascommerce.luxury",
-      "customerPhone": "+91 9876543210",
-      "shippingAddress": {
-        "fullName": "Production Buyer",
-        "email": "production_buyer_1788239253727@ascommerce.luxury",
-        "phone": "+91 9876543210",
-        "street": "42 Marine Drive",
-        "city": "Mumbai",
-        "pincode": "400020"
-      },
-      "items": [
-        {
-          "id": "prod-patty",
-          "name": "Chicken Burger Patty",
-          "price": 190,
-          "quantity": 1
-        }
-      ],
-      "subtotal": 190,
-      "total": 190,
-      "paymentMethod": "Razorpay",
-      "paymentStatus": "Paid",
-      "status": "Shipped",
-      "createdAt": "2026-09-01T05:07:39.049Z",
-      "updatedAt": "2026-09-01T05:07:39.499Z",
-      "carrier": "Bluedart Luxury Express",
-      "trackingNumber": "BD-99887766IN"
-    },
-    {
-      "id": "AS-964202",
-      "customerName": "Ashutosh kumar",
-      "customerEmail": "ashukumarfbg8271@gmail.com",
-      "customerPhone": "9334993909",
-      "items": [
-        {
-          "id": "prod-tikka",
-          "name": "Chicken Tikka",
-          "brand": "A_S FOODY Gourmet Meat Lab",
-          "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
-          "price": 225,
-          "discount": 13,
-          "quantity": 1,
-          "cartItemId": "prod-tikka-Tandoori Red-250 g (6-8 Pcs)",
-          "selectedSize": "250 g (6-8 Pcs)",
-          "originalPrice": 260,
-          "selectedColor": "Tandoori Red"
-        }
-      ],
-      "subtotal": 225,
-      "total": 473,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": "",
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "shippingAddress": {
-        "name": "Ashutosh kumar",
-        "email": "ashukumarfbg8271@gmail.com",
-        "phone": "9334993909",
-        "street": "Narpatganj ,araria bihar",
-        "city": "Delhi",
-        "pincode": "110009"
-      },
-      "createdAt": "2026-08-31T21:10:34.817+00:00",
-      "updatedAt": "2026-08-31T21:10:34.817+00:00"
-    },
-    {
-      "id": "AS-923135",
-      "customerName": "Ayush kumar",
-      "customerEmail": "aayushyadav807666@gmail.com",
-      "customerPhone": "9472109615",
-      "items": [
-        {
-          "id": "prod-2",
-          "name": "Royal Chronograph Gold Wristwatch",
-          "brand": "A_S Horology",
-          "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80",
-          "price": 8999,
-          "discount": 40,
-          "quantity": 1,
-          "cartItemId": "prod-2-Royal Gold-40mm Dial",
-          "selectedSize": "40mm Dial",
-          "originalPrice": 14999,
-          "selectedColor": "Royal Gold"
-        },
-        {
-          "id": "prod-3",
-          "name": "AeroFlex Midnight Performance Sneakers",
-          "brand": "A_S Motion",
-          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
-          "price": 3299,
-          "discount": 45,
-          "quantity": 1,
-          "cartItemId": "prod-3-Navy / Gold-UK 7",
-          "selectedSize": "UK 7",
-          "originalPrice": 5999,
-          "selectedColor": "Navy / Gold"
-        }
-      ],
-      "subtotal": 12298,
-      "total": 12547,
-      "status": "Shipped",
-      "carrier": "Bluedart Express",
-      "trackingNumber": "BD-706721102IN",
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "shippingAddress": {
-        "name": "Ayush kumar",
-        "email": "aayushyadav807666@gmail.com",
-        "phone": "9472109615",
-        "street": "H no 132 2nd floor Dhaka Village near kumar tailor,Pin code 110009",
-        "city": "Delhi",
-        "pincode": "110009"
-      },
-      "createdAt": "2026-08-31T15:58:07.4+00:00",
-      "updatedAt": "2026-08-31T16:50:11.024+00:00"
-    },
-    {
-      "id": "AS-776984",
-      "customerName": "shruti Bharti",
-      "customerEmail": "shrutiashutosh139@gmail.com",
-      "customerPhone": "8271936044",
-      "items": [
-        {
-          "id": "prod-4",
-          "name": "Aviator 24K Gold Polarized Sunglasses",
-          "brand": "A_S Optix",
-          "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
-          "price": 1899,
-          "discount": 45,
-          "quantity": 1,
-          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
-          "selectedSize": "Standard 58mm",
-          "originalPrice": 3499,
-          "selectedColor": "Gold & Midnight Tint"
-        }
-      ],
-      "subtotal": 1899,
-      "total": 2148,
-      "status": "Delivered",
-      "carrier": "Bluedart Express",
-      "trackingNumber": "BD-334639503IN",
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "shippingAddress": {
-        "name": "shruti Bharti",
-        "email": "shrutiashutosh139@gmail.com",
-        "phone": "8271936044",
-        "street": "H no 132 2nd floor Dhaka Village near kumar tailor,Pin code 110009",
-        "city": "Delhi",
-        "pincode": "110009"
-      },
-      "createdAt": "2026-08-30T22:19:50.344+00:00",
-      "updatedAt": "2026-08-31T16:20:11.163+00:00"
-    },
-    {
-      "id": "AS-916971",
-      "customerName": "Bholu Yadav",
-      "customerEmail": "bholukumaryadav8226@gmail.com",
-      "customerPhone": "8226812720",
-      "items": [
-        {
-          "id": "prod-4",
-          "name": "Aviator 24K Gold Polarized Sunglasses",
-          "brand": "A_S Optix",
-          "image": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&auto=format&fit=crop&q=80",
-          "price": 1899,
-          "discount": 45,
-          "quantity": 1,
-          "cartItemId": "prod-4-Gold & Midnight Tint-Standard 58mm",
-          "selectedSize": "Standard 58mm",
-          "originalPrice": 3499,
-          "selectedColor": "Gold & Midnight Tint"
-        },
-        {
-          "id": "prod-3",
-          "name": "AeroFlex Midnight Performance Sneakers",
-          "brand": "A_S Motion",
-          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80",
-          "price": 3299,
-          "discount": 45,
-          "quantity": 1,
-          "cartItemId": "prod-3-Navy / Gold-UK 7",
-          "selectedSize": "UK 7",
-          "originalPrice": 5999,
-          "selectedColor": "Navy / Gold"
-        }
-      ],
-      "subtotal": 5198,
-      "total": 5198,
-      "status": "Order Placed",
-      "carrier": "Bluedart Express",
-      "trackingNumber": "",
-      "paymentMethod": "Cash on Delivery (Pay upon Receipt at Doorstep)",
-      "paymentStatus": "Pending (Cash on Delivery)",
-      "shippingAddress": {
-        "name": "Bholu Yadav",
-        "email": "bholukumaryadav8226@gmail.com",
-        "phone": "8226812720",
-        "street": "Narpatganj ,araria bihar",
-        "city": "Delhi",
-        "pincode": "110009"
-      },
-      "createdAt": "2026-08-30T18:51:06.14+00:00",
-      "updatedAt": "2026-08-30T18:51:06.14+00:00"
     }
   ],
   "coupons": [
@@ -432,44 +135,44 @@
   ],
   "products": [
     {
-      "id": "prod-galouti",
-      "name": "Awadhi Mutton Galouti Kebab",
+      "id": "prod-sausages",
+      "name": "Smoked German Chicken Sausages",
       "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 349,
-      "originalPrice": 399,
-      "discount": 12,
-      "rating": 4.9,
-      "reviewCount": 610,
-      "stockCount": 29,
+      "category": "sausages-cold-cuts",
+      "categoryName": "Sausages & Cold Cuts",
+      "price": 249,
+      "originalPrice": 280,
+      "discount": 11,
+      "rating": 4.8,
+      "reviewCount": 310,
+      "stockCount": 32,
       "inStock": true,
-      "badge": "ROYAL SPECIALTY",
-      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
+      "badge": "TOP CHOICE",
+      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
       "images": [
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
       ],
       "isFeatured": true,
       "isTrending": true,
-      "isNewArrival": false,
-      "isSpecialOffer": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
       "colors": [
-        "#991B1B"
+        "#EA580C"
       ],
       "colorNames": [
-        "Rich Brown"
+        "Smoked Amber"
       ],
       "sizes": [
-        "300 g (6 Pcs)",
-        "600 g (12 Pcs)"
+        "250 g (5 Sausages)",
+        "500 g (10 Sausages)"
       ],
       "specs": {
-        "Cooking": "Shallow fry in pure ghee for 2 mins",
-        "Storage": "Keep frozen at -18°C",
-        "Serving Size": "300 g (6 Pcs)"
+        "Cooking": "Boil 3 mins or grill with butter",
+        "Storage": "Keep chilled at 0°C to 4°C",
+        "Serving Size": "250 g (5 Sausages)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-01T06:09:36.747+00:00"
+      "updatedAt": "2026-09-05T10:38:48.962+00:00"
     },
     {
       "id": "prod-patty",
@@ -556,44 +259,44 @@
       "updatedAt": "2026-09-05T10:23:13.163+00:00"
     },
     {
-      "id": "prod-sausages",
-      "name": "Smoked German Chicken Sausages",
+      "id": "prod-galouti",
+      "name": "Awadhi Mutton Galouti Kebab",
       "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "sausages-cold-cuts",
-      "categoryName": "Sausages & Cold Cuts",
-      "price": 249,
-      "originalPrice": 280,
-      "discount": 11,
-      "rating": 4.8,
-      "reviewCount": 310,
-      "stockCount": 34,
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 349,
+      "originalPrice": 399,
+      "discount": 12,
+      "rating": 4.9,
+      "reviewCount": 610,
+      "stockCount": 29,
       "inStock": true,
-      "badge": "TOP CHOICE",
-      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
+      "badge": "ROYAL SPECIALTY",
+      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
       "images": [
-        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
       ],
       "isFeatured": true,
       "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": false,
+      "isNewArrival": false,
+      "isSpecialOffer": true,
       "colors": [
-        "#EA580C"
+        "#991B1B"
       ],
       "colorNames": [
-        "Smoked Amber"
+        "Rich Brown"
       ],
       "sizes": [
-        "250 g (5 Sausages)",
-        "500 g (10 Sausages)"
+        "300 g (6 Pcs)",
+        "600 g (12 Pcs)"
       ],
       "specs": {
-        "Cooking": "Boil 3 mins or grill with butter",
-        "Storage": "Keep chilled at 0°C to 4°C",
-        "Serving Size": "250 g (5 Sausages)"
+        "Cooking": "Shallow fry in pure ghee for 2 mins",
+        "Storage": "Keep frozen at -18°C",
+        "Serving Size": "300 g (6 Pcs)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-01T07:17:04.812+00:00"
+      "updatedAt": "2026-09-01T06:09:36.747+00:00"
     },
     {
       "id": "prod-momos",

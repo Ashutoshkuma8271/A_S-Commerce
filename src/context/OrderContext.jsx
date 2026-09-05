@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useCart } from './CartContext';
 import { useToast } from './ToastContext';
 import { useAuth } from './AuthContext';
@@ -25,6 +25,8 @@ export const OrderProvider = ({ children }) => {
   });
 
   const [latestOrder, setLatestOrder] = useState(null);
+  const fetchGenRef = useRef(0);
+  const isFetchingRef = useRef(false);
 
   // Re-load and sync orders whenever the logged-in customer changes
   useEffect(() => {
@@ -38,6 +40,9 @@ export const OrderProvider = ({ children }) => {
     if (!userEmail) return;
 
     const fetchBackendOrders = async () => {
+      if (isFetchingRef.current) return;
+      isFetchingRef.current = true;
+      const currentGen = ++fetchGenRef.current;
       try {
         const token = localStorage.getItem('as_commerce_token');
         if (!token) return;
@@ -46,7 +51,7 @@ export const OrderProvider = ({ children }) => {
         });
         if (res.ok) {
           const data = await res.json();
-          if (data.success && Array.isArray(data.orders)) {
+          if (currentGen === fetchGenRef.current && data.success && Array.isArray(data.orders)) {
             setOrders((prev) => {
               const map = new Map();
               data.orders.forEach((o) => {
@@ -59,12 +64,18 @@ export const OrderProvider = ({ children }) => {
             });
           }
         }
-      } catch (err) {}
+      } catch (err) {} finally {
+        isFetchingRef.current = false;
+      }
     };
 
     fetchBackendOrders();
     const refreshTimer = window.setInterval(fetchBackendOrders, 8000);
-    return () => window.clearInterval(refreshTimer);
+    return () => {
+      window.clearInterval(refreshTimer);
+      fetchGenRef.current++;
+      isFetchingRef.current = false;
+    };
   }, [userEmail, storageKey]);
 
   // Subscribe to Realtime Supabase changes on 'orders' table
