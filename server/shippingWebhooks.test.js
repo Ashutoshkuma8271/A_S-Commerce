@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeShippingStatus } from './routes/shippingWebhooks.js';
+import { normalizeShippingStatus } from './utils/shippingStatus.js';
 
 test('normalizes courier delivery states', () => {
   assert.equal(normalizeShippingStatus('Delivered'), 'Delivered');

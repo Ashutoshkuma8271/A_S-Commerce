@@ -3,25 +3,13 @@ import crypto from 'crypto';
 import { db } from '../db.js';
 import supabase from '../services/supabase.js';
 import { requireAdmin } from '../middleware/auth.js';
+import { normalizeShippingStatus } from '../utils/shippingStatus.js';
 
 const router = express.Router();
 
 /**
  * Helper to map courier statuses to standard internal lifecycle status
  */
-export function normalizeShippingStatus(rawStatus) {
-  if (!rawStatus) return 'Processing';
-  const clean = rawStatus.toUpperCase();
-
-  if (clean.includes('OUT') || clean.includes('OFD')) return 'Out for Delivery';
-  if (clean.includes('DELIVER') || clean === 'DLVD') return 'Delivered';
-  if (clean.includes('TRANSIT') || clean.includes('INTRANSIT') || clean.includes('DISPATCH') || clean.includes('SHIPPED')) return 'In Transit';
-  if (clean.includes('PACK') || clean.includes('RTS') || clean.includes('READY')) return 'Packed';
-  if (clean.includes('CANCEL') || clean.includes('RTO')) return 'Cancelled';
-
-  return 'Processing';
-}
-
 /**
  * 1. POST /api/webhooks/shipping/update
  * Universal Webhook Handler for Shiprocket, Delhivery, BlueDart, or custom aggregators.
@@ -33,8 +21,11 @@ router.post('/shipping/update', async (req, res) => {
     if (!webhookSecret) {
       return res.status(503).json({ success: false, message: 'Shipping webhook is not configured.' });
     }
+    if (!Buffer.isBuffer(req.rawBody)) {
+      return res.status(400).json({ success: false, message: 'Raw webhook body is unavailable.' });
+    }
     const expectedSignature = crypto.createHmac('sha256', webhookSecret)
-      .update(req.rawBody || Buffer.alloc(0))
+      .update(req.rawBody)
       .digest('hex');
     const signatureBuffer = Buffer.from(signature || '', 'utf8');
     const expectedBuffer = Buffer.from(expectedSignature, 'utf8');

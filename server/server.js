@@ -382,8 +382,6 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
 
-    await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
-
     const baseUrl = process.env.PUBLIC_APP_URL;
     if (!baseUrl) {
       return res.status(503).json({ success: false, message: 'Password reset service is not configured.' });
@@ -391,12 +389,14 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     let trustedBaseUrl;
     try {
       const parsedUrl = new URL(baseUrl);
-      if (!['http:', 'https:'].includes(parsedUrl.protocol) || parsedUrl.username || parsedUrl.password) throw new Error('Invalid public URL');
+      const isLocalHost = ['localhost', '127.0.0.1', '::1'].includes(parsedUrl.hostname);
+      if ((!isLocalHost && parsedUrl.protocol !== 'https:') || (isLocalHost && !['http:', 'https:'].includes(parsedUrl.protocol)) || parsedUrl.username || parsedUrl.password) throw new Error('Invalid public URL');
       trustedBaseUrl = parsedUrl.origin;
     } catch (error) {
       return res.status(503).json({ success: false, message: 'Password reset service has an invalid public URL configuration.' });
     }
-    const resetUrl = `${trustedBaseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
+    await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
+    const resetUrl = `${trustedBaseUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(cleanEmail)}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'customer');
 
@@ -644,12 +644,30 @@ app.post('/api/orders', requireCustomer, async (req, res) => {
     const isCashOnDelivery = String(orderData.paymentMethod || '').toLowerCase().includes('cash on delivery');
     if (!isCashOnDelivery) {
       const payment = orderData.paymentVerification;
-      const paymentRecord = payment && await consumeVerifiedPayment(payment.orderId, req.user.id, payment.paymentId, Math.round(totals.total * 100));
-      if (!paymentRecord) {
+      let paymentRecord;
+      try {
+        paymentRecord = payment && await consumeVerifiedPayment(payment.orderId, req.user.id, payment.paymentId, Math.round(totals.total * 100));
+      } catch (error) {
+        console.error('Payment reconciliation lookup error:', error);
+        return res.status(503).json({ success: false, retryable: true, message: 'Payment confirmation is temporarily unavailable. Please retry shortly.' });
+      }
+      if (!paymentRecord || paymentRecord.status === 'missing') {
         return res.status(400).json({ success: false, message: 'Payment verification is required before placing this order.' });
       }
-      orderData.razorpayOrderId = paymentRecord.razorpay_order_id;
-      orderData.razorpayPaymentId = paymentRecord.razorpay_payment_id;
+      if (paymentRecord.status === 'mismatch') {
+        await db.markPaymentReconciliationRequired({
+          orderId: payment.orderId,
+          userId: req.user.id,
+          reason: 'Payment identity, amount, or verification lifetime did not match the server order.',
+        });
+        return res.status(409).json({
+          success: false,
+          reconciliationRequired: true,
+          message: 'Payment was received but could not be matched to this order. Please contact support with your payment reference.',
+        });
+      }
+      orderData.razorpayOrderId = paymentRecord.record.razorpay_order_id;
+      orderData.razorpayPaymentId = paymentRecord.record.razorpay_payment_id;
     }
     orderData.paymentStatus = isCashOnDelivery ? 'Pending (Cash on Delivery)' : 'Paid (Verified by Razorpay)';
     delete orderData.paymentVerification;

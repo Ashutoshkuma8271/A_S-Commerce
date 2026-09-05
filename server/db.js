@@ -348,25 +348,41 @@ export const db = {
       .gt('expires_at', new Date().toISOString())
       .select('id, razorpay_order_id, razorpay_payment_id, user_id, amount_paise, expires_at')
       .maybeSingle();
-    if (error || !data) return false;
+    if (error) throw error;
+    if (!data) return false;
     return true;
   },
 
   consumePaymentVerification: async ({ orderId, userId, paymentId, amountPaise }) => {
     const now = new Date().toISOString();
-    await supabase.from('payment_verifications').delete().lt('expires_at', now);
+    const { error: cleanupError } = await supabase.from('payment_verifications').delete().lt('expires_at', now).neq('razorpay_order_id', orderId);
+    if (cleanupError) throw cleanupError;
+    const { data: record, error: lookupError } = await supabase.from('payment_verifications')
+      .select('id, razorpay_order_id, razorpay_payment_id, user_id, amount_paise, expires_at')
+      .eq('razorpay_order_id', orderId)
+      .eq('user_id', userId)
+      .maybeSingle();
+    if (lookupError) throw lookupError;
+    if (!record) return { status: 'missing' };
+    if (record.razorpay_payment_id !== paymentId || Number(record.amount_paise) !== Number(amountPaise) || new Date(record.expires_at).getTime() <= Date.now()) {
+      return { status: 'mismatch', record };
+    }
     const { data, error } = await supabase.from('payment_verifications')
       .delete()
-      .eq('razorpay_order_id', orderId)
-      .eq('razorpay_payment_id', paymentId)
-      .eq('user_id', userId)
-      .eq('amount_paise', Number(amountPaise))
-      .is('consumed_at', null)
-      .gt('expires_at', now)
+      .eq('id', record.id)
       .select('id, razorpay_order_id, razorpay_payment_id, user_id, amount_paise, expires_at')
       .maybeSingle();
-    if (error || !data) return null;
-    return data;
+    if (error) throw error;
+    return data ? { status: 'consumed', record: data } : { status: 'missing' };
+  },
+
+  markPaymentReconciliationRequired: async ({ orderId, userId, reason }) => {
+    const { error } = await supabase.from('payment_verifications')
+      .update({ reconciliation_status: 'required', reconciliation_reason: reason })
+      .eq('razorpay_order_id', orderId)
+      .eq('user_id', userId)
+      .is('consumed_at', null);
+    if (error) throw error;
   },
 
   // 1. ADMIN OPERATIONS

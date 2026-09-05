@@ -199,7 +199,15 @@ export const OrderProvider = ({ children }) => {
         },
         body: JSON.stringify(newOrder),
       });
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Order could not be created');
+      }
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        throw new Error('Order could not be created');
+      }
       if (!response.ok || !data.success || !data.order) {
         throw new Error(data.message || 'Order could not be created');
       }

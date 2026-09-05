@@ -121,8 +121,13 @@ CREATE TABLE IF NOT EXISTS public.payment_verifications (
   amount_paise BIGINT NOT NULL,
   expires_at TIMESTAMPTZ NOT NULL,
   consumed_at TIMESTAMPTZ,
+  reconciliation_status TEXT,
+  reconciliation_reason TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE public.payment_verifications ADD COLUMN IF NOT EXISTS reconciliation_status TEXT;
+ALTER TABLE public.payment_verifications ADD COLUMN IF NOT EXISTS reconciliation_reason TEXT;
 
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_email TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_id TEXT;

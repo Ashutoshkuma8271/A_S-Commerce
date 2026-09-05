@@ -29,7 +29,7 @@ router.post('/create-order', requireCustomer, async (req, res) => {
     if (!razorpay) {
       return res.status(503).json({ success: false, message: 'Payment gateway is not configured.' });
     }
-    const { amount, items, couponCode, deliveryMode, currency = 'INR', receipt, notes } = req.body;
+    const { amount, items, couponCode, deliveryMode, receipt, notes } = req.body;
     const totals = await calculateOrderTotals({ db, items, couponCode, deliveryMode });
     if (totals.error) return res.status(400).json({ success: false, message: totals.error });
     if (!Number.isFinite(Number(amount)) || Number(amount) !== totals.total || totals.total <= 0) {
@@ -38,7 +38,7 @@ router.post('/create-order', requireCustomer, async (req, res) => {
 
     const options = {
       amount: Math.round(totals.total * 100), // Server-derived amount in paise
-      currency,
+      currency: 'INR',
       receipt: receipt || `rcpt_${Date.now()}`,
       notes: notes || { brand: 'A_S Commerce' },
     };
