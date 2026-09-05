@@ -468,14 +468,14 @@ export const AdminDashboardPage = () => {
   };
 
   const getNextStatusAction = (currentStatus) => {
-    const s = (currentStatus || '').toLowerCase();
+    const s = (currentStatus || '').toLowerCase().trim();
     if (s.includes('place') || s.includes('confirm')) {
       return { next: 'Processing', label: 'Start Processing', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
     }
     if (s.includes('process') || s.includes('pack')) {
       return { next: 'Shipped', label: 'Dispatch & Ship', color: 'bg-sky-500/20 text-sky-400 border-sky-500/30' };
     }
-    if (s.includes('ship') || s.includes('transit') || s.includes('delivery')) {
+    if (s.includes('out for delivery') || s.includes('ship') || s.includes('transit')) {
       return { next: 'Delivered', label: 'Mark Delivered', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' };
     }
     return null;
@@ -1318,7 +1318,7 @@ export const AdminDashboardPage = () => {
                     } else if (filter === 'shipped') {
                       matchStatus = ['shipped', 'in transit', 'out for delivery'].some(k => status.includes(k));
                     } else if (filter === 'delivered') {
-                      matchStatus = status.includes('delivered');
+                      matchStatus = status.includes('delivered') && !status.includes('out for delivery');
                     } else if (filter === 'cancelled') {
                       matchStatus = status.includes('cancelled');
                     } else {
@@ -1364,12 +1364,12 @@ export const AdminDashboardPage = () => {
 
                   // Milestone stages calculation (Core 4 delivery stages)
                   const stages = ['Order Placed', 'Processing', 'Shipped', 'Delivered'];
-                  const statusLow = currentStatus.toLowerCase();
+                  const statusLow = currentStatus.toLowerCase().trim();
                   let currentStageIdx = 0;
-                  if (statusLow.includes('deliver')) {
-                    currentStageIdx = 3;
-                  } else if (statusLow.includes('ship') || statusLow.includes('transit') || statusLow.includes('out for delivery')) {
+                  if (statusLow.includes('out for delivery') || statusLow.includes('ship') || statusLow.includes('transit')) {
                     currentStageIdx = 2;
+                  } else if (statusLow.includes('delivered') || statusLow === 'completed' || statusLow === 'received') {
+                    currentStageIdx = 3;
                   } else if (statusLow.includes('process') || statusLow.includes('pack') || statusLow.includes('payment')) {
                     currentStageIdx = 1;
                   } else if (statusLow.includes('place') || statusLow.includes('confirm')) {

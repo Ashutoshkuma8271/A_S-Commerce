@@ -1465,7 +1465,6 @@ export const db = {
     loadFromDisk();
     if (!orderId) return null;
     const clean = orderId.toString().trim();
-    const now = new Date().toISOString();
 
     let order = (memoryDB.orders || []).find(o => o.id?.toUpperCase() === clean.toUpperCase());
     if (!order) {
@@ -1473,83 +1472,119 @@ export const db = {
     }
     if (!order) return null;
 
-    // Normalize incoming status to standard allowed values
-    let targetStatus = order.status || 'Order Placed';
-    if (status) {
-      const s = status.toString().trim();
-      if (['Order Placed', 'Placed', 'Confirmed', 'Pending'].some(k => k.toLowerCase() === s.toLowerCase())) {
-        targetStatus = 'Order Placed';
-      } else if (['Payment Confirmed', 'Processing', 'Packed', 'Quality Check'].some(k => k.toLowerCase() === s.toLowerCase())) {
-        targetStatus = 'Processing';
-      } else if (['Shipped', 'In Transit', 'Out for Delivery', 'Dispatched'].some(k => k.toLowerCase() === s.toLowerCase())) {
-        targetStatus = 'Shipped';
-      } else if (['Delivered', 'Completed', 'Received'].some(k => k.toLowerCase() === s.toLowerCase())) {
-        targetStatus = 'Delivered';
-      } else if (['Cancelled', 'Refunded', 'Returned', 'Void'].some(k => k.toLowerCase() === s.toLowerCase())) {
-        targetStatus = 'Cancelled';
-      } else {
-        targetStatus = s;
+    const previousOrderSnapshot = JSON.parse(JSON.stringify(order));
+    const previousUpdatedAt = order.updatedAt || order.updated_at || null;
+    const now = new Date().toISOString();
+
+    const updatedOrder = { ...order };
+    const updatePayload = {
+      updated_at: now
+    };
+
+    if (status !== undefined) {
+      let targetStatus = order.status || 'Order Placed';
+      if (status !== null) {
+        const s = status.toString().trim();
+        if (['Order Placed', 'Placed', 'Confirmed', 'Pending'].some(k => k.toLowerCase() === s.toLowerCase())) {
+          targetStatus = 'Order Placed';
+        } else if (['Payment Confirmed', 'Processing', 'Packed', 'Quality Check'].some(k => k.toLowerCase() === s.toLowerCase())) {
+          targetStatus = 'Processing';
+        } else if (['Shipped', 'In Transit', 'Out for Delivery', 'Dispatched'].some(k => k.toLowerCase() === s.toLowerCase())) {
+          targetStatus = 'Shipped';
+        } else if (['Delivered', 'Completed', 'Received'].some(k => k.toLowerCase() === s.toLowerCase())) {
+          targetStatus = 'Delivered';
+        } else if (['Cancelled', 'Refunded', 'Returned', 'Void'].some(k => k.toLowerCase() === s.toLowerCase())) {
+          targetStatus = 'Cancelled';
+        } else {
+          targetStatus = s;
+        }
       }
-      order.status = targetStatus;
+      updatedOrder.status = targetStatus;
+      updatePayload.status = targetStatus;
     }
 
-    if (carrier !== undefined && carrier !== null) order.carrier = carrier;
-    if (trackingNumber !== undefined && trackingNumber !== null) order.trackingNumber = trackingNumber;
-    if (note !== undefined && note !== null) order.adminNote = note;
-    if (paymentStatus !== undefined && paymentStatus !== null) order.paymentStatus = paymentStatus;
-    order.updatedAt = now;
-
-    if (memoryDB.orders) {
-      const idx = memoryDB.orders.findIndex(o => o.id === order.id);
-      if (idx !== -1) {
-        memoryDB.orders[idx] = { ...order };
-      } else {
-        memoryDB.orders.unshift({ ...order });
-      }
+    if (carrier !== undefined) {
+      updatedOrder.carrier = carrier;
+      updatePayload.carrier = carrier === null ? null : carrier;
     }
-    saveToDisk();
+    if (trackingNumber !== undefined) {
+      updatedOrder.trackingNumber = trackingNumber;
+      updatePayload.tracking_number = trackingNumber === null ? null : trackingNumber;
+    }
+    if (note !== undefined) {
+      updatedOrder.adminNote = note;
+      updatePayload.notes = note === null ? null : note;
+    }
+    if (paymentStatus !== undefined) {
+      updatedOrder.paymentStatus = paymentStatus;
+      updatePayload.payment_status = paymentStatus === null ? null : paymentStatus;
+    }
+    updatedOrder.updatedAt = now;
+
+    const commitToMemoryAndDisk = (savedOrder) => {
+      if (memoryDB.orders) {
+        const idx = memoryDB.orders.findIndex(o => o.id === savedOrder.id);
+        if (idx !== -1) {
+          memoryDB.orders[idx] = { ...savedOrder };
+        } else {
+          memoryDB.orders.unshift({ ...savedOrder });
+        }
+      }
+      saveToDisk();
+    };
 
     try {
-      const updatePayload = {
-        status: order.status,
-        carrier: order.carrier || null,
-        tracking_number: order.trackingNumber || null,
-        notes: order.adminNote || null,
-        updated_at: now
-      };
-      if (order.paymentStatus) {
-        updatePayload.payment_status = order.paymentStatus;
+      let query = supabase.from('orders').update(updatePayload).eq('id', updatedOrder.id);
+      if (previousUpdatedAt) {
+        query = query.eq('updated_at', previousUpdatedAt);
       }
+      let { data, error } = await query.select();
 
-      const { error } = await supabase
-        .from('orders')
-        .update(updatePayload)
-        .eq('id', order.id);
+      // Check for concurrent write conflict (0 rows updated when predicate provided)
+      if (!error && previousUpdatedAt && (!data || data.length === 0)) {
+        console.warn(`Concurrent write conflict detected for Order #${order.id}. Refreshing state and retrying...`);
+        const refreshed = await db.getOrderByIdAsync(order.id);
+        if (refreshed) {
+          const retryUpdatedAt = new Date().toISOString();
+          updatePayload.updated_at = retryUpdatedAt;
+          updatedOrder.updatedAt = retryUpdatedAt;
+
+          const retryQuery = supabase.from('orders').update(updatePayload).eq('id', updatedOrder.id);
+          const retryRes = await retryQuery.select();
+          data = retryRes.data;
+          error = retryRes.error;
+        }
+      }
 
       if (error) {
         console.warn(`Supabase status update error (${error.message}). Retrying with safe fallback status...`);
         let fallback = 'Order Placed';
-        if (['Processing', 'Payment Confirmed', 'Packed'].includes(order.status)) fallback = 'Processing';
-        else if (['Shipped', 'In Transit', 'Out for Delivery'].includes(order.status)) fallback = 'Shipped';
-        else if (order.status === 'Delivered') fallback = 'Delivered';
-        else if (order.status === 'Cancelled') fallback = 'Cancelled';
+        if (['Processing', 'Payment Confirmed', 'Packed'].includes(updatedOrder.status)) fallback = 'Processing';
+        else if (['Shipped', 'In Transit', 'Out for Delivery'].includes(updatedOrder.status)) fallback = 'Shipped';
+        else if (updatedOrder.status === 'Delivered') fallback = 'Delivered';
+        else if (updatedOrder.status === 'Cancelled') fallback = 'Cancelled';
 
         updatePayload.status = fallback;
-        order.status = fallback;
-        const retry = await supabase.from('orders').update(updatePayload).eq('id', order.id);
+        updatedOrder.status = fallback;
+
+        const retry = await supabase.from('orders').update(updatePayload).eq('id', updatedOrder.id).select();
         if (retry.error) {
           console.error('Supabase update retry error:', retry.error.message);
+          throw new Error(`Order database update failed: ${retry.error.message}`);
         } else {
-          console.log(`⚡ Saved Order #${order.id} status into Supabase with fallback: ${fallback}`);
+          console.log(`⚡ Saved Order #${updatedOrder.id} status into Supabase with fallback: ${fallback}`);
         }
       } else {
-        console.log(`⚡ Updated Order #${order.id} in Supabase to status: ${order.status}`);
+        console.log(`⚡ Updated Order #${updatedOrder.id} in Supabase to status: ${updatedOrder.status}`);
       }
-    } catch (e) {
-      console.warn('Supabase update order status exception:', e.message);
-    }
 
-    return order;
+      commitToMemoryAndDisk(updatedOrder);
+      return updatedOrder;
+    } catch (e) {
+      console.error('Order status persistence failed:', e.message);
+      commitToMemoryAndDisk(previousOrderSnapshot);
+      throw e;
+    }
   },
 
   // 5. COUPONS & SITE SETTINGS
