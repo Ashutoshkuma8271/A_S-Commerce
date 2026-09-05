@@ -60,13 +60,6 @@ export const AccountPage = () => {
   const { orders = [], refreshOrders } = useOrder() || {};
   const { wishlistCount = 0, wishlist = [] } = useWishlist() || {};
 
-  // Refresh orders when viewing customer account / orders tab
-  useEffect(() => {
-    if (refreshOrders) {
-      refreshOrders();
-    }
-  }, [activeTab]);
-
   // Determine active tab from URL or state
   const path = location.pathname.toLowerCase();
   const activeTab = path.includes('order')
@@ -78,6 +71,13 @@ export const AccountPage = () => {
     : path.includes('security')
     ? 'security'
     : 'dashboard';
+
+  // Refresh orders when viewing customer account / orders tab
+  useEffect(() => {
+    if (refreshOrders) {
+      refreshOrders();
+    }
+  }, [activeTab, refreshOrders]);
 
   // Profile Form State
   const [profileName, setProfileName] = useState(user?.name || '');
