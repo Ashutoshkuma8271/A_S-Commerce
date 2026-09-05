@@ -18,12 +18,10 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [recentSearches, setRecentSearches] = useState(['Leather Handbag', 'Gold Watch', 'Sneakers']);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   const searchRef = useRef(null);
-  const mobileSearchRef = useRef(null);
   const accountRef = useRef(null);
 
   // Filter matching products for live preview
@@ -39,9 +37,6 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setIsSearchOpen(false);
-      }
-      if (mobileSearchRef.current && !mobileSearchRef.current.contains(e.target)) {
-        setIsMobileSearchOpen(false);
       }
       if (accountRef.current && !accountRef.current.contains(e.target)) {
         setIsAccountOpen(false);
@@ -61,14 +56,12 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
     }
     
     setIsSearchOpen(false);
-    setIsMobileSearchOpen(false);
     navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
   };
 
   const handleSelectSearchTag = (term) => {
     setSearchTerm(term);
     setIsSearchOpen(false);
-    setIsMobileSearchOpen(false);
     navigate(`/shop?search=${encodeURIComponent(term)}`);
   };
 
@@ -222,18 +215,9 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             )}
           </div>
 
-          {/* Right: Wishlist, Cart, Account, Theme Toggle, Mobile Search */}
-          <div className="premium-header-actions flex items-center gap-0.5 sm:gap-2.5 md:gap-4 lg:gap-5 shrink-0">
+          {/* Right: Wishlist, Cart, Account, Theme Toggle */}
+          <div className="premium-header-actions flex items-center gap-0 sm:gap-2.5 md:gap-4 lg:gap-5 shrink-0">
             
-            {/* Mobile Search Button (visible only on md:hidden) */}
-            <button
-              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              className="md:hidden p-1.5 sm:p-2 text-white/90 hover:text-gold-400 transition-colors rounded-lg hover:bg-navy-850 cursor-pointer"
-              aria-label="Toggle mobile search"
-            >
-              <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-
             {/* Theme Toggle Button */}
             <ThemeToggle />
 
@@ -365,82 +349,6 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
           </div>
         </div>
-
-        {/* Mobile Search Overlay Drawer (Visible on screens < 768px when toggled) */}
-        {isMobileSearchOpen && (
-          <div ref={mobileSearchRef} className="md:hidden pt-2 pb-3 px-1 animate-fadeIn">
-            <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-              <input
-                type="text"
-                autoFocus
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search products, brands..."
-                className="w-full pl-4 pr-20 py-2.5 bg-navy-850 text-white placeholder-gray-400 text-xs rounded-2xl border border-gold-500/40 focus:outline-none focus:border-gold-500 shadow-lg"
-              />
-              {searchTerm && (
-                <button
-                  type="button"
-                  onClick={() => setSearchTerm('')}
-                  className="absolute right-12 text-gray-400 hover:text-white p-1"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-              <button
-                type="submit"
-                className="absolute right-1.5 px-3 py-1.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm"
-              >
-                Search
-              </button>
-            </form>
-
-            {/* Live Autocomplete Results on Mobile */}
-            {searchTerm.trim() && (
-              <div className="mt-2 bg-navy-850/98 backdrop-blur-xl border border-gold-500/30 rounded-2xl p-3 shadow-2xl space-y-2 max-h-72 overflow-y-auto">
-                {searchResults.length > 0 ? (
-                  <>
-                    <div className="flex items-center justify-between pb-1 border-b border-navy-750 text-[11px] text-gray-400">
-                      <span>Matches for "{searchTerm}"</span>
-                      <span>{searchResults.length} found</span>
-                    </div>
-                    {searchResults.map((product) => (
-                      <div
-                        key={product.id}
-                        onClick={() => {
-                          setIsMobileSearchOpen(false);
-                          navigate(`/product/${product.id}`);
-                        }}
-                        className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-navy-800 cursor-pointer"
-                      >
-                        <img
-                          src={product.images[0]}
-                          alt={product.name}
-                          className="w-10 h-10 rounded-lg object-cover border border-navy-700 shrink-0"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-white truncate">{product.name}</p>
-                          <p className="text-[11px] text-gold-400 font-bold">{formatINR(product.price)}</p>
-                        </div>
-                        <ArrowRight className="w-3.5 h-3.5 text-gray-500" />
-                      </div>
-                    ))}
-                    <button
-                      onClick={handleSearchSubmit}
-                      className="w-full text-center py-1.5 text-xs font-semibold text-gold-400 hover:underline pt-2 border-t border-navy-750"
-                    >
-                      View all results for "{searchTerm}" →
-                    </button>
-                  </>
-                ) : (
-                  <div className="py-4 text-center text-xs text-gray-400">
-                    No products found for "{searchTerm}".
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
