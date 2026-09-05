@@ -156,7 +156,7 @@ export const AccountPage = () => {
         return;
       }
 
-      addToast('Password updated securely!', 'success', 3000, { desc: 'Credentials synchronized with Supabase.' });
+      addToast('Password updated securely!', 'success', 3000, { desc: 'Your account credentials have been updated.' });
       setCurrentPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
@@ -203,7 +203,7 @@ export const AccountPage = () => {
       const data = await res.json();
       if (data.success && data.url) {
         updateProfile({ avatar: data.url });
-        addToast('Profile picture uploaded to Cloudinary!', 'success');
+        addToast('Profile picture updated successfully!', 'success');
       } else {
         addToast(data.message || 'Upload failed', 'error');
       }
@@ -948,7 +948,7 @@ export const AccountPage = () => {
                     </h3>
                   </div>
                   <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Permanently delete your profile data, saved shipping addresses, and account credentials from Supabase. You can register again with the same email in the future whenever you choose.
+                    Permanently delete your profile data, saved delivery addresses, and account credentials from our system. You can register again with the same email in the future whenever you choose.
                   </p>
                   <div className="pt-1">
                     <button
@@ -1236,7 +1236,7 @@ export const AccountPage = () => {
                 Are you sure you want to permanently delete your account for <strong>{user?.email}</strong>?
               </p>
               <ul className="list-disc pl-4 space-y-1 text-gray-500 dark:text-gray-400 text-[11px]">
-                <li>All profile information and saved addresses will be deleted from Supabase.</li>
+                <li>All profile information, active preferences, and saved addresses will be permanently deleted from our database.</li>
                 <li>You will be signed out immediately across all active browser sessions.</li>
                 <li>You may re-register with this email at any time in the future.</li>
               </ul>

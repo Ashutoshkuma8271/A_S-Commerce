@@ -161,7 +161,7 @@ export const AdminDashboardPage = () => {
       const data = await res.json();
       if (data.success && data.url) {
         setProductForm((prev) => ({ ...prev, image: data.url }));
-        addToast('Media uploaded successfully', 'success', 2500, { desc: 'Cloudinary CDN asset synchronized.' });
+        addToast('Media uploaded successfully', 'success', 2500, { desc: 'Media asset synchronized securely.' });
       } else {
         addToast(data.message || 'Image upload failed', 'error');
       }
@@ -436,7 +436,7 @@ export const AdminDashboardPage = () => {
           setSelectedOrderDossier(prev => ({ ...prev, status: newStatus }));
         }
         addToast(`Order #${orderId} advanced to "${newStatus}"`, 'success', 3000, {
-          desc: 'Live consignment status synchronized with Supabase.'
+          desc: 'Live consignment status synchronized successfully.'
         });
         fetchDashboardData();
       } else {
@@ -604,7 +604,7 @@ export const AdminDashboardPage = () => {
 
   // Delete Customer Account
   const handleDeleteCustomer = async (customer) => {
-    if (!window.confirm(`Are you sure you want to permanently delete customer "${customer.name || customer.email}"? This user will be purged from Supabase and can re-register as a new user.`)) return;
+    if (!window.confirm(`Are you sure you want to permanently delete customer "${customer.name || customer.email}"? This customer account and address records will be permanently removed.`)) return;
     try {
       const res = await fetch(`/api/admin/customers/${customer.id}?email=${encodeURIComponent(customer.email)}`, {
         method: 'DELETE',
@@ -1140,7 +1140,7 @@ export const AdminDashboardPage = () => {
                 <div className="flex items-center flex-wrap gap-2">
                   <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20 font-medium">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Supabase Real-Time</span>
+                    <span>Live Database Sync</span>
                   </span>
                   <button
                     onClick={handleExportOrdersCSV}
@@ -1628,7 +1628,7 @@ export const AdminDashboardPage = () => {
                   <Package className="w-12 h-12 text-gray-500 mx-auto" />
                   <h4 className="text-base font-serif font-bold text-gray-300">No Consignments in this View</h4>
                   <p className="text-xs text-gray-500 max-w-sm mx-auto">
-                    New orders placed by clients will stream here instantly with Supabase real-time sync.
+                    New orders placed by clients will stream here instantly with live real-time sync.
                   </p>
                 </div>
               )}
@@ -2250,14 +2250,14 @@ export const AdminDashboardPage = () => {
 
               <div>
                 <label className="block font-semibold text-gray-300 mb-1">
-                  Product Image (Cloudinary CDN Upload or URL)
+                  Product Image (Upload File or Image URL)
                 </label>
                 
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <label className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-navy-800 hover:bg-navy-750 text-gold-400 border border-gold-500/30 text-xs font-semibold cursor-pointer transition-colors shrink-0">
                       <UploadCloud className={`w-4 h-4 ${uploadingImage ? 'animate-bounce' : ''}`} />
-                      <span>{uploadingImage ? 'Uploading to Cloudinary...' : 'Upload File to Cloudinary'}</span>
+                      <span>{uploadingImage ? 'Uploading Image...' : 'Upload Image File'}</span>
                       <input
                         type="file"
                         accept="image/*"
