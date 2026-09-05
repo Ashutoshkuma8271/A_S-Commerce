@@ -3,22 +3,9 @@
 -- Paste and run directly in Supabase Dashboard -> SQL Editor
 -- ==============================================================================
 
--- 1. DROP ALL UNNECESSARY & OBSOLETE TABLES SAFELY
-DROP TABLE IF EXISTS public.profiles CASCADE;
-DROP TABLE IF EXISTS public.profile CASCADE;
-DROP TABLE IF EXISTS public.user_profile CASCADE;
-DROP TABLE IF EXISTS public.user_profiles CASCADE;
-DROP TABLE IF EXISTS public.user_addresses CASCADE;
-DROP TABLE IF EXISTS public.user_address CASCADE;
-DROP TABLE IF EXISTS public.addresses CASCADE;
-DROP TABLE IF EXISTS public.password_resets CASCADE;
-DROP TABLE IF EXISTS public.order_items CASCADE;
-DROP TABLE IF EXISTS public.newsletter_subscriptions CASCADE;
-DROP TABLE IF EXISTS public.newsletter_suscribtion CASCADE;
-DROP TABLE IF EXISTS public.contact_messages CASCADE;
-DROP TABLE IF EXISTS public.contact_message CASCADE;
-DROP TABLE IF EXISTS public.cart_items CASCADE;
-DROP TABLE IF EXISTS public.wishlists CASCADE;
+-- 1. NON-DESTRUCTIVE MIGRATION
+-- This script intentionally does not DROP tables or CASCADE-delete production data.
+-- Archive obsolete tables separately only after a verified backup and rollback plan.
 
 -- 2. ENSURE CORE `admins` TABLE & COLUMNS
 CREATE TABLE IF NOT EXISTS public.admins (
@@ -125,16 +112,31 @@ CREATE TABLE IF NOT EXISTS public.orders (
 );
 
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_email TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_id TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_name TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_phone TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_street TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_city TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_pincode TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_state TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_country TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_address JSONB;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS items JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS subtotal NUMERIC;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS discount_amount NUMERIC DEFAULT 0;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_fee NUMERIC DEFAULT 0;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS total_amount NUMERIC;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_method TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS payment_status TEXT DEFAULT 'pending';
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS razorpay_order_id TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS razorpay_payment_id TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_mode TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Confirmed';
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS carrier TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS tracking_number TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS estimated_delivery TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS notes TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();
 
 -- 6. ENSURE CORE `coupons` TABLE
 CREATE TABLE IF NOT EXISTS public.coupons (
@@ -186,8 +188,23 @@ CREATE INDEX IF NOT EXISTS idx_admins_email ON public.admins (email);
 CREATE INDEX IF NOT EXISTS idx_admins_reset_token ON public.admins (reset_token);
 CREATE INDEX IF NOT EXISTS idx_products_category ON public.products (category);
 CREATE INDEX IF NOT EXISTS idx_orders_user_email ON public.orders (user_email);
+CREATE INDEX IF NOT EXISTS idx_orders_user_id ON public.orders (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON public.orders (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON public.audit_logs (created_at DESC);
+
+-- Basic data integrity constraints. These are safe for new rows; clean existing
+-- invalid rows before adding stricter NOT NULL constraints in a later migration.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_lower ON public.users (LOWER(email));
+CREATE UNIQUE INDEX IF NOT EXISTS idx_admins_email_lower ON public.admins (LOWER(email));
+ALTER TABLE public.products DROP CONSTRAINT IF EXISTS products_price_nonnegative;
+ALTER TABLE public.products ADD CONSTRAINT products_price_nonnegative CHECK (price >= 0);
+ALTER TABLE public.products DROP CONSTRAINT IF EXISTS products_stock_nonnegative;
+ALTER TABLE public.products ADD CONSTRAINT products_stock_nonnegative CHECK (stock_count >= 0);
+ALTER TABLE public.coupons DROP CONSTRAINT IF EXISTS coupons_discount_valid;
+ALTER TABLE public.coupons ADD CONSTRAINT coupons_discount_valid CHECK (
+  (discount_percent IS NULL OR (discount_percent >= 0 AND discount_percent <= 100))
+  AND (discount_amount IS NULL OR discount_amount >= 0)
+);
 
 -- 10. ROW LEVEL SECURITY
 -- The Node API uses SUPABASE_SERVICE_ROLE_KEY and is the only writer.
