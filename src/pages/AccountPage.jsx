@@ -57,8 +57,15 @@ export const AccountPage = () => {
     deleteAddress,
     setDefaultAddress,
   } = useAuth();
-  const { orders = [] } = useOrder() || {};
+  const { orders = [], refreshOrders } = useOrder() || {};
   const { wishlistCount = 0, wishlist = [] } = useWishlist() || {};
+
+  // Refresh orders when viewing customer account / orders tab
+  useEffect(() => {
+    if (refreshOrders) {
+      refreshOrders();
+    }
+  }, [activeTab]);
 
   // Determine active tab from URL or state
   const path = location.pathname.toLowerCase();

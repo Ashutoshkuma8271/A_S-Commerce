@@ -633,7 +633,12 @@ app.delete(['/api/users/me', '/api/users/profile'], requireCustomer, async (req,
 app.get('/api/orders', requireCustomer, async (req, res) => {
   try {
     let orders = await db.getOrdersAsync();
-    orders = orders.filter(o => o.customerId === req.user.id || o.userId === req.user.id);
+    const userEmail = (req.user?.email || '').trim().toLowerCase();
+    orders = orders.filter(o =>
+      o.customerId === req.user.id ||
+      o.userId === req.user.id ||
+      (userEmail && o.customerEmail && o.customerEmail.trim().toLowerCase() === userEmail)
+    );
 
     return res.json({ success: true, orders });
   } catch (err) {
@@ -718,7 +723,13 @@ app.get('/api/orders/:id', requireCustomer, async (req, res) => {
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
-    if (order.customerId !== req.user.id && order.userId !== req.user.id) {
+    const userEmail = (req.user?.email || '').trim().toLowerCase();
+    const isOwner =
+      order.customerId === req.user.id ||
+      order.userId === req.user.id ||
+      (userEmail && order.customerEmail && order.customerEmail.trim().toLowerCase() === userEmail);
+
+    if (!isOwner) {
       return res.status(403).json({ success: false, message: 'You do not have access to this order.' });
     }
     return res.json({ success: true, order });

@@ -397,8 +397,9 @@ export const AdminDashboardPage = () => {
       });
 
       if (res.ok) {
+        const orderId = editingOrder.id;
         setEditingOrder(null);
-        if (selectedOrderDossier && selectedOrderDossier.id === editingOrder.id) {
+        if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
           setSelectedOrderDossier(prev => ({
             ...prev,
             status: orderDeliveryForm.status,
@@ -407,7 +408,17 @@ export const AdminDashboardPage = () => {
             adminNote: orderDeliveryForm.note
           }));
         }
-        addToast(`Logistics updated for Order #${editingOrder.id}`, 'success', 3000, {
+        setOrders(prev => prev.map(o => o.id === orderId ? {
+          ...o,
+          status: orderDeliveryForm.status,
+          carrier: orderDeliveryForm.carrier,
+          trackingNumber: orderDeliveryForm.trackingNumber,
+          adminNote: orderDeliveryForm.note
+        } : o));
+        window.dispatchEvent(new CustomEvent('as_orders_updated', {
+          detail: { id: orderId, status: orderDeliveryForm.status }
+        }));
+        addToast(`Logistics updated for Order #${orderId}`, 'success', 3000, {
           desc: `Status set to ${orderDeliveryForm.status} via ${orderDeliveryForm.carrier}.`
         });
         fetchDashboardData();
@@ -435,6 +446,9 @@ export const AdminDashboardPage = () => {
         if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
           setSelectedOrderDossier(prev => ({ ...prev, status: newStatus }));
         }
+        window.dispatchEvent(new CustomEvent('as_orders_updated', {
+          detail: { id: orderId, status: newStatus }
+        }));
         addToast(`Order #${orderId} advanced to "${newStatus}"`, 'success', 3000, {
           desc: 'Live consignment status synchronized successfully.'
         });

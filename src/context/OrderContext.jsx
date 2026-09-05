@@ -28,6 +28,46 @@ export const OrderProvider = ({ children }) => {
   const fetchGenRef = useRef(0);
   const isFetchingRef = useRef(false);
 
+  // Function to fetch orders from backend
+  const fetchBackendOrders = async () => {
+    if (!userEmail) return;
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
+    const currentGen = ++fetchGenRef.current;
+    try {
+      const token = localStorage.getItem('as_commerce_token');
+      if (!token) return;
+      const res = await fetch('/api/orders', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (currentGen === fetchGenRef.current && data.success && Array.isArray(data.orders)) {
+          setOrders((prev) => {
+            const map = new Map();
+            data.orders.forEach((o) => {
+              if (o && o.id) map.set(o.id.toString().toUpperCase(), o);
+            });
+            prev.forEach((o) => {
+              if (o && o.id && !map.has(o.id.toString().toUpperCase())) {
+                map.set(o.id.toString().toUpperCase(), o);
+              }
+            });
+            return Array.from(map.values());
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('Order fetch error:', err);
+    } finally {
+      isFetchingRef.current = false;
+    }
+  };
+
+  const refreshOrders = async () => {
+    await fetchBackendOrders();
+  };
+
   // Re-load and sync orders whenever the logged-in customer changes
   useEffect(() => {
     try {
@@ -39,40 +79,20 @@ export const OrderProvider = ({ children }) => {
 
     if (!userEmail) return;
 
-    const fetchBackendOrders = async () => {
-      if (isFetchingRef.current) return;
-      isFetchingRef.current = true;
-      const currentGen = ++fetchGenRef.current;
-      try {
-        const token = localStorage.getItem('as_commerce_token');
-        if (!token) return;
-        const res = await fetch('/api/orders', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (currentGen === fetchGenRef.current && data.success && Array.isArray(data.orders)) {
-            setOrders((prev) => {
-              const map = new Map();
-              data.orders.forEach((o) => {
-                if (o && o.id) map.set(o.id, o);
-              });
-              prev.forEach((o) => {
-                if (o && o.id && !map.has(o.id)) map.set(o.id, o);
-              });
-              return Array.from(map.values());
-            });
-          }
-        }
-      } catch (err) {} finally {
-        isFetchingRef.current = false;
-      }
+    fetchBackendOrders();
+    const refreshTimer = window.setInterval(fetchBackendOrders, 6000);
+
+    const handleCustomOrderUpdate = (e) => {
+      fetchBackendOrders();
     };
 
-    fetchBackendOrders();
-    const refreshTimer = window.setInterval(fetchBackendOrders, 8000);
+    window.addEventListener('as_orders_updated', handleCustomOrderUpdate);
+    window.addEventListener('storage', handleCustomOrderUpdate);
+
     return () => {
       window.clearInterval(refreshTimer);
+      window.removeEventListener('as_orders_updated', handleCustomOrderUpdate);
+      window.removeEventListener('storage', handleCustomOrderUpdate);
       fetchGenRef.current++;
       isFetchingRef.current = false;
     };
@@ -89,9 +109,11 @@ export const OrderProvider = ({ children }) => {
           console.log('⚡ [Realtime Orders Update received]:', payload.eventType, payload.new || payload.old);
           if (payload.eventType === 'UPDATE' && payload.new) {
             const updated = payload.new;
+            const updatedId = (updated.id || '').toString().trim().toUpperCase();
+
             setOrders((prev) =>
               prev.map((o) => {
-                if (o.id === updated.id) {
+                if ((o.id || '').toString().trim().toUpperCase() === updatedId) {
                   return {
                     ...o,
                     status: updated.status || o.status,
@@ -99,12 +121,30 @@ export const OrderProvider = ({ children }) => {
                     trackingNumber: updated.tracking_number || o.trackingNumber,
                     paymentStatus: updated.payment_status || o.paymentStatus,
                     estimatedDelivery: updated.estimated_delivery || o.estimatedDelivery,
+                    adminNote: updated.admin_note !== undefined ? updated.admin_note : o.adminNote,
                     updatedAt: updated.updated_at
                   };
                 }
                 return o;
               })
             );
+
+            setLatestOrder((prevLatest) => {
+              if (prevLatest && (prevLatest.id || '').toString().trim().toUpperCase() === updatedId) {
+                return {
+                  ...prevLatest,
+                  status: updated.status || prevLatest.status,
+                  carrier: updated.carrier || prevLatest.carrier,
+                  trackingNumber: updated.tracking_number || prevLatest.trackingNumber,
+                  paymentStatus: updated.payment_status || prevLatest.paymentStatus,
+                  estimatedDelivery: updated.estimated_delivery || prevLatest.estimatedDelivery,
+                  updatedAt: updated.updated_at
+                };
+              }
+              return prevLatest;
+            });
+
+            window.dispatchEvent(new CustomEvent('as_orders_updated', { detail: updated }));
           } else if (payload.eventType === 'INSERT' && payload.new) {
             const newOrder = payload.new;
             const mappedOrder = {
@@ -261,6 +301,7 @@ export const OrderProvider = ({ children }) => {
         latestOrder,
         createOrder,
         getOrderById,
+        refreshOrders,
       }}
     >
       {children}

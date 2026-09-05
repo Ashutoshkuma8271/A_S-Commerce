@@ -1471,7 +1471,18 @@ export const db = {
     }
     if (!order) return null;
 
-    const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    const VALID_ORDER_STATUSES = [
+      'Order Placed',
+      'Payment Confirmed',
+      'Processing',
+      'Packed',
+      'Shipped',
+      'In Transit',
+      'Out for Delivery',
+      'Delivered',
+      'Cancelled',
+      'Confirmed'
+    ];
     if (status) {
       const normalizedStatus = status === 'Confirmed' ? 'Order Placed' : status;
       if (!VALID_ORDER_STATUSES.includes(normalizedStatus)) {
