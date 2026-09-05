@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Heart, ShoppingBag, User, ChevronRight, Sparkles, Tag, Truck, HelpCircle, Phone, Home, Grid } from 'lucide-react';
+import { X, Heart, ShoppingBag, User, ChevronRight, Sparkles, Tag, Truck, HelpCircle, Home, Grid } from 'lucide-react';
 import { Logo } from '../common/Logo';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { useCart } from '../../context/CartContext';
@@ -18,8 +18,8 @@ export const MobileNav = ({ isOpen, onClose }) => {
   const mainLinks = [
     { label: 'Home', path: '/', icon: Home },
     { label: 'Shop All Catalog', path: '/shop', icon: Grid },
-    { label: 'Men\'s Collection', path: '/category/mens-wear' },
-    { label: 'Women\'s Luxury', path: '/category/womens-wear' },
+    { label: "Men's Collection", path: '/category/mens-wear' },
+    { label: "Women's Luxury", path: '/category/womens-wear' },
     { label: 'High-Tech Electronics', path: '/category/electronics' },
     { label: 'Home & Living', path: '/category/home-living' },
     { label: 'Exclusive Offers & Deals', path: '/offers', icon: Tag, badge: '50% OFF' },
@@ -38,16 +38,16 @@ export const MobileNav = ({ isOpen, onClose }) => {
       />
 
       {/* Drawer Container */}
-      <div className="relative w-4/5 max-w-sm bg-navy-900 text-white h-full shadow-2xl flex flex-col z-10 border-r border-gold-500/20 animate-slideRight">
+      <div className="relative w-[85%] max-w-sm bg-white dark:bg-navy-900 text-navy-950 dark:text-white h-full shadow-2xl flex flex-col z-10 border-r border-gray-200/80 dark:border-gold-500/20 animate-slideRight">
         
         {/* Header with Logo & Theme Toggle & Close Button */}
-        <div className="p-4 border-b border-navy-800 flex items-center justify-between bg-navy-950">
-          <Logo size="small" variant="light" />
+        <div className="p-4 border-b border-gray-100 dark:border-navy-800 flex items-center justify-between bg-white dark:bg-navy-950">
+          <Logo size="small" variant="auto" />
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-navy-800 transition-all border border-navy-800 cursor-pointer"
+              className="p-2 rounded-xl text-gray-500 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 transition-all border border-gray-200 dark:border-navy-800 cursor-pointer"
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
@@ -56,25 +56,29 @@ export const MobileNav = ({ isOpen, onClose }) => {
         </div>
 
         {/* User Card / Quick Sign-In Banner */}
-        <div className="p-4 bg-navy-850 border-b border-navy-800">
-          {isAuthenticated ? (
+        <div className="p-4 bg-gray-50/80 dark:bg-navy-850 border-b border-gray-100 dark:border-navy-800">
+          {isAuthenticated && user ? (
             <Link
               to="/account"
               onClick={onClose}
-              className="flex items-center gap-3 p-1 rounded-xl hover:bg-navy-800 transition-colors group cursor-pointer"
+              className="flex items-center gap-3 p-2 rounded-2xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-navy-750 hover:border-gold-500/40 transition-colors group cursor-pointer shadow-xs"
             >
-              <div className="w-10 h-10 rounded-full bg-navy-800 border border-gold-500/40 overflow-hidden shrink-0 flex items-center justify-center text-gold-400 font-bold">
+              <div className="w-10 h-10 rounded-full bg-navy-900 dark:bg-navy-800 border border-gold-500/50 overflow-hidden shrink-0 flex items-center justify-center text-gold-400 font-bold text-sm">
                 {user.avatar ? (
-                  <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                  <img src={user.avatar} alt={user.name || 'User'} className="w-full h-full object-cover" />
                 ) : (
                   <span>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white group-hover:text-gold-400 transition-colors truncate">{user.name}</p>
-                <p className="text-[11px] text-gold-400">{user.membershipTier || 'Patron Member'}</p>
+                <p className="text-sm font-bold text-navy-950 dark:text-white group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors truncate">
+                  {user.name || 'Valued Patron'}
+                </p>
+                <p className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 truncate">
+                  {user.membershipTier || 'Patron Member'}
+                </p>
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-gold-400 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors" />
             </Link>
           ) : (
             <div className="flex gap-2">
@@ -94,7 +98,7 @@ export const MobileNav = ({ isOpen, onClose }) => {
                   setIsAuthModalOpen(true);
                   onClose();
                 }}
-                className="flex-1 py-2.5 bg-navy-800 text-gold-400 text-xs font-bold rounded-xl border border-gold-500/30 hover:bg-navy-750 active:scale-98 transition-all cursor-pointer"
+                className="flex-1 py-2.5 bg-white dark:bg-navy-800 text-navy-950 dark:text-gold-400 text-xs font-bold rounded-xl border border-gray-200 dark:border-gold-500/30 hover:bg-gray-50 dark:hover:bg-navy-750 active:scale-98 transition-all cursor-pointer"
               >
                 Create Account
               </button>
@@ -103,7 +107,7 @@ export const MobileNav = ({ isOpen, onClose }) => {
         </div>
 
         {/* Clean Luxury Navigation Links */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-1.5 scrollbar-none">
+        <div className="flex-1 overflow-y-auto p-4 space-y-1 scrollbar-none">
           {mainLinks.map((link) => {
             const isActive = location.pathname === link.path;
             const Icon = link.icon;
@@ -112,23 +116,23 @@ export const MobileNav = ({ isOpen, onClose }) => {
                 key={link.path}
                 to={link.path}
                 onClick={onClose}
-                className={`flex items-center justify-between py-2.5 px-3.5 rounded-2xl text-xs font-medium transition-all ${
+                className={`flex items-center justify-between py-2.5 px-3.5 rounded-2xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-gold-500/15 text-gold-400 font-bold border border-gold-500/30 shadow-sm'
-                    : 'text-gray-300 hover:text-white hover:bg-navy-800/80'
+                    ? 'bg-gold-500/15 text-gold-700 dark:text-gold-400 font-bold border border-gold-500/30 shadow-xs'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-navy-800/80'
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  {Icon && <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-gold-400' : 'text-gray-400'}`} />}
+                  {Icon && <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-gold-600 dark:text-gold-400' : 'text-gray-500 dark:text-gray-400'}`} />}
                   <span className="truncate">{link.label}</span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   {link.badge && (
-                    <span className="px-2 py-0.5 text-[9px] font-bold rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/30">
+                    <span className="px-2 py-0.5 text-[9px] font-bold rounded-full bg-gold-500/20 text-gold-700 dark:text-gold-400 border border-gold-500/30">
                       {link.badge}
                     </span>
                   )}
-                  <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
+                  <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
                 </div>
               </Link>
             );
@@ -136,20 +140,20 @@ export const MobileNav = ({ isOpen, onClose }) => {
         </div>
 
         {/* Footer Quick Actions */}
-        <div className="p-4 border-t border-navy-800 space-y-2 bg-navy-950">
+        <div className="p-4 border-t border-gray-100 dark:border-navy-800 space-y-2 bg-gray-50/60 dark:bg-navy-950">
           <button
             onClick={() => {
               setIsCartDrawerOpen(true);
               onClose();
             }}
-            className="w-full flex items-center justify-between py-2.5 px-3.5 bg-navy-850 hover:bg-navy-800 rounded-xl text-xs text-white border border-navy-750 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-between py-2.5 px-3.5 bg-white dark:bg-navy-850 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-xl text-xs text-navy-950 dark:text-white border border-gray-200 dark:border-navy-750 transition-colors cursor-pointer shadow-xs"
           >
             <div className="flex items-center gap-2.5">
-              <ShoppingBag className="w-4 h-4 text-gold-400" />
+              <ShoppingBag className="w-4 h-4 text-gold-600 dark:text-gold-400" />
               <span className="font-semibold">Shopping Bag</span>
             </div>
             {totalItemsCount > 0 && (
-              <span className="bg-gold-gradient text-navy-950 font-bold px-2 py-0.5 rounded-full text-[10px]">
+              <span className="bg-gold-gradient text-navy-950 font-bold px-2 py-0.5 rounded-full text-[10px] shadow-xs">
                 {totalItemsCount}
               </span>
             )}
@@ -158,14 +162,14 @@ export const MobileNav = ({ isOpen, onClose }) => {
           <Link
             to="/wishlist"
             onClick={onClose}
-            className="w-full flex items-center justify-between py-2.5 px-3.5 bg-navy-850 hover:bg-navy-800 rounded-xl text-xs text-white border border-navy-750 transition-colors"
+            className="w-full flex items-center justify-between py-2.5 px-3.5 bg-white dark:bg-navy-850 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-xl text-xs text-navy-950 dark:text-white border border-gray-200 dark:border-navy-750 transition-colors shadow-xs"
           >
             <div className="flex items-center gap-2.5">
-              <Heart className="w-4 h-4 text-gold-400" />
+              <Heart className="w-4 h-4 text-rose-500" />
               <span className="font-semibold">Saved Wishlist</span>
             </div>
             {wishlistCount > 0 && (
-              <span className="text-gold-400 font-mono text-[11px] font-bold">{wishlistCount}</span>
+              <span className="text-gold-700 dark:text-gold-400 font-mono text-[11px] font-bold">{wishlistCount}</span>
             )}
           </Link>
 
@@ -175,7 +179,7 @@ export const MobileNav = ({ isOpen, onClose }) => {
                 logout();
                 onClose();
               }}
-              className="w-full py-2 text-xs text-red-400 hover:text-red-300 text-center font-semibold cursor-pointer pt-1"
+              className="w-full py-2 text-xs text-red-600 dark:text-red-400 hover:underline text-center font-semibold cursor-pointer pt-1"
             >
               Sign Out
             </button>
