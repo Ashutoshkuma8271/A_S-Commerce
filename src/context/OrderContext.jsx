@@ -58,6 +58,8 @@ export const OrderProvider = ({ children }) => {
     };
 
     fetchBackendOrders();
+    const refreshTimer = window.setInterval(fetchBackendOrders, 15000);
+    return () => window.clearInterval(refreshTimer);
   }, [userEmail, storageKey]);
 
   // Subscribe to Realtime Supabase changes on 'orders' table
