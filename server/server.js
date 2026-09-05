@@ -407,11 +407,11 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
       try {
         const parsed = new URL(process.env.PUBLIC_APP_URL);
         trustedBaseUrl = parsed.origin;
-      } catch (e) {}
+      } catch (e) { }
     } else if (req.headers.origin && isOriginApproved(req.headers.origin)) {
       try {
         trustedBaseUrl = new URL(req.headers.origin).origin;
-      } catch (e) {}
+      } catch (e) { }
     } else if (process.env.NODE_ENV !== 'production') {
       trustedBaseUrl = `http://localhost:${PORT || 5000}`;
     }
@@ -694,11 +694,11 @@ app.post('/api/orders', requireCustomer, async (req, res) => {
     delete orderData.paymentVerification;
     const newOrder = await db.createOrder(orderData);
     console.log(`⚡ Order Placed: #${newOrder.id} (Total: ₹${newOrder.total}) and saved to database & Supabase`);
-    
+
     // Asynchronously send itemized order confirmation email via Brevo / SMTP
     try {
       sendOrderConfirmationEmail(newOrder).catch(e => console.warn('Order confirmation email note:', e.message));
-    } catch (e) {}
+    } catch (e) { }
 
     return res.json({
       success: true,
@@ -864,7 +864,7 @@ async function startServer() {
     });
 
     // Keep event loop active
-    setInterval(() => {}, 1000 * 60 * 60);
+    setInterval(() => { }, 1000 * 60 * 60);
   } catch (err) {
     console.error('Failed to start server:', err);
   }
