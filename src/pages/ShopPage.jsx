@@ -5,6 +5,7 @@ import { useProducts } from '../context/ProductContext';
 import { CATEGORIES } from '../data/categories';
 import { ProductCard } from '../components/common/ProductCard';
 import { QuickViewModal } from '../components/common/QuickViewModal';
+import { ProductGridSkeleton } from '../components/common/Skeletons';
 import { formatINR } from '../utils/currency';
 
 export const ShopPage = () => {
@@ -338,9 +339,11 @@ export const ShopPage = () => {
             </div>
           )}
 
-          {/* Products Grid */}
-          {paginatedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Products Grid / Skeleton */}
+          {loading ? (
+            <ProductGridSkeleton count={9} />
+          ) : paginatedProducts.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {paginatedProducts.map((product) => (
                 <ProductCard
                   key={product.id}

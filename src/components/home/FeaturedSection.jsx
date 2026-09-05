@@ -4,6 +4,7 @@ import { Sparkles, Flame, Zap, ArrowRight, Award } from 'lucide-react';
 import { useProducts } from '../../context/ProductContext';
 import { ProductCard } from '../common/ProductCard';
 import { QuickViewModal } from '../common/QuickViewModal';
+import { ProductGridSkeleton } from '../common/Skeletons';
 
 export const FeaturedSection = () => {
   const { products: PRODUCTS, loading } = useProducts();
@@ -62,16 +63,20 @@ export const FeaturedSection = () => {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredProducts.slice(0, 8).map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onQuickView={(p) => setQuickViewProduct(p)}
-          />
-        ))}
-      </div>
+      {/* Product Grid / Skeleton */}
+      {loading ? (
+        <ProductGridSkeleton count={8} />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          {filteredProducts.slice(0, 8).map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onQuickView={(p) => setQuickViewProduct(p)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Bottom CTA */}
       <div className="mt-12 text-center">

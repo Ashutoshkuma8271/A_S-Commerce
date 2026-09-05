@@ -7,6 +7,7 @@ import { useToast } from '../context/ToastContext';
 import { formatINR } from '../utils/currency';
 import { validateAddressForm } from '../utils/validationUtils';
 import { downloadOrderInvoice } from '../utils/invoiceGenerator';
+import { AccountProfileSkeleton, OrderCardSkeleton } from '../components/common/Skeletons';
 import {
   User,
   Package,
@@ -298,15 +299,16 @@ export const AccountPage = () => {
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user?.name || 'Valued Patron'}</h3>
           <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email || ''}</p>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-[10px] font-semibold text-gold-600 dark:text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded-full border border-gold-500/30">
-              {user?.membershipTier || 'Gold Member'}
+          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+            <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
+              <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
             </span>
             <button
               type="button"
               onClick={() => avatarInputRef.current?.click()}
               disabled={uploadingAvatar}
-              className="text-[10px] text-gold-600 dark:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+              className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
             >
               <Camera className="w-3 h-3" />
               <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
@@ -422,12 +424,16 @@ export const AccountPage = () => {
                   <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user.name}</h3>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
+                    <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
+                  </span>
                   <button
                     type="button"
                     onClick={() => avatarInputRef.current?.click()}
                     disabled={uploadingAvatar}
-                    className="text-[10px] text-gold-600 dark:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+                    className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
                   >
                     <Camera className="w-3 h-3" />
                     <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
