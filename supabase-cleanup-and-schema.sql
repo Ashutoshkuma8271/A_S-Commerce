@@ -225,7 +225,18 @@ ALTER TABLE public.coupons ADD CONSTRAINT coupons_discount_valid CHECK (
   AND (discount_amount IS NULL OR discount_amount >= 0)
 );
 
--- 10. ROW LEVEL SECURITY
+ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_status_check;
+ALTER TABLE public.orders ADD CONSTRAINT orders_status_check CHECK (
+  status IN ('Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled')
+);
+
+-- 10. REALTIME REPLICATION (Supabase Dashboard -> Database -> Publications)
+ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.products;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.site_settings;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.coupons;
+
+-- 11. ROW LEVEL SECURITY
 -- The Node API uses SUPABASE_SERVICE_ROLE_KEY and is the only writer.
 -- Do not grant anonymous table-wide access to customer, order, admin, or audit data.
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;

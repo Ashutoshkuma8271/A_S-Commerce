@@ -233,9 +233,13 @@ export const AdminDashboardPage = () => {
     fetchDashboardData();
   }, [token]);
 
-  // Realtime Supabase Multi-Table Subscriptions for Admin Control Center
+  // Realtime Supabase Multi-Table Subscriptions & Polling for Admin Control Center
   useEffect(() => {
     if (!token) return;
+
+    const pollInterval = window.setInterval(() => {
+      fetchDashboardData();
+    }, 10000);
 
     const channel = supabase
       .channel('admin:realtime:all')
@@ -257,6 +261,7 @@ export const AdminDashboardPage = () => {
       .subscribe();
 
     return () => {
+      window.clearInterval(pollInterval);
       supabase.removeChannel(channel);
     };
   }, [token]);

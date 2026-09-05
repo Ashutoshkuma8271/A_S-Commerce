@@ -1391,6 +1391,15 @@ export const db = {
 
     saveToDisk();
 
+    const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    let safeStatus = 'Order Placed';
+    if (newOrder.status && VALID_ORDER_STATUSES.includes(newOrder.status)) {
+      safeStatus = newOrder.status;
+    } else if (newOrder.status === 'Confirmed' || newOrder.status === 'Pending') {
+      safeStatus = 'Order Placed';
+    }
+    newOrder.status = safeStatus;
+
     try {
       const { error } = await supabase.from('orders').insert({
         id: newOrder.id,
@@ -1414,7 +1423,7 @@ export const db = {
         razorpay_order_id: newOrder.razorpayOrderId || null,
         razorpay_payment_id: newOrder.razorpayPaymentId || null,
         delivery_mode: newOrder.deliveryMode || null,
-        status: newOrder.status || 'Processing',
+        status: safeStatus,
         carrier: newOrder.carrier || null,
         tracking_number: newOrder.trackingNumber || null,
         estimated_delivery: newOrder.estimatedDelivery || null,
@@ -1462,7 +1471,16 @@ export const db = {
     }
     if (!order) return null;
 
-    if (status) order.status = status;
+    const VALID_ORDER_STATUSES = ['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    if (status) {
+      let normalizedStatus = status;
+      if (status === 'Confirmed') normalizedStatus = 'Order Placed';
+      if (VALID_ORDER_STATUSES.includes(normalizedStatus)) {
+        order.status = normalizedStatus;
+      } else {
+        order.status = status;
+      }
+    }
     if (carrier) order.carrier = carrier;
     if (trackingNumber) order.trackingNumber = trackingNumber;
     if (note) order.adminNote = note;

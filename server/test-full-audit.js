@@ -127,8 +127,13 @@ async function runAudit() {
   });
   console.log('  ✅ Re-registration succeeded with fresh state:', reRegistered.email, '| isVerified:', reRegistered.isVerified);
 
-  // Cleanup test record
+  // Cleanup test records
   await db.deleteUser(reRegistered.id, testEmail);
+  try {
+    const { supabase } = await import('./services/supabase.js');
+    await supabase.from('orders').delete().eq('id', newOrder.id);
+    await supabase.from('audit_logs').delete().eq('id', auditLog.id);
+  } catch (e) {}
 
   console.log('\n================================================================');
   console.log('   🎉 ALL 9 PRODUCTION-READY WORKFLOWS PASSED 100% WITH ZERO ERRORS');

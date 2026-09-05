@@ -39,15 +39,20 @@ export const OrderProvider = ({ children }) => {
 
     const fetchBackendOrders = async () => {
       try {
+        const token = localStorage.getItem('as_commerce_token');
+        if (!token) return;
         const res = await fetch('/api/orders', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {
           const data = await res.json();
           if (data.success && Array.isArray(data.orders)) {
             setOrders((prev) => {
               const map = new Map();
-              [...data.orders, ...prev].forEach((o) => {
+              data.orders.forEach((o) => {
+                if (o && o.id) map.set(o.id, o);
+              });
+              prev.forEach((o) => {
                 if (o && o.id && !map.has(o.id)) map.set(o.id, o);
               });
               return Array.from(map.values());
@@ -58,7 +63,7 @@ export const OrderProvider = ({ children }) => {
     };
 
     fetchBackendOrders();
-    const refreshTimer = window.setInterval(fetchBackendOrders, 15000);
+    const refreshTimer = window.setInterval(fetchBackendOrders, 8000);
     return () => window.clearInterval(refreshTimer);
   }, [userEmail, storageKey]);
 

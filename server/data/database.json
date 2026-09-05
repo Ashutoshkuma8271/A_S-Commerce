@@ -4,6 +4,7 @@
       "id": "adm-master-ashutosh",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
+      "passwordHash": "$2b$12$1j6pxKqazat4Q91sfaAC6e.pLEtLmvFdCvLvDQx8nEwJpMkLpuIhm",
       "role": "admin",
       "isActive": 1,
       "singleAdminLock": 1,
@@ -12,7 +13,50 @@
       "lastLoginAt": "2026-09-05T07:02:10.182+00:00"
     }
   ],
-  "users": [],
+  "users": [
+    {
+      "id": "usr-1788239515030",
+      "name": "Ashutosh kumar",
+      "email": "ashukumarfbg8271@gmail.com",
+      "phone": "9334993909",
+      "passwordHash": "$2b$10$0NKE7R5jU2CJqrFKhHq32uVFtSXTHcR.1kFBFNpZA2OsQa0IuAGdK",
+      "role": "customer",
+      "isVerified": true,
+      "addresses": [],
+      "wishlist": [],
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "createdAt": "2026-09-01T05:11:55.03+00:00",
+      "updatedAt": "2026-09-05T07:37:24.749+00:00"
+    },
+    {
+      "id": "usr-1788603787781",
+      "name": "Eleanor Vance",
+      "email": "production_test_1788603787656@ascommerce.luxury",
+      "phone": "+91 9123456789",
+      "passwordHash": "$2b$10$7afNR6NxGExi0MfNIYRFlOXbzPTBmOuGIcQIxmHuAjknp/K/bSqC6",
+      "role": "customer",
+      "isVerified": true,
+      "addresses": [
+        {
+          "id": "addr-1",
+          "title": "Home",
+          "name": "Eleanor Vance",
+          "phone": "+91 9123456789",
+          "street": "Penthouse 12, Skyline Towers",
+          "city": "Mumbai",
+          "state": "Maharashtra",
+          "pincode": "400001",
+          "isDefault": true
+        }
+      ],
+      "wishlist": [],
+      "verificationOtp": null,
+      "otpExpiresAt": null,
+      "createdAt": "2026-09-05T10:23:07.77+00:00",
+      "updatedAt": "2026-09-05T10:23:09.409Z"
+    }
+  ],
   "password_resets": [
     {
       "id": "rst-1788239257161-bgl41",
@@ -33,9 +77,39 @@
       "expiresAt": 1788247923356,
       "used": true,
       "createdAt": "2026-09-01T07:17:03.358Z"
+    },
+    {
+      "id": "rst-1788603790347-rjz8k",
+      "token": "rst_tok_1788603790345",
+      "adminEmail": "production_test_1788603787656@ascommerce.luxury",
+      "email": "production_test_1788603787656@ascommerce.luxury",
+      "role": "customer",
+      "expiresAt": 1788604690345,
+      "used": true,
+      "createdAt": "2026-09-05T10:23:10.347Z"
+    },
+    {
+      "id": "rst-1788604024752-utkpl",
+      "token": "rst_tok_1788604024750",
+      "adminEmail": "production_test_1788604022458@ascommerce.luxury",
+      "email": "production_test_1788604022458@ascommerce.luxury",
+      "role": "customer",
+      "expiresAt": 1788604924750,
+      "used": true,
+      "createdAt": "2026-09-05T10:27:04.752Z"
     }
   ],
   "audit_logs": [
+    {
+      "id": "audit-1788604026975-wehz0",
+      "action": "Admin Dispatched Consignment",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": "Order #AS-026401",
+      "details": "Dispatched with Bluedart Express",
+      "createdAt": "2026-09-05T10:27:06.975Z"
+    },
     {
       "id": "audit-1788247025897-8xuu8",
       "action": "Admin Dispatched Consignment",
@@ -48,6 +122,38 @@
     }
   ],
   "orders": [
+    {
+      "id": "AS-026401",
+      "customerName": "Eleanor Vance",
+      "customerEmail": "production_test_1788604022458@ascommerce.luxury",
+      "customerPhone": "+91 9123456789",
+      "shippingAddress": {
+        "name": "Eleanor Vance",
+        "email": "production_test_1788604022458@ascommerce.luxury",
+        "phone": "+91 9123456789",
+        "street": "Penthouse 12, Skyline Towers",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      },
+      "items": [
+        {
+          "id": "prod-patty",
+          "name": "Chicken Burger Patty",
+          "price": 190,
+          "quantity": 1
+        }
+      ],
+      "subtotal": 190,
+      "total": 190,
+      "paymentMethod": "Razorpay",
+      "paymentStatus": "Paid",
+      "status": "Shipped",
+      "createdAt": "2026-09-05T10:27:06.401Z",
+      "updatedAt": "2026-09-05T10:27:06.782Z",
+      "carrier": "Bluedart Express Luxury Logistics",
+      "trackingNumber": "BD-987654321IN"
+    },
     {
       "id": "AS-024812",
       "customerName": "Eleanor Vance",
@@ -326,87 +432,6 @@
   ],
   "products": [
     {
-      "id": "prod-tikka",
-      "name": "Chicken Tikka",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 225,
-      "originalPrice": 260,
-      "discount": 13,
-      "rating": 5,
-      "reviewCount": 520,
-      "stockCount": 39,
-      "inStock": true,
-      "badge": "BESTSELLER",
-      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
-      "images": [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": true,
-      "colors": [
-        "#B91C1C"
-      ],
-      "colorNames": [
-        "Tandoori Red"
-      ],
-      "sizes": [
-        "250 g (6-8 Pcs)",
-        "500 g (12-16 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Grill or pan sear for 6-8 mins",
-        "Protein": "19 g protein per serving",
-        "Storage": "Store at 0°C to 4°C",
-        "Serving Size": "250 g (6-8 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-08-31T21:10:34.817+00:00"
-    },
-    {
-      "id": "prod-sausages",
-      "name": "Smoked German Chicken Sausages",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "sausages-cold-cuts",
-      "categoryName": "Sausages & Cold Cuts",
-      "originalPrice": 280,
-      "discount": 11,
-      "rating": 4.8,
-      "reviewCount": 310,
-      "stockCount": 34,
-      "inStock": true,
-      "badge": "TOP CHOICE",
-      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
-      "images": [
-        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": false,
-      "colors": [
-        "#EA580C"
-      ],
-      "colorNames": [
-        "Smoked Amber"
-      ],
-      "sizes": [
-        "250 g (5 Sausages)",
-        "500 g (10 Sausages)"
-      ],
-      "specs": {
-        "Cooking": "Boil 3 mins or grill with butter",
-        "Storage": "Keep chilled at 0°C to 4°C",
-        "Serving Size": "250 g (5 Sausages)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-01T07:17:04.812+00:00"
-    },
-    {
       "id": "prod-galouti",
       "name": "Awadhi Mutton Galouti Kebab",
       "brand": "A_S FOODY Gourmet Meat Lab",
@@ -457,7 +482,7 @@
       "discount": 13,
       "rating": 4.9,
       "reviewCount": 390,
-      "stockCount": 43,
+      "stockCount": 42,
       "inStock": true,
       "badge": "BESTSELLER",
       "description": "Juicy, flame-grilled ground chicken breast burger patties seasoned with aromatic herbs and black pepper.",
@@ -486,7 +511,89 @@
         "Serving Size": "250 g (4 Patties)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-01T05:13:39.155+00:00"
+      "updatedAt": "2026-09-05T10:27:06.401+00:00"
+    },
+    {
+      "id": "prod-tikka",
+      "name": "Chicken Tikka",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 225,
+      "originalPrice": 260,
+      "discount": 13,
+      "rating": 5,
+      "reviewCount": 520,
+      "stockCount": 39,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
+      "images": [
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [
+        "#B91C1C"
+      ],
+      "colorNames": [
+        "Tandoori Red"
+      ],
+      "sizes": [
+        "250 g (6-8 Pcs)",
+        "500 g (12-16 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Grill or pan sear for 6-8 mins",
+        "Protein": "19 g protein per serving",
+        "Storage": "Store at 0°C to 4°C",
+        "Serving Size": "250 g (6-8 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-09-05T10:23:13.163+00:00"
+    },
+    {
+      "id": "prod-sausages",
+      "name": "Smoked German Chicken Sausages",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "sausages-cold-cuts",
+      "categoryName": "Sausages & Cold Cuts",
+      "price": 249,
+      "originalPrice": 280,
+      "discount": 11,
+      "rating": 4.8,
+      "reviewCount": 310,
+      "stockCount": 34,
+      "inStock": true,
+      "badge": "TOP CHOICE",
+      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
+      "images": [
+        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [
+        "#EA580C"
+      ],
+      "colorNames": [
+        "Smoked Amber"
+      ],
+      "sizes": [
+        "250 g (5 Sausages)",
+        "500 g (10 Sausages)"
+      ],
+      "specs": {
+        "Cooking": "Boil 3 mins or grill with butter",
+        "Storage": "Keep chilled at 0°C to 4°C",
+        "Serving Size": "250 g (5 Sausages)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-09-01T07:17:04.812+00:00"
     },
     {
       "id": "prod-momos",

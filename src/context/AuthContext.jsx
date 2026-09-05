@@ -41,17 +41,22 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('as_commerce_token');
-    if (!user || !token) return;
+    if (!token) return;
 
     fetch('/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
       .then(async (res) => {
         if (!res.ok) throw new Error('Session expired');
         const data = await res.json();
-        if (data.success && data.user) setUser(data.user);
+        if (data.success && data.user) {
+          setUser(data.user);
+        } else {
+          throw new Error('User not found');
+        }
       })
       .catch(() => {
         setUser(null);
         localStorage.removeItem('as_commerce_token');
+        localStorage.removeItem(STORAGE_KEY);
       });
   }, []);
 

@@ -93,15 +93,33 @@ app.use(helmet({
   contentSecurityPolicy: productionCsp,
 }));
 
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || `http://localhost:${PORT}`)
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5000',
+  'http://localhost:3000',
+  'https://ascommerce.vercel.app',
+  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean) : []),
+  ...(process.env.PUBLIC_APP_URL ? [process.env.PUBLIC_APP_URL.trim()] : [])
+];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error('Origin is not allowed by CORS'));
+    if (!origin) return callback(null, true);
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (allowed === origin) return true;
+      try {
+        const allowedUrl = new URL(allowed);
+        const originUrl = new URL(origin);
+        return allowedUrl.origin === originUrl.origin;
+      } catch (e) {
+        return false;
+      }
+    }) || origin.endsWith('.vercel.app') || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+
+    if (isAllowed) {
+      return callback(null, true);
+    }
+    return callback(null, false);
   },
   credentials: true
 }));
@@ -382,18 +400,25 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
 
-    const baseUrl = process.env.PUBLIC_APP_URL;
-    if (!baseUrl) {
-      return res.status(503).json({ success: false, message: 'Password reset service is not configured.' });
+    let baseUrl = process.env.PUBLIC_APP_URL;
+    if (!baseUrl && req.headers.origin) {
+      baseUrl = req.headers.origin;
     }
-    let trustedBaseUrl;
+    if (!baseUrl && req.headers.referer) {
+      try {
+        baseUrl = new URL(req.headers.referer).origin;
+      } catch (e) {}
+    }
+    if (!baseUrl) {
+      baseUrl = process.env.NODE_ENV === 'production' ? 'https://ascommerce.vercel.app' : `http://localhost:${PORT || 5000}`;
+    }
+
+    let trustedBaseUrl = baseUrl;
     try {
       const parsedUrl = new URL(baseUrl);
-      const isLocalHost = ['localhost', '127.0.0.1', '::1'].includes(parsedUrl.hostname);
-      if ((!isLocalHost && parsedUrl.protocol !== 'https:') || (isLocalHost && !['http:', 'https:'].includes(parsedUrl.protocol)) || parsedUrl.username || parsedUrl.password) throw new Error('Invalid public URL');
       trustedBaseUrl = parsedUrl.origin;
     } catch (error) {
-      return res.status(503).json({ success: false, message: 'Password reset service has an invalid public URL configuration.' });
+      trustedBaseUrl = 'https://ascommerce.vercel.app';
     }
     await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
     const resetUrl = `${trustedBaseUrl}/reset-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(cleanEmail)}`;
