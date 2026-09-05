@@ -233,10 +233,25 @@ ALTER TABLE public.orders ADD CONSTRAINT orders_status_check CHECK (
 );
 
 -- 10. REALTIME REPLICATION (Supabase Dashboard -> Database -> Publications)
-ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.products;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.site_settings;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.coupons;
+DO $$
+BEGIN
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.products;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.site_settings;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.coupons;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+END $$;
 
 -- 11. ROW LEVEL SECURITY
 -- The Node API uses SUPABASE_SERVICE_ROLE_KEY and is the only writer.
