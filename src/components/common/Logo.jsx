@@ -1,7 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const Logo = ({ size = 'normal', showTagline = true, className = '' }) => {
+export const Logo = ({ size = 'normal', showTagline = true, className = '', variant = 'auto' }) => {
+  // Determine text color based on variant
+  // auto: adapts to current light/dark theme
+  // light: always white (for fixed dark containers like MainHeader / Footer)
+  // dark: always navy-950 (for fixed light containers)
+  const textColorClass =
+    variant === 'light'
+      ? 'text-white'
+      : variant === 'dark'
+      ? 'text-navy-950'
+      : 'text-navy-950 dark:text-white';
+
+  const subTextColorClass =
+    variant === 'light'
+      ? 'text-white/95'
+      : variant === 'dark'
+      ? 'text-navy-950/90'
+      : 'text-navy-900/90 dark:text-white/95';
+
+  const taglineColorClass =
+    variant === 'light'
+      ? 'text-gold-400'
+      : variant === 'dark'
+      ? 'text-gold-700'
+      : 'text-gold-700 dark:text-gold-400 font-bold';
+
   return (
     <Link to="/" className={`inline-flex items-center gap-2.5 sm:gap-3 group select-none shrink-0 ${className}`}>
       {/* Monogram Icon */}
@@ -21,7 +46,7 @@ export const Logo = ({ size = 'normal', showTagline = true, className = '' }) =>
 
           {/* Mini Luxury Crown on Top */}
           <path
-            d="M20 17 L23 21 L27 15 L31 21 L34 17 L33 23 L21 23 Z"
+            d="M20 17 L23 21 L27 15 L31 21 L34 17 L33 23 Z"
             fill="url(#goldGrad)"
           />
           <circle cx="20" cy="16" r="1" fill="#FFD36A" />
@@ -57,12 +82,12 @@ export const Logo = ({ size = 'normal', showTagline = true, className = '' }) =>
       {/* Brand Typography */}
       <div className="flex flex-col text-left justify-center">
         <div className="flex items-center gap-1 leading-none whitespace-nowrap">
-          <span className="font-serif text-lg sm:text-xl lg:text-2xl font-bold tracking-tight text-white group-hover:text-gold-400 transition-colors">
-            A_S <span className="font-sans font-light tracking-wide text-white/95 text-base sm:text-lg lg:text-xl">Commerce</span>
+          <span className={`font-serif text-lg sm:text-xl lg:text-2xl font-bold tracking-tight ${textColorClass} group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors`}>
+            A_S <span className={`font-sans font-light tracking-wide ${subTextColorClass} text-base sm:text-lg lg:text-xl`}>Commerce</span>
           </span>
         </div>
         {showTagline && (
-          <span className="text-[8px] sm:text-[9.5px] lg:text-[10.5px] font-semibold tracking-[0.18em] text-gold-400 uppercase mt-0.5 whitespace-nowrap">
+          <span className={`text-[8px] sm:text-[9.5px] lg:text-[10.5px] font-semibold tracking-[0.18em] ${taglineColorClass} uppercase mt-0.5 whitespace-nowrap`}>
             Shop Smart. Live Premium.
           </span>
         )}
@@ -70,4 +95,3 @@ export const Logo = ({ size = 'normal', showTagline = true, className = '' }) =>
     </Link>
   );
 };
-

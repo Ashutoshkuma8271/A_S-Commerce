@@ -42,7 +42,7 @@ export const MobileNav = ({ isOpen, onClose }) => {
         
         {/* Header with Logo & Theme Toggle & Close Button */}
         <div className="p-4 border-b border-navy-800 flex items-center justify-between bg-navy-950">
-          <Logo size="small" />
+          <Logo size="small" variant="light" />
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button

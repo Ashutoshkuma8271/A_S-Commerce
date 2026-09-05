@@ -1,24 +1,74 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const ThemeContext = createContext(null);
-const THEME_STORAGE_KEY = 'as_theme_preference';
+
+/**
+ * Resolves the persistent theme storage key based on current route and authenticated email
+ */
+const getStorageKey = (pathname) => {
+  const isAdmin = pathname ? pathname.toLowerCase().startsWith('/admin') : false;
+  if (isAdmin) {
+    try {
+      const adminProfile = JSON.parse(localStorage.getItem('as_admin_profile') || '{}');
+      const emailKey = adminProfile?.email ? adminProfile.email.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'master';
+      return `as_theme_admin_${emailKey}`;
+    } catch (e) {
+      return 'as_theme_admin_master';
+    }
+  } else {
+    try {
+      const userProfile = JSON.parse(localStorage.getItem('as_commerce_user') || '{}');
+      const emailKey = userProfile?.email ? userProfile.email.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'guest';
+      return `as_theme_user_${emailKey}`;
+    } catch (e) {
+      return 'as_theme_user_guest';
+    }
+  }
+};
+
+const getStoredTheme = (storageKey, defaultTheme = 'light') => {
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved === 'dark' || saved === 'light') return saved;
+    // Fallback checks
+    if (storageKey.startsWith('as_theme_admin_')) {
+      const legacyAdmin = localStorage.getItem('as_theme_admin');
+      if (legacyAdmin) return legacyAdmin;
+    } else {
+      const legacyUser = localStorage.getItem('as_theme_preference');
+      if (legacyUser) return legacyUser;
+    }
+    return defaultTheme;
+  } catch (e) {
+    return defaultTheme;
+  }
+};
 
 export const ThemeProvider = ({ children }) => {
-  // Default to 'light' (Bright Mode) as requested
-  const [theme, setThemeState] = useState(() => {
-    try {
-      const saved = localStorage.getItem(THEME_STORAGE_KEY);
-      return saved === 'dark' ? 'dark' : 'light';
-    } catch (e) {
-      return 'light';
-    }
+  const location = useLocation();
+  const isAdminRoute = location.pathname.toLowerCase().startsWith('/admin');
+
+  // Track user & admin themes separately so they never overwrite each other
+  const [userTheme, setUserTheme] = useState(() => {
+    return getStoredTheme(getStorageKey('/'), 'light');
   });
 
+  const [adminTheme, setAdminTheme] = useState(() => {
+    return getStoredTheme(getStorageKey('/admin'), 'light');
+  });
+
+  // Active theme is resolved based on the active route
+  const currentTheme = isAdminRoute ? adminTheme : userTheme;
+
+  // Apply DOM classes whenever route or active theme changes
   useEffect(() => {
     const root = document.documentElement;
     const body = document.body;
 
-    if (theme === 'dark') {
+    const active = isAdminRoute ? adminTheme : userTheme;
+
+    if (active === 'dark') {
       root.classList.add('dark');
       body.classList.add('dark');
       body.classList.remove('bg-cream-100', 'text-brand-dark');
@@ -29,24 +79,74 @@ export const ThemeProvider = ({ children }) => {
       body.classList.remove('bg-navy-950', 'text-gray-100');
       body.classList.add('bg-cream-100', 'text-brand-dark');
     }
+  }, [isAdminRoute, adminTheme, userTheme]);
 
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
-    } catch (e) {}
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const setTheme = (newTheme) => {
-    if (newTheme === 'dark' || newTheme === 'light') {
-      setThemeState(newTheme);
+  // Sync on location change to read latest account-specific storage key if user logged in/out
+  useEffect(() => {
+    const key = getStorageKey(location.pathname);
+    const stored = getStoredTheme(key, 'light');
+    if (isAdminRoute) {
+      if (stored !== adminTheme) setAdminTheme(stored);
+    } else {
+      if (stored !== userTheme) setUserTheme(stored);
     }
-  };
+  }, [location.pathname, isAdminRoute]);
+
+  const toggleTheme = useCallback(() => {
+    if (isAdminRoute) {
+      setAdminTheme((prev) => {
+        const next = prev === 'dark' ? 'light' : 'dark';
+        const key = getStorageKey('/admin');
+        try {
+          localStorage.setItem(key, next);
+          localStorage.setItem('as_theme_admin', next);
+        } catch (e) {}
+        return next;
+      });
+    } else {
+      setUserTheme((prev) => {
+        const next = prev === 'dark' ? 'light' : 'dark';
+        const key = getStorageKey('/');
+        try {
+          localStorage.setItem(key, next);
+          localStorage.setItem('as_theme_preference', next);
+        } catch (e) {}
+        return next;
+      });
+    }
+  }, [isAdminRoute]);
+
+  const setTheme = useCallback((newTheme) => {
+    if (newTheme !== 'dark' && newTheme !== 'light') return;
+    if (isAdminRoute) {
+      setAdminTheme(newTheme);
+      const key = getStorageKey('/admin');
+      try {
+        localStorage.setItem(key, newTheme);
+        localStorage.setItem('as_theme_admin', newTheme);
+      } catch (e) {}
+    } else {
+      setUserTheme(newTheme);
+      const key = getStorageKey('/');
+      try {
+        localStorage.setItem(key, newTheme);
+        localStorage.setItem('as_theme_preference', newTheme);
+      } catch (e) {}
+    }
+  }, [isAdminRoute]);
+
+  const contextValue = useMemo(() => ({
+    theme: currentTheme,
+    isDark: currentTheme === 'dark',
+    toggleTheme,
+    setTheme,
+    isAdminRoute,
+    userTheme,
+    adminTheme,
+  }), [currentTheme, toggleTheme, setTheme, isAdminRoute, userTheme, adminTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark: theme === 'dark', toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

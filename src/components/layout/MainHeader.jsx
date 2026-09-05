@@ -79,7 +79,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             >
               <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            <Logo />
+            <Logo variant="light" />
           </div>
 
           {/* Center: Search Box (Desktop & Tablet) */}

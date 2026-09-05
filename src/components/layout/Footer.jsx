@@ -29,7 +29,7 @@ export const Footer = () => {
           
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4 min-w-0">
-            <Logo size="large" />
+            <Logo size="large" variant="light" />
             <p className="text-sm text-gray-300 max-w-sm leading-relaxed">
               Curated luxury fashion, precision electronics, and bespoke living essentials designed for discerning tastemakers across the globe.
             </p>

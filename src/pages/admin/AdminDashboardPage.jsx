@@ -806,7 +806,7 @@ export const AdminDashboardPage = () => {
           <Logo size="small" />
           <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-gold-500/10 border border-gold-500/30 rounded-full text-gold-400 text-xs font-mono">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Master Control & Logistics Suite</span>
+            <span className="font-semibold text-gold-700 dark:text-gold-400">Master Control & Logistics Suite</span>
           </div>
         </div>
 
@@ -866,7 +866,7 @@ export const AdminDashboardPage = () => {
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'bg-gold-gradient text-navy-950 shadow-gold-sm'
-                    : 'bg-white dark:bg-navy-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-100 dark:bg-navy-850 hover:text-navy-950 dark:hover:text-white border border-gray-200 dark:border-navy-800 shadow-xs'
+                    : 'bg-white dark:bg-navy-900 text-gray-800 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-850 hover:text-navy-950 dark:hover:text-white border border-gray-200 dark:border-navy-800 shadow-xs'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -902,7 +902,7 @@ export const AdminDashboardPage = () => {
                 <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {formatINR(stats?.totalRevenue || 2249)}
                 </h3>
-                <span className="text-[11px] text-green-400 font-medium">✓ Razorpay Verified Revenue</span>
+                <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-bold">✓ Razorpay Verified Revenue</span>
               </div>
 
               <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
@@ -915,7 +915,7 @@ export const AdminDashboardPage = () => {
                 <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {orders.length} Orders
                 </h3>
-                <span className="text-[11px] text-gold-400 font-medium">● Live Carrier Integration</span>
+                <span className="text-[11px] text-gold-700 dark:text-gold-400 font-bold">● Live Carrier Integration</span>
               </div>
 
               <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
@@ -928,7 +928,7 @@ export const AdminDashboardPage = () => {
                 <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                   {products.length} Products
                 </h3>
-                <span className="text-[11px] text-gray-400 font-medium">Across 7 Main Departments</span>
+                <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Across 7 Main Departments</span>
               </div>
 
               <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
@@ -938,10 +938,10 @@ export const AdminDashboardPage = () => {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="font-serif text-xl font-bold text-emerald-400">
+                <h3 className="font-serif text-xl font-bold text-emerald-700 dark:text-emerald-400">
                   Protected (1/1 Lock)
                 </h3>
-                <span className="text-[11px] text-gray-400 font-medium">Single-Admin Enforced</span>
+                <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Single-Admin Enforced</span>
               </div>
             </div>
 
@@ -962,7 +962,7 @@ export const AdminDashboardPage = () => {
                   {orders.slice(0, 4).map((order) => (
                     <div key={order.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                       <div>
-                        <span className="text-xs font-mono font-bold text-gold-400">#{order.id}</span>
+                        <span className="text-xs font-mono font-bold text-gold-700 dark:text-gold-400">#{order.id}</span>
                         <p className="text-xs text-navy-950 dark:text-white font-medium mt-0.5">{order.shippingAddress?.name}</p>
                         <span className="text-[10px] text-gray-400">{order.date} • {order.carrier}</span>
                       </div>
@@ -1087,7 +1087,7 @@ export const AdminDashboardPage = () => {
                         </div>
                       </td>
                       <td className="p-3.5 font-medium text-gray-300">{prod.categoryName}</td>
-                      <td className="p-3.5 font-bold text-gold-400 font-mono">{formatINR(prod.price)}</td>
+                      <td className="p-3.5 font-bold text-gold-700 dark:text-gold-400 font-mono">{formatINR(prod.price)}</td>
                       <td className="p-3.5">
                         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${prod.stockCount <= 5 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'}`}>
                           {prod.stockCount} in Stock
@@ -1343,7 +1343,7 @@ export const AdminDashboardPage = () => {
                         <div className="space-y-1.5">
                           <div className="flex items-center flex-wrap gap-2.5">
                             <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-navy-850 px-3 py-1 rounded-xl border border-navy-750">
-                              <span className="text-xs font-mono font-bold text-gold-400">#{order.id}</span>
+                              <span className="text-xs font-mono font-bold text-gold-700 dark:text-gold-400">#{order.id}</span>
                               <button
                                 onClick={() => handleCopyText(order.id, `order-${order.id}`, 'Consignment ID')}
                                 className="text-gray-400 hover:text-white p-0.5 transition-colors cursor-pointer"
@@ -1377,9 +1377,9 @@ export const AdminDashboardPage = () => {
                               <User className="w-3.5 h-3.5 text-gold-400" />
                               {customerName}
                             </span>
-                            <span className="text-gray-400">{customerEmail}</span>
+                            <span className="text-gray-600 dark:text-gray-400">{customerEmail}</span>
                             {cleanPhone && (
-                              <span className="text-gray-300 font-mono flex items-center gap-1">
+                              <span className="text-gray-700 dark:text-gray-300 font-mono flex items-center gap-1">
                                 <Phone className="w-3 h-3 text-gold-400" />
                                 +{cleanPhone}
                               </span>
@@ -1784,11 +1784,11 @@ export const AdminDashboardPage = () => {
 
             <form onSubmit={handleSaveSettings} className="space-y-6 text-xs max-w-2xl">
               <div className="space-y-4">
-                <h4 className="text-xs font-bold text-gold-400 uppercase tracking-widest border-b border-navy-800 pb-2">
+                <h4 className="text-xs font-bold text-gold-700 dark:text-gold-400 uppercase tracking-widest border-b border-navy-800 pb-2">
                   1. Announcement Bar
                 </h4>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Top Promo Announcement Text</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Top Promo Announcement Text</label>
                   <input
                     type="text"
                     value={siteSettings.announcementText}
@@ -1797,7 +1797,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Free Shipping Order Threshold (₹)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Free Shipping Order Threshold (₹)</label>
                   <input
                     type="number"
                     value={siteSettings.freeShippingThreshold}
@@ -1808,11 +1808,11 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-xs font-bold text-gold-400 uppercase tracking-widest border-b border-navy-800 pb-2">
+                <h4 className="text-xs font-bold text-gold-700 dark:text-gold-400 uppercase tracking-widest border-b border-navy-800 pb-2">
                   2. Hero Banner Section
                 </h4>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Hero Pill Badge</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Hero Pill Badge</label>
                   <input
                     type="text"
                     value={siteSettings.heroBadge}
@@ -1821,7 +1821,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Main Hero Headline</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Main Hero Headline</label>
                   <input
                     type="text"
                     value={siteSettings.heroHeadline}
@@ -1830,7 +1830,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Hero Subheadline</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Hero Subheadline</label>
                   <textarea
                     rows={2}
                     value={siteSettings.heroSubheadline}
@@ -1839,7 +1839,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Circular Badge Discount Text</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Circular Badge Discount Text</label>
                   <input
                     type="text"
                     value={siteSettings.heroDiscount}
@@ -1871,7 +1871,7 @@ export const AdminDashboardPage = () => {
 
               <form onSubmit={handleCreateCoupon} className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Voucher Code</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Voucher Code</label>
                   <input
                     type="text"
                     required
@@ -1884,7 +1884,7 @@ export const AdminDashboardPage = () => {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-gray-300 mb-1">Discount (%)</label>
+                    <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Discount (%)</label>
                     <input
                       type="number"
                       value={newCouponDiscount}
@@ -1894,7 +1894,7 @@ export const AdminDashboardPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-gray-300 mb-1">Min Order (₹)</label>
+                    <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Min Order (₹)</label>
                     <input
                       type="number"
                       value={newCouponMinOrder}
@@ -1906,7 +1906,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Promotion Description</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Promotion Description</label>
                   <input
                     type="text"
                     required
@@ -2051,7 +2051,7 @@ export const AdminDashboardPage = () => {
 
               <form onSubmit={handleChangePassword} className="space-y-4 text-xs">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Current Password</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Current Password</label>
                   <div className="relative">
                     <input
                       type={showCurrentPass ? 'text' : 'password'}
@@ -2073,7 +2073,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">New Master Password (min 8 chars)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">New Master Password (min 8 chars)</label>
                   <div className="relative">
                     <input
                       type={showNewPass ? 'text' : 'password'}
@@ -2095,7 +2095,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Confirm New Password</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Confirm New Password</label>
                   <div className="relative">
                     <input
                       type={showConfirmPass ? 'text' : 'password'}
@@ -2148,7 +2148,7 @@ export const AdminDashboardPage = () => {
 
             <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">Product Title</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Product Title</label>
                 <input
                   type="text"
                   required
@@ -2161,7 +2161,7 @@ export const AdminDashboardPage = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Brand Name</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Brand Name</label>
                   <input
                     type="text"
                     required
@@ -2173,7 +2173,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Department / Category</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Department / Category</label>
                   <select
                     value={productForm.category}
                     onChange={(e) => {
@@ -2196,7 +2196,7 @@ export const AdminDashboardPage = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Selling Price (₹)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Selling Price (₹)</label>
                   <input
                     type="number"
                     required
@@ -2207,7 +2207,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Original Price (₹)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Original Price (₹)</label>
                   <input
                     type="number"
                     value={productForm.originalPrice}
@@ -2217,7 +2217,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Discount (%)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Discount (%)</label>
                   <input
                     type="number"
                     value={productForm.discount}
@@ -2230,7 +2230,7 @@ export const AdminDashboardPage = () => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Inventory Quantity</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Inventory Quantity</label>
                   <input
                     type="number"
                     value={productForm.stockCount}
@@ -2239,7 +2239,7 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Badge Tag</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Badge Tag</label>
                   <input
                     type="text"
                     value={productForm.badge}
@@ -2251,7 +2251,7 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">
                   Product Image (Upload File or Image URL)
                 </label>
                 
@@ -2297,7 +2297,7 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">Bespoke Product Description</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Bespoke Product Description</label>
                 <textarea
                   rows={3}
                   value={productForm.description}
@@ -2337,7 +2337,7 @@ export const AdminDashboardPage = () => {
 
             <form onSubmit={handleSaveOrderDelivery} className="space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">Delivery Stage Status</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Delivery Stage Status</label>
                 <select
                   value={orderDeliveryForm.status}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, status: e.target.value })}
@@ -2354,7 +2354,7 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">Carrier Partner</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Carrier Partner</label>
                 <input
                   type="text"
                   required
@@ -2366,7 +2366,7 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-300 mb-1">Carrier Tracking / AWB Number</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Carrier Tracking / AWB Number</label>
                 <input
                   type="text"
                   required
