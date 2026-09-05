@@ -4,14 +4,15 @@ import { useLocation } from 'react-router-dom';
 const ThemeContext = createContext(null);
 
 /**
- * Resolves the persistent theme storage key based on current route and authenticated email
+ * Resolves the collision-free persistent theme storage key based on current route and authenticated email
  */
 const getStorageKey = (pathname) => {
   const isAdmin = pathname ? pathname.toLowerCase().startsWith('/admin') : false;
   if (isAdmin) {
     try {
       const adminProfile = JSON.parse(localStorage.getItem('as_admin_profile') || '{}');
-      const emailKey = adminProfile?.email ? adminProfile.email.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'master';
+      const email = adminProfile?.email ? adminProfile.email.toLowerCase().trim() : '';
+      const emailKey = email ? encodeURIComponent(email) : 'master';
       return `as_theme_admin_${emailKey}`;
     } catch (e) {
       return 'as_theme_admin_master';
@@ -19,7 +20,8 @@ const getStorageKey = (pathname) => {
   } else {
     try {
       const userProfile = JSON.parse(localStorage.getItem('as_commerce_user') || '{}');
-      const emailKey = userProfile?.email ? userProfile.email.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'guest';
+      const email = userProfile?.email ? userProfile.email.toLowerCase().trim() : '';
+      const emailKey = email ? encodeURIComponent(email) : 'guest';
       return `as_theme_user_${emailKey}`;
     } catch (e) {
       return 'as_theme_user_guest';
@@ -31,14 +33,30 @@ const getStoredTheme = (storageKey, defaultTheme = 'light') => {
   try {
     const saved = localStorage.getItem(storageKey);
     if (saved === 'dark' || saved === 'light') return saved;
-    // Fallback checks
-    if (storageKey.startsWith('as_theme_admin_')) {
+
+    // Apply legacy shared value and migrate into scoped account key
+    if (storageKey === 'as_theme_admin_master') {
       const legacyAdmin = localStorage.getItem('as_theme_admin');
-      if (legacyAdmin) return legacyAdmin;
-    } else {
+      if (legacyAdmin === 'dark' || legacyAdmin === 'light') {
+        try { localStorage.setItem(storageKey, legacyAdmin); } catch (e) {}
+        return legacyAdmin;
+      }
+    } else if (storageKey === 'as_theme_user_guest') {
       const legacyUser = localStorage.getItem('as_theme_preference');
-      if (legacyUser) return legacyUser;
+      if (legacyUser === 'dark' || legacyUser === 'light') {
+        try { localStorage.setItem(storageKey, legacyUser); } catch (e) {}
+        return legacyUser;
+      }
+    } else {
+      // Check legacy shared value for account migration
+      const legacyKey = storageKey.startsWith('as_theme_admin_') ? 'as_theme_admin' : 'as_theme_preference';
+      const legacyVal = localStorage.getItem(legacyKey);
+      if (legacyVal === 'dark' || legacyVal === 'light') {
+        try { localStorage.setItem(storageKey, legacyVal); } catch (e) {}
+        return legacyVal;
+      }
     }
+
     return defaultTheme;
   } catch (e) {
     return defaultTheme;
@@ -99,7 +117,6 @@ export const ThemeProvider = ({ children }) => {
         const key = getStorageKey('/admin');
         try {
           localStorage.setItem(key, next);
-          localStorage.setItem('as_theme_admin', next);
         } catch (e) {}
         return next;
       });
@@ -109,7 +126,6 @@ export const ThemeProvider = ({ children }) => {
         const key = getStorageKey('/');
         try {
           localStorage.setItem(key, next);
-          localStorage.setItem('as_theme_preference', next);
         } catch (e) {}
         return next;
       });
@@ -123,14 +139,12 @@ export const ThemeProvider = ({ children }) => {
       const key = getStorageKey('/admin');
       try {
         localStorage.setItem(key, newTheme);
-        localStorage.setItem('as_theme_admin', newTheme);
       } catch (e) {}
     } else {
       setUserTheme(newTheme);
       const key = getStorageKey('/');
       try {
         localStorage.setItem(key, newTheme);
-        localStorage.setItem('as_theme_preference', newTheme);
       } catch (e) {}
     }
   }, [isAdminRoute]);

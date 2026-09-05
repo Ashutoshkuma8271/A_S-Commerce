@@ -692,7 +692,7 @@ export const AdminDashboardPage = () => {
               </div>
               <div className="space-y-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4 animate-pulse">
+                  <div key={i} className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4 animate-pulse">
                     <div className="space-y-2">
                       <div className="h-3.5 w-16 bg-gray-200 dark:bg-navy-800 rounded" />
                       <div className="h-3 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
@@ -714,7 +714,7 @@ export const AdminDashboardPage = () => {
               </div>
               <div className="space-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="p-3 rounded-xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2 animate-pulse">
+                  <div key={i} className="p-3 rounded-xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2 animate-pulse">
                     <div className="flex items-center justify-between">
                       <div className="h-3.5 w-24 bg-gray-200 dark:bg-navy-800 rounded" />
                       <div className="h-2.5 w-10 bg-gray-200 dark:bg-navy-800 rounded" />
@@ -960,11 +960,11 @@ export const AdminDashboardPage = () => {
 
                 <div className="space-y-3">
                   {orders.slice(0, 4).map((order) => (
-                    <div key={order.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
+                    <div key={order.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                       <div>
                         <span className="text-xs font-mono font-bold text-gold-700 dark:text-gold-400">#{order.id}</span>
                         <p className="text-xs text-navy-950 dark:text-white font-medium mt-0.5">{order.shippingAddress?.name}</p>
-                        <span className="text-[10px] text-gray-400">{order.date} • {order.carrier}</span>
+                        <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">{order.date} • {order.carrier}</span>
                       </div>
                       <div className="text-right space-y-1">
                         <span className="text-xs font-bold text-navy-950 dark:text-white block">{formatINR(order.total)}</span>
@@ -990,7 +990,7 @@ export const AdminDashboardPage = () => {
 
                 <div className="space-y-2.5">
                   {auditLogs.slice(0, 5).map((log) => (
-                    <div key={log.id} className="p-3 rounded-xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 text-xs space-y-1">
+                    <div key={log.id} className="p-3 rounded-xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 text-xs space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-gold-400">{log.action}</span>
                         <span className="text-[10px] text-gray-400 font-mono">
@@ -1037,14 +1037,14 @@ export const AdminDashboardPage = () => {
                   value={productSearch}
                   onChange={(e) => setProductSearch(e.target.value)}
                   placeholder="Search products by title or brand..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-xs rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-xs rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
               <select
                 value={productCategoryFilter}
                 onChange={(e) => setProductCategoryFilter(e.target.value)}
-                className="px-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gold-600 dark:text-gold-400 rounded-xl border border-gray-200 dark:border-navy-700 text-xs font-semibold focus:border-gold-500 cursor-pointer"
+                className="px-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-gold-600 dark:text-gold-400 rounded-xl border border-gray-200 dark:border-navy-700 text-xs font-semibold focus:border-gold-500 cursor-pointer"
               >
                 <option value="all">All Departments</option>
                 <option value="men">Men Fashion</option>
@@ -1072,7 +1072,7 @@ export const AdminDashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-800">
                   {filteredProducts.map((prod) => (
-                    <tr key={prod.id} className="hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-navy-850/50 transition-colors">
+                    <tr key={prod.id} className="hover:bg-gray-50 dark:hover:bg-navy-850/50 transition-colors">
                       <td className="p-3.5">
                         <div className="flex items-center gap-3">
                           <img
@@ -1082,7 +1082,7 @@ export const AdminDashboardPage = () => {
                           />
                           <div>
                             <span className="font-bold text-navy-950 dark:text-white block">{prod.name}</span>
-                            <span className="text-[10px] text-gray-400">{prod.brand}</span>
+                            <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">{prod.brand}</span>
                           </div>
                         </div>
                       </td>
@@ -1128,7 +1128,7 @@ export const AdminDashboardPage = () => {
         {activeTab === 'orders' && (
           <div className="space-y-6 animate-fadeIn">
             {/* Header & Controls */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-navy-900 border border-gold-500/20 shadow-xl space-y-6">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 transition-colors">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
                 <div>
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
@@ -1146,7 +1146,7 @@ export const AdminDashboardPage = () => {
                   </span>
                   <button
                     onClick={handleExportOrdersCSV}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gold-400 hover:text-gold-300 text-xs border border-gold-500/30 transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 text-gold-700 dark:text-gold-400 hover:text-gold-800 dark:hover:text-gold-300 text-xs border border-gray-200 dark:border-gold-500/30 transition-colors cursor-pointer"
                     title="Export all orders to CSV"
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -1154,7 +1154,7 @@ export const AdminDashboardPage = () => {
                   </button>
                   <button
                     onClick={fetchDashboardData}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 hover:text-white text-xs border border-navy-700 transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 text-gray-700 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors cursor-pointer"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 text-gold-400 ${loading ? 'animate-spin' : ''}`} />
                     <span>Refresh</span>
@@ -1164,7 +1164,7 @@ export const AdminDashboardPage = () => {
 
               {/* Order KPI Summary Ribbon */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-1">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-1">
                   <span className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Total Consignments</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-xl sm:text-2xl font-bold font-serif text-navy-950 dark:text-white">{orders.length}</span>
@@ -1180,7 +1180,7 @@ export const AdminDashboardPage = () => {
                     <span className="text-xl sm:text-2xl font-bold font-serif text-amber-400">
                       {orders.filter(o => ['Order Placed', 'Payment Confirmed', 'Processing'].includes(o.status || 'Processing')).length}
                     </span>
-                    <span className="text-[10px] text-gray-400">Requires Action</span>
+                    <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">Requires Action</span>
                   </div>
                 </div>
 
@@ -1248,7 +1248,7 @@ export const AdminDashboardPage = () => {
                     placeholder="Search by Order ID, customer, phone, email, tracking AWB..."
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
                   />
                 </div>
 
@@ -1256,7 +1256,7 @@ export const AdminDashboardPage = () => {
                   <select
                     value={orderStatusFilter}
                     onChange={(e) => setOrderStatusFilter(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
                   >
                     <option value="all">All Delivery Statuses</option>
                     <option value="Order Placed">Order Placed</option>
@@ -1273,7 +1273,7 @@ export const AdminDashboardPage = () => {
                   <select
                     value={orderSortBy}
                     onChange={(e) => setOrderSortBy(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
                   >
                     <option value="newest">Sort: Newest First</option>
                     <option value="oldest">Sort: Oldest First</option>
@@ -1357,7 +1357,7 @@ export const AdminDashboardPage = () => {
                               </button>
                             </div>
 
-                            <span className="text-xs text-gray-400 flex items-center gap-1">
+                            <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1 font-medium">
                               <Calendar className="w-3.5 h-3.5 text-gray-500" />
                               {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : (order.date || '2026-08-31')}
                             </span>
@@ -1366,7 +1366,7 @@ export const AdminDashboardPage = () => {
                               ● {currentStatus}
                             </span>
 
-                            <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-navy-800 text-gray-300 border border-navy-700">
+                            <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-navy-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-700">
                               {order.paymentMethod || 'Razorpay Gateway'} ({order.paymentStatus || 'Paid'})
                             </span>
                           </div>
@@ -1393,7 +1393,7 @@ export const AdminDashboardPage = () => {
                             <span className="text-xl sm:text-2xl font-serif font-bold text-navy-950 dark:text-white block">
                               {formatINR(order.total || order.total_amount || 0)}
                             </span>
-                            <span className="text-[10px] text-gray-400">
+                            <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
                               {order.items?.length || 1} Item(s) • Tax Incl.
                             </span>
                           </div>
@@ -1431,7 +1431,7 @@ export const AdminDashboardPage = () => {
 
                       {/* Interactive Logistics Stepper (Pipeline Tracker) */}
                       {currentStatus !== 'Cancelled' && (
-                        <div className="bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/70 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800">
+                        <div className="bg-gray-50/80 dark:bg-navy-850/70 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800">
                           <div className="grid grid-cols-6 gap-1 sm:gap-2">
                             {stages.map((stage, sIdx) => {
                               const isCompleted = currentStageIdx >= sIdx;
@@ -1473,7 +1473,7 @@ export const AdminDashboardPage = () => {
 
                       {/* Itemized Preview of Consignment */}
                       {Array.isArray(order.items) && order.items.length > 0 && (
-                        <div className="bg-gray-50/60 dark:bg-gray-100 dark:bg-navy-850/40 rounded-2xl p-4 border border-gray-200/80 dark:border-navy-800/80 space-y-2.5">
+                        <div className="bg-gray-50/60 dark:bg-navy-850/40 rounded-2xl p-4 border border-gray-200/80 dark:border-navy-800/80 space-y-2.5">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
                             ORDERED LUXURY CONSIGNMENT ({order.items.length} ITEM{order.items.length > 1 ? 'S' : ''})
                           </span>
@@ -1504,7 +1504,7 @@ export const AdminDashboardPage = () => {
                       {/* Destination Address & Logistics Footer */}
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
                         {/* Address Dossier */}
-                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
+                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1">
                               <MapPin className="w-3 h-3 text-gold-400" />
@@ -1522,7 +1522,7 @@ export const AdminDashboardPage = () => {
                               </a>
                             )}
                           </div>
-                          <p className="text-gray-200 leading-relaxed text-xs">
+                          <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-xs">
                             {order.shippingAddress?.street ? (
                               <>
                                 <strong className="text-navy-950 dark:text-white block">{order.shippingAddress.name || customerName}</strong>
@@ -1535,12 +1535,12 @@ export const AdminDashboardPage = () => {
                         </div>
 
                         {/* Carrier & Tracking */}
-                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-gray-100 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
+                        <div className="md:col-span-6 bg-gray-50/80 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800 space-y-1.5">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1">
                             <Truck className="w-3 h-3 text-gold-400" />
                             CARRIER LOGISTICS
                           </span>
-                          <div className="text-gray-200 space-y-1">
+                          <div className="text-gray-700 dark:text-gray-200 space-y-1">
                             <p>
                               Partner: <strong className="text-navy-950 dark:text-white">{order.carrier || 'Bluedart Express Luxury Courier'}</strong>
                             </p>
@@ -1657,7 +1657,7 @@ export const AdminDashboardPage = () => {
                 </span>
                 <button
                   onClick={fetchDashboardData}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-gray-300 hover:text-white text-xs border border-navy-700 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 text-gray-700 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors cursor-pointer"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 text-gold-400 ${loading ? 'animate-spin' : ''}`} />
                   <span>Refresh</span>
@@ -1673,7 +1673,7 @@ export const AdminDashboardPage = () => {
                 placeholder="Search customers by name, email, phone..."
                 value={customerSearch}
                 onChange={(e) => setCustomerSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
               />
             </div>
 
@@ -1703,7 +1703,7 @@ export const AdminDashboardPage = () => {
                       );
                     })
                     .map((customer) => (
-                      <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-navy-850/50 transition-colors">
+                      <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-navy-850/50 transition-colors">
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center font-bold font-serif text-gold-400 text-xs">
@@ -1793,7 +1793,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.announcementText}
                     onChange={(e) => setSiteSettings({ ...siteSettings, announcementText: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1802,7 +1802,7 @@ export const AdminDashboardPage = () => {
                     type="number"
                     value={siteSettings.freeShippingThreshold}
                     onChange={(e) => setSiteSettings({ ...siteSettings, freeShippingThreshold: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -1817,7 +1817,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroBadge}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroBadge: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1826,7 +1826,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroHeadline}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroHeadline: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-serif text-sm"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-serif text-sm"
                   />
                 </div>
                 <div>
@@ -1835,7 +1835,7 @@ export const AdminDashboardPage = () => {
                     rows={2}
                     value={siteSettings.heroSubheadline}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroSubheadline: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -1844,7 +1844,7 @@ export const AdminDashboardPage = () => {
                     type="text"
                     value={siteSettings.heroDiscount}
                     onChange={(e) => setSiteSettings({ ...siteSettings, heroDiscount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -1878,7 +1878,7 @@ export const AdminDashboardPage = () => {
                     value={newCouponCode}
                     onChange={(e) => setNewCouponCode(e.target.value.toUpperCase())}
                     placeholder="e.g. LUXURY25"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 uppercase"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 uppercase"
                   />
                 </div>
 
@@ -1890,7 +1890,7 @@ export const AdminDashboardPage = () => {
                       value={newCouponDiscount}
                       onChange={(e) => setNewCouponDiscount(e.target.value)}
                       placeholder="e.g. 25"
-                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                   </div>
                   <div>
@@ -1900,7 +1900,7 @@ export const AdminDashboardPage = () => {
                       value={newCouponMinOrder}
                       onChange={(e) => setNewCouponMinOrder(e.target.value)}
                       placeholder="e.g. 2999"
-                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                   </div>
                 </div>
@@ -1913,7 +1913,7 @@ export const AdminDashboardPage = () => {
                     value={newCouponDesc}
                     onChange={(e) => setNewCouponDesc(e.target.value)}
                     placeholder="e.g. 25% Off on Summer Luxury Collection"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
 
@@ -1935,7 +1935,7 @@ export const AdminDashboardPage = () => {
 
               <div className="space-y-3">
                 {coupons.map((coupon) => (
-                  <div key={coupon.code} className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
+                  <div key={coupon.code} className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-sm font-bold text-gold-400 bg-navy-950 px-2.5 py-0.5 rounded-lg border border-gold-500/30">
@@ -1992,17 +1992,17 @@ export const AdminDashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-800">
                   {auditLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-gray-100 dark:bg-navy-850/60 transition-colors">
-                      <td className="p-3.5 font-mono text-[11px] text-gray-400 whitespace-nowrap">
+                    <tr key={log.id} className="hover:bg-gray-100 dark:hover:bg-navy-850/60 transition-colors">
+                      <td className="p-3.5 font-mono text-[11px] text-gray-600 dark:text-gray-400 whitespace-nowrap">
                         {new Date(log.timestamp).toLocaleString()}
                       </td>
-                      <td className="p-3.5 font-bold text-gold-400 whitespace-nowrap">
+                      <td className="p-3.5 font-bold text-gold-700 dark:text-gold-400 whitespace-nowrap">
                         {log.action}
                       </td>
-                      <td className="p-3.5 font-mono text-gray-300 whitespace-nowrap">
+                      <td className="p-3.5 font-mono text-gray-700 dark:text-gray-300 whitespace-nowrap font-medium">
                         {log.adminEmail || log.adminId || 'System Auth'}
                       </td>
-                      <td className="p-3.5 text-gray-300">
+                      <td className="p-3.5 text-gray-700 dark:text-gray-300 font-medium">
                         {log.details || log.resource || '-'}
                       </td>
                     </tr>
@@ -2029,16 +2029,16 @@ export const AdminDashboardPage = () => {
 
               <div className="space-y-2.5 pt-2 border-t border-gray-100 dark:border-navy-800 text-xs">
                 <div className="flex justify-between py-1.5 border-b border-navy-800/60">
-                  <span className="text-gray-400">Assigned Role:</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Assigned Role:</span>
                   <span className="font-bold text-gold-400 uppercase">Master Administrator</span>
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-navy-800/60">
-                  <span className="text-gray-400">Account Status:</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Account Status:</span>
                   <span className="font-bold text-green-400">Active (1/1 Single-Admin Lock)</span>
                 </div>
                 <div className="flex justify-between py-1.5">
-                  <span className="text-gray-400">Authorization Level:</span>
-                  <span className="font-mono text-gray-300">Root / Full Store Control</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Authorization Level:</span>
+                  <span className="font-mono text-gray-700 dark:text-gray-300 font-bold">Root / Full Store Control</span>
                 </div>
               </div>
             </div>
@@ -2059,7 +2059,7 @@ export const AdminDashboardPage = () => {
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2081,7 +2081,7 @@ export const AdminDashboardPage = () => {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2103,7 +2103,7 @@ export const AdminDashboardPage = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                      className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                     />
                     <button
                       type="button"
@@ -2155,7 +2155,7 @@ export const AdminDashboardPage = () => {
                   value={productForm.name}
                   onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                   placeholder="e.g. Royal Chronograph Gold Wristwatch"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2168,7 +2168,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.brand}
                     onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
                     placeholder="e.g. A_S Signature"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
 
@@ -2181,7 +2181,7 @@ export const AdminDashboardPage = () => {
                       const catNames = { men: 'Men Fashion', women: 'Women Fashion', electronics: 'Electronics', 'home-living': 'Home & Living', beauty: 'Beauty', accessories: 'Accessories', footwear: 'Footwear' };
                       setProductForm({ ...productForm, category: cat, categoryName: catNames[cat] || cat });
                     }}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   >
                     <option value="men">Men Fashion</option>
                     <option value="women">Women Fashion</option>
@@ -2203,7 +2203,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.price}
                     onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
                     placeholder="2499"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
                   />
                 </div>
                 <div>
@@ -2213,7 +2213,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.originalPrice}
                     onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
                     placeholder="4999"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
                   />
                 </div>
                 <div>
@@ -2223,7 +2223,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.discount}
                     onChange={(e) => setProductForm({ ...productForm, discount: e.target.value })}
                     placeholder="50"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -2235,7 +2235,7 @@ export const AdminDashboardPage = () => {
                     type="number"
                     value={productForm.stockCount}
                     onChange={(e) => setProductForm({ ...productForm, stockCount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
                 <div>
@@ -2245,7 +2245,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.badge}
                     onChange={(e) => setProductForm({ ...productForm, badge: e.target.value })}
                     placeholder="e.g. BESTSELLER / 50% OFF"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                   />
                 </div>
               </div>
@@ -2277,7 +2277,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.image}
                     onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
                     placeholder="https://res.cloudinary.com/... or https://images.unsplash.com/..."
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 text-xs"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 text-xs"
                   />
 
                   {productForm.image && (
@@ -2303,7 +2303,7 @@ export const AdminDashboardPage = () => {
                   value={productForm.description}
                   onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                   placeholder="Write description with luxury materials, craftsmanship..."
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2361,7 +2361,7 @@ export const AdminDashboardPage = () => {
                   value={orderDeliveryForm.carrier}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, carrier: e.target.value })}
                   placeholder="e.g. Bluedart Express / Delhivery"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2373,7 +2373,7 @@ export const AdminDashboardPage = () => {
                   value={orderDeliveryForm.trackingNumber}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, trackingNumber: e.target.value })}
                   placeholder="e.g. BD-889021482IN"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
                 />
               </div>
 
@@ -2443,7 +2443,7 @@ export const AdminDashboardPage = () => {
                   <p className="text-[11px] text-gold-400 font-mono">
                     Tax Invoice / Bill of Supply • Ref: INV-{selectedOrderDossier.id?.substring(0, 8)?.toUpperCase()}
                   </p>
-                  <span className="text-[10px] text-gray-400">Authorized Luxury Merchant • GST Registered</span>
+                  <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">Authorized Luxury Merchant • GST Registered</span>
                 </div>
                 <div className="text-right space-y-0.5">
                   <span className="text-xs font-bold text-navy-950 dark:text-white block">Payment: {selectedOrderDossier.paymentMethod || 'Razorpay'}</span>
@@ -2456,7 +2456,7 @@ export const AdminDashboardPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
                 {/* Client Profile */}
-                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
                   <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider block">
                     PATRON & CONTACT DOSSIER
                   </span>
@@ -2502,7 +2502,7 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 {/* Delivery Logistics */}
-                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-100 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 space-y-2">
                   <span className="text-[10px] font-bold text-gold-400 uppercase tracking-wider block">
                     DESTINATION & CARRIER
                   </span>
