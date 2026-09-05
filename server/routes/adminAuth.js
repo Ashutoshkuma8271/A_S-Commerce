@@ -284,8 +284,19 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, adminEmail: cleanEmail, role: 'admin', expiresAt });
 
-    const baseUrl = process.env.PUBLIC_APP_URL || `http://${req.headers.host || 'localhost:3000'}`;
-    const resetUrl = `${baseUrl}/admin/reset-password?token=${token}`;
+    const baseUrl = process.env.PUBLIC_APP_URL;
+    if (!baseUrl) {
+      return res.status(503).json({ success: false, message: 'Password reset service is not configured.' });
+    }
+    let trustedBaseUrl;
+    try {
+      const parsedUrl = new URL(baseUrl);
+      if (!['http:', 'https:'].includes(parsedUrl.protocol) || parsedUrl.username || parsedUrl.password) throw new Error('Invalid public URL');
+      trustedBaseUrl = parsedUrl.origin;
+    } catch (error) {
+      return res.status(503).json({ success: false, message: 'Password reset service has an invalid public URL configuration.' });
+    }
+    const resetUrl = `${trustedBaseUrl}/admin/reset-password?token=${token}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'admin');
 

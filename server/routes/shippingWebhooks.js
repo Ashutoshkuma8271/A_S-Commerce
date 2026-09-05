@@ -34,7 +34,7 @@ router.post('/shipping/update', async (req, res) => {
       return res.status(503).json({ success: false, message: 'Shipping webhook is not configured.' });
     }
     const expectedSignature = crypto.createHmac('sha256', webhookSecret)
-      .update(JSON.stringify(req.body || {}))
+      .update(req.rawBody || Buffer.alloc(0))
       .digest('hex');
     const signatureBuffer = Buffer.from(signature || '', 'utf8');
     const expectedBuffer = Buffer.from(expectedSignature, 'utf8');

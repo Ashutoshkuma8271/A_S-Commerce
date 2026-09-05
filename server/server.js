@@ -19,6 +19,7 @@ import { uploadToCloudinary } from './services/cloudinary.js';
 import crypto from 'crypto';
 import { sendSignupOtpEmail, sendPasswordResetEmail, sendOrderConfirmationEmail } from './utils/emailService.js';
 import { JWT_SECRET, requireCustomer } from './middleware/auth.js';
+import { calculateOrderTotals } from './utils/orderPricing.js';
 
 dotenv.config();
 
@@ -76,7 +77,7 @@ const productionCsp = process.env.NODE_ENV === 'production' ? {
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", 'https://checkout.razorpay.com'],
-    connectSrc: ["'self'", 'https://api.postalpincode.in', 'https://api.razorpay.com', 'wss:'],
+    connectSrc: ["'self'", 'https://api.postalpincode.in', 'https://api.razorpay.com', ...(process.env.SUPABASE_URL ? [new URL(process.env.SUPABASE_URL).origin] : []), 'wss:'],
     imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
     styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
     styleSrcAttr: ["'unsafe-inline'"],
@@ -105,7 +106,12 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buffer) => {
+    req.rawBody = Buffer.from(buffer);
+  },
+}));
 app.use('/api', apiLimiter);
 
 // Health check
@@ -378,8 +384,19 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
 
-    const baseUrl = process.env.PUBLIC_APP_URL || `http://${req.headers.host || 'localhost:3000'}`;
-    const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
+    const baseUrl = process.env.PUBLIC_APP_URL;
+    if (!baseUrl) {
+      return res.status(503).json({ success: false, message: 'Password reset service is not configured.' });
+    }
+    let trustedBaseUrl;
+    try {
+      const parsedUrl = new URL(baseUrl);
+      if (!['http:', 'https:'].includes(parsedUrl.protocol) || parsedUrl.username || parsedUrl.password) throw new Error('Invalid public URL');
+      trustedBaseUrl = parsedUrl.origin;
+    } catch (error) {
+      return res.status(503).json({ success: false, message: 'Password reset service has an invalid public URL configuration.' });
+    }
+    const resetUrl = `${trustedBaseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'customer');
 
@@ -399,7 +416,7 @@ app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], au
   try {
     const { token, email, newPassword } = req.body || {};
     if (!token || !newPassword) {
-      return res.status(400).json({ success: false, message: 'New password is required.' });
+      return res.status(400).json({ success: false, message: 'Reset token and new password are required.' });
     }
 
     let user = null;
@@ -607,39 +624,35 @@ app.get('/api/orders', requireCustomer, async (req, res) => {
 app.post('/api/orders', requireCustomer, async (req, res) => {
   try {
     const orderData = { ...(req.body || {}), customerId: req.user.id, customerEmail: req.user.email, customerName: req.user.name, customerPhone: req.user.phone || '' };
-    const products = await db.getProductsAsync();
-    const catalog = new Map(products.map(product => [product.id, product]));
-    const requestedItems = Array.isArray(orderData.items) ? orderData.items : [];
-    const pricedItems = requestedItems.map(item => {
-      const product = catalog.get(item.id);
-      const quantity = Number(item.quantity);
-      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > Number(product.stockCount || 0)) {
-        return null;
-      }
-      return {
-        ...item,
-        name: product.name,
-        brand: product.brand,
-        price: Number(product.price),
-        originalPrice: product.originalPrice,
-        quantity,
-      };
+    const totals = await calculateOrderTotals({
+      db,
+      items: orderData.items,
+      couponCode: orderData.couponCode,
+      deliveryMode: orderData.deliveryMode,
     });
-    if (!requestedItems.length || pricedItems.some(item => !item)) {
-      return res.status(400).json({ success: false, message: 'One or more cart items are unavailable. Please refresh your cart.' });
+    if (totals.error) return res.status(400).json({ success: false, message: totals.error });
+    const submittedMoney = [orderData.subtotal, orderData.discount, orderData.shipping, orderData.total].map(Number);
+    const calculatedMoney = [totals.subtotal, totals.discount, totals.shipping, totals.total];
+    if (submittedMoney.some((value, index) => !Number.isFinite(value) || value !== calculatedMoney[index])) {
+      return res.status(409).json({ success: false, message: 'Cart totals changed. Please review your cart and try again.' });
     }
-    const serverSubtotal = pricedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    if (Number(orderData.subtotal) !== serverSubtotal) {
-      return res.status(409).json({ success: false, message: 'Cart prices changed. Please review your cart and try again.' });
-    }
-    orderData.items = pricedItems;
-    orderData.subtotal = serverSubtotal;
-    if (orderData.paymentStatus && orderData.paymentStatus.includes('Paid')) {
+    orderData.items = totals.pricedItems;
+    orderData.subtotal = totals.subtotal;
+    orderData.discount = totals.discount;
+    orderData.shipping = totals.shipping;
+    orderData.total = totals.total;
+    const isCashOnDelivery = String(orderData.paymentMethod || '').toLowerCase().includes('cash on delivery');
+    if (!isCashOnDelivery) {
       const payment = orderData.paymentVerification;
-      if (!payment || !consumeVerifiedPayment(payment.orderId, req.user.id, payment.paymentId)) {
+      const paymentRecord = payment && await consumeVerifiedPayment(payment.orderId, req.user.id, payment.paymentId, Math.round(totals.total * 100));
+      if (!paymentRecord) {
         return res.status(400).json({ success: false, message: 'Payment verification is required before placing this order.' });
       }
+      orderData.razorpayOrderId = paymentRecord.razorpay_order_id;
+      orderData.razorpayPaymentId = paymentRecord.razorpay_payment_id;
     }
+    orderData.paymentStatus = isCashOnDelivery ? 'Pending (Cash on Delivery)' : 'Paid (Verified by Razorpay)';
+    delete orderData.paymentVerification;
     const newOrder = await db.createOrder(orderData);
     console.log(`⚡ Order Placed: #${newOrder.id} (Total: ₹${newOrder.total}) and saved to database & Supabase`);
     

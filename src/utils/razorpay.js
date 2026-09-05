@@ -63,7 +63,7 @@ export const processRazorpayPayment = async ({
           return;
         }
 
-        onSuccess({
+        await onSuccess({
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id || orderId,
           signature: response.razorpay_signature,

@@ -111,6 +111,19 @@ CREATE TABLE IF NOT EXISTS public.orders (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Payment verification handoff between checkout and order creation.
+-- Backend service-role access only; no anonymous or authenticated client policy.
+CREATE TABLE IF NOT EXISTS public.payment_verifications (
+  id TEXT PRIMARY KEY,
+  razorpay_order_id TEXT UNIQUE NOT NULL,
+  razorpay_payment_id TEXT,
+  user_id TEXT NOT NULL,
+  amount_paise BIGINT NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  consumed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_email TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS user_id TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_name TEXT;
@@ -190,6 +203,7 @@ CREATE INDEX IF NOT EXISTS idx_products_category ON public.products (category);
 CREATE INDEX IF NOT EXISTS idx_orders_user_email ON public.orders (user_email);
 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON public.orders (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON public.orders (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_payment_verifications_expiry ON public.payment_verifications (expires_at);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON public.audit_logs (created_at DESC);
 
 -- Basic data integrity constraints. These are safe for new rows; clean existing
@@ -216,6 +230,7 @@ ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.coupons ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_verifications ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "admins_all_access" ON public.admins;
 DROP POLICY IF EXISTS "users_all_access" ON public.users;

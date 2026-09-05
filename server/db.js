@@ -311,6 +311,64 @@ export async function initDB() {
 
 // Database Operations Layer with Strict Single-Admin Constraint & Supabase Sync
 export const db = {
+  createPaymentVerification: async ({ orderId, userId, amountPaise, expiresAt }) => {
+    loadFromDisk();
+    const record = {
+      id: `pay-ver-${orderId}`,
+      razorpayOrderId: orderId,
+      razorpayPaymentId: null,
+      userId,
+      amountPaise: Number(amountPaise),
+      expiresAt: new Date(expiresAt).toISOString(),
+      consumedAt: null,
+      createdAt: new Date().toISOString(),
+    };
+    if (!memoryDB.payment_verifications) memoryDB.payment_verifications = [];
+    memoryDB.payment_verifications = memoryDB.payment_verifications.filter((item) => item.razorpayOrderId !== orderId);
+    memoryDB.payment_verifications.push(record);
+    saveToDisk();
+    const { error } = await supabase.from('payment_verifications').upsert({
+      id: record.id,
+      razorpay_order_id: record.razorpayOrderId,
+      user_id: record.userId,
+      amount_paise: record.amountPaise,
+      expires_at: record.expiresAt,
+      created_at: record.createdAt,
+    }, { onConflict: 'razorpay_order_id' });
+    if (error) throw error;
+    return record;
+  },
+
+  confirmPaymentVerification: async ({ orderId, userId, paymentId }) => {
+    const { data, error } = await supabase.from('payment_verifications')
+      .update({ razorpay_payment_id: paymentId })
+      .eq('razorpay_order_id', orderId)
+      .eq('user_id', userId)
+      .is('consumed_at', null)
+      .gt('expires_at', new Date().toISOString())
+      .select('id, razorpay_order_id, razorpay_payment_id, user_id, amount_paise, expires_at')
+      .maybeSingle();
+    if (error || !data) return false;
+    return true;
+  },
+
+  consumePaymentVerification: async ({ orderId, userId, paymentId, amountPaise }) => {
+    const now = new Date().toISOString();
+    await supabase.from('payment_verifications').delete().lt('expires_at', now);
+    const { data, error } = await supabase.from('payment_verifications')
+      .delete()
+      .eq('razorpay_order_id', orderId)
+      .eq('razorpay_payment_id', paymentId)
+      .eq('user_id', userId)
+      .eq('amount_paise', Number(amountPaise))
+      .is('consumed_at', null)
+      .gt('expires_at', now)
+      .select('id, razorpay_order_id, razorpay_payment_id, user_id, amount_paise, expires_at')
+      .maybeSingle();
+    if (error || !data) return null;
+    return data;
+  },
+
   // 1. ADMIN OPERATIONS
   getAdminCount: () => {
     loadFromDisk();

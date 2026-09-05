@@ -315,6 +315,16 @@ html:not(.dark) .text-gray-500 {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  .card-3d-luxury:hover,
+  .group:hover .product-card-image {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .hero-depth-image {
+    animation: none !important;
+  }
 }
 
 html.dark .card-3d-luxury:hover {

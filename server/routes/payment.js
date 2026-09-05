@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { db } from '../db.js';
 import { requireCustomer } from '../middleware/auth.js';
+import { calculateOrderTotals } from '../utils/orderPricing.js';
 
 dotenv.config();
 
@@ -18,15 +19,8 @@ if (process.env.NODE_ENV === 'production' && (!key_id || !key_secret)) {
 
 const razorpay = key_id && key_secret ? new Razorpay({ key_id, key_secret }) : null;
 
-const verifiedPayments = new Map();
-
-export function consumeVerifiedPayment(orderId, userId, paymentId) {
-  const record = verifiedPayments.get(orderId);
-  if (!record || record.userId !== userId || record.paymentId !== paymentId || Date.now() > record.expiresAt) {
-    return false;
-  }
-  verifiedPayments.delete(orderId);
-  return true;
+export async function consumeVerifiedPayment(orderId, userId, paymentId, amountPaise) {
+  return db.consumePaymentVerification({ orderId, userId, paymentId, amountPaise });
 }
 
 // 1. POST /api/payment/create-order — Initialize Razorpay Order
@@ -35,21 +29,27 @@ router.post('/create-order', requireCustomer, async (req, res) => {
     if (!razorpay) {
       return res.status(503).json({ success: false, message: 'Payment gateway is not configured.' });
     }
-    const { amount, currency = 'INR', receipt, notes } = req.body;
-
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ success: false, message: 'Invalid order amount' });
+    const { amount, items, couponCode, deliveryMode, currency = 'INR', receipt, notes } = req.body;
+    const totals = await calculateOrderTotals({ db, items, couponCode, deliveryMode });
+    if (totals.error) return res.status(400).json({ success: false, message: totals.error });
+    if (!Number.isFinite(Number(amount)) || Number(amount) !== totals.total || totals.total <= 0) {
+      return res.status(409).json({ success: false, message: 'Cart totals changed. Please review your cart and try again.' });
     }
 
     const options = {
-      amount: Math.round(Number(amount) * 100), // Amount in paise
+      amount: Math.round(totals.total * 100), // Server-derived amount in paise
       currency,
       receipt: receipt || `rcpt_${Date.now()}`,
       notes: notes || { brand: 'A_S Commerce' },
     };
 
     const order = await razorpay.orders.create(options);
-    verifiedPayments.delete(order.id);
+    await db.createPaymentVerification({
+      orderId: order.id,
+      userId: req.user.id,
+      amountPaise: order.amount,
+      expiresAt: Date.now() + 30 * 60 * 1000,
+    });
 
     return res.json({
       success: true,
@@ -65,8 +65,11 @@ router.post('/create-order', requireCustomer, async (req, res) => {
 });
 
 // 2. POST /api/payment/verify-payment — Verify HMAC Signature
-router.post('/verify-payment', requireCustomer, (req, res) => {
+router.post('/verify-payment', requireCustomer, async (req, res) => {
   try {
+    if (!key_secret) {
+      return res.status(503).json({ success: false, message: 'Payment gateway is not configured.' });
+    }
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -91,11 +94,14 @@ router.post('/verify-payment', requireCustomer, (req, res) => {
     }
 
     if (isAuthentic) {
-      verifiedPayments.set(razorpay_order_id, {
-        paymentId: razorpay_payment_id,
+      const confirmed = await db.confirmPaymentVerification({
+        orderId: razorpay_order_id,
         userId: req.user.id,
-        expiresAt: Date.now() + 30 * 60 * 1000,
+        paymentId: razorpay_payment_id,
       });
+      if (!confirmed) {
+        return res.status(400).json({ success: false, message: 'Payment session is invalid or expired.' });
+      }
       return res.json({
         success: true,
         message: 'Payment signature verified successfully',

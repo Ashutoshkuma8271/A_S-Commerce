@@ -139,7 +139,7 @@ export const OrderProvider = ({ children }) => {
     }
   }, [orders, storageKey]);
 
-  const createOrder = ({
+  const createOrder = async ({
     items,
     subtotal,
     discount,
@@ -149,6 +149,8 @@ export const OrderProvider = ({ children }) => {
     paymentMethod = 'Razorpay / Online',
     paymentStatus = 'Paid',
     deliveryMode = 'Standard Delivery',
+    couponCode = '',
+    paymentVerification = null,
   }) => {
     const orderId = `AS-${Math.floor(100000 + Math.random() * 900000)}`;
     const today = new Date();
@@ -175,6 +177,8 @@ export const OrderProvider = ({ children }) => {
       paymentMethod,
       paymentStatus,
       deliveryMode,
+      couponCode,
+      paymentVerification,
       shippingAddress,
       timeline: [
         { step: 'Order Placed', time: 'Just now', done: true, desc: 'Order confirmed in A_S Commerce system' },
@@ -186,27 +190,33 @@ export const OrderProvider = ({ children }) => {
       ]
     };
 
-    setOrders((prev) => [newOrder, ...prev]);
-    setLatestOrder(newOrder);
-    clearCart(true); // Silent clear to prevent duplicate 'Shopping bag cleared' toast
-
-    // Persist order to Backend server & Supabase database
     try {
-      fetch('/api/orders', {
+      const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
         },
         body: JSON.stringify(newOrder),
-      }).catch((err) => console.warn('Order database sync note:', err));
-    } catch (e) {}
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success || !data.order) {
+        throw new Error(data.message || 'Order could not be created');
+      }
+      const persistedOrder = data.order;
+      setOrders((prev) => [persistedOrder, ...prev.filter((order) => order.id !== persistedOrder.id)]);
+      setLatestOrder(persistedOrder);
+      clearCart(true);
 
-    addToast(`Order #${orderId} placed successfully!`, 'success', 3000, {
-      id: 'order-placed-success',
-      desc: 'Thank you for your order! Confirmation details generated.',
-    });
-    return newOrder;
+      addToast(`Order #${persistedOrder.id} placed successfully!`, 'success', 3000, {
+        id: 'order-placed-success',
+        desc: 'Thank you for your order! Confirmation details generated.',
+      });
+      return persistedOrder;
+    } catch (error) {
+      addToast(error.message || 'We could not place your order. Please try again.', 'error');
+      throw error;
+    }
   };
 
   const getOrderById = (id) => {

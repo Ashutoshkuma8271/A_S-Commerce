@@ -7,8 +7,8 @@ dotenv.config();
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
-if (process.env.NODE_ENV === 'production' && (!SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY)) {
-  throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured for the backend in production.');
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error('Supabase is not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env before starting the backend.');
 }
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {

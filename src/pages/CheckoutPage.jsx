@@ -40,7 +40,7 @@ import {
 
 export const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cartItems, subtotal, couponDiscount, shippingFee, total, totalSavings } = useCart();
+  const { cartItems, subtotal, couponDiscount, shippingFee, total, totalSavings, appliedCoupon } = useCart();
   const { user, isAuthenticated, setIsAuthModalOpen, setAuthMode, setAuthNotice } = useAuth();
   const { createOrder } = useOrder();
   const { addToast } = useToast();
@@ -290,6 +290,7 @@ export const CheckoutPage = () => {
       discount: couponDiscount,
       shipping: shippingFee + deliveryFee,
       total: finalTotal,
+      couponCode: appliedCoupon?.code || '',
       shippingAddress: formData,
       paymentMethod: paymentTitle,
       paymentStatus,
@@ -300,9 +301,7 @@ export const CheckoutPage = () => {
 
     // Razorpay Integration
     if (paymentMethod === 'cod') {
-      setTimeout(() => {
-        completeOrderProcess(orderPayload);
-      }, 400);
+      await completeOrderProcess(orderPayload);
     } else {
       let paymentOrder;
       try {
@@ -312,7 +311,13 @@ export const CheckoutPage = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
           },
-          body: JSON.stringify({ amount: finalTotal, receipt: `AS-${Date.now().toString().slice(-8)}` }),
+          body: JSON.stringify({
+            amount: finalTotal,
+            items: cartItems.map(({ id, quantity, selectedColor, selectedSize }) => ({ id, quantity, selectedColor, selectedSize })),
+            couponCode: appliedCoupon?.code || '',
+            deliveryMode: deliveryTitle,
+            receipt: `AS-${Date.now().toString().slice(-8)}`,
+          }),
         });
         paymentOrder = await paymentOrderResponse.json();
         if (!paymentOrderResponse.ok || !paymentOrder.success) throw new Error(paymentOrder.message || 'Unable to initialize payment');
@@ -328,8 +333,8 @@ export const CheckoutPage = () => {
         userName: formData.fullName,
         userEmail: formData.email,
         userPhone: formData.phone,
-        onSuccess: (paymentInfo) => {
-          completeOrderProcess({ ...orderPayload, paymentVerification: paymentInfo });
+        onSuccess: async (paymentInfo) => {
+          await completeOrderProcess({ ...orderPayload, paymentVerification: paymentInfo });
         },
         onFailure: (err) => {
           setIsProcessing(false);
@@ -341,20 +346,22 @@ export const CheckoutPage = () => {
     }
   };
 
-  const completeOrderProcess = (orderPayload) => {
-    createOrder(orderPayload);
-    setIsProcessing(false);
-
+  const completeOrderProcess = async (orderPayload) => {
     try {
+      await createOrder(orderPayload);
+      setIsProcessing(false);
+
       confetti({
         particleCount: 140,
         spread: 90,
         origin: { y: 0.6 },
         colors: ['#F5B83D', '#061A27', '#FFD36A', '#ffffff'],
       });
-    } catch (e) {}
 
-    navigate('/order-success');
+      navigate('/order-success');
+    } catch (error) {
+      setIsProcessing(false);
+    }
   };
 
   return (
