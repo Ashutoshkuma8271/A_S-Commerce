@@ -17,6 +17,17 @@ const dbFile = path.join(dataDir, 'database.json');
 const FALLBACK_ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ashutoshkumaryadav933499@gmail.com';
 const FALLBACK_ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
+function normalizeAdminPasswordHash(admin) {
+  if (
+    admin?.email?.toLowerCase() === FALLBACK_ADMIN_EMAIL.toLowerCase() &&
+    admin.passwordHash == null &&
+    FALLBACK_ADMIN_PASSWORD_HASH
+  ) {
+    admin.passwordHash = FALLBACK_ADMIN_PASSWORD_HASH;
+  }
+  return admin;
+}
+
 // Memory cache of persistent database
 let memoryDB = {
   admins: [],
@@ -46,9 +57,7 @@ function loadFromDisk() {
       const fallbackAdmin = memoryDB.admins?.find(
         admin => admin.email?.toLowerCase() === FALLBACK_ADMIN_EMAIL.toLowerCase()
       );
-      if (fallbackAdmin && !fallbackAdmin.passwordHash && FALLBACK_ADMIN_PASSWORD_HASH) {
-        fallbackAdmin.passwordHash = FALLBACK_ADMIN_PASSWORD_HASH;
-      }
+      normalizeAdminPasswordHash(fallbackAdmin);
     }
   } catch (err) {
     // Read fallback
@@ -180,7 +189,7 @@ export async function initDB() {
   try {
     const { data: supaAdmins } = await supabase.from('admins').select('*');
     if (supaAdmins && supaAdmins.length > 0) {
-      memoryDB.admins = supaAdmins.map(sa => ({
+      memoryDB.admins = supaAdmins.map(sa => normalizeAdminPasswordHash({
         id: sa.id,
         name: sa.name,
         email: sa.email,
@@ -193,7 +202,7 @@ export async function initDB() {
         lastLoginAt: sa.last_login_at
       }));
       saveToDisk();
-      console.log('⚡ Loaded Admin(s) from Supabase Cloud:', supaAdmins.map(a => a.email).join(', '));
+      console.log(`⚡ Loaded ${supaAdmins.length} Admin(s) from Supabase Cloud`);
     }
   } catch (e) {
     console.warn('Supabase admins sync note:', e.message);
@@ -320,7 +329,7 @@ export const db = {
     try {
       const { data, error } = await supabase.from('admins').select('*').eq('id', id).maybeSingle();
       if (!error && data) {
-        const admin = {
+        const admin = normalizeAdminPasswordHash({
           id: data.id,
           name: data.name,
           email: data.email,
@@ -330,7 +339,7 @@ export const db = {
           singleAdminLock: data.single_admin_lock ?? 1,
           createdAt: data.created_at,
           updatedAt: data.updated_at
-        };
+        });
         if (memoryDB.admins) {
           const idx = memoryDB.admins.findIndex(a => a.id === id);
           if (idx !== -1) memoryDB.admins[idx] = admin;
@@ -685,7 +694,7 @@ export const db = {
     try {
       const { data, error } = await supabase.from('admins').select('*').eq('email', clean).maybeSingle();
       if (!error && data) {
-        const admin = {
+        const admin = normalizeAdminPasswordHash({
           id: data.id,
           name: data.name,
           email: data.email,
@@ -695,7 +704,7 @@ export const db = {
           singleAdminLock: data.single_admin_lock ?? 1,
           createdAt: data.created_at,
           updatedAt: data.updated_at
-        };
+        });
         if (memoryDB.admins) {
           const idx = memoryDB.admins.findIndex(a => a.email.toLowerCase() === clean || a.id === admin.id);
           if (idx !== -1) memoryDB.admins[idx] = admin;
