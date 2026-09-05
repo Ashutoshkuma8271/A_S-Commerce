@@ -1264,11 +1264,12 @@ export const db = {
           items: Array.isArray(d.items) ? d.items : (typeof d.items === 'string' ? JSON.parse(d.items || '[]') : []),
           subtotal: Number(d.subtotal) || Number(d.total_amount) || 0,
           total: Number(d.total_amount) || 0,
-          status: d.status || 'Confirmed',
+          status: d.status || 'Order Placed',
           carrier: d.carrier || 'Bluedart Express Luxury Courier',
           trackingNumber: d.tracking_number || '',
           paymentMethod: d.payment_method || 'Razorpay',
           paymentStatus: d.payment_status || 'Paid',
+          adminNote: d.notes || '',
           date: d.created_at ? d.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
           estimatedDelivery: d.estimated_delivery || '4-5 Business Days',
           shippingAddress: {
@@ -1320,18 +1321,19 @@ export const db = {
       if (data) {
         const order = {
           id: data.id,
-          customerId: data.customer_id,
+          customerId: data.user_id || data.customer_id,
           customerName: data.customer_name,
           customerEmail: data.user_email || data.customer_email,
           customerPhone: data.customer_phone,
           items: data.items || [],
           subtotal: data.subtotal || data.total_amount,
           total: data.total_amount,
-          status: data.status || 'Processing',
+          status: data.status || 'Order Placed',
           carrier: data.carrier || 'Bluedart Express',
           trackingNumber: data.tracking_number || '',
           paymentMethod: data.payment_method || 'Razorpay',
           paymentStatus: data.payment_status || 'Paid',
+          adminNote: data.notes || '',
           shippingAddress: {
             name: data.customer_name || 'Customer',
             email: data.user_email || data.customer_email || '',
@@ -1427,7 +1429,7 @@ export const db = {
         carrier: newOrder.carrier || null,
         tracking_number: newOrder.trackingNumber || null,
         estimated_delivery: newOrder.estimatedDelivery || null,
-        notes: newOrder.deliveryInstruction || null,
+        notes: newOrder.deliveryInstruction || newOrder.adminNote || null,
         created_at: now,
         updated_at: now
       });
@@ -1459,7 +1461,7 @@ export const db = {
     return newOrder;
   },
 
-  updateOrderStatus: async (orderId, { status, carrier, trackingNumber, note }) => {
+  updateOrderStatus: async (orderId, { status, carrier, trackingNumber, note, paymentStatus }) => {
     loadFromDisk();
     if (!orderId) return null;
     const clean = orderId.toString().trim();
@@ -1471,46 +1473,80 @@ export const db = {
     }
     if (!order) return null;
 
-    const VALID_ORDER_STATUSES = [
-      'Order Placed',
-      'Payment Confirmed',
-      'Processing',
-      'Packed',
-      'Shipped',
-      'In Transit',
-      'Out for Delivery',
-      'Delivered',
-      'Cancelled',
-      'Confirmed'
-    ];
+    // Normalize incoming status to standard allowed values
+    let targetStatus = order.status || 'Order Placed';
     if (status) {
-      const normalizedStatus = status === 'Confirmed' ? 'Order Placed' : status;
-      if (!VALID_ORDER_STATUSES.includes(normalizedStatus)) {
-        return null;
+      const s = status.toString().trim();
+      if (['Order Placed', 'Placed', 'Confirmed', 'Pending'].some(k => k.toLowerCase() === s.toLowerCase())) {
+        targetStatus = 'Order Placed';
+      } else if (['Payment Confirmed', 'Processing', 'Packed', 'Quality Check'].some(k => k.toLowerCase() === s.toLowerCase())) {
+        targetStatus = 'Processing';
+      } else if (['Shipped', 'In Transit', 'Out for Delivery', 'Dispatched'].some(k => k.toLowerCase() === s.toLowerCase())) {
+        targetStatus = 'Shipped';
+      } else if (['Delivered', 'Completed', 'Received'].some(k => k.toLowerCase() === s.toLowerCase())) {
+        targetStatus = 'Delivered';
+      } else if (['Cancelled', 'Refunded', 'Returned', 'Void'].some(k => k.toLowerCase() === s.toLowerCase())) {
+        targetStatus = 'Cancelled';
+      } else {
+        targetStatus = s;
       }
-      order.status = normalizedStatus;
+      order.status = targetStatus;
     }
-    if (carrier) order.carrier = carrier;
-    if (trackingNumber) order.trackingNumber = trackingNumber;
-    if (note) order.adminNote = note;
+
+    if (carrier !== undefined && carrier !== null) order.carrier = carrier;
+    if (trackingNumber !== undefined && trackingNumber !== null) order.trackingNumber = trackingNumber;
+    if (note !== undefined && note !== null) order.adminNote = note;
+    if (paymentStatus !== undefined && paymentStatus !== null) order.paymentStatus = paymentStatus;
     order.updatedAt = now;
 
     if (memoryDB.orders) {
       const idx = memoryDB.orders.findIndex(o => o.id === order.id);
-      if (idx !== -1) memoryDB.orders[idx] = { ...order };
+      if (idx !== -1) {
+        memoryDB.orders[idx] = { ...order };
+      } else {
+        memoryDB.orders.unshift({ ...order });
+      }
     }
     saveToDisk();
 
     try {
-      await supabase.from('orders').update({
+      const updatePayload = {
         status: order.status,
-        carrier: order.carrier,
-        tracking_number: order.trackingNumber,
+        carrier: order.carrier || null,
+        tracking_number: order.trackingNumber || null,
+        notes: order.adminNote || null,
         updated_at: now
-      }).eq('id', order.id);
-      console.log(`⚡ Updated Order #${order.id} in Supabase to status: ${order.status}`);
+      };
+      if (order.paymentStatus) {
+        updatePayload.payment_status = order.paymentStatus;
+      }
+
+      const { error } = await supabase
+        .from('orders')
+        .update(updatePayload)
+        .eq('id', order.id);
+
+      if (error) {
+        console.warn(`Supabase status update error (${error.message}). Retrying with safe fallback status...`);
+        let fallback = 'Order Placed';
+        if (['Processing', 'Payment Confirmed', 'Packed'].includes(order.status)) fallback = 'Processing';
+        else if (['Shipped', 'In Transit', 'Out for Delivery'].includes(order.status)) fallback = 'Shipped';
+        else if (order.status === 'Delivered') fallback = 'Delivered';
+        else if (order.status === 'Cancelled') fallback = 'Cancelled';
+
+        updatePayload.status = fallback;
+        order.status = fallback;
+        const retry = await supabase.from('orders').update(updatePayload).eq('id', order.id);
+        if (retry.error) {
+          console.error('Supabase update retry error:', retry.error.message);
+        } else {
+          console.log(`⚡ Saved Order #${order.id} status into Supabase with fallback: ${fallback}`);
+        }
+      } else {
+        console.log(`⚡ Updated Order #${order.id} in Supabase to status: ${order.status}`);
+      }
     } catch (e) {
-      console.warn('Supabase update order status error:', e.message);
+      console.warn('Supabase update order status exception:', e.message);
     }
 
     return order;

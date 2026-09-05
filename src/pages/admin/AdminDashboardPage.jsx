@@ -396,34 +396,34 @@ export const AdminDashboardPage = () => {
         body: JSON.stringify(orderDeliveryForm),
       });
 
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
         const orderId = editingOrder.id;
-        setEditingOrder(null);
-        if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
-          setSelectedOrderDossier(prev => ({
-            ...prev,
-            status: orderDeliveryForm.status,
-            carrier: orderDeliveryForm.carrier,
-            trackingNumber: orderDeliveryForm.trackingNumber,
-            adminNote: orderDeliveryForm.note
-          }));
-        }
-        setOrders(prev => prev.map(o => o.id === orderId ? {
-          ...o,
+        const updatedOrder = data.order || {
+          ...editingOrder,
           status: orderDeliveryForm.status,
           carrier: orderDeliveryForm.carrier,
           trackingNumber: orderDeliveryForm.trackingNumber,
           adminNote: orderDeliveryForm.note
-        } : o));
+        };
+
+        setEditingOrder(null);
+        if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
+          setSelectedOrderDossier(prev => ({
+            ...prev,
+            ...updatedOrder
+          }));
+        }
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, ...updatedOrder } : o));
         window.dispatchEvent(new CustomEvent('as_orders_updated', {
-          detail: { id: orderId, status: orderDeliveryForm.status }
+          detail: { id: orderId, status: updatedOrder.status, order: updatedOrder }
         }));
         addToast(`Logistics updated for Order #${orderId}`, 'success', 3000, {
-          desc: `Status set to ${orderDeliveryForm.status} via ${orderDeliveryForm.carrier}.`
+          desc: `Status set to ${updatedOrder.status} via ${updatedOrder.carrier || orderDeliveryForm.carrier}.`
         });
         fetchDashboardData();
       } else {
-        addToast('Failed to update consignment delivery', 'error');
+        addToast(data.message || 'Failed to update consignment delivery', 'error');
       }
     } catch (err) {
       console.error('Save order delivery error', err);
@@ -441,20 +441,25 @@ export const AdminDashboardPage = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-      if (res.ok) {
-        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        const updatedOrder = data.order || { status: newStatus };
+        const finalStatus = updatedOrder.status || newStatus;
+
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, ...updatedOrder, status: finalStatus } : o));
         if (selectedOrderDossier && selectedOrderDossier.id === orderId) {
-          setSelectedOrderDossier(prev => ({ ...prev, status: newStatus }));
+          setSelectedOrderDossier(prev => ({ ...prev, ...updatedOrder, status: finalStatus }));
         }
         window.dispatchEvent(new CustomEvent('as_orders_updated', {
-          detail: { id: orderId, status: newStatus }
+          detail: { id: orderId, status: finalStatus, order: updatedOrder }
         }));
-        addToast(`Order #${orderId} advanced to "${newStatus}"`, 'success', 3000, {
+        addToast(`Order #${orderId} set to "${finalStatus}"`, 'success', 3000, {
           desc: 'Live consignment status synchronized successfully.'
         });
         fetchDashboardData();
       } else {
-        addToast('Failed to update order milestone', 'error');
+        addToast(data.message || 'Failed to update order milestone', 'error');
       }
     } catch (err) {
       console.error('Quick status update error', err);
@@ -463,21 +468,17 @@ export const AdminDashboardPage = () => {
   };
 
   const getNextStatusAction = (currentStatus) => {
-    switch (currentStatus) {
-      case 'Order Placed':
-        return { next: 'Payment Confirmed', label: 'Verify Payment', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' };
-      case 'Payment Confirmed':
-        return { next: 'Processing', label: 'Start Fulfillment', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
-      case 'Processing':
-        return { next: 'Shipped', label: 'Dispatch & Ship', color: 'bg-sky-500/20 text-sky-400 border-sky-500/30' };
-      case 'Shipped':
-      case 'In Transit':
-        return { next: 'Out for Delivery', label: 'Out for Delivery', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' };
-      case 'Out for Delivery':
-        return { next: 'Delivered', label: 'Mark Delivered', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' };
-      default:
-        return null;
+    const s = (currentStatus || '').toLowerCase();
+    if (s.includes('place') || s.includes('confirm')) {
+      return { next: 'Processing', label: 'Start Processing', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
     }
+    if (s.includes('process') || s.includes('pack')) {
+      return { next: 'Shipped', label: 'Dispatch & Ship', color: 'bg-sky-500/20 text-sky-400 border-sky-500/30' };
+    }
+    if (s.includes('ship') || s.includes('transit') || s.includes('delivery')) {
+      return { next: 'Delivered', label: 'Mark Delivered', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' };
+    }
+    return null;
   };
 
   const handleCopyText = (text, id, label = 'Information') => {
@@ -1223,11 +1224,9 @@ export const AdminDashboardPage = () => {
               <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-navy-800 scrollbar-none">
                 {[
                   { id: 'all', label: 'All Orders', count: orders.length },
-                  { id: 'Order Placed', label: 'Placed', count: orders.filter(o => o.status === 'Order Placed').length },
-                  { id: 'Payment Confirmed', label: 'Paid', count: orders.filter(o => o.status === 'Payment Confirmed').length },
-                  { id: 'Processing', label: 'Processing', count: orders.filter(o => o.status === 'Processing' || (!o.status && o.status !== 'all')).length },
-                  { id: 'Shipped', label: 'Shipped', count: orders.filter(o => ['Shipped', 'In Transit'].includes(o.status)).length },
-                  { id: 'Out for Delivery', label: 'Out for Delivery', count: orders.filter(o => o.status === 'Out for Delivery').length },
+                  { id: 'Order Placed', label: 'Placed', count: orders.filter(o => ['Order Placed', 'Confirmed', 'Pending'].includes(o.status)).length },
+                  { id: 'Processing', label: 'Processing', count: orders.filter(o => ['Processing', 'Payment Confirmed', 'Packed'].includes(o.status)).length },
+                  { id: 'Shipped', label: 'Shipped', count: orders.filter(o => ['Shipped', 'In Transit', 'Out for Delivery'].includes(o.status)).length },
                   { id: 'Delivered', label: 'Delivered', count: orders.filter(o => o.status === 'Delivered').length },
                   { id: 'Cancelled', label: 'Cancelled', count: orders.filter(o => o.status === 'Cancelled').length },
                 ].map(tab => {
@@ -1259,25 +1258,31 @@ export const AdminDashboardPage = () => {
                   <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
-                    placeholder="Search by Order ID, customer, phone, email, tracking AWB..."
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                    placeholder="Search by Order ID, Patron name, phone, email, or AWB..."
+                    className="w-full pl-9 pr-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500"
                   />
+                  {orderSearch && (
+                    <button
+                      onClick={() => setOrderSearch('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs"
+                    >
+                      Clear
+                    </button>
+                  )}
                 </div>
 
                 <div className="sm:col-span-3">
                   <select
                     value={orderStatusFilter}
                     onChange={(e) => setOrderStatusFilter(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer"
                   >
-                    <option value="all">All Delivery Statuses</option>
-                    <option value="Order Placed">Order Placed</option>
-                    <option value="Payment Confirmed">Payment Confirmed</option>
+                    <option value="all">All Stages ({orders.length})</option>
+                    <option value="Order Placed">Placed</option>
                     <option value="Processing">Processing</option>
                     <option value="Shipped">Shipped</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
                     <option value="Delivered">Delivered</option>
                     <option value="Cancelled">Cancelled</option>
                   </select>
@@ -1287,7 +1292,7 @@ export const AdminDashboardPage = () => {
                   <select
                     value={orderSortBy}
                     onChange={(e) => setOrderSortBy(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 focus:outline-none cursor-pointer"
+                    className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer"
                   >
                     <option value="newest">Sort: Newest First</option>
                     <option value="oldest">Sort: Oldest First</option>
@@ -1302,10 +1307,24 @@ export const AdminDashboardPage = () => {
             <div className="space-y-5">
               {orders
                 .filter((order) => {
-                  const matchStatus =
-                    orderStatusFilter === 'all' ||
-                    (order.status || 'Processing').toLowerCase() === orderStatusFilter.toLowerCase() ||
-                    (orderStatusFilter === 'Shipped' && order.status === 'In Transit');
+                  const status = (order.status || 'Order Placed').toLowerCase();
+                  let matchStatus = true;
+                  if (orderStatusFilter !== 'all') {
+                    const filter = orderStatusFilter.toLowerCase();
+                    if (filter === 'order placed') {
+                      matchStatus = ['order placed', 'confirmed', 'pending'].some(k => status.includes(k));
+                    } else if (filter === 'processing') {
+                      matchStatus = ['processing', 'payment confirmed', 'packed'].some(k => status.includes(k));
+                    } else if (filter === 'shipped') {
+                      matchStatus = ['shipped', 'in transit', 'out for delivery'].some(k => status.includes(k));
+                    } else if (filter === 'delivered') {
+                      matchStatus = status.includes('delivered');
+                    } else if (filter === 'cancelled') {
+                      matchStatus = status.includes('cancelled');
+                    } else {
+                      matchStatus = status === filter;
+                    }
+                  }
                   const q = orderSearch.toLowerCase().trim();
                   const matchSearch =
                     !q ||
@@ -1324,7 +1343,7 @@ export const AdminDashboardPage = () => {
                   return 0;
                 })
                 .map((order) => {
-                  const currentStatus = order.status || 'Processing';
+                  const currentStatus = order.status || 'Order Placed';
                   const nextAction = getNextStatusAction(currentStatus);
 
                   const statusColors = {
@@ -1343,9 +1362,19 @@ export const AdminDashboardPage = () => {
                   const customerName = order.customerName || order.shippingAddress?.name || 'Valued Patron';
                   const customerEmail = order.customerEmail || order.shippingAddress?.email || 'patron@ascommerce.luxury';
 
-                  // Milestone stages calculation
-                  const stages = ['Order Placed', 'Payment Confirmed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
-                  const currentStageIdx = stages.indexOf(currentStatus) !== -1 ? stages.indexOf(currentStatus) : 2;
+                  // Milestone stages calculation (Core 4 delivery stages)
+                  const stages = ['Order Placed', 'Processing', 'Shipped', 'Delivered'];
+                  const statusLow = currentStatus.toLowerCase();
+                  let currentStageIdx = 0;
+                  if (statusLow.includes('deliver')) {
+                    currentStageIdx = 3;
+                  } else if (statusLow.includes('ship') || statusLow.includes('transit') || statusLow.includes('out for delivery')) {
+                    currentStageIdx = 2;
+                  } else if (statusLow.includes('process') || statusLow.includes('pack') || statusLow.includes('payment')) {
+                    currentStageIdx = 1;
+                  } else if (statusLow.includes('place') || statusLow.includes('confirm')) {
+                    currentStageIdx = 0;
+                  }
 
                   return (
                     <div
@@ -1380,7 +1409,7 @@ export const AdminDashboardPage = () => {
                               ● {currentStatus}
                             </span>
 
-                            <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-navy-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-700">
+                            <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-700">
                               {order.paymentMethod || 'Razorpay Gateway'} ({order.paymentStatus || 'Paid'})
                             </span>
                           </div>
@@ -1427,15 +1456,16 @@ export const AdminDashboardPage = () => {
 
                             {/* Quick Status Select */}
                             <select
-                              value={currentStatus}
+                              value={['Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'].includes(currentStatus) ? currentStatus : (
+                                ['Payment Confirmed', 'Packed'].includes(currentStatus) ? 'Processing' :
+                                ['In Transit', 'Out for Delivery'].includes(currentStatus) ? 'Shipped' : currentStatus
+                              )}
                               onChange={(e) => handleQuickStatusUpdate(order.id, e.target.value)}
                               className="px-2.5 py-2 bg-gray-100 dark:bg-navy-850 text-gold-400 border border-navy-700 rounded-xl text-xs font-semibold focus:border-gold-500 focus:outline-none cursor-pointer"
                             >
                               <option value="Order Placed">Order Placed</option>
-                              <option value="Payment Confirmed">Payment Confirmed</option>
                               <option value="Processing">Processing</option>
                               <option value="Shipped">Shipped</option>
-                              <option value="Out for Delivery">Out for Delivery</option>
                               <option value="Delivered">Delivered</option>
                               <option value="Cancelled">Cancelled</option>
                             </select>
@@ -1446,19 +1476,25 @@ export const AdminDashboardPage = () => {
                       {/* Interactive Logistics Stepper (Pipeline Tracker) */}
                       {currentStatus !== 'Cancelled' && (
                         <div className="bg-gray-50/80 dark:bg-navy-850/70 p-4 rounded-2xl border border-gray-200/80 dark:border-navy-800">
-                          <div className="grid grid-cols-6 gap-1 sm:gap-2">
+                          <div className="grid grid-cols-4 gap-2 sm:gap-4">
                             {stages.map((stage, sIdx) => {
                               const isCompleted = currentStageIdx >= sIdx;
                               const isCurrent = currentStageIdx === sIdx;
                               return (
-                                <div key={stage} className="flex flex-col items-center text-center space-y-1.5">
+                                <button
+                                  key={stage}
+                                  type="button"
+                                  onClick={() => handleQuickStatusUpdate(order.id, stage)}
+                                  title={`Click to update status to ${stage}`}
+                                  className="flex flex-col items-center text-center space-y-1.5 group cursor-pointer"
+                                >
                                   <div
                                     className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all border ${
                                       isCurrent
                                         ? 'bg-gold-500 text-navy-950 border-gold-400 ring-2 ring-gold-500/30 animate-pulse'
                                         : isCompleted
-                                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
-                                        : 'bg-navy-900 text-gray-500 border-navy-800'
+                                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 group-hover:border-gold-400'
+                                        : 'bg-navy-900 text-gray-500 border-navy-800 group-hover:border-gold-500/50 group-hover:text-gold-400'
                                     }`}
                                   >
                                     {isCompleted && !isCurrent ? (
@@ -1468,7 +1504,7 @@ export const AdminDashboardPage = () => {
                                     )}
                                   </div>
                                   <span
-                                    className={`text-[9px] sm:text-[10px] font-medium leading-tight line-clamp-1 ${
+                                    className={`text-[9px] sm:text-[10px] font-medium leading-tight line-clamp-1 group-hover:text-gold-400 transition-colors ${
                                       isCurrent
                                         ? 'text-gold-400 font-bold'
                                         : isCompleted
@@ -1478,7 +1514,7 @@ export const AdminDashboardPage = () => {
                                   >
                                     {stage}
                                   </span>
-                                </div>
+                                </button>
                               );
                             })}
                           </div>
@@ -2355,14 +2391,12 @@ export const AdminDashboardPage = () => {
                 <select
                   value={orderDeliveryForm.status}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, status: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-100 dark:bg-navy-850 text-gold-400 font-bold rounded-xl border border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-100 dark:bg-navy-850 text-gold-400 font-bold rounded-xl border border-navy-700 focus:border-gold-500 cursor-pointer"
                 >
                   <option value="Order Placed">1. Order Placed</option>
-                  <option value="Payment Confirmed">2. Payment Confirmed</option>
-                  <option value="Processing">3. Processing & Quality Check</option>
-                  <option value="Shipped">4. Shipped (In Transit)</option>
-                  <option value="Out for Delivery">5. Out for Delivery</option>
-                  <option value="Delivered">6. Delivered</option>
+                  <option value="Processing">2. Processing & Quality Check</option>
+                  <option value="Shipped">3. Shipped & In Transit</option>
+                  <option value="Delivered">4. Delivered & Fulfilled</option>
                   <option value="Cancelled">Cancelled / Refunded</option>
                 </select>
               </div>

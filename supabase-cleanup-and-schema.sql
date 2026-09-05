@@ -229,7 +229,7 @@ UPDATE public.orders SET status = 'Order Placed' WHERE status = 'Confirmed';
 ALTER TABLE public.orders ALTER COLUMN status SET DEFAULT 'Order Placed';
 ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_status_check;
 ALTER TABLE public.orders ADD CONSTRAINT orders_status_check CHECK (
-  status IN ('Order Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled')
+  status IN ('Order Placed', 'Payment Confirmed', 'Processing', 'Packed', 'Shipped', 'In Transit', 'Out for Delivery', 'Delivered', 'Cancelled', 'Confirmed')
 );
 
 -- 10. REALTIME REPLICATION (Supabase Dashboard -> Database -> Publications)

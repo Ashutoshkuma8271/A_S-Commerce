@@ -219,14 +219,17 @@ router.get('/orders', async (req, res) => {
 router.put('/orders/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
-    const { status, carrier, trackingNumber, note } = req.body;
+    const { status, carrier, trackingNumber, note, paymentStatus } = req.body || {};
 
-    const previous = await db.getOrderByIdAsync(id);
+    const previous = await db.getOrderByIdAsync(id) || db.getOrderById(id);
     if (!previous) {
-      return res.status(404).json({ success: false, message: 'Order not found.' });
+      return res.status(404).json({ success: false, message: 'Order not found in database.' });
     }
 
-    const updated = await db.updateOrderStatus(id, { status, carrier, trackingNumber, note });
+    const updated = await db.updateOrderStatus(id, { status, carrier, trackingNumber, note, paymentStatus });
+    if (!updated) {
+      return res.status(500).json({ success: false, message: 'Failed to update order status.' });
+    }
 
     logAudit({
       action: 'Order status updated',
@@ -234,13 +237,17 @@ router.put('/orders/:id/status', async (req, res) => {
       adminEmail: req.admin.email,
       ip: req.ip,
       resource: `Order #${id}`,
-      details: `Status advanced to "${status}" (Carrier: ${carrier || updated?.carrier}, Tracking: ${trackingNumber || updated?.trackingNumber})`
+      details: `Status set to "${updated.status}" (Carrier: ${carrier || updated.carrier}, Tracking: ${trackingNumber || updated.trackingNumber})`
     });
 
-    return res.json({ success: true, message: `Order #${id} logistics updated.`, order: updated });
+    return res.json({
+      success: true,
+      message: `Order #${id} status updated to "${updated.status}".`,
+      order: updated
+    });
   } catch (err) {
     console.error('Update order error:', err);
-    return res.status(500).json({ success: false, message: 'Server error updating order' });
+    return res.status(500).json({ success: false, message: err.message || 'Server error updating order' });
   }
 });
 
