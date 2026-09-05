@@ -4,12 +4,12 @@
       "id": "adm-master-ashutosh",
       "name": "Ashutosh Yadav",
       "email": "ashutoshkumaryadav933499@gmail.com",
-      "passwordHash": "$2b$12$.aoBAOJ563OuDJIKH.V1HeE/CW6upDpn3fjxUA8KnEgPjvEhcQm9K",
       "role": "admin",
-      "isActive": true,
+      "isActive": 1,
       "singleAdminLock": 1,
       "createdAt": "2026-08-31T20:41:54.344+00:00",
-      "updatedAt": "2026-09-01T05:15:58.251+00:00"
+      "updatedAt": "2026-09-05T07:02:10.183+00:00",
+      "lastLoginAt": "2026-09-05T07:02:10.182+00:00"
     }
   ],
   "users": [],
@@ -326,12 +326,53 @@
   ],
   "products": [
     {
+      "id": "prod-tikka",
+      "name": "Chicken Tikka",
+      "brand": "A_S FOODY Gourmet Meat Lab",
+      "category": "kebabs",
+      "categoryName": "Kebabs",
+      "price": 225,
+      "originalPrice": 260,
+      "discount": 13,
+      "rating": 5,
+      "reviewCount": 520,
+      "stockCount": 39,
+      "inStock": true,
+      "badge": "BESTSELLER",
+      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
+      "images": [
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [
+        "#B91C1C"
+      ],
+      "colorNames": [
+        "Tandoori Red"
+      ],
+      "sizes": [
+        "250 g (6-8 Pcs)",
+        "500 g (12-16 Pcs)"
+      ],
+      "specs": {
+        "Cooking": "Grill or pan sear for 6-8 mins",
+        "Protein": "19 g protein per serving",
+        "Storage": "Store at 0°C to 4°C",
+        "Serving Size": "250 g (6-8 Pcs)"
+      },
+      "createdAt": "2026-08-31T19:06:27.733459+00:00",
+      "updatedAt": "2026-08-31T21:10:34.817+00:00"
+    },
+    {
       "id": "prod-sausages",
       "name": "Smoked German Chicken Sausages",
       "brand": "A_S FOODY Gourmet Meat Lab",
       "category": "sausages-cold-cuts",
       "categoryName": "Sausages & Cold Cuts",
-      "price": 249,
       "originalPrice": 280,
       "discount": 11,
       "rating": 4.8,
@@ -363,7 +404,7 @@
         "Serving Size": "250 g (5 Sausages)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
+      "updatedAt": "2026-09-01T07:17:04.812+00:00"
     },
     {
       "id": "prod-galouti",
@@ -446,48 +487,6 @@
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
       "updatedAt": "2026-09-01T05:13:39.155+00:00"
-    },
-    {
-      "id": "prod-tikka",
-      "name": "Chicken Tikka",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 225,
-      "originalPrice": 260,
-      "discount": 13,
-      "rating": 5,
-      "reviewCount": 520,
-      "stockCount": 39,
-      "inStock": true,
-      "badge": "BESTSELLER",
-      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
-      "images": [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": true,
-      "colors": [
-        "#B91C1C"
-      ],
-      "colorNames": [
-        "Tandoori Red"
-      ],
-      "sizes": [
-        "250 g (6-8 Pcs)",
-        "500 g (12-16 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Grill or pan sear for 6-8 mins",
-        "Protein": "19 g protein per serving",
-        "Storage": "Store at 0°C to 4°C",
-        "Serving Size": "250 g (6-8 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-08-31T21:10:34.817+00:00"
     },
     {
       "id": "prod-momos",

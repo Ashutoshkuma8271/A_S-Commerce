@@ -14,6 +14,8 @@ try {
 } catch (e) {}
 
 const dbFile = path.join(dataDir, 'database.json');
+const FALLBACK_ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ashutoshkumaryadav933499@gmail.com';
+const FALLBACK_ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
 // Memory cache of persistent database
 let memoryDB = {
@@ -41,6 +43,12 @@ function loadFromDisk() {
     if (fs.existsSync(dbFile)) {
       const raw = fs.readFileSync(dbFile, 'utf8');
       memoryDB = JSON.parse(raw);
+      const fallbackAdmin = memoryDB.admins?.find(
+        admin => admin.email?.toLowerCase() === FALLBACK_ADMIN_EMAIL.toLowerCase()
+      );
+      if (fallbackAdmin && !fallbackAdmin.passwordHash && FALLBACK_ADMIN_PASSWORD_HASH) {
+        fallbackAdmin.passwordHash = FALLBACK_ADMIN_PASSWORD_HASH;
+      }
     }
   } catch (err) {
     // Read fallback
@@ -50,8 +58,15 @@ function loadFromDisk() {
 function saveToDisk() {
   if (process.env.VERCEL) return;
   try {
+    const persistedDB = JSON.parse(JSON.stringify(memoryDB));
+    const fallbackAdmin = persistedDB.admins?.find(
+      admin => admin.email?.toLowerCase() === FALLBACK_ADMIN_EMAIL.toLowerCase()
+    );
+    if (fallbackAdmin && FALLBACK_ADMIN_PASSWORD_HASH && fallbackAdmin.passwordHash === FALLBACK_ADMIN_PASSWORD_HASH) {
+      delete fallbackAdmin.passwordHash;
+    }
     const tmpFile = `${dbFile}.tmp`;
-    fs.writeFileSync(tmpFile, JSON.stringify(memoryDB, null, 2), 'utf8');
+    fs.writeFileSync(tmpFile, JSON.stringify(persistedDB, null, 2), 'utf8');
     fs.renameSync(tmpFile, dbFile);
   } catch (err) {
     // Silently ignore on read-only environments
@@ -291,11 +306,6 @@ export const db = {
   getAdminCount: () => {
     loadFromDisk();
     return memoryDB.admins.filter(a => a.isActive === 1 || a.isActive === true).length;
-  },
-
-  getAdminByEmail: (email) => {
-    loadFromDisk();
-    return memoryDB.admins.find(a => a.email.toLowerCase() === email.toLowerCase());
   },
 
   getAdminById: (id) => {
@@ -1393,54 +1403,6 @@ export const db = {
     } catch (e) {}
 
     return true;
-  },
-
-  // 4. ORDERS OPERATIONS
-  getOrders: () => {
-    loadFromDisk();
-    return memoryDB.orders || [];
-  },
-
-  getOrdersAsync: async () => {
-    try {
-      const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-      if (data && data.length > 0) {
-        memoryDB.orders = data.map(o => ({
-          id: o.id,
-          customerId: o.customer_id,
-          customerName: o.customer_name,
-          customerEmail: o.user_email || o.customer_email,
-          customerPhone: o.customer_phone,
-          items: o.items || [],
-          subtotal: o.subtotal || o.total_amount,
-          total: o.total_amount,
-          status: o.status || 'Processing',
-          carrier: o.carrier || 'Bluedart Express',
-          trackingNumber: o.tracking_number || '',
-          paymentMethod: o.payment_method || 'Razorpay',
-          paymentStatus: o.payment_status || 'Paid',
-          shippingAddress: {
-            name: o.customer_name || 'Customer',
-            email: o.user_email || o.customer_email || '',
-            phone: o.customer_phone || '',
-            street: o.shipping_street || '',
-            city: o.shipping_city || '',
-            pincode: o.shipping_pincode || '',
-          },
-          createdAt: o.created_at,
-          updatedAt: o.updated_at
-        }));
-        saveToDisk();
-        return memoryDB.orders;
-      }
-    } catch (e) {}
-    loadFromDisk();
-    return memoryDB.orders || [];
-  },
-
-  getCoupons: () => {
-    loadFromDisk();
-    return memoryDB.coupons || [];
   },
 
   getCouponsAsync: async () => {
