@@ -21,14 +21,14 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-navy-950 text-white border-t border-navy-850 pt-16 pb-8">
+    <footer className="bg-navy-950 text-white border-t border-navy-850 pt-12 sm:pt-16 pb-6 sm:pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main 5-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-navy-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-8 gap-y-9 sm:gap-y-10 pb-10 sm:pb-12 border-b border-navy-800/80">
           
           {/* Col 1: Brand Info */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-4 min-w-0">
             <Logo size="large" />
             <p className="text-sm text-gray-300 max-w-sm leading-relaxed">
               Curated luxury fashion, precision electronics, and bespoke living essentials designed for discerning tastemakers across the globe.
@@ -38,21 +38,21 @@ export const Footer = () => {
               <p className="text-xs text-gold-400 font-semibold uppercase tracking-wider mb-2">
                 100% Certified Authentic & Secure
               </p>
-              <div className="flex items-center gap-3 text-xs text-gray-300">
-                <div className="flex items-center gap-1.5 bg-navy-900 px-3 py-1.5 rounded-lg border border-navy-800">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3 text-xs text-gray-300">
+                <div className="flex items-center gap-1.5 bg-navy-900 px-3 py-2 sm:py-1.5 rounded-lg border border-navy-800 min-w-0">
                   <ShieldCheck className="w-4 h-4 text-gold-400" />
-                  <span>Buyer Protection</span>
+                  <span className="truncate">Buyer Protection</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-navy-900 px-3 py-1.5 rounded-lg border border-navy-800">
+                <div className="flex items-center gap-1.5 bg-navy-900 px-3 py-2 sm:py-1.5 rounded-lg border border-navy-800 min-w-0">
                   <Lock className="w-4 h-4 text-gold-400" />
-                  <span>256-Bit SSL Encrypted</span>
+                  <span className="truncate">256-Bit SSL Encrypted</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Col 2: Shop Links */}
-          <div>
+          <div className="min-w-0">
             <h4 className="font-serif text-base font-bold text-white mb-4 relative inline-block">
               Shop Categories
               <span className="block h-0.5 w-6 bg-gold-500 mt-1 rounded-full"></span>
@@ -69,7 +69,7 @@ export const Footer = () => {
           </div>
 
           {/* Col 3: Customer Service */}
-          <div>
+          <div className="min-w-0">
             <h4 className="font-serif text-base font-bold text-white mb-4 relative inline-block">
               Customer Care
               <span className="block h-0.5 w-6 bg-gold-500 mt-1 rounded-full"></span>
@@ -86,7 +86,7 @@ export const Footer = () => {
           </div>
 
           {/* Col 4: Newsletter */}
-          <div className="space-y-3">
+          <div className="space-y-3 min-w-0">
             <h4 className="font-serif text-base font-bold text-white mb-4 relative inline-block">
               Stay in the Loop
               <span className="block h-0.5 w-6 bg-gold-500 mt-1 rounded-full"></span>
@@ -124,12 +124,12 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar: Copyright & Payment Badges */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
-          <p>© {new Date().getFullYear()} A_S Commerce Inc. All rights reserved. Designed with luxury aesthetics.</p>
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-xs text-gray-400">
+          <p className="text-center sm:text-left leading-relaxed max-w-xl">© {new Date().getFullYear()} A_S Commerce Inc. All rights reserved. Designed with luxury aesthetics.</p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-4 w-full sm:w-auto">
             <span className="text-gray-400 text-[11px]">Accepted Payments:</span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap justify-center sm:justify-end gap-2">
               <span className="px-2.5 py-1 bg-navy-900 border border-navy-800 rounded text-[10px] font-semibold text-white">Razorpay</span>
               <span className="px-2.5 py-1 bg-navy-900 border border-navy-800 rounded text-[10px] font-semibold text-white">UPI</span>
               <span className="px-2.5 py-1 bg-navy-900 border border-navy-800 rounded text-[10px] font-semibold text-white">Visa / MC</span>
