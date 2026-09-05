@@ -1363,6 +1363,7 @@ export const db = {
     };
     if (!memoryDB.orders) memoryDB.orders = [];
     memoryDB.orders.unshift(newOrder);
+    const stockChanges = [];
 
     // Automatically decrement product stock for ordered items
     if (Array.isArray(newOrder.items) && Array.isArray(memoryDB.products)) {
@@ -1373,6 +1374,7 @@ export const db = {
         if (prodIndex !== -1) {
           const currentStock = Number(memoryDB.products[prodIndex].stockCount ?? memoryDB.products[prodIndex].stock ?? 10);
           const newStock = Math.max(0, currentStock - qty);
+          stockChanges.push({ prodId, prodIndex, previousStock: currentStock });
           memoryDB.products[prodIndex].stockCount = newStock;
           memoryDB.products[prodIndex].inStock = newStock > 0;
           
@@ -1390,25 +1392,60 @@ export const db = {
     saveToDisk();
 
     try {
-      await supabase.from('orders').insert({
+      const { error } = await supabase.from('orders').insert({
         id: newOrder.id,
+        user_id: newOrder.customerId || newOrder.userId || null,
         user_email: newOrder.shippingAddress?.email || newOrder.customerEmail || 'customer@ascommerce.luxury',
         customer_name: newOrder.shippingAddress?.name || newOrder.shippingAddress?.fullName || newOrder.customerName || 'Customer',
         customer_phone: newOrder.shippingAddress?.phone || newOrder.customerPhone || '',
         shipping_street: newOrder.shippingAddress?.street || '',
         shipping_city: newOrder.shippingAddress?.city || '',
+        shipping_state: newOrder.shippingAddress?.state || '',
         shipping_pincode: newOrder.shippingAddress?.pincode || '',
+        shipping_country: newOrder.shippingAddress?.country || 'India',
+        shipping_address: newOrder.shippingAddress || {},
         items: newOrder.items || [],
-        subtotal: newOrder.subtotal || newOrder.total,
+        subtotal: newOrder.subtotal ?? newOrder.total,
+        discount_amount: newOrder.discount ?? 0,
+        shipping_fee: newOrder.shipping ?? 0,
         total_amount: newOrder.total,
         payment_method: newOrder.paymentMethod || 'Razorpay',
         payment_status: newOrder.paymentStatus || 'Paid',
+        razorpay_order_id: newOrder.razorpayOrderId || null,
+        razorpay_payment_id: newOrder.razorpayPaymentId || null,
+        delivery_mode: newOrder.deliveryMode || null,
         status: newOrder.status || 'Processing',
+        carrier: newOrder.carrier || null,
+        tracking_number: newOrder.trackingNumber || null,
+        estimated_delivery: newOrder.estimatedDelivery || null,
+        notes: newOrder.deliveryInstruction || null,
         created_at: now,
         updated_at: now
       });
+      if (error) throw error;
       console.log('⚡ Saved Order into Supabase table public.orders');
-    } catch (e) {}
+    } catch (error) {
+      memoryDB.orders = memoryDB.orders.filter((order) => order.id !== newOrder.id);
+      for (const change of stockChanges) {
+        const product = memoryDB.products[change.prodIndex];
+        if (product) {
+          product.stockCount = change.previousStock;
+          product.inStock = change.previousStock > 0;
+          try {
+            await supabase.from('products').update({
+              stock_count: change.previousStock,
+              in_stock: change.previousStock > 0,
+              updated_at: now,
+            }).eq('id', change.prodId);
+          } catch (rollbackError) {
+            console.error('Stock rollback error:', rollbackError.message);
+          }
+        }
+      }
+      saveToDisk();
+      console.error('Supabase order persistence error:', error.message);
+      throw new Error('Order database persistence failed');
+    }
 
     return newOrder;
   },
