@@ -1,18 +1,20 @@
 import express from 'express';
+import crypto from 'crypto';
 import { db } from '../db.js';
 import supabase from '../services/supabase.js';
+import { requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
 /**
  * Helper to map courier statuses to standard internal lifecycle status
  */
-function normalizeShippingStatus(rawStatus) {
+export function normalizeShippingStatus(rawStatus) {
   if (!rawStatus) return 'Processing';
   const clean = rawStatus.toUpperCase();
 
-  if (clean.includes('DELIVER') || clean === 'DLVD') return 'Delivered';
   if (clean.includes('OUT') || clean.includes('OFD')) return 'Out for Delivery';
+  if (clean.includes('DELIVER') || clean === 'DLVD') return 'Delivered';
   if (clean.includes('TRANSIT') || clean.includes('INTRANSIT') || clean.includes('DISPATCH') || clean.includes('SHIPPED')) return 'In Transit';
   if (clean.includes('PACK') || clean.includes('RTS') || clean.includes('READY')) return 'Packed';
   if (clean.includes('CANCEL') || clean.includes('RTO')) return 'Cancelled';
@@ -26,6 +28,19 @@ function normalizeShippingStatus(rawStatus) {
  */
 router.post('/shipping/update', async (req, res) => {
   try {
+    const webhookSecret = process.env.SHIPPING_WEBHOOK_SECRET;
+    const signature = req.get('x-webhook-signature');
+    if (!webhookSecret) {
+      return res.status(503).json({ success: false, message: 'Shipping webhook is not configured.' });
+    }
+    const expectedSignature = crypto.createHmac('sha256', webhookSecret)
+      .update(JSON.stringify(req.body || {}))
+      .digest('hex');
+    const signatureBuffer = Buffer.from(signature || '', 'utf8');
+    const expectedBuffer = Buffer.from(expectedSignature, 'utf8');
+    if (signatureBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+      return res.status(401).json({ success: false, message: 'Invalid webhook signature.' });
+    }
     const payload = req.body || {};
     
     // Support common courier payload formats (Shiprocket, Delhivery, BlueDart)
@@ -116,7 +131,7 @@ router.post('/shipping/update', async (req, res) => {
  * 2. GET /api/webhooks/shipping/simulate/:orderId/:status
  * Test/Simulation endpoint for advancing order status during testing
  */
-router.get('/shipping/simulate/:orderId/:status', async (req, res) => {
+router.get('/shipping/simulate/:orderId/:status', requireAdmin, async (req, res) => {
   const { orderId, status } = req.params;
   const normalizedStatus = normalizeShippingStatus(status);
   const existingOrder = db.getOrderById(orderId);

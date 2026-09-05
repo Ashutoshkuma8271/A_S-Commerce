@@ -39,7 +39,9 @@ export const OrderProvider = ({ children }) => {
 
     const fetchBackendOrders = async () => {
       try {
-        const res = await fetch(`/api/orders?email=${encodeURIComponent(userEmail)}`);
+        const res = await fetch('/api/orders', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}` },
+        });
         if (res.ok) {
           const data = await res.json();
           if (data.success && Array.isArray(data.orders)) {
@@ -192,8 +194,11 @@ export const OrderProvider = ({ children }) => {
     try {
       fetch('/api/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newOrder)
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+        },
+        body: JSON.stringify(newOrder),
       }).catch((err) => console.warn('Order database sync note:', err));
     } catch (e) {}
 

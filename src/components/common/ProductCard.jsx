@@ -48,7 +48,7 @@ export const ProductCard = ({ product, onQuickView }) => {
           <img
             src={isHovered && product.images[1] ? product.images[1] : product.images[0]}
             alt={product.name}
-            className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+            className="product-card-image w-full h-full object-cover object-center transform"
             loading="lazy"
             decoding="async"
           />

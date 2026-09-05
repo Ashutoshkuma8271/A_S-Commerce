@@ -189,7 +189,9 @@ CREATE INDEX IF NOT EXISTS idx_orders_user_email ON public.orders (user_email);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON public.orders (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON public.audit_logs (created_at DESC);
 
--- 10. ROW LEVEL SECURITY (RLS) & CLEAN PERMISSIVE POLICIES
+-- 10. ROW LEVEL SECURITY
+-- The Node API uses SUPABASE_SERVICE_ROLE_KEY and is the only writer.
+-- Do not grant anonymous table-wide access to customer, order, admin, or audit data.
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
@@ -199,22 +201,18 @@ ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "admins_all_access" ON public.admins;
-CREATE POLICY "admins_all_access" ON public.admins FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "users_all_access" ON public.users;
-CREATE POLICY "users_all_access" ON public.users FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "products_all_access" ON public.products;
-CREATE POLICY "products_all_access" ON public.products FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "orders_all_access" ON public.orders;
-CREATE POLICY "orders_all_access" ON public.orders FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "coupons_all_access" ON public.coupons;
-CREATE POLICY "coupons_all_access" ON public.coupons FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "site_settings_all_access" ON public.site_settings;
-CREATE POLICY "site_settings_all_access" ON public.site_settings FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "audit_logs_all_access" ON public.audit_logs;
-CREATE POLICY "audit_logs_all_access" ON public.audit_logs FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "public_catalog_read" ON public.products;
+CREATE POLICY "public_catalog_read" ON public.products FOR SELECT TO anon, authenticated USING (true);
+
+DROP POLICY IF EXISTS "public_settings_read" ON public.site_settings;
+CREATE POLICY "public_settings_read" ON public.site_settings FOR SELECT TO anon, authenticated USING (true);
+
+DROP POLICY IF EXISTS "public_active_coupons_read" ON public.coupons;
+CREATE POLICY "public_active_coupons_read" ON public.coupons FOR SELECT TO anon, authenticated USING (is_active = true);

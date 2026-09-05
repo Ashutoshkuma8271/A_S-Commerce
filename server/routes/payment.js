@@ -3,22 +3,38 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { db } from '../db.js';
+import { requireCustomer } from '../middleware/auth.js';
 
 dotenv.config();
 
 const router = express.Router();
 
-const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_wkow4HMM1HSMUN';
-const key_secret = process.env.RAZORPAY_KEY_SECRET || 'B4LKgmVsriY0RDVU25QhwHlR';
+const key_id = process.env.RAZORPAY_KEY_ID;
+const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
-const razorpay = new Razorpay({
-  key_id,
-  key_secret,
-});
+if (process.env.NODE_ENV === 'production' && (!key_id || !key_secret)) {
+  throw new Error('Razorpay credentials must be configured in production.');
+}
+
+const razorpay = key_id && key_secret ? new Razorpay({ key_id, key_secret }) : null;
+
+const verifiedPayments = new Map();
+
+export function consumeVerifiedPayment(orderId, userId, paymentId) {
+  const record = verifiedPayments.get(orderId);
+  if (!record || record.userId !== userId || record.paymentId !== paymentId || Date.now() > record.expiresAt) {
+    return false;
+  }
+  verifiedPayments.delete(orderId);
+  return true;
+}
 
 // 1. POST /api/payment/create-order — Initialize Razorpay Order
-router.post('/create-order', async (req, res) => {
+router.post('/create-order', requireCustomer, async (req, res) => {
   try {
+    if (!razorpay) {
+      return res.status(503).json({ success: false, message: 'Payment gateway is not configured.' });
+    }
     const { amount, currency = 'INR', receipt, notes } = req.body;
 
     if (!amount || amount <= 0) {
@@ -33,6 +49,7 @@ router.post('/create-order', async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
+    verifiedPayments.delete(order.id);
 
     return res.json({
       success: true,
@@ -48,7 +65,7 @@ router.post('/create-order', async (req, res) => {
 });
 
 // 2. POST /api/payment/verify-payment — Verify HMAC Signature
-router.post('/verify-payment', (req, res) => {
+router.post('/verify-payment', requireCustomer, (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -74,6 +91,11 @@ router.post('/verify-payment', (req, res) => {
     }
 
     if (isAuthentic) {
+      verifiedPayments.set(razorpay_order_id, {
+        paymentId: razorpay_payment_id,
+        userId: req.user.id,
+        expiresAt: Date.now() + 30 * 60 * 1000,
+      });
       return res.json({
         success: true,
         message: 'Payment signature verified successfully',

@@ -304,14 +304,32 @@ export const CheckoutPage = () => {
         completeOrderProcess(orderPayload);
       }, 400);
     } else {
+      let paymentOrder;
+      try {
+        const paymentOrderResponse = await fetch('/api/payment/create-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+          },
+          body: JSON.stringify({ amount: finalTotal, receipt: `AS-${Date.now().toString().slice(-8)}` }),
+        });
+        paymentOrder = await paymentOrderResponse.json();
+        if (!paymentOrderResponse.ok || !paymentOrder.success) throw new Error(paymentOrder.message || 'Unable to initialize payment');
+      } catch (err) {
+        setIsProcessing(false);
+        addToast(err.message || 'Unable to initialize secure payment.', 'error');
+        return;
+      }
+
       const res = await processRazorpayPayment({
-        orderId: `AS-${Date.now().toString().slice(-6)}`,
+        orderId: paymentOrder.orderId,
         amount: finalTotal,
         userName: formData.fullName,
         userEmail: formData.email,
         userPhone: formData.phone,
         onSuccess: (paymentInfo) => {
-          completeOrderProcess(orderPayload);
+          completeOrderProcess({ ...orderPayload, paymentVerification: paymentInfo });
         },
         onFailure: (err) => {
           setIsProcessing(false);
@@ -319,11 +337,7 @@ export const CheckoutPage = () => {
         }
       });
 
-      if (res?.isSimulated) {
-        setTimeout(() => {
-          completeOrderProcess(orderPayload);
-        }, 500);
-      }
+      if (!res?.isRealGateway) setIsProcessing(false);
     }
   };
 

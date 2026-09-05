@@ -137,9 +137,11 @@ export const AccountPage = () => {
     try {
       const res = await fetch('/api/users/change-password', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+        },
         body: JSON.stringify({
-          email: user?.email,
           currentPassword,
           newPassword,
           confirmPassword: confirmNewPassword

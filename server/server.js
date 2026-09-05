@@ -12,12 +12,13 @@ import rateLimit from 'express-rate-limit';
 import { db, initDB } from './db.js';
 import adminAuthRouter from './routes/adminAuth.js';
 import adminDashboardRouter from './routes/adminDashboard.js';
-import paymentRouter from './routes/payment.js';
+import paymentRouter, { consumeVerifiedPayment } from './routes/payment.js';
 import shippingWebhooksRouter from './routes/shippingWebhooks.js';
 import { testSupabaseConnection } from './services/supabase.js';
 import { uploadToCloudinary } from './services/cloudinary.js';
 import crypto from 'crypto';
 import { sendSignupOtpEmail, sendPasswordResetEmail, sendOrderConfirmationEmail } from './utils/emailService.js';
+import { JWT_SECRET, requireCustomer } from './middleware/auth.js';
 
 dotenv.config();
 
@@ -71,13 +72,36 @@ app.use(compression());
 app.set('trust proxy', 1);
 
 // Security Middlewares
+const productionCsp = process.env.NODE_ENV === 'production' ? {
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", 'https://checkout.razorpay.com'],
+    connectSrc: ["'self'", 'https://api.postalpincode.in', 'https://api.razorpay.com', 'wss:'],
+    imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+    styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+    styleSrcAttr: ["'unsafe-inline'"],
+    fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
+    frameSrc: ["'self'", 'https://api.razorpay.com', 'https://checkout.razorpay.com'],
+    objectSrc: ["'none'"],
+  },
+} : false;
+
 app.use(helmet({
   crossOriginResourcePolicy: false,
-  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: productionCsp,
 }));
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || `http://localhost:${PORT}`)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: true,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Origin is not allowed by CORS'));
+  },
   credentials: true
 }));
 
@@ -145,7 +169,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
       return res.status(400).json({ success: false, message: 'An account with this email already exists and is verified. Please sign in.' });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const otpExpiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes validity
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -204,7 +228,7 @@ app.post('/api/auth/verify-signup-otp', authLimiter, async (req, res) => {
     const user = result.user;
     const token = jwt.sign(
       { id: user.id, email: user.email, role: 'customer' },
-      process.env.JWT_SECRET || 'as_commerce_master_jwt_secret_key_2026_luxury',
+      JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -246,7 +270,7 @@ app.post('/api/auth/resend-signup-otp', authLimiter, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Account is already verified' });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = crypto.randomInt(100000, 1000000).toString();
     const expiresAt = Date.now() + 15 * 60 * 1000;
 
     db.setSignupOtp(cleanEmail, otp, expiresAt);
@@ -295,7 +319,7 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
     }
 
     if (user.isVerified === false) {
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const otp = crypto.randomInt(100000, 1000000).toString();
       const expiresAt = Date.now() + 15 * 60 * 1000;
       db.setSignupOtp(cleanEmail, otp, expiresAt);
       await sendSignupOtpEmail(cleanEmail, user.name, otp);
@@ -310,7 +334,7 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, email: user.email, role: 'customer' },
-      process.env.JWT_SECRET || 'as_commerce_master_jwt_secret_key_2026_luxury',
+      JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -345,14 +369,7 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     const user = await db.getUserByEmailAsync(cleanEmail);
 
     if (!user) {
-      const adminUser = await db.getAdminByEmailAsync(cleanEmail);
-      if (adminUser) {
-        return res.status(403).json({
-          success: false,
-          message: 'Administrator password reset must be requested from the Admin Portal (/admin/forgot-password).'
-        });
-      }
-      return res.status(404).json({ success: false, message: 'No customer account found with this registered email.' });
+      return res.json({ success: true, message: 'If an account exists, password reset instructions have been sent.' });
     }
 
     // Generate cryptographic 32-byte recovery token
@@ -361,7 +378,7 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, email: cleanEmail, role: 'customer', expiresAt });
 
-    const baseUrl = req.headers.origin || `http://${req.headers.host || 'localhost:3000'}`;
+    const baseUrl = process.env.PUBLIC_APP_URL || `http://${req.headers.host || 'localhost:3000'}`;
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'customer');
@@ -369,7 +386,6 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
     return res.json({
       success: true,
       message: 'Reset link sent to your email',
-      resetToken: token,
       expiresInMinutes: 15
     });
   } catch (err) {
@@ -382,23 +398,21 @@ app.post('/api/auth/forgot-password', authLimiter, async (req, res) => {
 app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], authLimiter, async (req, res) => {
   try {
     const { token, email, newPassword } = req.body || {};
-    if (!newPassword) {
+    if (!token || !newPassword) {
       return res.status(400).json({ success: false, message: 'New password is required.' });
     }
 
     let user = null;
     let cleanEmail = email ? email.trim().toLowerCase() : '';
 
-    if (token) {
-      const resetRecord = await db.getPasswordResetAsync(token);
-      if (!resetRecord) {
-        return res.status(400).json({ success: false, message: 'Invalid or expired password reset link. Please request a new link.' });
-      }
-      if (Date.now() > resetRecord.expiresAt) {
-        return res.status(400).json({ success: false, message: 'This password reset link has expired. Please request a fresh link.' });
-      }
-      cleanEmail = cleanEmail || (resetRecord.adminEmail || resetRecord.email || '').trim().toLowerCase();
+    const resetRecord = await db.getPasswordResetAsync(token);
+    if (!resetRecord || resetRecord.role !== 'customer') {
+      return res.status(400).json({ success: false, message: 'Invalid or expired password reset link. Please request a new link.' });
     }
+    if (Date.now() > resetRecord.expiresAt) {
+      return res.status(400).json({ success: false, message: 'This password reset link has expired. Please request a fresh link.' });
+    }
+    cleanEmail = (resetRecord.email || '').trim().toLowerCase();
 
     if (!cleanEmail) {
       return res.status(400).json({ success: false, message: 'Email address is required.' });
@@ -437,9 +451,7 @@ app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], au
     const passwordHash = await bcrypt.hash(newPassword, 10);
     await db.updateUser(user.id, { passwordHash });
 
-    if (token) {
-      await db.markPasswordResetUsed(token);
-    }
+    await db.markPasswordResetUsed(token);
 
     // Track Audit Log in password_resets table
     await db.createPasswordResetRecord({
@@ -462,7 +474,7 @@ app.post(['/api/auth/reset-password-with-token', '/api/auth/reset-password'], au
 });
 
 // Customer Profile Picture Upload to Cloudinary & Supabase
-app.post('/api/users/upload-avatar', upload.single('avatar'), async (req, res) => {
+app.post('/api/users/upload-avatar', requireCustomer, upload.single('avatar'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No image file uploaded' });
@@ -479,25 +491,30 @@ app.post('/api/users/upload-avatar', upload.single('avatar'), async (req, res) =
   }
 });
 
+app.get('/api/users/me', requireCustomer, (req, res) => {
+  return res.json({
+    success: true,
+    user: {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+      phone: req.user.phone || '',
+      role: 'customer',
+      addresses: req.user.addresses || [],
+      wishlist: req.user.wishlist || [],
+    },
+  });
+});
+
 // Customer User Profile, Addresses & Wishlist Database Synchronization
-app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
+app.put(['/api/users/me', '/api/users/profile'], requireCustomer, async (req, res) => {
   try {
-    const { id, email, name, phone, addresses, wishlist, avatar, role } = req.body || {};
+    const { name, phone, addresses, wishlist, avatar, role } = req.body || {};
     if (role === 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Forbidden. Role modification is not allowed.'
       });
-    }
-
-    let user = null;
-    if (id) user = db.getUserById(id);
-    if (!user && email) {
-      user = await db.getUserByEmailAsync(email.trim().toLowerCase());
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found in database' });
     }
 
     const updates = {};
@@ -507,7 +524,7 @@ app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
     if (wishlist !== undefined) updates.wishlist = wishlist;
     if (avatar !== undefined) updates.avatar = avatar;
 
-    const updated = await db.updateUser(user.id, updates);
+    const updated = await db.updateUser(req.user.id, updates);
     return res.json({ success: true, message: 'Profile updated successfully', user: updated });
   } catch (err) {
     console.error('Update profile error:', err);
@@ -516,10 +533,10 @@ app.put(['/api/users/me', '/api/users/profile'], async (req, res) => {
 });
 
 // Authenticated Customer Password Change
-app.post('/api/users/change-password', async (req, res) => {
+app.post('/api/users/change-password', requireCustomer, async (req, res) => {
   try {
-    const { email, currentPassword, newPassword, confirmPassword } = req.body || {};
-    const cleanEmail = (email || '').trim().toLowerCase();
+    const { currentPassword, newPassword, confirmPassword } = req.body || {};
+    const cleanEmail = req.user.email;
 
     if (!cleanEmail || !currentPassword || !newPassword) {
       return res.status(400).json({ success: false, message: 'Current password and new password are required.' });
@@ -560,22 +577,9 @@ app.post('/api/users/change-password', async (req, res) => {
 });
 
 // Delete Customer Account Endpoint (Safely removes data from Supabase & local cache)
-app.delete(['/api/users/me', '/api/users/profile'], async (req, res) => {
+app.delete(['/api/users/me', '/api/users/profile'], requireCustomer, async (req, res) => {
   try {
-    const { id, email } = req.body || {};
-    const cleanEmail = (email || '').trim().toLowerCase();
-
-    if (!id && !cleanEmail) {
-      return res.status(400).json({ success: false, message: 'User identification (email or ID) is required.' });
-    }
-
-    // Safety guard: Prevent accidental deletion of master admin
-    const adminEmail = (process.env.ADMIN_EMAIL || 'ashutoshkumaryadav933499@gmail.com').toLowerCase();
-    if (cleanEmail === adminEmail) {
-      return res.status(403).json({ success: false, message: 'Master Administrator account cannot be deleted.' });
-    }
-
-    await db.deleteUser(id, cleanEmail);
+    await db.deleteUser(req.user.id, req.user.email);
 
     return res.json({
       success: true,
@@ -588,20 +592,10 @@ app.delete(['/api/users/me', '/api/users/profile'], async (req, res) => {
 });
 
 // Customer & Scoped Orders API
-app.get('/api/orders', async (req, res) => {
+app.get('/api/orders', requireCustomer, async (req, res) => {
   try {
-    const { email, userId } = req.query || {};
     let orders = await db.getOrdersAsync();
-
-    if (email) {
-      const cleanEmail = email.trim().toLowerCase();
-      orders = orders.filter(o => {
-        const orderEmail = (o.customerEmail || o.email || o.shippingAddress?.email || '').trim().toLowerCase();
-        return orderEmail === cleanEmail;
-      });
-    } else if (userId) {
-      orders = orders.filter(o => o.customerId === userId || o.userId === userId);
-    }
+    orders = orders.filter(o => o.customerId === req.user.id || o.userId === req.user.id);
 
     return res.json({ success: true, orders });
   } catch (err) {
@@ -610,9 +604,42 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', requireCustomer, async (req, res) => {
   try {
-    const orderData = req.body || {};
+    const orderData = { ...(req.body || {}), customerId: req.user.id, customerEmail: req.user.email, customerName: req.user.name, customerPhone: req.user.phone || '' };
+    const products = await db.getProductsAsync();
+    const catalog = new Map(products.map(product => [product.id, product]));
+    const requestedItems = Array.isArray(orderData.items) ? orderData.items : [];
+    const pricedItems = requestedItems.map(item => {
+      const product = catalog.get(item.id);
+      const quantity = Number(item.quantity);
+      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > Number(product.stockCount || 0)) {
+        return null;
+      }
+      return {
+        ...item,
+        name: product.name,
+        brand: product.brand,
+        price: Number(product.price),
+        originalPrice: product.originalPrice,
+        quantity,
+      };
+    });
+    if (!requestedItems.length || pricedItems.some(item => !item)) {
+      return res.status(400).json({ success: false, message: 'One or more cart items are unavailable. Please refresh your cart.' });
+    }
+    const serverSubtotal = pricedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    if (Number(orderData.subtotal) !== serverSubtotal) {
+      return res.status(409).json({ success: false, message: 'Cart prices changed. Please review your cart and try again.' });
+    }
+    orderData.items = pricedItems;
+    orderData.subtotal = serverSubtotal;
+    if (orderData.paymentStatus && orderData.paymentStatus.includes('Paid')) {
+      const payment = orderData.paymentVerification;
+      if (!payment || !consumeVerifiedPayment(payment.orderId, req.user.id, payment.paymentId)) {
+        return res.status(400).json({ success: false, message: 'Payment verification is required before placing this order.' });
+      }
+    }
     const newOrder = await db.createOrder(orderData);
     console.log(`⚡ Order Placed: #${newOrder.id} (Total: ₹${newOrder.total}) and saved to database & Supabase`);
     
@@ -632,12 +659,15 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-app.get('/api/orders/:id', async (req, res) => {
+app.get('/api/orders/:id', requireCustomer, async (req, res) => {
   try {
     const { id } = req.params;
     const order = await db.getOrderByIdAsync(id) || db.getOrderById(id);
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+    if (order.customerId !== req.user.id && order.userId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'You do not have access to this order.' });
     }
     return res.json({ success: true, order });
   } catch (err) {

@@ -27,7 +27,10 @@ export const WishlistProvider = ({ children }) => {
       if (user?.email) {
         fetch('/api/users/profile', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+          },
           body: JSON.stringify({ email: user.email, wishlist: wishlistItems }),
         }).catch(() => {});
       }

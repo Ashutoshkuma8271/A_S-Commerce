@@ -39,6 +39,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('as_commerce_token');
+    if (!user || !token) return;
+
+    fetch('/api/users/me', { headers: { Authorization: `Bearer ${token}` } })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Session expired');
+        const data = await res.json();
+        if (data.success && data.user) setUser(data.user);
+      })
+      .catch(() => {
+        setUser(null);
+        localStorage.removeItem('as_commerce_token');
+      });
+  }, []);
+
   const requireAuth = (callback, noticeText = 'Please sign in to proceed with this action') => {
     if (!user) {
       setAuthNotice(noticeText);
@@ -188,8 +204,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await fetch('/api/users/profile', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: userId, email: userEmail }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+        },
       });
       const data = await res.json();
       if (!data.success) {
@@ -218,8 +236,11 @@ export const AuthProvider = ({ children }) => {
       if (!user?.email) return;
       await fetch('/api/users/profile', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email, ...payload }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+        },
+        body: JSON.stringify(payload),
       });
     } catch (e) {
       console.warn('Backend user sync note:', e.message);
@@ -296,7 +317,7 @@ export const AuthProvider = ({ children }) => {
         return { success: false, message: data.message };
       }
       addToast('Reset link sent to your email', 'success');
-      return { success: true, message: data.message, resetToken: data.resetToken };
+      return { success: true, message: data.message };
     } catch (err) {
       addToast('Failed to connect to authentication service', 'error');
       return { success: false };
@@ -328,11 +349,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const resetPasswordDirect = async (email, newPassword) => {
-    return resetPasswordWithToken(null, email, newPassword);
+    return { success: false, message: 'A password reset link is required.' };
   };
 
   const resetPasswordWithOtp = async (email, otp, newPassword) => {
-    return resetPasswordDirect(email, newPassword);
+    return { success: false, message: 'A password reset link is required.' };
   };
 
   return (

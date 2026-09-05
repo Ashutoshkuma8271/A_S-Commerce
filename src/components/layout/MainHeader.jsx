@@ -67,8 +67,8 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
   return (
     <div className="bg-navy-900 text-white border-b border-navy-800 relative z-40">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5">
-        <div className="flex items-center justify-between gap-2 sm:gap-4 md:gap-6">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-2.5 sm:py-3.5">
+        <div className="premium-header-inner flex items-center justify-between gap-1 sm:gap-4 md:gap-6">
           
           {/* Left: Mobile menu toggle + Logo */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -216,7 +216,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
           </div>
 
           {/* Right: Wishlist, Cart, Account, Theme Toggle */}
-          <div className="flex items-center gap-1 sm:gap-2.5 md:gap-4 lg:gap-5 shrink-0">
+          <div className="premium-header-actions flex items-center gap-0 sm:gap-2.5 md:gap-4 lg:gap-5 shrink-0">
             
             {/* Theme Toggle Button */}
             <ThemeToggle />
@@ -224,7 +224,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             {/* Wishlist Link */}
             <Link
               to="/wishlist"
-              className="flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative p-1.5 sm:p-2 rounded-lg hover:bg-navy-850"
+              className="premium-header-action flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative p-1 sm:p-2 rounded-lg hover:bg-navy-850"
               aria-label="Wishlist"
             >
               <div className="relative">
@@ -241,7 +241,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             {/* Cart Button */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative cursor-pointer p-1.5 sm:p-2 rounded-lg hover:bg-navy-850"
+              className="premium-header-action flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative cursor-pointer p-1 sm:p-2 rounded-lg hover:bg-navy-850"
               aria-label="Cart"
             >
               <div className="relative">

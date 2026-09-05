@@ -284,7 +284,7 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
 
     await db.createPasswordReset({ token, adminEmail: cleanEmail, role: 'admin', expiresAt });
 
-    const baseUrl = req.headers.origin || `http://${req.headers.host || 'localhost:3000'}`;
+    const baseUrl = process.env.PUBLIC_APP_URL || `http://${req.headers.host || 'localhost:3000'}`;
     const resetUrl = `${baseUrl}/admin/reset-password?token=${token}`;
 
     await sendPasswordResetEmail(cleanEmail, resetUrl, 'admin');
@@ -300,7 +300,6 @@ router.post('/forgot-password', loginRateLimiter, async (req, res) => {
     return res.json({
       success: true,
       message: 'Reset link sent to your email',
-      resetToken: token,
       expiresInMinutes: 15
     });
 

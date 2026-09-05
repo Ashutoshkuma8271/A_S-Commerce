@@ -110,7 +110,7 @@ export const HeroSection = () => {
 
   return (
     <div
-      className="w-full relative select-none overflow-hidden bg-black text-white"
+      className="hero-stage w-full relative select-none overflow-hidden bg-black text-white"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -136,14 +136,14 @@ export const HeroSection = () => {
                   fetchPriority={index === 0 ? "high" : "low"}
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
-                  className="w-full h-full object-cover object-center brightness-[0.78] contrast-[1.08] transform scale-100 group-hover:scale-105 transition-transform duration-1000"
+                  className="hero-depth-image w-full h-full object-cover object-center brightness-[0.78] contrast-[1.08] transform scale-100 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-black/30" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40" />
               </div>
 
               {/* Foreground Left Content */}
-              <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
+                <div className="hero-copy-entrance max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
                 <div className="max-w-xl lg:max-w-2xl space-y-4 sm:space-y-6 text-left">
                   
                   {/* Glowing Tagline Pill */}

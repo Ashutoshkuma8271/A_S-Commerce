@@ -4,10 +4,14 @@ import WebSocket from 'ws';
 
 dotenv.config();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://pgbhtnjsfggxnldyrcaz.supabase.co';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_NkjgJd5mDtiY9TM1Fw8ZIQ_nTtqP2Vg';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+if (process.env.NODE_ENV === 'production' && (!SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY)) {
+  throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured for the backend in production.');
+}
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,

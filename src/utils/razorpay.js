@@ -25,12 +25,12 @@ export const processRazorpayPayment = async ({
   onSuccess,
   onFailure,
 }) => {
-  const rzpKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_wkow4HMM1HSMUN';
+  const rzpKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
   // Ensure Razorpay SDK is loaded on-demand
-  await loadRazorpayScript();
+  const scriptLoaded = await loadRazorpayScript();
 
-  if (rzpKey && typeof window !== 'undefined' && window.Razorpay) {
+  if (scriptLoaded && rzpKey && typeof window !== 'undefined' && window.Razorpay) {
     const options = {
       key: rzpKey,
       amount: Math.round(amount * 100), // amount in paisa
@@ -41,17 +41,26 @@ export const processRazorpayPayment = async ({
       handler: async function (response) {
         // Verify payment signature on backend if endpoint is reachable
         try {
-          await fetch('/api/payment/verify-payment', {
+          const verification = await fetch('/api/payment/verify-payment', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('as_commerce_token') || ''}`,
+            },
             body: JSON.stringify({
               razorpay_order_id: response.razorpay_order_id || orderId,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             }),
           });
+          const verificationData = await verification.json();
+          if (!verification.ok || !verificationData.success) {
+            if (onFailure) onFailure({ reason: verificationData.message || 'Payment verification failed' });
+            return;
+          }
         } catch (e) {
-          console.warn('Backend payment verification note:', e);
+          if (onFailure) onFailure({ reason: 'Payment verification service unavailable' });
+          return;
         }
 
         onSuccess({
@@ -92,11 +101,13 @@ export const processRazorpayPayment = async ({
       rzp.open();
       return { isRealGateway: true };
     } catch (err) {
-      console.warn('Direct Razorpay checkout error, falling back to simulated payment flow', err);
+      console.warn('Direct Razorpay checkout error', err);
+      if (onFailure) onFailure({ reason: 'Payment gateway could not be opened' });
+      return { isRealGateway: false };
     }
   }
 
-  // Seamless Fallback / Simulated Payment Flow
-  return { isSimulated: true };
+  if (onFailure) onFailure({ reason: 'Payment gateway is unavailable' });
+  return { isRealGateway: false };
 };
 

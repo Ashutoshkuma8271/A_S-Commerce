@@ -1,8 +1,34 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import 'dotenv/config';
 import { db } from '../db.js';
 import rateLimit from 'express-rate-limit';
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'as_commerce_master_jwt_secret_key_2026_luxury';
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET must be configured in production.');
+}
+export const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
+
+export async function requireCustomer(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'Authentication required.' });
+    }
+    const decoded = jwt.verify(authHeader.slice(7), JWT_SECRET);
+    if (decoded.role !== 'customer' || !decoded.id || !decoded.email) {
+      return res.status(403).json({ success: false, message: 'Customer access required.' });
+    }
+    const user = await db.getUserByEmailAsync(decoded.email);
+    if (!user || user.id !== decoded.id || user.role !== 'customer' || user.isVerified === false) {
+      return res.status(401).json({ success: false, message: 'Customer session is no longer valid.' });
+    }
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ success: false, message: 'Invalid or expired customer session.' });
+  }
+}
 
 // Audit Logger Helper
 export function logAudit({ action, adminId = null, adminEmail = null, ip = null, resource = null, details = null }) {
