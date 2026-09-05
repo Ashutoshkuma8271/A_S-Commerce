@@ -134,11 +134,16 @@ export function App() {
                                       {/* Account & Password Recovery Routes */}
                                       <Route path="/reset-password" element={<CustomerResetPasswordPage />} />
                                       <Route path="/account" element={<AccountPage />} />
+                                      <Route path="/account/*" element={<AccountPage />} />
                                       <Route path="/account/orders" element={<AccountPage />} />
                                       <Route path="/account/addresses" element={<AccountPage />} />
                                       <Route path="/account/profile" element={<AccountPage />} />
                                       <Route path="/account/security" element={<AccountPage />} />
                                       <Route path="/account/wishlist" element={<WishlistPage />} />
+                                      <Route path="/profile" element={<AccountPage />} />
+                                      <Route path="/orders" element={<AccountPage />} />
+                                      <Route path="/addresses" element={<AccountPage />} />
+                                      <Route path="/security" element={<AccountPage />} />
 
                                       {/* Offers & New Arrivals */}
                                       <Route path="/offers" element={<OffersPage />} />

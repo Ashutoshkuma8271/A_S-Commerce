@@ -55,18 +55,18 @@ export const AccountPage = () => {
     deleteAddress,
     setDefaultAddress,
   } = useAuth();
-  const { orders } = useOrder();
-  const { wishlistCount, wishlist } = useWishlist();
+  const { orders = [] } = useOrder() || {};
+  const { wishlistCount = 0, wishlist = [] } = useWishlist() || {};
 
   // Determine active tab from URL or state
-  const path = location.pathname;
-  const activeTab = path.includes('/orders')
+  const path = location.pathname.toLowerCase();
+  const activeTab = path.includes('order')
     ? 'orders'
-    : path.includes('/addresses')
+    : path.includes('address')
     ? 'addresses'
-    : path.includes('/profile')
+    : path.includes('profile')
     ? 'profile'
-    : path.includes('/security')
+    : path.includes('security')
     ? 'security'
     : 'dashboard';
 
@@ -172,7 +172,7 @@ export const AccountPage = () => {
     }
     addAddress(newAddr);
     setIsAddressModalOpen(false);
-    setNewAddr({ title: 'Home', name: user.name, phone: user.phone || '', street: '', city: '', state: '', pincode: '', isDefault: false });
+    setNewAddr({ title: 'Home', name: user?.name || '', phone: user?.phone || '', street: '', city: '', state: '', pincode: '', isDefault: false });
   };
 
   const handleAvatarFileChange = async (e) => {
@@ -852,7 +852,7 @@ export const AccountPage = () => {
                     <input
                       type="email"
                       disabled
-                      value={user.email}
+                      value={user?.email || ''}
                       className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-navy-800 text-gray-500 dark:text-gray-400 text-xs rounded-xl border border-gray-200 dark:border-navy-700 cursor-not-allowed"
                     />
                   </div>

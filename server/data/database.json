@@ -71,9 +71,29 @@
       "expiresAt": 1788606756132,
       "used": true,
       "createdAt": "2026-09-05T10:57:36.132Z"
+    },
+    {
+      "id": "rst-1788606263229-cs5g9",
+      "token": "rst_tok_1788606263227",
+      "adminEmail": "production_test_1788606260912@ascommerce.luxury",
+      "email": "production_test_1788606260912@ascommerce.luxury",
+      "role": "customer",
+      "expiresAt": 1788607163227,
+      "used": true,
+      "createdAt": "2026-09-05T11:04:23.229Z"
     }
   ],
   "audit_logs": [
+    {
+      "id": "audit-1788606265341-th84d",
+      "action": "Admin Dispatched Consignment",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": "Order #AS-264763",
+      "details": "Dispatched with Bluedart Express",
+      "createdAt": "2026-09-05T11:04:25.341Z"
+    },
     {
       "id": "audit-1788605858645-bqnqu",
       "action": "Admin Dispatched Consignment",
@@ -106,6 +126,38 @@
     }
   ],
   "orders": [
+    {
+      "id": "AS-264763",
+      "customerName": "Eleanor Vance",
+      "customerEmail": "production_test_1788606260912@ascommerce.luxury",
+      "customerPhone": "+91 9123456789",
+      "shippingAddress": {
+        "name": "Eleanor Vance",
+        "email": "production_test_1788606260912@ascommerce.luxury",
+        "phone": "+91 9123456789",
+        "street": "Penthouse 12, Skyline Towers",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      },
+      "items": [
+        {
+          "id": "prod-sausages",
+          "name": "Smoked German Chicken Sausages",
+          "price": 249,
+          "quantity": 1
+        }
+      ],
+      "subtotal": 249,
+      "total": 249,
+      "paymentMethod": "Razorpay",
+      "paymentStatus": "Paid",
+      "status": "Shipped",
+      "createdAt": "2026-09-05T11:04:24.763Z",
+      "updatedAt": "2026-09-05T11:04:25.163Z",
+      "carrier": "Bluedart Express Luxury Logistics",
+      "trackingNumber": "BD-987654321IN"
+    },
     {
       "id": "AS-858025",
       "customerName": "Eleanor Vance",
@@ -249,7 +301,7 @@
       "discount": 11,
       "rating": 4.8,
       "reviewCount": 310,
-      "stockCount": 30,
+      "stockCount": 29,
       "inStock": true,
       "badge": "TOP CHOICE",
       "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
@@ -276,7 +328,7 @@
         "Serving Size": "250 g (5 Sausages)"
       },
       "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T10:52:16.814+00:00"
+      "updatedAt": "2026-09-05T10:57:38.025+00:00"
     },
     {
       "id": "prod-patty",
