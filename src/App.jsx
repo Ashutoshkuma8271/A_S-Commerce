@@ -57,22 +57,22 @@ const PageLoader = () => (
 export function App() {
   return (
     <BrowserRouter>
-      {/* React Hot Toast Notifications Container */}
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerStyle={{
-          top: 20,
-          zIndex: 999999,
-        }}
-        toastOptions={{
-          duration: 2500,
-        }}
-      />
-
       <ThemeProvider>
         <ToastProvider>
+          {/* React Hot Toast Notifications Container */}
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            gutter={8}
+            containerStyle={{
+              top: 24,
+              zIndex: 999999,
+            }}
+            toastOptions={{
+              duration: 2500,
+              className: 'as-toast-box',
+            }}
+          />
           <SettingsProvider>
             <ProductProvider>
               <AuthProvider>

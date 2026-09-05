@@ -42,49 +42,49 @@ export const ToastProvider = ({ children }) => {
 
     toast.custom((t) => {
       let icon = <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />;
-      let borderAccent = 'border-emerald-500/30 dark:border-emerald-500/40 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(16,185,129,0.25)]';
-      let iconBg = 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20';
+      let borderAccent = 'border-emerald-500/40 dark:border-emerald-500/50 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(16,185,129,0.3)]';
+      let iconBg = 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30';
 
       if (type === 'error') {
         icon = <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />;
-        borderAccent = 'border-rose-500/30 dark:border-rose-500/40 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(244,63,94,0.25)]';
-        iconBg = 'bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20';
+        borderAccent = 'border-rose-500/40 dark:border-rose-500/50 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(244,63,94,0.3)]';
+        iconBg = 'bg-rose-50 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30';
       } else if (type === 'warning') {
         icon = <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />;
-        borderAccent = 'border-amber-500/30 dark:border-amber-500/40 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(245,158,11,0.25)]';
-        iconBg = 'bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20';
+        borderAccent = 'border-amber-500/40 dark:border-amber-500/50 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(245,158,11,0.3)]';
+        iconBg = 'bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30';
       } else if (type === 'info') {
         icon = <Info className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />;
-        borderAccent = 'border-sky-500/30 dark:border-sky-500/40 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(14,165,233,0.25)]';
-        iconBg = 'bg-sky-50 dark:bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20';
+        borderAccent = 'border-sky-500/40 dark:border-sky-500/50 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(14,165,233,0.3)]';
+        iconBg = 'bg-sky-50 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30';
       } else if (type === 'gold' || type === 'luxury' || type === 'copy') {
         icon = <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-400 shrink-0" />;
-        borderAccent = 'border-gold-500/40 dark:border-gold-500/50 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(245,184,61,0.25)]';
-        iconBg = 'bg-gold-50 dark:bg-gold-500/15 text-gold-700 dark:text-gold-400 border border-gold-200 dark:border-gold-500/20';
+        borderAccent = 'border-gold-500/50 dark:border-gold-500/60 shadow-lg dark:shadow-[0_10px_30px_-5px_rgba(245,184,61,0.3)]';
+        iconBg = 'bg-amber-50 dark:bg-gold-500/20 text-gold-800 dark:text-gold-300 border border-gold-200 dark:border-gold-500/30';
       }
 
       return (
         <div
           className={`
-            pointer-events-auto transform-gpu flex items-center justify-between gap-3.5 px-4 py-3
-            rounded-2xl bg-white/98 dark:bg-[#061A27]/98 text-navy-950 dark:text-white backdrop-blur-2xl border ${borderAccent}
+            as-toast-box pointer-events-auto transform-gpu flex items-start justify-between gap-3.5 px-4 py-3.5
+            rounded-2xl bg-white dark:bg-[#061A27] text-gray-900 dark:text-white backdrop-blur-2xl border ${borderAccent}
             transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]
             ${t.visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-3 opacity-0 scale-95'}
-            max-w-md w-auto min-w-[280px] sm:min-w-[340px] select-none cursor-default
+            max-w-md w-auto min-w-[280px] sm:min-w-[340px] select-none cursor-default shadow-2xl
           `}
           role="status"
           aria-live="polite"
         >
-          <div className="flex items-center gap-3 min-w-0 flex-1">
-            <div className={`p-1.5 rounded-xl ${iconBg} shrink-0`}>
+          <div className="flex items-start gap-3 min-w-0 flex-1">
+            <div className={`p-1.5 rounded-xl ${iconBg} shrink-0 mt-0.5`}>
               {icon}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[13.5px] font-bold text-navy-950 dark:text-white tracking-[-0.01em] leading-snug truncate">
+              <p className="as-toast-title text-[13.5px] font-bold text-gray-950 dark:text-white tracking-[-0.01em] leading-snug break-words">
                 {title}
               </p>
               {description && (
-                <p className="text-[11.5px] text-gray-600 dark:text-gray-300/90 mt-0.5 leading-tight line-clamp-1 font-medium">
+                <p className="as-toast-desc text-[12px] text-gray-700 dark:text-gray-200 mt-1 leading-relaxed break-words font-medium">
                   {description}
                 </p>
               )}
@@ -98,7 +98,7 @@ export const ToastProvider = ({ children }) => {
                 options.onAction();
                 toast.dismiss(t.id);
               }}
-              className="text-xs font-semibold text-gold-700 dark:text-gold-400 hover:text-gold-800 dark:hover:text-gold-300 px-2.5 py-1 rounded-lg bg-gold-50 dark:bg-gold-500/10 hover:bg-gold-100 dark:hover:bg-gold-500/20 border border-gold-300 dark:border-gold-500/30 transition-all shrink-0 cursor-pointer"
+              className="text-xs font-bold text-gold-700 dark:text-gold-300 hover:text-gold-900 dark:hover:text-gold-200 px-2.5 py-1 rounded-lg bg-gold-50 dark:bg-gold-500/15 hover:bg-gold-100 dark:hover:bg-gold-500/25 border border-gold-300 dark:border-gold-500/40 transition-all shrink-0 cursor-pointer self-center"
             >
               {options.actionLabel}
             </button>
@@ -109,10 +109,10 @@ export const ToastProvider = ({ children }) => {
               e.stopPropagation();
               toast.dismiss(t.id);
             }}
-            className="p-1 text-gray-400 hover:text-navy-950 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
+            className="p-1 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shrink-0 cursor-pointer"
             aria-label="Close notification"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
       );
