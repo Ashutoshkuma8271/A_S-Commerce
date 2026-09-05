@@ -282,7 +282,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           {user.membershipTier || 'Gold Member'}
                         </span>
                       </div>
-                      <div className="py-1 text-sm">
+                      <div className="py-1 text-xs sm:text-sm">
                         <Link
                           to="/account"
                           onClick={() => setIsAccountOpen(false)}
@@ -296,6 +296,27 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
                         >
                           My Orders
+                        </Link>
+                        <Link
+                          to="/account/addresses"
+                          onClick={() => setIsAccountOpen(false)}
+                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                        >
+                          Saved Addresses
+                        </Link>
+                        <Link
+                          to="/account/profile"
+                          onClick={() => setIsAccountOpen(false)}
+                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                        >
+                          Profile Settings
+                        </Link>
+                        <Link
+                          to="/account/security"
+                          onClick={() => setIsAccountOpen(false)}
+                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                        >
+                          Password & Security
                         </Link>
                         <Link
                           to="/track-order"

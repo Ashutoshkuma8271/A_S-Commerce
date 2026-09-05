@@ -266,6 +266,54 @@ export const AccountPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fadeIn">
+      {/* Mobile Top Profile Banner (Visible on mobile/tablet screens < 1024px) */}
+      <div className="lg:hidden mb-6 bg-white dark:bg-navy-900 rounded-3xl p-5 border border-gray-200/80 dark:border-navy-750 shadow-sm flex items-center gap-4">
+        <div className="relative group shrink-0">
+          <input
+            type="file"
+            ref={avatarInputRef}
+            onChange={handleAvatarFileChange}
+            accept="image/*"
+            className="hidden"
+          />
+          <div className="w-14 h-14 rounded-full bg-navy-900 dark:bg-navy-800 border-2 border-gold-500 overflow-hidden shadow-gold-sm flex items-center justify-center text-white font-serif font-bold text-lg">
+            {user?.avatar ? (
+              <img src={user.avatar} alt={user?.name || 'Customer'} className="w-full h-full object-cover" />
+            ) : (
+              <span>{user?.name ? user.name.charAt(0).toUpperCase() : 'C'}</span>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => avatarInputRef.current?.click()}
+            disabled={uploadingAvatar}
+            title="Upload profile photo"
+            className="absolute inset-0 bg-navy-950/70 rounded-full opacity-0 hover:opacity-100 flex items-center justify-center text-gold-400 transition-all cursor-pointer"
+          >
+            <Camera className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user?.name || 'Valued Patron'}</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email || ''}</p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-[10px] font-semibold text-gold-600 dark:text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded-full border border-gold-500/30">
+              {user?.membershipTier || 'Gold Member'}
+            </span>
+            <button
+              type="button"
+              onClick={() => avatarInputRef.current?.click()}
+              disabled={uploadingAvatar}
+              className="text-[10px] text-gold-600 dark:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+            >
+              <Camera className="w-3 h-3" />
+              <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Horizontal Tab Navigation (lg:hidden) */}
       <div className="lg:hidden mb-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         <Link
@@ -288,7 +336,7 @@ export const AccountPage = () => {
           }`}
         >
           <Package className="w-3.5 h-3.5" />
-          <span>Orders ({orders.length})</span>
+          <span>Orders ({(orders || []).length})</span>
         </Link>
         <Link
           to="/account/addresses"
@@ -299,7 +347,7 @@ export const AccountPage = () => {
           }`}
         >
           <MapPin className="w-3.5 h-3.5" />
-          <span>Addresses</span>
+          <span>Addresses ({user?.addresses?.length || 0})</span>
         </Link>
         <Link
           to="/account/profile"
