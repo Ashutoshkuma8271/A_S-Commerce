@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, User, ChevronDown, X, Clock, Flame, ArrowRight, Menu } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, ChevronDown, X, Clock, Flame, ArrowRight, Menu, Sparkles } from 'lucide-react';
 import { Logo } from '../common/Logo';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { useCart } from '../../context/CartContext';
@@ -272,83 +272,74 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
               {/* Account Dropdown Menu */}
               {isAccountOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-navy-850 border border-gold-500/25 rounded-2xl shadow-2xl py-2 z-50 animate-fadeIn">
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-navy-900 border border-gray-100 dark:border-navy-750 rounded-2xl shadow-xl py-3 z-50 animate-fadeIn text-left">
                   {isAuthenticated ? (
                     <>
-                      <div className="px-4 py-2 border-b border-navy-750">
-                        <p className="text-xs text-gray-400">Signed in as</p>
-                        <p className="text-sm font-semibold text-white truncate">{user.name}</p>
-                        <span className="inline-block mt-1 text-[10px] font-semibold text-gold-400 bg-gold-500/10 px-2 py-0.5 rounded-full border border-gold-500/30">
-                          {user.membershipTier || 'Gold Member'}
-                        </span>
+                      {/* Header matching screenshot */}
+                      <div className="px-4 pb-3 border-b border-gray-100 dark:border-navy-800">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 font-normal leading-none">
+                          Signed in as
+                        </p>
+                        <p className="text-base font-bold text-gray-900 dark:text-white truncate mt-1 tracking-tight">
+                          {user.name || 'Valued Patron'}
+                        </p>
+                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ebf7f0] text-[#1e5a38] border border-[#bce8cb] dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700/50">
+                          <Sparkles className="w-3.5 h-3.5 text-[#1e5a38] dark:text-emerald-400 shrink-0" />
+                          <span>{user.membershipTier || 'Fresh VIP Member'}</span>
+                        </div>
                       </div>
-                      <div className="py-1 text-xs sm:text-sm">
+
+                      {/* Navigation links */}
+                      <div className="py-2 text-[14px]">
                         <Link
                           to="/account"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
                         >
                           My Dashboard
                         </Link>
                         <Link
                           to="/account/orders"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
                         >
                           My Orders
                         </Link>
                         <Link
-                          to="/account/addresses"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
-                        >
-                          Saved Addresses
-                        </Link>
-                        <Link
-                          to="/account/profile"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
-                        >
-                          Profile Settings
-                        </Link>
-                        <Link
-                          to="/account/security"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
-                        >
-                          Password & Security
-                        </Link>
-                        <Link
                           to="/track-order"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-200 hover:bg-navy-800 hover:text-gold-400 transition-colors"
+                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
                         >
                           Track Live Order
                         </Link>
                       </div>
-                      <div className="border-t border-navy-750 pt-1">
+
+                      {/* Log Out link */}
+                      <div className="border-t border-gray-100 dark:border-navy-800 pt-2">
                         <button
                           onClick={() => {
                             logout();
                             setIsAccountOpen(false);
                             navigate('/');
                           }}
-                          className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-navy-800 cursor-pointer transition-colors"
+                          className="w-full text-left px-4 py-2 text-[14px] font-medium text-[#f04438] hover:text-[#d92d20] dark:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition-colors cursor-pointer"
                         >
                           Log Out
                         </button>
                       </div>
                     </>
                   ) : (
-                    <div className="p-3 text-center">
-                      <p className="text-xs text-gray-300 mb-3">Sign in for exclusive member privileges & order tracking</p>
+                    <div className="p-4 text-center">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+                        Sign in for exclusive member privileges & live order tracking
+                      </p>
                       <button
                         onClick={() => {
                           setAuthMode('login');
                           setIsAuthModalOpen(true);
                           setIsAccountOpen(false);
                         }}
-                        className="w-full py-2 bg-gold-gradient text-navy-950 font-bold rounded-xl text-xs shadow-gold-sm hover:brightness-110 mb-2"
+                        className="w-full py-2.5 bg-gold-gradient text-navy-950 font-bold rounded-xl text-xs shadow-gold-sm hover:brightness-110 mb-2 cursor-pointer transition-all"
                       >
                         Sign In
                       </button>
@@ -358,7 +349,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           setIsAuthModalOpen(true);
                           setIsAccountOpen(false);
                         }}
-                        className="w-full py-2 bg-navy-800 text-gold-400 hover:text-white rounded-xl text-xs border border-navy-700"
+                        className="w-full py-2 bg-navy-900 text-gold-400 hover:text-white rounded-xl text-xs border border-gold-500/30 cursor-pointer transition-colors"
                       >
                         Create Account
                       </button>
