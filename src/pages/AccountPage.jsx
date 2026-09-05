@@ -265,12 +265,78 @@ export const AccountPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fadeIn">
+      {/* Mobile Horizontal Tab Navigation (lg:hidden) */}
+      <div className="lg:hidden mb-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <Link
+          to="/account"
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+            activeTab === 'dashboard'
+              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
+              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+          }`}
+        >
+          <User className="w-3.5 h-3.5" />
+          <span>Dashboard</span>
+        </Link>
+        <Link
+          to="/account/orders"
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+            activeTab === 'orders'
+              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
+              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+          }`}
+        >
+          <Package className="w-3.5 h-3.5" />
+          <span>Orders ({orders.length})</span>
+        </Link>
+        <Link
+          to="/account/addresses"
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+            activeTab === 'addresses'
+              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
+              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+          }`}
+        >
+          <MapPin className="w-3.5 h-3.5" />
+          <span>Addresses</span>
+        </Link>
+        <Link
+          to="/account/profile"
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+            activeTab === 'profile'
+              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
+              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+          }`}
+        >
+          <Edit2 className="w-3.5 h-3.5" />
+          <span>Profile</span>
+        </Link>
+        <Link
+          to="/account/security"
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+            activeTab === 'security'
+              ? 'bg-navy-900 dark:bg-gold-500/20 text-gold-400 border border-gold-500/40 shadow-sm'
+              : 'bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750'
+          }`}
+        >
+          <Lock className="w-3.5 h-3.5" />
+          <span>Security</span>
+        </Link>
+        <Link
+          to="/track-order"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-white dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-750 shrink-0 hover:text-gold-400"
+        >
+          <Truck className="w-3.5 h-3.5" />
+          <span>Track Order</span>
+        </Link>
+      </div>
+
       {/* Account Dashboard Layout: Sidebar + Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Navigation Card (Col 4) */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="hidden lg:block lg:col-span-4 space-y-6">
           <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6">
             
             {/* User Profile Banner with Avatar Upload */}

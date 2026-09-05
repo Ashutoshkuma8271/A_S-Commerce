@@ -160,7 +160,7 @@ export const ProductDetailsPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 sm:pb-12 animate-fadeIn">
       
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-xs text-gray-500 mb-6 flex-wrap">
@@ -702,6 +702,32 @@ export const ProductDetailsPage = () => {
           </div>
         </div>
       )}
+
+      {/* Mobile Sticky Bottom Action Bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-navy-900/95 backdrop-blur-md border-t border-gray-200 dark:border-navy-750 px-4 py-3 flex items-center justify-between gap-3 shadow-2xl">
+        <div className="min-w-0">
+          <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase font-semibold">Total Price</p>
+          <p className="text-base font-bold text-navy-950 dark:text-gold-400">{formatINR(product.price * quantity)}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleAddToCart}
+            className="px-3.5 py-2.5 bg-navy-900 dark:bg-navy-800 text-gold-400 text-xs font-bold rounded-xl border border-gold-500/30 flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer"
+            aria-label="Add to cart"
+          >
+            <ShoppingBag className="w-4 h-4" />
+            <span>Add</span>
+          </button>
+          <button
+            onClick={handleBuyNow}
+            className="px-4 py-2.5 bg-gold-gradient text-navy-950 text-xs font-bold rounded-xl shadow-gold-sm hover:brightness-110 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+            aria-label="Buy now"
+          >
+            <Zap className="w-4 h-4 fill-current" />
+            <span>Buy Now</span>
+          </button>
+        </div>
+      </div>
 
     </div>
   );

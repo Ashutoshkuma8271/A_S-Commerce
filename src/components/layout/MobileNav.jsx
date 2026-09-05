@@ -63,15 +63,20 @@ export const MobileNav = ({ isOpen, onClose }) => {
         {/* User preview / Quick Sign-In */}
         <div className="p-4 bg-navy-850 border-b border-navy-800">
           {isAuthenticated ? (
-            <div className="flex items-center gap-3">
+            <Link
+              to="/account"
+              onClick={onClose}
+              className="flex items-center gap-3 p-2 -m-2 rounded-xl hover:bg-navy-800 transition-colors group cursor-pointer"
+            >
               <div className="w-10 h-10 rounded-full bg-navy-800 border border-gold-500/40 overflow-hidden shrink-0">
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                <p className="text-sm font-bold text-white group-hover:text-gold-400 transition-colors truncate">{user.name}</p>
                 <p className="text-xs text-gold-400">{user.membershipTier || 'Gold VIP Member'}</p>
               </div>
-            </div>
+              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gold-400 transition-colors" />
+            </Link>
           ) : (
             <div className="flex gap-2">
               <button
