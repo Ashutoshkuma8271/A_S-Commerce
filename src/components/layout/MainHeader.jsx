@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, User, ChevronDown, X, Clock, Flame, ArrowRight, Menu, Sparkles } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, ChevronDown, X, Clock, Flame, ArrowRight, Menu, Sparkles, LayoutDashboard, MapPin, LogOut } from 'lucide-react';
 import { Logo } from '../common/Logo';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { useCart } from '../../context/CartContext';
@@ -272,65 +272,69 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
               {/* Account Dropdown Menu */}
               {isAccountOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-navy-900 border border-gray-100 dark:border-navy-750 rounded-2xl shadow-xl py-3 z-50 animate-fadeIn text-left">
+                <div className="absolute right-0 mt-2 w-56 sm:w-60 max-w-[calc(100vw-24px)] bg-white/98 dark:bg-[#061A27]/98 backdrop-blur-2xl border border-gray-200/90 dark:border-gold-500/25 rounded-2xl shadow-xl p-2 z-50 animate-fadeIn text-left">
                   {isAuthenticated ? (
                     <>
-                      {/* Header matching screenshot */}
-                      <div className="px-4 pb-3 border-b border-gray-100 dark:border-navy-800">
-                        <p className="text-xs text-gray-500 dark:text-gray-400 font-normal leading-none">
+                      {/* Header Card */}
+                      <div className="px-3 py-2.5 bg-gray-50/80 dark:bg-navy-850/70 rounded-xl mb-1 border border-gray-100/90 dark:border-navy-800">
+                        <p className="text-[10.5px] text-gray-500 dark:text-gray-400 font-medium tracking-wide uppercase font-mono leading-none">
                           Signed in as
                         </p>
-                        <p className="text-base font-bold text-gray-900 dark:text-white truncate mt-1 tracking-tight">
+                        <p className="text-sm font-bold text-navy-950 dark:text-white truncate mt-1 tracking-tight">
                           {user.name || 'Valued Patron'}
                         </p>
-                        <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ebf7f0] text-[#1e5a38] border border-[#bce8cb] dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700/50">
-                          <Sparkles className="w-3.5 h-3.5 text-[#1e5a38] dark:text-emerald-400 shrink-0" />
+                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10.5px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/90 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-700/50">
+                          <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
                           <span>{user.membershipTier || 'Fresh VIP Member'}</span>
                         </div>
                       </div>
 
                       {/* Navigation links */}
-                      <div className="py-2 text-[14px]">
+                      <div className="space-y-0.5 py-1">
                         <Link
                           to="/account"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
+                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          My Dashboard
+                          <LayoutDashboard className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <span>My Dashboard</span>
                         </Link>
                         <Link
                           to="/account/orders"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
+                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          My Orders
+                          <ShoppingBag className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <span>My Orders</span>
                         </Link>
                         <Link
                           to="/track-order"
                           onClick={() => setIsAccountOpen(false)}
-                          className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 hover:text-emerald-700 dark:hover:text-gold-400 transition-colors font-medium"
+                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          Track Live Order
+                          <MapPin className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <span>Track Live Order</span>
                         </Link>
                       </div>
 
                       {/* Log Out link */}
-                      <div className="border-t border-gray-100 dark:border-navy-800 pt-2">
+                      <div className="border-t border-gray-100 dark:border-navy-800 pt-1 mt-0.5">
                         <button
                           onClick={() => {
                             logout();
                             setIsAccountOpen(false);
                             navigate('/');
                           }}
-                          className="w-full text-left px-4 py-2 text-[14px] font-medium text-[#f04438] hover:text-[#d92d20] dark:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition-colors cursor-pointer"
+                          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50/80 dark:hover:bg-rose-950/30 rounded-lg transition-colors cursor-pointer"
                         >
-                          Log Out
+                          <LogOut className="w-3.5 h-3.5 shrink-0" />
+                          <span>Log Out</span>
                         </button>
                       </div>
                     </>
                   ) : (
-                    <div className="p-4 text-center">
-                      <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+                    <div className="p-3 text-center">
+                      <p className="text-[11.5px] text-gray-600 dark:text-gray-300 mb-2.5 leading-snug">
                         Sign in for exclusive member privileges & live order tracking
                       </p>
                       <button
@@ -339,7 +343,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           setIsAuthModalOpen(true);
                           setIsAccountOpen(false);
                         }}
-                        className="w-full py-2.5 bg-gold-gradient text-navy-950 font-bold rounded-xl text-xs shadow-gold-sm hover:brightness-110 mb-2 cursor-pointer transition-all"
+                        className="w-full py-2 bg-gold-gradient text-navy-950 font-bold rounded-xl text-xs shadow-gold-sm hover:brightness-105 mb-1.5 cursor-pointer transition-all"
                       >
                         Sign In
                       </button>
@@ -349,7 +353,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           setIsAuthModalOpen(true);
                           setIsAccountOpen(false);
                         }}
-                        className="w-full py-2 bg-navy-900 text-gold-400 hover:text-white rounded-xl text-xs border border-gold-500/30 cursor-pointer transition-colors"
+                        className="w-full py-1.5 bg-gray-100 dark:bg-navy-800 text-gray-800 dark:text-gold-400 hover:text-gold-600 dark:hover:text-white rounded-xl text-xs border border-gray-200 dark:border-navy-700 cursor-pointer transition-colors"
                       >
                         Create Account
                       </button>

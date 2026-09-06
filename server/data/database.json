@@ -9,7 +9,7 @@
       "isActive": true,
       "singleAdminLock": 1,
       "createdAt": "2026-08-31T20:41:54.344+00:00",
-      "updatedAt": "2026-09-05T20:15:12.772+00:00"
+      "updatedAt": "2026-09-06T06:53:05.431+00:00"
     }
   ],
   "users": [
@@ -155,15 +155,12 @@
       "name": "Bholu Yadav",
       "email": "bholukumaryadav8226@gmail.com",
       "phone": "8226812720",
-      "passwordHash": "$2b$10$ba6U2730W.0TTE9HBg.TnOcFvyzPRD49Ix1aFuDM/S.mrJ65rx9ba",
       "role": "customer",
       "isVerified": true,
       "addresses": [],
       "wishlist": [],
-      "verificationOtp": null,
-      "otpExpiresAt": null,
       "createdAt": "2026-08-26T18:34:10.807+00:00",
-      "updatedAt": "2026-09-06T06:52:20.85+00:00"
+      "updatedAt": "2026-09-06T06:56:21.589+00:00"
     }
   ],
   "password_resets": [
@@ -179,6 +176,28 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": "audit-1788677585967-kmdht",
+      "action": "Admin login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-09-06T06:53:05.975+00:00",
+      "timestamp": "2026-09-06T06:53:05.975+00:00"
+    },
+    {
+      "id": "audit-1788677573764-d07j6",
+      "action": "Logout",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged out",
+      "createdAt": "2026-09-06T06:52:53.766+00:00",
+      "timestamp": "2026-09-06T06:52:53.766+00:00"
+    },
     {
       "id": "audit-1788639313655-8a1pq",
       "action": "Admin login",
