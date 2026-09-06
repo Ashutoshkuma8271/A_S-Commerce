@@ -18,39 +18,12 @@
       "name": "Shruti Bharti",
       "email": "shrutiashutosh139@gmail.com",
       "phone": "8271936044",
-      "passwordHash": "$2b$10$jEqsicF7o7.SxqPV6eRL0e5/s/sStsRGHXp477fnOO/b3kOKk5XXi",
       "role": "customer",
       "isVerified": true,
       "addresses": [],
       "wishlist": [],
-      "verificationOtp": null,
-      "otpExpiresAt": null,
       "createdAt": "2026-09-05T10:37:53.215+00:00",
-      "updatedAt": "2026-09-05T20:29:37.995+00:00"
-    },
-    {
-      "id": "usr-1788603787781",
-      "name": "Eleanor Vance",
-      "email": "production_test_1788603787656@ascommerce.luxury",
-      "phone": "+91 9123456789",
-      "role": "customer",
-      "isVerified": true,
-      "addresses": [
-        {
-          "id": "addr-1",
-          "city": "Mumbai",
-          "name": "Eleanor Vance",
-          "phone": "+91 9123456789",
-          "state": "Maharashtra",
-          "title": "Home",
-          "street": "Penthouse 12, Skyline Towers",
-          "pincode": "400001",
-          "isDefault": true
-        }
-      ],
-      "wishlist": [],
-      "createdAt": "2026-09-05T10:23:07.77+00:00",
-      "updatedAt": "2026-09-05T10:23:09.409+00:00"
+      "updatedAt": "2026-09-06T06:42:37.833+00:00"
     },
     {
       "id": "usr-1788242833130",
@@ -74,7 +47,7 @@
       "addresses": [],
       "wishlist": [],
       "createdAt": "2026-09-01T05:11:55.03+00:00",
-      "updatedAt": "2026-09-05T20:01:02.23+00:00"
+      "updatedAt": "2026-09-06T06:48:56.504+00:00"
     },
     {
       "id": "usr-1788191709837",
@@ -182,12 +155,15 @@
       "name": "Bholu Yadav",
       "email": "bholukumaryadav8226@gmail.com",
       "phone": "8226812720",
+      "passwordHash": "$2b$10$ba6U2730W.0TTE9HBg.TnOcFvyzPRD49Ix1aFuDM/S.mrJ65rx9ba",
       "role": "customer",
       "isVerified": true,
       "addresses": [],
       "wishlist": [],
+      "verificationOtp": null,
+      "otpExpiresAt": null,
       "createdAt": "2026-08-26T18:34:10.807+00:00",
-      "updatedAt": "2026-09-05T17:17:21.325+00:00"
+      "updatedAt": "2026-09-06T06:52:20.85+00:00"
     }
   ],
   "password_resets": [
@@ -1132,8 +1108,8 @@
       "code": "LUXURY50",
       "discountPercent": 50,
       "discountAmount": null,
-      "minOrder": 999,
-      "description": "Exclusive Season Special 50% Off on orders above ₹999",
+      "minOrder": 9999,
+      "description": "Exclusive VIP Season Finale 50% Off",
       "isActive": true
     },
     {
@@ -1148,16 +1124,16 @@
       "code": "ASGOLD20",
       "discountPercent": 20,
       "discountAmount": null,
-      "minOrder": 999,
-      "description": "20% Off on orders above ₹999",
+      "minOrder": 4999,
+      "description": "20% Off on orders above ₹4,999",
       "isActive": true
     },
     {
       "code": "LUXURY500",
       "discountPercent": null,
       "discountAmount": 500,
-      "minOrder": 999,
-      "description": "Flat ₹500 Off on orders above ₹999",
+      "minOrder": 2999,
+      "description": "Flat ₹500 Off on orders above ₹2,999",
       "isActive": true
     }
   ],

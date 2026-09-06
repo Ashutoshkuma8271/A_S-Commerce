@@ -1674,10 +1674,30 @@ export const AdminDashboardPage = () => {
                   {visibleOrders.length === 0 && (
                     <div className="text-center py-16 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-navy-800 space-y-3">
                       <Package className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />
-                      <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments in this View</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-500 max-w-sm mx-auto">
-                        New orders placed by clients will stream here instantly with live real-time sync.
-                      </p>
+                      {orders.length > 0 && (orderSearch.trim() || orderStatusFilter !== 'all') ? (
+                        <>
+                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments Match Your Filters</h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
+                            No orders match the current search query or status filter.
+                          </p>
+                          <button
+                            onClick={() => {
+                              setOrderSearch('');
+                              setOrderStatusFilter('all');
+                            }}
+                            className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gold-500/10 hover:bg-gold-500/20 text-gold-700 dark:text-gold-400 font-semibold text-xs border border-gold-500/30 transition-all cursor-pointer"
+                          >
+                            Clear Filters & View All
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments in this View</h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-500 max-w-sm mx-auto">
+                            New orders placed by clients will stream here instantly with live real-time sync.
+                          </p>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1797,8 +1817,23 @@ export const AdminDashboardPage = () => {
                   {filteredCustomers.length === 0 && (
                     <div className="text-center py-12 rounded-2xl bg-gray-50 dark:bg-navy-850/50 border border-gray-200 dark:border-navy-800 space-y-2 mt-3">
                       <User className="w-10 h-10 text-gray-400 dark:text-gray-500 mx-auto" />
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons found.</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Registered users matching your search will appear here.</p>
+                      {customerSearch.trim() ? (
+                        <>
+                          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons match "{customerSearch.trim()}".</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Try searching with a different name, email, or phone number.</p>
+                          <button
+                            onClick={() => setCustomerSearch('')}
+                            className="mt-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gold-500/10 hover:bg-gold-500/20 text-gold-700 dark:text-gold-400 font-medium text-xs border border-gold-500/30 transition-all cursor-pointer"
+                          >
+                            Clear Search
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons found.</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Registered users will appear here automatically.</p>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
