@@ -936,30 +936,30 @@ export const AdminDashboardPage = () => {
           </button>
         </div>
 
-        {loading && !stats ? (
+        {loading && !stats && products.length === 0 && orders.length === 0 ? (
           renderSkeletonContent()
         ) : (
           <>
             {/* TAB 1: OVERVIEW */}
             {activeTab === 'overview' && (
-              <div className="space-y-8 animate-fadeIn">
+              <div className="space-y-8 smooth-section-enter animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider">Gross Sales</span>
+                      <span className="text-xs text-gray-700 dark:text-gray-300 font-semibold uppercase tracking-wider">Gross Sales</span>
                       <div className="w-10 h-10 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-600 dark:text-gold-400">
                         <TrendingUp className="w-5 h-5" />
                       </div>
                     </div>
                     <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
-                      {formatINR(stats?.totalRevenue ?? 0)}
+                      {formatINR(stats?.totalRevenue ?? orders.reduce((sum, o) => sum + Number(o.total || o.total_amount || 0), 0))}
                     </h3>
                     <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-bold">✓ Razorpay Verified Revenue</span>
                   </div>
 
                   <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider">Total Consignments</span>
+                      <span className="text-xs text-gray-700 dark:text-gray-300 font-semibold uppercase tracking-wider">Total Consignments</span>
                       <div className="w-10 h-10 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
                         <ShoppingBag className="w-5 h-5" />
                       </div>
@@ -972,7 +972,7 @@ export const AdminDashboardPage = () => {
 
                   <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider">Catalog Inventory</span>
+                      <span className="text-xs text-gray-700 dark:text-gray-300 font-semibold uppercase tracking-wider">Catalog Inventory</span>
                       <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
                         <Package className="w-5 h-5" />
                       </div>
@@ -980,12 +980,12 @@ export const AdminDashboardPage = () => {
                     <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
                       {products.length} Products
                     </h3>
-                    <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Across 7 Main Departments</span>
+                    <span className="text-[11px] text-gray-700 dark:text-gray-300 font-medium">Across 7 Main Departments</span>
                   </div>
 
                   <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-2 transition-colors">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider">Security State</span>
+                      <span className="text-xs text-gray-700 dark:text-gray-300 font-semibold uppercase tracking-wider">Security State</span>
                       <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
@@ -993,7 +993,7 @@ export const AdminDashboardPage = () => {
                     <h3 className="font-serif text-xl font-bold text-emerald-700 dark:text-emerald-400">
                       Protected (1/1 Lock)
                     </h3>
-                    <span className="text-[11px] text-gray-600 dark:text-gray-400 font-medium">Single-Admin Enforced</span>
+                    <span className="text-[11px] text-gray-700 dark:text-gray-300 font-medium">Single-Admin Enforced</span>
                   </div>
                 </div>
 
@@ -1015,8 +1015,8 @@ export const AdminDashboardPage = () => {
                         <div key={order.id} className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 flex items-center justify-between gap-4">
                           <div>
                             <span className="text-xs font-mono font-bold text-gold-700 dark:text-gold-400">#{order.id}</span>
-                            <p className="text-xs text-navy-950 dark:text-white font-medium mt-0.5">{order.shippingAddress?.name}</p>
-                            <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">{order.date} • {order.carrier}</span>
+                            <p className="text-xs text-navy-950 dark:text-white font-semibold mt-0.5">{order.shippingAddress?.name}</p>
+                            <span className="text-[10px] text-gray-700 dark:text-gray-300 font-medium">{order.date} • {order.carrier}</span>
                           </div>
                           <div className="text-right space-y-1">
                             <span className="text-xs font-bold text-navy-950 dark:text-white block">{formatINR(order.total)}</span>
@@ -1045,11 +1045,11 @@ export const AdminDashboardPage = () => {
                         <div key={log.id} className="p-3 rounded-xl bg-gray-50 dark:bg-navy-850 border border-gray-200/80 dark:border-navy-800 text-xs space-y-1">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-gold-700 dark:text-gold-400">{log.action}</span>
-                            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">
+                            <span className="text-[10px] text-gray-600 dark:text-gray-400 font-mono">
                               {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
-                          <p className="text-[11px] text-gray-700 dark:text-gray-300 font-normal">{log.details || log.resource}</p>
+                          <p className="text-[11px] text-gray-800 dark:text-gray-200 font-normal">{log.details || log.resource}</p>
                         </div>
                       ))}
                     </div>
@@ -1060,13 +1060,13 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 2: PRODUCTS CATALOG MANAGEMENT */}
             {activeTab === 'products' && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 smooth-section-enter animate-fadeIn transition-colors">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 dark:border-navy-800 pb-4">
                   <div>
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white">
                       Catalog & Product Management
                     </h3>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
                       Add new luxury pieces, adjust pricing, manage live inventory, and modify badges.
                     </p>
                   </div>
@@ -1111,8 +1111,8 @@ export const AdminDashboardPage = () => {
 
                 {/* Products Table */}
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
-                    <thead className="bg-gray-100 dark:bg-navy-950 text-gray-700 dark:text-gray-400 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
+                  <table className="w-full text-left text-xs text-gray-800 dark:text-gray-200">
+                    <thead className="bg-gray-100 dark:bg-navy-950 text-gray-800 dark:text-gray-300 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
                       <tr>
                         <th className="p-3.5">Item</th>
                         <th className="p-3.5">Department</th>
@@ -1134,11 +1134,11 @@ export const AdminDashboardPage = () => {
                               />
                               <div>
                                 <span className="font-bold text-navy-950 dark:text-white block">{prod.name}</span>
-                                <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">{prod.brand}</span>
+                                <span className="text-[10px] text-gray-700 dark:text-gray-300 font-medium">{prod.brand}</span>
                               </div>
                             </div>
                           </td>
-                          <td className="p-3.5 font-medium text-gray-700 dark:text-gray-300">{prod.categoryName}</td>
+                          <td className="p-3.5 font-medium text-gray-800 dark:text-gray-200">{prod.categoryName}</td>
                           <td className="p-3.5 font-bold text-gold-700 dark:text-gold-400 font-mono">{formatINR(prod.price)}</td>
                           <td className="p-3.5">
                             <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${prod.stockCount <= 5 ? 'bg-red-500/20 text-red-700 dark:text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-700 dark:text-green-400 border border-green-500/30'}`}>
@@ -1178,7 +1178,7 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 3: ORDERS & DELIVERY LOGISTICS */}
             {activeTab === 'orders' && (
-              <div className="space-y-6 animate-fadeIn">
+              <div className="space-y-6 smooth-section-enter animate-fadeIn">
                 {/* Header & Controls */}
                 <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 transition-colors">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 dark:border-navy-800 pb-4">
@@ -1187,7 +1187,7 @@ export const AdminDashboardPage = () => {
                         <Truck className="w-6 h-6 text-gold-600 dark:text-gold-400" />
                         <span>Orders & Logistics Management</span>
                       </h3>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                      <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
                         Real-time consignment pipeline, live tracking milestones, customer contacts, and printable luxury invoices.
                       </p>
                     </div>
@@ -1217,7 +1217,7 @@ export const AdminDashboardPage = () => {
                   {/* Order KPI Summary Ribbon */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200 dark:border-navy-800 space-y-1">
-                      <span className="text-[10px] text-gray-600 dark:text-gray-400 uppercase font-semibold tracking-wider">Total Consignments</span>
+                      <span className="text-[10px] text-gray-700 dark:text-gray-300 uppercase font-semibold tracking-wider">Total Consignments</span>
                       <div className="flex items-baseline justify-between">
                         <span className="text-xl sm:text-2xl font-bold font-serif text-navy-950 dark:text-white">{orders.length}</span>
                         <span className="text-xs font-mono text-gold-700 dark:text-gold-400 font-bold">
@@ -1232,7 +1232,7 @@ export const AdminDashboardPage = () => {
                         <span className="text-xl sm:text-2xl font-bold font-serif text-amber-700 dark:text-amber-400">
                           {orders.filter(o => ['Order Placed', 'Payment Confirmed', 'Processing'].includes(o.status || 'Processing')).length}
                         </span>
-                        <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">Requires Action</span>
+                        <span className="text-[10px] text-gray-700 dark:text-gray-300 font-medium">Requires Action</span>
                       </div>
                     </div>
 
@@ -1274,11 +1274,11 @@ export const AdminDashboardPage = () => {
                           onClick={() => setOrderStatusFilter(tab.id)}
                           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${isSelected
                               ? 'bg-gold-500/20 text-gold-700 dark:text-gold-400 border border-gold-500/40 shadow-xs'
-                              : 'bg-gray-100 dark:bg-navy-850/60 text-gray-700 dark:text-gray-400 hover:text-navy-950 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-navy-800 border border-gray-200 dark:border-navy-800'
+                              : 'bg-gray-100 dark:bg-navy-850/60 text-gray-800 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-navy-800 border border-gray-200 dark:border-navy-800'
                             }`}
                         >
                           <span>{tab.label}</span>
-                          <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-mono ${isSelected ? 'bg-gold-500 text-navy-950 font-bold' : 'bg-gray-200 dark:bg-navy-800 text-gray-700 dark:text-gray-400'
+                          <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-mono ${isSelected ? 'bg-gold-500 text-navy-950 font-bold' : 'bg-gray-200 dark:bg-navy-800 text-gray-800 dark:text-gray-300'
                             }`}>
                             {tab.count}
                           </span>
@@ -1301,7 +1301,7 @@ export const AdminDashboardPage = () => {
                       {orderSearch && (
                         <button
                           onClick={() => setOrderSearch('')}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white text-xs font-semibold cursor-pointer"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white text-xs font-semibold cursor-pointer"
                         >
                           Clear
                         </button>
@@ -1312,7 +1312,7 @@ export const AdminDashboardPage = () => {
                       <select
                         value={orderStatusFilter}
                         onChange={(e) => setOrderStatusFilter(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer font-medium"
+                        className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer font-semibold"
                       >
                         <option value="all">All Stages ({orders.length})</option>
                         <option value="Order Placed">Placed</option>
@@ -1327,7 +1327,7 @@ export const AdminDashboardPage = () => {
                       <select
                         value={orderSortBy}
                         onChange={(e) => setOrderSortBy(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer font-medium"
+                        className="w-full px-3 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs focus:border-gold-500 cursor-pointer font-semibold"
                       >
                         <option value="newest">Sort: Newest First</option>
                         <option value="oldest">Sort: Oldest First</option>
@@ -1398,8 +1398,8 @@ export const AdminDashboardPage = () => {
                                   </button>
                                 </div>
 
-                                <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1 font-medium">
-                                  <Calendar className="w-3.5 h-3.5 text-gray-500" />
+                                <span className="text-xs text-gray-700 dark:text-gray-300 flex items-center gap-1 font-medium">
+                                  <Calendar className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
                                   {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : (order.date || '2026-08-31')}
                                 </span>
 
@@ -1407,20 +1407,20 @@ export const AdminDashboardPage = () => {
                                   ● {currentStatus}
                                 </span>
 
-                                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-navy-850 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-navy-700">
+                                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-navy-850 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-navy-700">
                                   {order.paymentMethod || 'Razorpay Gateway'} ({order.paymentStatus || 'Paid'})
                                 </span>
                               </div>
 
                               {/* Customer Contact Bar with Quick Action Links */}
-                              <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600 dark:text-gray-300">
+                              <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-gray-700 dark:text-gray-300">
                                 <span className="font-semibold text-navy-950 dark:text-white flex items-center gap-1.5">
                                   <User className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" />
                                   {customerName}
                                 </span>
-                                <span className="text-gray-600 dark:text-gray-400">{customerEmail}</span>
+                                <span className="text-gray-700 dark:text-gray-300">{customerEmail}</span>
                                 {cleanPhone && (
-                                  <span className="text-gray-700 dark:text-gray-300 font-mono flex items-center gap-1">
+                                  <span className="text-gray-800 dark:text-gray-200 font-mono flex items-center gap-1">
                                     <Phone className="w-3 h-3 text-gold-600 dark:text-gold-400" />
                                     +{cleanPhone}
                                   </span>
@@ -1434,7 +1434,7 @@ export const AdminDashboardPage = () => {
                                 <span className="text-xl sm:text-2xl font-serif font-bold text-navy-950 dark:text-white block">
                                   {formatINR(order.total || order.total_amount || 0)}
                                 </span>
-                                <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">
+                                <span className="text-[10px] text-gray-700 dark:text-gray-300 font-medium">
                                   {order.items?.length || 1} Item(s) • Tax Incl.
                                 </span>
                               </div>
@@ -1491,7 +1491,7 @@ export const AdminDashboardPage = () => {
                                             ? 'bg-gold-500 text-navy-950 border-gold-400 ring-2 ring-gold-500/30 animate-pulse'
                                             : isCompleted
                                               ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-emerald-500/40 group-hover:border-gold-400'
-                                              : 'bg-gray-200 dark:bg-navy-900 text-gray-600 dark:text-gray-500 border-gray-300 dark:border-navy-800 group-hover:border-gold-500/50 group-hover:text-gold-700 dark:group-hover:text-gold-400'
+                                              : 'bg-gray-200 dark:bg-navy-900 text-gray-700 dark:text-gray-400 border-gray-300 dark:border-navy-800 group-hover:border-gold-500/50 group-hover:text-gold-700 dark:group-hover:text-gold-400'
                                           }`}
                                       >
                                         {isCompleted && !isCurrent ? (
@@ -1504,8 +1504,8 @@ export const AdminDashboardPage = () => {
                                         className={`text-[9px] sm:text-[10px] leading-tight line-clamp-1 group-hover:text-gold-700 dark:group-hover:text-gold-400 transition-colors ${isCurrent
                                             ? 'text-gold-700 dark:text-gold-400 font-bold'
                                             : isCompleted
-                                              ? 'text-gray-800 dark:text-gray-300 font-semibold'
-                                              : 'text-gray-500 dark:text-gray-400 font-medium'
+                                              ? 'text-gray-800 dark:text-gray-200 font-semibold'
+                                              : 'text-gray-600 dark:text-gray-400 font-medium'
                                           }`}
                                       >
                                         {stage}
@@ -1520,7 +1520,7 @@ export const AdminDashboardPage = () => {
                           {/* Itemized Preview of Consignment */}
                           {Array.isArray(order.items) && order.items.length > 0 && (
                             <div className="bg-gray-50/60 dark:bg-navy-850/40 rounded-2xl p-4 border border-gray-200 dark:border-navy-800/80 space-y-2.5">
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 block">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 block">
                                 ORDERED LUXURY CONSIGNMENT ({order.items.length} ITEM{order.items.length > 1 ? 'S' : ''})
                               </span>
                               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -1536,9 +1536,9 @@ export const AdminDashboardPage = () => {
                                     />
                                     <div className="min-w-0 flex-1">
                                       <p className="font-semibold text-navy-950 dark:text-white truncate text-xs">{item.name}</p>
-                                      <div className="flex items-center justify-between text-[11px] text-gray-600 dark:text-gray-400 mt-0.5">
+                                      <div className="flex items-center justify-between text-[11px] text-gray-700 dark:text-gray-300 mt-0.5">
                                         <span>Qty: <strong className="text-gold-700 dark:text-gold-400">{item.quantity || 1}</strong></span>
-                                        <span className="font-mono text-gray-800 dark:text-gray-200 font-bold">{formatINR(item.price || 0)}</span>
+                                        <span className="font-mono text-gray-900 dark:text-gray-100 font-bold">{formatINR(item.price || 0)}</span>
                                       </div>
                                     </div>
                                   </div>
@@ -1552,7 +1552,7 @@ export const AdminDashboardPage = () => {
                             {/* Address Dossier */}
                             <div className="md:col-span-6 bg-gray-50/80 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200 dark:border-navy-800 space-y-1.5">
                               <div className="flex items-center justify-between">
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 flex items-center gap-1">
                                   <MapPin className="w-3 h-3 text-gold-600 dark:text-gold-400" />
                                   DESTINATION ADDRESS
                                 </span>
@@ -1568,25 +1568,25 @@ export const AdminDashboardPage = () => {
                                   </a>
                                 )}
                               </div>
-                              <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-xs">
+                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-xs">
                                 {order.shippingAddress?.street ? (
                                   <>
                                     <strong className="text-navy-950 dark:text-white block">{order.shippingAddress.name || customerName}</strong>
                                     {order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state ? `${order.shippingAddress.state}, ` : ''}PIN: {order.shippingAddress.pincode}
                                   </>
                                 ) : (
-                                  <span className="text-gray-500 dark:text-gray-400 italic">Standard Client Delivery Address (Direct Courier)</span>
+                                  <span className="text-gray-600 dark:text-gray-400 italic">Standard Client Delivery Address (Direct Courier)</span>
                                 )}
                               </p>
                             </div>
 
                             {/* Carrier & Tracking */}
                             <div className="md:col-span-6 bg-gray-50/80 dark:bg-navy-850/50 p-4 rounded-2xl border border-gray-200 dark:border-navy-800 space-y-1.5">
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 flex items-center gap-1">
                                 <Truck className="w-3 h-3 text-gold-600 dark:text-gold-400" />
                                 CARRIER LOGISTICS
                               </span>
-                              <div className="text-gray-700 dark:text-gray-200 space-y-1">
+                              <div className="text-gray-800 dark:text-gray-200 space-y-1">
                                 <p>
                                   Partner: <strong className="text-navy-950 dark:text-white">{order.carrier || 'Bluedart Express Luxury Courier'}</strong>
                                 </p>
@@ -1631,7 +1631,7 @@ export const AdminDashboardPage = () => {
                               {cleanPhone && (
                                 <a
                                   href={`tel:${cleanPhone}`}
-                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-navy-800 dark:hover:bg-navy-750 dark:text-gray-300 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors font-medium"
+                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-navy-800 dark:hover:bg-navy-750 dark:text-gray-200 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors font-medium"
                                 >
                                   <Phone className="w-3.5 h-3.5" />
                                   <span>Call</span>
@@ -1640,7 +1640,7 @@ export const AdminDashboardPage = () => {
                               {customerEmail && (
                                 <a
                                   href={`mailto:${customerEmail}?subject=${encodeURIComponent(`A_S Commerce Order Update #${order.id}`)}`}
-                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-navy-800 dark:hover:bg-navy-750 dark:text-gray-300 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors font-medium"
+                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-navy-800 dark:hover:bg-navy-750 dark:text-gray-200 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors font-medium"
                                 >
                                   <Mail className="w-3.5 h-3.5" />
                                   <span>Email</span>
@@ -1673,11 +1673,11 @@ export const AdminDashboardPage = () => {
 
                   {visibleOrders.length === 0 && (
                     <div className="text-center py-16 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-navy-800 space-y-3">
-                      <Package className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />
+                      <Package className="w-12 h-12 text-gray-500 dark:text-gray-400 mx-auto" />
                       {orders.length > 0 && (orderSearch.trim() || orderStatusFilter !== 'all') ? (
                         <>
-                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments Match Your Filters</h4>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
+                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-200">No Consignments Match Your Filters</h4>
+                          <p className="text-xs text-gray-700 dark:text-gray-300 max-w-sm mx-auto">
                             No orders match the current search query or status filter.
                           </p>
                           <button
@@ -1692,8 +1692,8 @@ export const AdminDashboardPage = () => {
                         </>
                       ) : (
                         <>
-                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments in this View</h4>
-                          <p className="text-xs text-gray-600 dark:text-gray-500 max-w-sm mx-auto">
+                          <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-200">No Consignments in this View</h4>
+                          <p className="text-xs text-gray-700 dark:text-gray-300 max-w-sm mx-auto">
                             New orders placed by clients will stream here instantly with live real-time sync.
                           </p>
                         </>
@@ -1706,26 +1706,26 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 3.5: CUSTOMERS DIRECTORY */}
             {activeTab === 'customers' && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 smooth-section-enter animate-fadeIn transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
                   <div>
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
-                      <User className="w-6 h-6 text-gold-400" />
+                      <User className="w-6 h-6 text-gold-600 dark:text-gold-400" />
                       <span>Registered Customer Directory</span>
                     </h3>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
                       Customer profiles, verified contact details, purchasing frequency, and lifetime spend.
                     </p>
                   </div>
                   <div className="flex items-center flex-wrap gap-2">
-                    <span className="text-xs font-mono text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30 font-semibold">
+                    <span className="text-xs font-mono text-gold-700 dark:text-gold-400 bg-gold-500/10 px-3 py-1.5 rounded-xl border border-gold-500/30 font-semibold">
                       {customers.length} Patrons Registered
                     </span>
                     <button
                       onClick={() => fetchDashboardData(true)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 text-gray-700 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 text-gray-700 dark:text-gray-300 hover:text-navy-950 dark:hover:text-white text-xs border border-gray-200 dark:border-navy-700 transition-colors cursor-pointer font-semibold"
                     >
-                      <RefreshCw className={`w-3.5 h-3.5 text-gold-400 ${loading ? 'animate-spin' : ''}`} />
+                      <RefreshCw className={`w-3.5 h-3.5 text-gold-600 dark:text-gold-400 ${loading ? 'animate-spin' : ''}`} />
                       <span>Refresh</span>
                     </button>
                   </div>
@@ -1733,20 +1733,20 @@ export const AdminDashboardPage = () => {
 
                 {/* Customer Search */}
                 <div className="max-w-md relative">
-                  <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-gray-500 dark:text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     placeholder="Search customers by name, email, phone..."
                     value={customerSearch}
                     onChange={(e) => setCustomerSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 focus:border-gold-500 focus:outline-none"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 text-xs placeholder-gray-500 dark:placeholder-gray-400 focus:border-gold-500 focus:outline-none font-medium"
                   />
                 </div>
 
                 {/* Customers Table / Card List */}
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
-                    <thead className="bg-gray-100 dark:bg-navy-950/80 text-gold-700 dark:text-gold-400 uppercase font-mono text-[10px] tracking-wider border-b border-gray-200 dark:border-navy-800">
+                  <table className="w-full text-left text-xs text-gray-800 dark:text-gray-200">
+                    <thead className="bg-gray-100 dark:bg-navy-950 text-gold-700 dark:text-gold-400 uppercase font-mono text-[11px] tracking-wider border-b border-gray-200 dark:border-navy-800">
                       <tr>
                         <th className="py-3.5 px-4 rounded-l-xl">Patron</th>
                         <th className="py-3.5 px-4">Contact Info</th>
@@ -1767,13 +1767,13 @@ export const AdminDashboardPage = () => {
                                 </div>
                                 <div>
                                   <p className="font-bold text-navy-950 dark:text-white text-xs">{customer.name}</p>
-                                  <p className="text-[10px] font-mono text-gray-500 dark:text-gray-400">{customer.id}</p>
+                                  <p className="text-[10px] font-mono text-gray-600 dark:text-gray-400">{customer.id}</p>
                                 </div>
                               </div>
                             </td>
                             <td className="py-3.5 px-4 space-y-0.5">
                               <p className="text-gray-800 dark:text-gray-200 font-medium">{customer.email}</p>
-                              <p className="text-[11px] text-gray-500 dark:text-gray-400">{customer.phone || 'No phone'}</p>
+                              <p className="text-[11px] text-gray-600 dark:text-gray-400">{customer.phone || 'No phone'}</p>
                             </td>
                             <td className="py-3.5 px-4">
                               {customer.isVerified ? (
@@ -1796,7 +1796,7 @@ export const AdminDashboardPage = () => {
                             <td className="py-3.5 px-4 font-serif font-bold text-navy-950 dark:text-white">
                               {formatINR(customer.totalSpend || 0)}
                             </td>
-                            <td className="py-3.5 px-4 text-gray-500 dark:text-gray-400 text-[11px]">
+                            <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400 text-[11px] font-medium">
                               {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) : '2026-08-31'}
                             </td>
                             <td className="py-3.5 px-4 text-right">
@@ -1819,8 +1819,8 @@ export const AdminDashboardPage = () => {
                       <User className="w-10 h-10 text-gray-400 dark:text-gray-500 mx-auto" />
                       {customerSearch.trim() ? (
                         <>
-                          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons match "{customerSearch.trim()}".</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Try searching with a different name, email, or phone number.</p>
+                          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">No registered patrons match "{customerSearch.trim()}".</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Try searching with a different name, email, or phone number.</p>
                           <button
                             onClick={() => setCustomerSearch('')}
                             className="mt-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gold-500/10 hover:bg-gold-500/20 text-gold-700 dark:text-gold-400 font-medium text-xs border border-gold-500/30 transition-all cursor-pointer"
@@ -1830,8 +1830,8 @@ export const AdminDashboardPage = () => {
                         </>
                       ) : (
                         <>
-                          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons found.</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Registered users will appear here automatically.</p>
+                          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">No registered patrons found.</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Registered users will appear here automatically.</p>
                         </>
                       )}
                     </div>
@@ -1842,13 +1842,13 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 4: WEBSITE SECTIONS & CONTENT CUSTOMIZER */}
             {activeTab === 'settings' && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 smooth-section-enter animate-fadeIn transition-colors">
                 <div className="border-b border-gray-100 dark:border-navy-800 pb-4">
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                     <Sliders className="w-6 h-6 text-gold-500 dark:text-gold-400" />
                     <span>Website Sections & Content Customizer</span>
                   </h3>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
                     Change announcement promo bar, hero headlines, discount badges, and store contact info.
                   </p>
                 </div>
@@ -1859,21 +1859,21 @@ export const AdminDashboardPage = () => {
                       1. Announcement Bar
                     </h4>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Top Promo Announcement Text</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Top Promo Announcement Text</label>
                       <input
                         type="text"
                         value={siteSettings.announcementText}
                         onChange={(e) => setSiteSettings({ ...siteSettings, announcementText: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Free Shipping Order Threshold (₹)</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Free Shipping Order Threshold (₹)</label>
                       <input
                         type="number"
                         value={siteSettings.freeShippingThreshold}
                         onChange={(e) => setSiteSettings({ ...siteSettings, freeShippingThreshold: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
                   </div>
@@ -1883,39 +1883,39 @@ export const AdminDashboardPage = () => {
                       2. Hero Banner Section
                     </h4>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Hero Pill Badge</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Hero Pill Badge</label>
                       <input
                         type="text"
                         value={siteSettings.heroBadge}
                         onChange={(e) => setSiteSettings({ ...siteSettings, heroBadge: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Main Hero Headline</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Main Hero Headline</label>
                       <input
                         type="text"
                         value={siteSettings.heroHeadline}
                         onChange={(e) => setSiteSettings({ ...siteSettings, heroHeadline: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-serif text-sm"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-serif text-sm font-semibold"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Hero Subheadline</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Hero Subheadline</label>
                       <textarea
                         rows={2}
                         value={siteSettings.heroSubheadline}
                         onChange={(e) => setSiteSettings({ ...siteSettings, heroSubheadline: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Circular Badge Discount Text</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Circular Badge Discount Text</label>
                       <input
                         type="text"
                         value={siteSettings.heroDiscount}
                         onChange={(e) => setSiteSettings({ ...siteSettings, heroDiscount: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
                   </div>
@@ -1933,7 +1933,7 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 5: COUPONS & PROMOTIONS */}
             {activeTab === 'coupons' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fadeIn">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 smooth-section-enter animate-fadeIn">
                 <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-5 transition-colors">
                   <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white flex items-center gap-2">
                     <Plus className="w-5 h-5 text-gold-500 dark:text-gold-400" />
@@ -1942,49 +1942,49 @@ export const AdminDashboardPage = () => {
 
                   <form onSubmit={handleCreateCoupon} className="space-y-4 text-xs">
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Voucher Code</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Voucher Code</label>
                       <input
                         type="text"
                         required
                         value={newCouponCode}
                         onChange={(e) => setNewCouponCode(e.target.value.toUpperCase())}
                         placeholder="e.g. LUXURY25"
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 uppercase"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 uppercase font-semibold"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Discount (%)</label>
+                        <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Discount (%)</label>
                         <input
                           type="number"
                           value={newCouponDiscount}
                           onChange={(e) => setNewCouponDiscount(e.target.value)}
                           placeholder="e.g. 25"
-                          className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                          className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                         />
                       </div>
                       <div>
-                        <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Min Order (₹)</label>
+                        <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Min Order (₹)</label>
                         <input
                           type="number"
                           value={newCouponMinOrder}
                           onChange={(e) => setNewCouponMinOrder(e.target.value)}
                           placeholder="e.g. 2999"
-                          className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                          className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Promotion Description</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Promotion Description</label>
                       <input
                         type="text"
                         required
                         value={newCouponDesc}
                         onChange={(e) => setNewCouponDesc(e.target.value)}
                         placeholder="e.g. 25% Off on Summer Luxury Collection"
-                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                        className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                       />
                     </div>
 
@@ -2016,12 +2016,12 @@ export const AdminDashboardPage = () => {
                               {coupon.discountPercent ? `${coupon.discountPercent}% OFF` : coupon.discountAmount ? `₹${coupon.discountAmount} OFF` : 'PROMO'}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">{coupon.description}</p>
+                          <p className="text-xs text-gray-800 dark:text-gray-200 mt-1">{coupon.description}</p>
                         </div>
 
                         <button
                           onClick={() => handleDeleteCoupon(coupon.code)}
-                          className="p-2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-xl transition-colors cursor-pointer"
+                          className="p-2 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-xl transition-colors cursor-pointer"
                           title="Delete Coupon"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -2035,14 +2035,14 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 6: SECURITY AUDIT LOG */}
             {activeTab === 'audit' && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 animate-fadeIn transition-colors">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 smooth-section-enter animate-fadeIn transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-navy-800 pb-4">
                   <div>
                     <h3 className="font-serif text-xl sm:text-2xl font-bold text-navy-950 dark:text-white flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-gold-500 dark:text-gold-400" />
                       <span>Immutable Security Audit Trail</span>
                     </h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-700 dark:text-gray-300 mt-0.5">
                       Chronological record of all administrative logins, product edits, delivery status changes, and site updates.
                     </p>
                   </div>
@@ -2052,8 +2052,8 @@ export const AdminDashboardPage = () => {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs text-gray-700 dark:text-gray-300">
-                    <thead className="bg-gray-100 dark:bg-navy-950 text-gray-700 dark:text-gray-400 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
+                  <table className="w-full text-left text-xs text-gray-800 dark:text-gray-200">
+                    <thead className="bg-gray-100 dark:bg-navy-950 text-gray-800 dark:text-gray-300 font-mono text-[11px] uppercase border-b border-gray-200 dark:border-navy-800">
                       <tr>
                         <th className="p-3.5">Timestamp</th>
                         <th className="p-3.5">Security Action</th>
@@ -2064,16 +2064,16 @@ export const AdminDashboardPage = () => {
                     <tbody className="divide-y divide-gray-100 dark:divide-navy-800">
                       {auditLogs.map((log) => (
                         <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-navy-850/60 transition-colors">
-                          <td className="p-3.5 font-mono text-[11px] text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                          <td className="p-3.5 font-mono text-[11px] text-gray-700 dark:text-gray-300 whitespace-nowrap font-medium">
                             {new Date(log.timestamp).toLocaleString()}
                           </td>
                           <td className="p-3.5 font-bold text-gold-700 dark:text-gold-400 whitespace-nowrap">
                             {log.action}
                           </td>
-                          <td className="p-3.5 font-mono text-gray-800 dark:text-gray-300 whitespace-nowrap font-medium">
+                          <td className="p-3.5 font-mono text-gray-800 dark:text-gray-200 whitespace-nowrap font-medium">
                             {log.adminEmail || log.adminId || 'System Auth'}
                           </td>
-                          <td className="p-3.5 text-gray-700 dark:text-gray-300 font-medium">
+                          <td className="p-3.5 text-gray-800 dark:text-gray-200 font-medium">
                             {log.details || log.resource || '-'}
                           </td>
                         </tr>
@@ -2086,7 +2086,7 @@ export const AdminDashboardPage = () => {
 
             {/* TAB 7: ADMIN PROFILE & MASTER PASSWORD */}
             {activeTab === 'profile' && (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 animate-fadeIn">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 smooth-section-enter animate-fadeIn">
                 <div className="md:col-span-5 p-6 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200/80 dark:border-gold-500/20 shadow-sm dark:shadow-xl space-y-6 transition-colors">
                   <div className="text-center space-y-3">
                     <div className="w-20 h-20 rounded-full bg-gold-500/10 dark:bg-navy-800 border-2 border-gold-500/40 mx-auto flex items-center justify-center shadow-gold-sm">
@@ -2094,22 +2094,22 @@ export const AdminDashboardPage = () => {
                     </div>
                     <div>
                       <h4 className="font-serif text-xl font-bold text-navy-950 dark:text-white">{admin?.name}</h4>
-                      <p className="text-xs font-mono text-gold-700 dark:text-gold-400">{admin?.email}</p>
+                      <p className="text-xs font-mono text-gold-700 dark:text-gold-400 font-semibold">{admin?.email}</p>
                     </div>
                   </div>
 
                   <div className="space-y-2.5 pt-2 border-t border-gray-100 dark:border-navy-800 text-xs">
                     <div className="flex justify-between py-1.5 border-b border-gray-100 dark:border-navy-800/60">
-                      <span className="text-gray-600 dark:text-gray-400 font-medium">Assigned Role:</span>
+                      <span className="text-gray-700 dark:text-gray-300 font-medium">Assigned Role:</span>
                       <span className="font-bold text-gold-700 dark:text-gold-400 uppercase">Master Administrator</span>
                     </div>
                     <div className="flex justify-between py-1.5 border-b border-gray-100 dark:border-navy-800/60">
-                      <span className="text-gray-600 dark:text-gray-400 font-medium">Account Status:</span>
+                      <span className="text-gray-700 dark:text-gray-300 font-medium">Account Status:</span>
                       <span className="font-bold text-emerald-600 dark:text-emerald-400">Active (1/1 Single-Admin Lock)</span>
                     </div>
                     <div className="flex justify-between py-1.5">
-                      <span className="text-gray-600 dark:text-gray-400 font-medium">Authorization Level:</span>
-                      <span className="font-mono text-gray-800 dark:text-gray-300 font-bold">Root / Full Store Control</span>
+                      <span className="text-gray-700 dark:text-gray-300 font-medium">Authorization Level:</span>
+                      <span className="font-mono text-gray-800 dark:text-gray-200 font-bold">Root / Full Store Control</span>
                     </div>
                   </div>
                 </div>
@@ -2122,7 +2122,7 @@ export const AdminDashboardPage = () => {
 
                   <form onSubmit={handleChangePassword} className="space-y-4 text-xs">
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Current Password</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Current Password</label>
                       <div className="relative">
                         <input
                           type={showCurrentPass ? 'text' : 'password'}
@@ -2130,12 +2130,12 @@ export const AdminDashboardPage = () => {
                           value={currentPassword}
                           onChange={(e) => setCurrentPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPass(!showCurrentPass)}
-                          className="absolute right-3 top-2.5 text-gray-400 hover:text-gold-500 transition-colors cursor-pointer p-0.5"
+                          className="absolute right-3 top-2.5 text-gray-500 hover:text-gold-500 dark:text-gray-400 dark:hover:text-gold-400 transition-colors cursor-pointer p-0.5"
                           title={showCurrentPass ? 'Hide password' : 'Show password'}
                         >
                           {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -2144,7 +2144,7 @@ export const AdminDashboardPage = () => {
                     </div>
 
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">New Master Password (min 8 chars)</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">New Master Password (min 8 chars)</label>
                       <div className="relative">
                         <input
                           type={showNewPass ? 'text' : 'password'}
@@ -2152,12 +2152,12 @@ export const AdminDashboardPage = () => {
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPass(!showNewPass)}
-                          className="absolute right-3 top-2.5 text-gray-400 hover:text-gold-500 transition-colors cursor-pointer p-0.5"
+                          className="absolute right-3 top-2.5 text-gray-500 hover:text-gold-500 dark:text-gray-400 dark:hover:text-gold-400 transition-colors cursor-pointer p-0.5"
                           title={showNewPass ? 'Hide password' : 'Show password'}
                         >
                           {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -2166,7 +2166,7 @@ export const AdminDashboardPage = () => {
                     </div>
 
                     <div>
-                      <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Confirm New Password</label>
+                      <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Confirm New Password</label>
                       <div className="relative">
                         <input
                           type={showConfirmPass ? 'text' : 'password'}
@@ -2174,12 +2174,12 @@ export const AdminDashboardPage = () => {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPass(!showConfirmPass)}
-                          className="absolute right-3 top-2.5 text-gray-400 hover:text-gold-500 transition-colors cursor-pointer p-0.5"
+                          className="absolute right-3 top-2.5 text-gray-500 hover:text-gold-500 dark:text-gray-400 dark:hover:text-gold-400 transition-colors cursor-pointer p-0.5"
                           title={showConfirmPass ? 'Hide password' : 'Show password'}
                         >
                           {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -2212,39 +2212,39 @@ export const AdminDashboardPage = () => {
               <h3 className="font-serif text-lg font-bold text-navy-950 dark:text-white">
                 {editingProduct ? 'Edit Catalog Product' : 'Add New Luxury Product'}
               </h3>
-              <button onClick={() => setIsProductModalOpen(false)} className="p-1.5 text-gray-400 hover:text-navy-950 dark:hover:text-white rounded-lg">
+              <button onClick={() => setIsProductModalOpen(false)} className="p-1.5 text-gray-500 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Product Title</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Product Title</label>
                 <input
                   type="text"
                   required
                   value={productForm.name}
                   onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                   placeholder="e.g. Royal Chronograph Gold Wristwatch"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Brand Name</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Brand Name</label>
                   <input
                     type="text"
                     required
                     value={productForm.brand}
                     onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
                     placeholder="e.g. A_S Signature"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Department / Category</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Department / Category</label>
                   <select
                     value={productForm.category}
                     onChange={(e) => {
@@ -2252,7 +2252,7 @@ export const AdminDashboardPage = () => {
                       const catNames = { men: 'Men Fashion', women: 'Women Fashion', electronics: 'Electronics', 'home-living': 'Home & Living', beauty: 'Beauty', accessories: 'Accessories', footwear: 'Footwear' };
                       setProductForm({ ...productForm, category: cat, categoryName: catNames[cat] || cat });
                     }}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                   >
                     <option value="men">Men Fashion</option>
                     <option value="women">Women Fashion</option>
@@ -2267,62 +2267,62 @@ export const AdminDashboardPage = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Selling Price (₹)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Selling Price (₹)</label>
                   <input
                     type="number"
                     required
                     value={productForm.price}
                     onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
                     placeholder="2499"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Original Price (₹)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Original Price (₹)</label>
                   <input
                     type="number"
                     value={productForm.originalPrice}
                     onChange={(e) => setProductForm({ ...productForm, originalPrice: e.target.value })}
                     placeholder="4999"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-mono font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Discount (%)</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Discount (%)</label>
                   <input
                     type="number"
                     value={productForm.discount}
                     onChange={(e) => setProductForm({ ...productForm, discount: e.target.value })}
                     placeholder="50"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Inventory Quantity</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Inventory Quantity</label>
                   <input
                     type="number"
                     value={productForm.stockCount}
                     onChange={(e) => setProductForm({ ...productForm, stockCount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Badge Tag</label>
+                  <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Badge Tag</label>
                   <input
                     type="text"
                     value={productForm.badge}
                     onChange={(e) => setProductForm({ ...productForm, badge: e.target.value })}
                     placeholder="e.g. BESTSELLER / 50% OFF"
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">
                   Product Image (Upload File or Image URL)
                 </label>
 
@@ -2340,7 +2340,7 @@ export const AdminDashboardPage = () => {
                       />
                     </label>
 
-                    <span className="text-[11px] text-gray-500 dark:text-gray-400">or paste URL:</span>
+                    <span className="text-[11px] text-gray-700 dark:text-gray-300 font-medium">or paste URL:</span>
                   </div>
 
                   <input
@@ -2348,7 +2348,7 @@ export const AdminDashboardPage = () => {
                     value={productForm.image}
                     onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
                     placeholder="https://res.cloudinary.com/... or https://images.unsplash.com/..."
-                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 text-xs"
+                    className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 text-xs font-medium"
                   />
 
                   {productForm.image && (
@@ -2358,9 +2358,9 @@ export const AdminDashboardPage = () => {
                         alt="Preview"
                         className="w-12 h-12 rounded-lg object-cover border border-gold-500/30"
                       />
-                      <div className="text-[11px] text-gray-700 dark:text-gray-300 truncate">
+                      <div className="text-[11px] text-gray-800 dark:text-gray-200 truncate">
                         <span className="text-emerald-600 dark:text-emerald-400 font-semibold block">✓ Image Ready</span>
-                        <span className="text-gray-500 dark:text-gray-400 truncate block max-w-xs">{productForm.image}</span>
+                        <span className="text-gray-600 dark:text-gray-400 truncate block max-w-xs">{productForm.image}</span>
                       </div>
                     </div>
                   )}
@@ -2368,13 +2368,13 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Bespoke Product Description</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Bespoke Product Description</label>
                 <textarea
                   rows={3}
                   value={productForm.description}
                   onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                   placeholder="Write description with luxury materials, craftsmanship..."
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                 />
               </div>
 
@@ -2399,16 +2399,16 @@ export const AdminDashboardPage = () => {
                 <h3 className="font-serif text-base font-bold text-navy-950 dark:text-white">
                   Update Logistics for Order #{editingOrder.id}
                 </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Recipient: {editingOrder.shippingAddress?.name}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">Recipient: {editingOrder.shippingAddress?.name}</p>
               </div>
-              <button onClick={() => setEditingOrder(null)} className="p-1 text-gray-400 hover:text-navy-950 dark:hover:text-white">
+              <button onClick={() => setEditingOrder(null)} className="p-1 text-gray-500 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSaveOrderDelivery} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Delivery Stage Status</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Delivery Stage Status</label>
                 <select
                   value={orderDeliveryForm.status}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, status: e.target.value })}
@@ -2423,26 +2423,26 @@ export const AdminDashboardPage = () => {
               </div>
 
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Carrier Partner</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Carrier Partner</label>
                 <input
                   type="text"
                   required
                   value={orderDeliveryForm.carrier}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, carrier: e.target.value })}
                   placeholder="e.g. Bluedart Express / Delhivery"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-gray-800 dark:text-gray-300 mb-1">Carrier Tracking / AWB Number</label>
+                <label className="block font-bold text-gray-800 dark:text-gray-200 mb-1">Carrier Tracking / AWB Number</label>
                 <input
                   type="text"
                   required
                   value={orderDeliveryForm.trackingNumber}
                   onChange={(e) => setOrderDeliveryForm({ ...orderDeliveryForm, trackingNumber: e.target.value })}
                   placeholder="e.g. BD-889021482IN"
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-navy-850 text-navy-950 dark:text-white font-mono rounded-xl border border-gray-200 dark:border-navy-700 focus:border-gold-500 font-semibold"
                 />
               </div>
 
@@ -2477,7 +2477,7 @@ export const AdminDashboardPage = () => {
                     {selectedOrderDossier.status || 'Processing'}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                   Created {selectedOrderDossier.createdAt ? new Date(selectedOrderDossier.createdAt).toLocaleString() : selectedOrderDossier.date || '2026-08-31'}
                 </p>
               </div>
@@ -2493,7 +2493,7 @@ export const AdminDashboardPage = () => {
                 </button>
                 <button
                   onClick={() => setSelectedOrderDossier(null)}
-                  className="p-1.5 text-gray-400 hover:text-navy-950 dark:hover:text-white rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 transition-colors"
+                  className="p-1.5 text-gray-500 hover:text-navy-950 dark:text-gray-400 dark:hover:text-white rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 dark:hover:bg-navy-750 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2501,7 +2501,7 @@ export const AdminDashboardPage = () => {
             </div>
 
             {/* Printable Luxury Bill / Invoice Body */}
-            <div id="printable-order-invoice" className="space-y-6 text-xs text-gray-700 dark:text-gray-300">
+            <div id="printable-order-invoice" className="space-y-6 text-xs text-gray-800 dark:text-gray-200">
 
               {/* Luxury Invoice Brand Header */}
               <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-950/60 border border-gray-200 dark:border-navy-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -2509,15 +2509,15 @@ export const AdminDashboardPage = () => {
                   <h4 className="font-serif text-base font-bold text-navy-950 dark:text-white tracking-wide">
                     A_S COMMERCE HAUTE COUTURE
                   </h4>
-                  <p className="text-[11px] text-gold-700 dark:text-gold-400 font-mono">
+                  <p className="text-[11px] text-gold-700 dark:text-gold-400 font-mono font-bold">
                     Tax Invoice / Bill of Supply • Ref: INV-{selectedOrderDossier.id?.substring(0, 8)?.toUpperCase()}
                   </p>
-                  <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">Authorized Luxury Merchant • GST Registered</span>
+                  <span className="text-[10px] text-gray-600 dark:text-gray-400 font-medium">Authorized Luxury Merchant • GST Registered</span>
                 </div>
                 <div className="text-right space-y-0.5">
                   <span className="text-xs font-bold text-navy-950 dark:text-white block">Payment: {selectedOrderDossier.paymentMethod || 'Razorpay'}</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">Status: {selectedOrderDossier.paymentStatus || 'Verified Paid'}</span>
-                  <span className="text-[10px] text-gray-500 dark:text-gray-400 block">Currency: INR (₹)</span>
+                  <span className="text-[10px] text-gray-600 dark:text-gray-400 block font-medium">Currency: INR (₹)</span>
                 </div>
               </div>
 
@@ -2532,7 +2532,7 @@ export const AdminDashboardPage = () => {
                   <p className="font-bold text-navy-950 dark:text-white text-sm">
                     {selectedOrderDossier.customerName || selectedOrderDossier.shippingAddress?.name || 'Valued Patron'}
                   </p>
-                  <div className="space-y-1 text-[11px] text-gray-600 dark:text-gray-300">
+                  <div className="space-y-1 text-[11px] text-gray-700 dark:text-gray-300">
                     <p className="flex items-center gap-1.5">
                       <Mail className="w-3 h-3 text-gold-600 dark:text-gold-400" />
                       {selectedOrderDossier.customerEmail || selectedOrderDossier.shippingAddress?.email || 'patron@ascommerce.luxury'}
@@ -2561,7 +2561,7 @@ export const AdminDashboardPage = () => {
                     {(selectedOrderDossier.customerPhone || selectedOrderDossier.shippingAddress?.phone) && (
                       <a
                         href={`tel:${(selectedOrderDossier.customerPhone || selectedOrderDossier.shippingAddress?.phone || '').replace(/[^0-9]/g, '')}`}
-                        className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 text-gray-700 dark:text-gray-300 text-[10px] hover:text-navy-950 dark:hover:text-white border border-gray-200 dark:border-navy-700"
+                        className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-navy-800 text-gray-800 dark:text-gray-200 text-[10px] hover:text-navy-950 dark:hover:text-white border border-gray-200 dark:border-navy-700 font-medium"
                       >
                         <Phone className="w-3 h-3" />
                         <span>Call</span>
@@ -2575,7 +2575,7 @@ export const AdminDashboardPage = () => {
                   <span className="text-[10px] font-bold text-gold-700 dark:text-gold-400 uppercase tracking-wider block">
                     DESTINATION & CARRIER
                   </span>
-                  <p className="text-navy-950 dark:text-white text-xs leading-relaxed">
+                  <p className="text-gray-800 dark:text-gray-200 text-xs leading-relaxed">
                     {selectedOrderDossier.shippingAddress?.street ? (
                       <>
                         {selectedOrderDossier.shippingAddress.street}, {selectedOrderDossier.shippingAddress.city}, {selectedOrderDossier.shippingAddress.state ? `${selectedOrderDossier.shippingAddress.state}, ` : ''}PIN: {selectedOrderDossier.shippingAddress.pincode}
@@ -2584,7 +2584,7 @@ export const AdminDashboardPage = () => {
                       'Standard Direct Delivery'
                     )}
                   </p>
-                  <div className="pt-1 text-[11px] space-y-1 text-gray-600 dark:text-gray-300">
+                  <div className="pt-1 text-[11px] space-y-1 text-gray-700 dark:text-gray-300">
                     <p>Carrier: <strong className="text-navy-950 dark:text-white">{selectedOrderDossier.carrier || 'Bluedart Express'}</strong></p>
                     <p>AWB: <span className="font-mono text-gold-700 dark:text-gold-400 font-bold">{selectedOrderDossier.trackingNumber || 'Pending Assignment'}</span></p>
                   </div>
@@ -2598,7 +2598,7 @@ export const AdminDashboardPage = () => {
                 </span>
                 <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-navy-800 bg-white dark:bg-navy-850">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-gray-100 dark:bg-navy-950/80 text-gray-600 dark:text-gray-400 font-mono text-[10px] uppercase border-b border-gray-200 dark:border-navy-800">
+                    <thead className="bg-gray-100 dark:bg-navy-950/80 text-gray-700 dark:text-gray-300 font-mono text-[10px] uppercase border-b border-gray-200 dark:border-navy-800">
                       <tr>
                         <th className="py-2.5 px-3">Item</th>
                         <th className="py-2.5 px-3">Unit Price</th>
@@ -2617,10 +2617,10 @@ export const AdminDashboardPage = () => {
                                   alt={it.name}
                                   className="w-8 h-8 rounded-lg object-cover border border-gray-200 dark:border-navy-750 shrink-0"
                                 />
-                                <span className="font-medium text-navy-950 dark:text-white text-xs">{it.name}</span>
+                                <span className="font-semibold text-navy-950 dark:text-white text-xs">{it.name}</span>
                               </div>
                             </td>
-                            <td className="py-2.5 px-3 font-mono text-gray-600 dark:text-gray-300">{formatINR(it.price || 0)}</td>
+                            <td className="py-2.5 px-3 font-mono text-gray-700 dark:text-gray-300">{formatINR(it.price || 0)}</td>
                             <td className="py-2.5 px-3 text-center font-bold text-gold-700 dark:text-gold-400">{it.quantity || 1}</td>
                             <td className="py-2.5 px-3 text-right font-mono font-bold text-navy-950 dark:text-white">
                               {formatINR((it.price || 0) * (it.quantity || 1))}
@@ -2629,7 +2629,7 @@ export const AdminDashboardPage = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={4} className="py-3 text-center text-gray-500 dark:text-gray-400">
+                          <td colSpan={4} className="py-3 text-center text-gray-600 dark:text-gray-400">
                             Custom Haute Consignment Package
                           </td>
                         </tr>
@@ -2641,21 +2641,21 @@ export const AdminDashboardPage = () => {
 
               {/* Financial Calculation Summary */}
               <div className="p-4 rounded-2xl bg-gray-50 dark:bg-navy-850 border border-gray-200 dark:border-gold-500/20 space-y-2 max-w-xs ml-auto text-xs">
-                <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <div className="flex justify-between text-gray-700 dark:text-gray-300">
                   <span>Subtotal</span>
-                  <span className="font-mono text-gray-900 dark:text-gray-200">{formatINR(selectedOrderDossier.total || selectedOrderDossier.total_amount || 0)}</span>
+                  <span className="font-mono text-gray-900 dark:text-gray-100 font-semibold">{formatINR(selectedOrderDossier.total || selectedOrderDossier.total_amount || 0)}</span>
                 </div>
-                <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <div className="flex justify-between text-gray-700 dark:text-gray-300">
                   <span>Insured Express Courier</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-semibold">FREE (Luxury Tier)</span>
                 </div>
-                <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <div className="flex justify-between text-gray-700 dark:text-gray-300">
                   <span>GST & Handling</span>
-                  <span className="text-gray-700 dark:text-gray-300">Included</span>
+                  <span className="text-gray-800 dark:text-gray-200 font-medium">Included</span>
                 </div>
                 <div className="flex justify-between text-navy-950 dark:text-white font-bold border-t border-gray-200 dark:border-navy-800 pt-2 text-sm">
                   <span>Grand Total</span>
-                  <span className="font-mono text-gold-700 dark:text-gold-400 font-serif text-base">
+                  <span className="font-mono text-gold-700 dark:text-gold-400 font-serif text-base font-bold">
                     {formatINR(selectedOrderDossier.total || selectedOrderDossier.total_amount || 0)}
                   </span>
                 </div>

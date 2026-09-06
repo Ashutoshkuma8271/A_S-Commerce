@@ -215,59 +215,65 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
             )}
           </div>
 
-          {/* Right: Wishlist, Cart, Account, Theme Toggle */}
-          <div className="premium-header-actions flex items-center gap-0 sm:gap-2.5 md:gap-4 lg:gap-5 shrink-0">
+          {/* Right: Theme Toggle, Wishlist, Cart, Profile */}
+          <div className="premium-header-actions flex items-center gap-1.5 sm:gap-2 md:gap-3 shrink-0">
             
-            {/* Theme Toggle Button */}
+            {/* 1. Theme Toggle Button */}
             <ThemeToggle />
 
-            {/* Wishlist Link */}
+            {/* 2. Wishlist Button */}
             <Link
               to="/wishlist"
-              className="premium-header-action flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative p-1 sm:p-2 rounded-lg hover:bg-navy-850"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-navy-850/90 hover:bg-navy-800 border border-navy-700/80 hover:border-gold-500/40 text-white/90 hover:text-gold-400 transition-all flex items-center justify-center relative group hover:scale-105 active:scale-95 shrink-0 shadow-sm"
               aria-label="Wishlist"
+              title="Wishlist Items"
             >
-              <div className="relative">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center shadow-gold-sm">
-                    {wishlistCount}
-                  </span>
-                )}
-              </div>
-              <span className="hidden xl:inline text-xs font-medium">Wishlist</span>
+              <Heart className="w-4 h-4 sm:w-[18px] sm:h-[18px] group-hover:scale-110 transition-transform" />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-gold-sm border border-navy-900">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
 
-            {/* Cart Button */}
+            {/* 3. Cart / Bag Button */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="premium-header-action flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors group relative cursor-pointer p-1 sm:p-2 rounded-lg hover:bg-navy-850"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-navy-850/90 hover:bg-navy-800 border border-navy-700/80 hover:border-gold-500/40 text-white/90 hover:text-gold-400 transition-all flex items-center justify-center relative group cursor-pointer hover:scale-105 active:scale-95 shrink-0 shadow-sm"
               aria-label="Cart"
+              title="Shopping Bag"
             >
-              <div className="relative">
-                <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-                {totalItemsCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center shadow-gold-sm animate-scaleIn">
-                    {totalItemsCount}
-                  </span>
-                )}
-              </div>
-              <span className="hidden xl:inline text-xs font-medium">Cart</span>
+              <ShoppingBag className="w-4 h-4 sm:w-[18px] sm:h-[18px] group-hover:scale-110 transition-transform" />
+              {totalItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gold-gradient text-navy-950 font-bold text-[9px] sm:text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-gold-sm border border-navy-900 animate-scaleIn">
+                  {totalItemsCount}
+                </span>
+              )}
             </button>
 
-            {/* Account Button (Dropdown opens on click) */}
-            <div ref={accountRef} className="relative">
+            {/* 4. Profile / Account Button */}
+            <div ref={accountRef} className="relative shrink-0">
               <button
                 onClick={() => setIsAccountOpen(!isAccountOpen)}
                 aria-label="Account Menu"
-                className="flex items-center gap-1.5 text-white/90 hover:text-gold-400 transition-colors p-1 sm:p-1.5 rounded-full hover:bg-navy-800/80 cursor-pointer"
+                title={isAuthenticated ? (user?.name || 'Account Menu') : 'Sign In'}
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all cursor-pointer relative hover:scale-105 active:scale-95 shrink-0 focus:outline-none"
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-navy-800 border border-gold-500/30 flex items-center justify-center text-gold-400 group-hover:border-gold-500/60 transition-colors">
-                  <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-                <span className="hidden xl:inline text-xs font-medium">
-                  {isAuthenticated ? (user.name ? user.name.split(' ')[0] : 'Account') : 'Account'}
-                </span>
+                {isAuthenticated && user ? (
+                  <div className="w-full h-full rounded-full bg-navy-850/90 hover:bg-navy-800 border-2 border-gold-500/50 hover:border-gold-500 flex items-center justify-center text-gold-400 font-serif font-bold text-sm sm:text-base shadow-gold-sm relative overflow-hidden transition-all">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.name || 'User'} className="w-full h-full object-cover" />
+                    ) : (
+                      <span>{user.name ? user.name.charAt(0).toUpperCase() : 'A'}</span>
+                    )}
+                    {/* Active Live Indicator Dot */}
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-navy-900 rounded-full shadow-xs" />
+                  </div>
+                ) : (
+                  <div className="w-full h-full rounded-full bg-navy-850/90 hover:bg-navy-800 border border-navy-700/80 hover:border-gold-500/40 flex items-center justify-center text-gold-400 hover:text-white transition-colors shadow-sm">
+                    <User className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                  </div>
+                )}
               </button>
 
               {/* Account Dropdown Menu (Solid Opaque, High-Contrast Luxury Card) */}

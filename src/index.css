@@ -84,30 +84,33 @@
   -ms-overflow-style: none;
 }
 
-/* Smooth Hardware Accelerated Transitions */
-.card-3d-luxury,
-.animate-fadeIn,
-.animate-slideLeft,
-.hero-slide,
-.smooth-transition {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  will-change: transform, opacity;
+/* Smooth Transitions without subpixel font blurring */
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes smoothSectionIn {
   from {
     opacity: 0;
-    transform: translate3d(0, 14px, 0);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: none;
   }
 }
 
 .smooth-section-enter {
-  animation: smoothSectionIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: smoothSectionIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Optimize smooth scrolling and touch velocity */
@@ -116,9 +119,10 @@ html {
 }
 
 /* ==========================================================================
-   GLOBAL DARK MODE COLOR & CONTRAST ENGINE
+   GLOBAL DARK & BRIGHT MODE CONTRAST ENGINE
    ========================================================================== */
-html.dark .bg-cream-100 {
+html.dark .bg-cream-100,
+html.dark .bg-cream-50 {
   background-color: #030E16 !important;
 }
 
@@ -126,39 +130,22 @@ html.dark .bg-cream-200 {
   background-color: #061A27 !important;
 }
 
-html.dark .bg-cream-50 {
-  background-color: #030E16 !important;
-}
-
-html.dark .bg-white {
-  background-color: #061A27 !important;
-  color: #FAF7F0 !important;
-  border-color: rgba(245, 184, 61, 0.18) !important;
-}
-
-html.dark .bg-gray-50,
-html.dark .bg-gray-100 {
-  background-color: #092333 !important;
-  color: #FAF7F0 !important;
-}
-
-html.dark .bg-gray-200 {
-  background-color: #0C2E43 !important;
-}
-
-/* Dark Mode Typography Visibility Fixes */
+/* Dark Mode Typography Visibility Fixes - High Contrast */
 html.dark .text-navy-950,
 html.dark .text-navy-900,
 html.dark .text-navy-850,
-html.dark .text-brand-dark,
+html.dark .text-brand-dark {
+  color: #FFFFFF !important;
+}
+
 html.dark .text-gray-900,
 html.dark .text-gray-800 {
-  color: #FAF7F0 !important;
+  color: #F8FAFC !important;
 }
 
 html.dark .text-gray-700,
 html.dark .text-gray-600 {
-  color: #E2E8F0 !important;
+  color: #CBD5E1 !important;
 }
 
 html.dark .text-gray-500,
@@ -200,11 +187,29 @@ html.dark .shadow-xl {
 }
 
 /* ==========================================================================
-   LIGHT (BRIGHT) MODE TYPOGRAPHY & VISIBILITY
+   LIGHT (BRIGHT) MODE TYPOGRAPHY & VISIBILITY - CRISP & SHARP
    ========================================================================== */
 html:not(.dark) body {
   background-color: #FAF7F0;
-  color: #0F172A;
+  color: #061A27;
+}
+
+html:not(.dark) .text-navy-950,
+html:not(.dark) .text-navy-900 {
+  color: #061A27 !important;
+}
+
+html:not(.dark) .text-gray-800,
+html:not(.dark) .text-gray-700 {
+  color: #1E293B !important;
+}
+
+html:not(.dark) .text-gray-600 {
+  color: #475569 !important;
+}
+
+html:not(.dark) .text-gray-500 {
+  color: #64748B !important;
 }
 
 /* High Contrast Gold Gradient */

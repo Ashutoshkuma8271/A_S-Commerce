@@ -57,7 +57,7 @@ export const AccountPage = () => {
     deleteAddress,
     setDefaultAddress,
   } = useAuth();
-  const { orders = [], refreshOrders } = useOrder() || {};
+  const { orders = [], ordersLoading = false, refreshOrders } = useOrder() || {};
   const { wishlistCount = 0, wishlist = [] } = useWishlist() || {};
 
   // Determine active tab from URL or state
@@ -407,11 +407,11 @@ export const AccountPage = () => {
                   accept="image/*"
                   className="hidden"
                 />
-                <div className="w-16 h-16 rounded-full bg-navy-900 dark:bg-navy-800 border-2 border-gold-500 overflow-hidden shadow-gold-sm flex items-center justify-center text-white font-serif font-bold text-xl">
+                <div className="w-16 h-16 rounded-full bg-[#061A27] dark:bg-navy-800 border-2 border-[#F5B83D] overflow-hidden shadow-sm flex items-center justify-center text-white font-serif font-bold text-2xl">
                   {user.avatar ? (
                     <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                   ) : (
-                    <span>{user.name ? user.name.charAt(0).toUpperCase() : 'C'}</span>
+                    <span>{user.name ? user.name.charAt(0).toUpperCase() : 'A'}</span>
                   )}
                 </div>
                 {/* Camera Overlay Button */}
@@ -420,19 +420,19 @@ export const AccountPage = () => {
                   onClick={() => avatarInputRef.current?.click()}
                   disabled={uploadingAvatar}
                   title="Upload profile photo"
-                  className="absolute inset-0 bg-navy-950/70 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-gold-400 transition-all cursor-pointer backdrop-blur-xs"
+                  className="absolute inset-0 bg-[#061A27]/80 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-[#F5B83D] transition-all cursor-pointer"
                 >
                   <Camera className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-navy-950 dark:text-white text-base truncate">{user.name}</h3>
-                </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+                <h3 className="font-serif text-lg font-bold text-[#061A27] dark:text-white tracking-tight truncate">
+                  {user.name || 'Valued Patron'}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{user.email}</p>
                 <div className="flex items-center gap-2 mt-2 flex-wrap">
-                  <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
+                  <span className="text-[11px] font-semibold text-[#1e5a38] dark:text-emerald-300 bg-[#ebf7f0] dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-[#bce8cb] dark:border-emerald-700/50 inline-flex items-center gap-1">
                     <Sparkles className="w-3 h-3 text-[#1e5a38] dark:text-emerald-400" />
                     <span>{user?.membershipTier || 'Fresh VIP Member'}</span>
                   </span>
@@ -440,9 +440,9 @@ export const AccountPage = () => {
                     type="button"
                     onClick={() => avatarInputRef.current?.click()}
                     disabled={uploadingAvatar}
-                    className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-gold-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                    className="text-[11px] text-gray-500 dark:text-gray-400 hover:text-[#061A27] dark:hover:text-[#F5B83D] flex items-center gap-1 cursor-pointer font-medium transition-colors"
                   >
-                    <Camera className="w-3 h-3" />
+                    <Camera className="w-3.5 h-3.5" />
                     <span>{uploadingAvatar ? 'Uploading...' : 'Change Photo'}</span>
                   </button>
                 </div>
@@ -455,30 +455,34 @@ export const AccountPage = () => {
                 to="/account"
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
                   activeTab === 'dashboard'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
+                    ? 'bg-[#061A27] dark:bg-navy-800 text-[#F5B83D] font-bold shadow-sm'
+                    : 'text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <User className="w-4 h-4 text-gold-400" />
-                  <span>Dashboard Overview</span>
+                  <User className="w-4 h-4 text-[#F5B83D]" />
+                  <span className="text-xs font-bold">Dashboard Overview</span>
                 </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
+                <ChevronRight className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-[#F5B83D]' : 'text-gray-400'}`} />
               </Link>
 
               <Link
                 to="/account/orders"
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
                   activeTab === 'orders'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
+                    ? 'bg-[#061A27] dark:bg-navy-800 text-[#F5B83D] font-bold shadow-sm'
+                    : 'text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Package className="w-4 h-4 text-gold-400" />
-                  <span>Orders & Delivery</span>
+                  <Package className="w-4 h-4 text-[#F5B83D]" />
+                  <span className="text-xs font-bold">Orders & Delivery</span>
                 </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                  activeTab === 'orders'
+                    ? 'bg-white text-[#061A27] shadow-xs'
+                    : 'bg-gray-100 dark:bg-navy-800 text-[#061A27] dark:text-white'
+                }`}>
                   {orders.length}
                 </span>
               </Link>
@@ -487,15 +491,19 @@ export const AccountPage = () => {
                 to="/account/addresses"
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
                   activeTab === 'addresses'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
+                    ? 'bg-[#061A27] dark:bg-navy-800 text-[#F5B83D] font-bold shadow-sm'
+                    : 'text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-gold-400" />
-                  <span>Saved Addresses</span>
+                  <MapPin className="w-4 h-4 text-[#F5B83D]" />
+                  <span className="text-xs font-bold">Saved Addresses</span>
                 </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                  activeTab === 'addresses'
+                    ? 'bg-white text-[#061A27] shadow-xs'
+                    : 'bg-gray-100 dark:bg-navy-800 text-[#061A27] dark:text-white'
+                }`}>
                   {user.addresses?.length || 0}
                 </span>
               </Link>
@@ -504,41 +512,41 @@ export const AccountPage = () => {
                 to="/account/profile"
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
                   activeTab === 'profile'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
+                    ? 'bg-[#061A27] dark:bg-navy-800 text-[#F5B83D] font-bold shadow-sm'
+                    : 'text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Edit2 className="w-4 h-4 text-gold-400" />
-                  <span>Profile Information</span>
+                  <Edit2 className="w-4 h-4 text-[#F5B83D]" />
+                  <span className="text-xs font-bold">Profile Information</span>
                 </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
+                <ChevronRight className={`w-4 h-4 ${activeTab === 'profile' ? 'text-[#F5B83D]' : 'text-gray-400'}`} />
               </Link>
 
               <Link
                 to="/account/security"
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${
                   activeTab === 'security'
-                    ? 'bg-navy-900 dark:bg-gold-500/15 text-gold-400 font-bold shadow-sm border border-gold-500/30'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800'
+                    ? 'bg-[#061A27] dark:bg-navy-800 text-[#F5B83D] font-bold shadow-sm'
+                    : 'text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Lock className="w-4 h-4 text-gold-400" />
-                  <span>Account Security</span>
+                  <Lock className="w-4 h-4 text-[#F5B83D]" />
+                  <span className="text-xs font-bold">Account Security</span>
                 </div>
-                <ChevronRight className="w-4 h-4 opacity-70" />
+                <ChevronRight className={`w-4 h-4 ${activeTab === 'security' ? 'text-[#F5B83D]' : 'text-gray-400'}`} />
               </Link>
 
               <Link
                 to="/wishlist"
-                className="flex items-center justify-between px-4 py-3 rounded-2xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-navy-800 transition-all"
+                className="flex items-center justify-between px-4 py-3 rounded-2xl text-[#061A27] dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-800 transition-all font-semibold"
               >
                 <div className="flex items-center gap-3">
                   <Heart className="w-4 h-4 text-red-500" />
-                  <span>Wishlist Items</span>
+                  <span className="text-xs font-bold">Wishlist Items</span>
                 </div>
-                <span className="px-2 py-0.5 bg-gray-100 dark:bg-navy-800 text-navy-950 dark:text-white rounded-full text-[10px]">
+                <span className="px-2.5 py-0.5 bg-gray-100 dark:bg-navy-800 text-[#061A27] dark:text-white rounded-full text-xs font-bold">
                   {wishlistCount}
                 </span>
               </Link>
@@ -548,10 +556,10 @@ export const AccountPage = () => {
                   logout();
                   navigate('/', { replace: true });
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all text-left pt-3 border-t border-gray-100 dark:border-navy-800 mt-2 cursor-pointer"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all text-left pt-3 border-t border-gray-100 dark:border-navy-800 mt-2 cursor-pointer font-bold"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Log Out</span>
+                <span className="text-xs">Log Out</span>
               </button>
             </nav>
           </div>
@@ -562,7 +570,7 @@ export const AccountPage = () => {
           
           {/* TAB 1: Dashboard Overview */}
           {activeTab === 'dashboard' && (
-            <div className="space-y-6 animate-fadeIn">
+            <div className="space-y-6 smooth-section-enter animate-fadeIn">
               {/* Customer Greeting Banner */}
               <div className="rounded-3xl bg-navy-gradient text-white p-6 sm:p-8 border border-gold-500/30 shadow-xl relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div className="space-y-2 z-10">
@@ -579,7 +587,7 @@ export const AccountPage = () => {
                 </div>
                 <Link
                   to="/shop"
-                  className="z-10 px-5 py-2.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 shrink-0"
+                  className="z-10 px-5 py-2.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 shrink-0 transition-all hover:scale-105"
                 >
                   Explore Catalog →
                 </Link>
@@ -587,7 +595,7 @@ export const AccountPage = () => {
 
               {/* Quick Stat Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
+                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1 transition-all hover:border-gold-500/40">
                   <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Orders</span>
                   <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{orders.length}</p>
                   <Link to="/account/orders" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
@@ -595,7 +603,7 @@ export const AccountPage = () => {
                   </Link>
                 </div>
 
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
+                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1 transition-all hover:border-gold-500/40">
                   <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Saved Addresses</span>
                   <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{user.addresses?.length || 0}</p>
                   <Link to="/account/addresses" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
@@ -603,7 +611,7 @@ export const AccountPage = () => {
                   </Link>
                 </div>
 
-                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1">
+                <div className="bg-white dark:bg-navy-900 p-5 rounded-3xl border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-1 transition-all hover:border-gold-500/40">
                   <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Wishlisted Items</span>
                   <p className="text-2xl font-bold text-navy-950 dark:text-white font-serif">{wishlistCount}</p>
                   <Link to="/wishlist" className="text-[11px] text-gold-600 dark:text-gold-400 font-bold hover:underline block pt-1">
@@ -621,9 +629,14 @@ export const AccountPage = () => {
                   </Link>
                 </div>
 
-                {orders.length === 0 ? (
+                {ordersLoading && orders.length === 0 ? (
+                  <div className="space-y-3">
+                    <OrderCardSkeleton />
+                    <OrderCardSkeleton />
+                  </div>
+                ) : orders.length === 0 ? (
                   <div className="text-center py-8 space-y-3">
-                    <div className="w-12 h-12 rounded-2xl bg-cream-100 dark:bg-navy-800 text-gold-500 flex items-center justify-center mx-auto">
+                    <div className="w-12 h-12 rounded-2xl bg-cream-100 dark:bg-navy-850 text-gold-500 flex items-center justify-center mx-auto">
                       <ShoppingBag className="w-6 h-6" />
                     </div>
                     <p className="text-sm font-semibold text-navy-950 dark:text-white">No orders placed yet</p>
@@ -642,7 +655,7 @@ export const AccountPage = () => {
                     {orders.slice(0, 2).map((ord) => (
                       <div
                         key={ord.id}
-                        className="p-4 bg-gray-50 dark:bg-navy-850 rounded-2xl border border-gray-100 dark:border-navy-750 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                        className="p-4 bg-gray-50 dark:bg-navy-850 rounded-2xl border border-gray-100 dark:border-navy-750 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all hover:border-gold-500/40"
                       >
                         <div>
                           <div className="flex items-center gap-2">
@@ -669,21 +682,27 @@ export const AccountPage = () => {
             </div>
           )}
 
-          {/* TAB 2: Orders History */}
+          {/* TAB 2: Orders History & Delivery */}
           {activeTab === 'orders' && (
-            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 animate-fadeIn">
+            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 smooth-section-enter animate-fadeIn">
               <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-navy-800">
                 <div>
                   <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">
-                    Order History & Invoices
+                    Order History & Delivery
                   </h2>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                    Track the live delivery progress of your items.
+                    Track the live delivery progress and tax invoices of your items.
                   </p>
                 </div>
               </div>
 
-              {orders.length === 0 ? (
+              {ordersLoading && orders.length === 0 ? (
+                <div className="space-y-4">
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                  <OrderCardSkeleton />
+                </div>
+              ) : orders.length === 0 ? (
                 <div className="text-center py-12 space-y-4">
                   <div className="w-16 h-16 rounded-3xl bg-cream-100 dark:bg-navy-850 text-gold-500 flex items-center justify-center mx-auto border border-gold-500/20 shadow-gold-sm">
                     <Package className="w-8 h-8" />
@@ -770,7 +789,7 @@ export const AccountPage = () => {
 
           {/* TAB 3: Saved Addresses */}
           {activeTab === 'addresses' && (
-            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 animate-fadeIn">
+            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 smooth-section-enter animate-fadeIn">
               <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-navy-800">
                 <div>
                   <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">
@@ -782,7 +801,7 @@ export const AccountPage = () => {
                 </div>
                 <button
                   onClick={() => setIsAddressModalOpen(true)}
-                  className="px-4 py-2.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-105 flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-105 flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Address</span>
@@ -800,7 +819,7 @@ export const AccountPage = () => {
                   </p>
                   <button
                     onClick={() => setIsAddressModalOpen(true)}
-                    className="inline-block px-4 py-2 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold text-xs rounded-xl border border-gold-500/30 cursor-pointer"
+                    className="inline-block px-4 py-2 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold text-xs rounded-xl border border-gold-500/30 cursor-pointer transition-all hover:scale-105"
                   >
                     + Add First Address
                   </button>
@@ -878,7 +897,7 @@ export const AccountPage = () => {
 
           {/* TAB 4: Profile Settings */}
           {activeTab === 'profile' && (
-            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 animate-fadeIn">
+            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 smooth-section-enter animate-fadeIn">
               <div className="pb-4 border-b border-gray-100 dark:border-navy-800">
                 <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">
                   Personal Information
@@ -939,7 +958,7 @@ export const AccountPage = () => {
 
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 cursor-pointer"
+                  className="px-6 py-3 bg-gold-gradient text-navy-950 font-bold text-xs rounded-xl shadow-gold-sm hover:brightness-110 cursor-pointer transition-all hover:scale-105"
                 >
                   Save Profile Changes
                 </button>
@@ -964,7 +983,7 @@ export const AccountPage = () => {
                         setDeleteConfirmationText('');
                         setIsDeleteModalOpen(true);
                       }}
-                      className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                      className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer hover:scale-105"
                     >
                       <Trash2 className="w-4 h-4" />
                       <span>Delete My Account</span>
@@ -977,7 +996,7 @@ export const AccountPage = () => {
 
           {/* TAB 5: Account Security */}
           {activeTab === 'security' && (
-            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 animate-fadeIn">
+            <div className="bg-white dark:bg-navy-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-navy-750 shadow-sm space-y-6 smooth-section-enter animate-fadeIn">
               <div className="pb-4 border-b border-gray-100 dark:border-navy-800">
                 <h2 className="font-serif text-2xl font-bold text-navy-950 dark:text-white">
                   Account Security

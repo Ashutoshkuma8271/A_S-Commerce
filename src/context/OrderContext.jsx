@@ -25,14 +25,16 @@ export const OrderProvider = ({ children }) => {
   });
 
   const [latestOrder, setLatestOrder] = useState(null);
+  const [ordersLoading, setOrdersLoading] = useState(false);
   const fetchGenRef = useRef(0);
   const isFetchingRef = useRef(false);
 
   // Function to fetch orders from backend
-  const fetchBackendOrders = async () => {
+  const fetchBackendOrders = async (showLoadingState = false) => {
     if (!userEmail) return;
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
+    if (showLoadingState || orders.length === 0) setOrdersLoading(true);
     const currentGen = ++fetchGenRef.current;
     try {
       const token = localStorage.getItem('as_commerce_token');
@@ -61,11 +63,12 @@ export const OrderProvider = ({ children }) => {
       console.warn('Order fetch error:', err);
     } finally {
       isFetchingRef.current = false;
+      setOrdersLoading(false);
     }
   };
 
   const refreshOrders = async () => {
-    await fetchBackendOrders();
+    await fetchBackendOrders(true);
   };
 
   // Re-load and sync orders whenever the logged-in customer changes
@@ -298,6 +301,7 @@ export const OrderProvider = ({ children }) => {
     <OrderContext.Provider
       value={{
         orders,
+        ordersLoading,
         latestOrder,
         createOrder,
         getOrderById,
