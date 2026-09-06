@@ -270,21 +270,21 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                 </span>
               </button>
 
-              {/* Account Dropdown Menu */}
+              {/* Account Dropdown Menu (Solid Opaque, High-Contrast Luxury Card) */}
               {isAccountOpen && (
-                <div className="absolute right-0 mt-2 w-56 sm:w-60 max-w-[calc(100vw-24px)] bg-white/98 dark:bg-[#061A27]/98 backdrop-blur-2xl border border-gray-200/90 dark:border-gold-500/25 rounded-2xl shadow-xl p-2 z-50 animate-fadeIn text-left">
+                <div className="absolute right-0 mt-2 w-56 sm:w-60 max-w-[calc(100vw-24px)] bg-white dark:bg-[#061A27] border-2 border-gray-200 dark:border-gold-500/40 rounded-2xl shadow-2xl dark:shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_20px_rgba(245,184,61,0.15)] p-2.5 z-50 animate-fadeIn text-left">
                   {isAuthenticated ? (
                     <>
                       {/* Header Card */}
-                      <div className="px-3 py-2.5 bg-gray-50/80 dark:bg-navy-850/70 rounded-xl mb-1 border border-gray-100/90 dark:border-navy-800">
-                        <p className="text-[10.5px] text-gray-500 dark:text-gray-400 font-medium tracking-wide uppercase font-mono leading-none">
+                      <div className="px-3 py-2.5 bg-cream-100 dark:bg-[#092333] rounded-xl mb-1.5 border border-gray-200 dark:border-navy-700">
+                        <p className="text-[10.5px] text-gray-600 dark:text-gray-300 font-semibold tracking-wide uppercase font-mono leading-none">
                           Signed in as
                         </p>
-                        <p className="text-sm font-bold text-navy-950 dark:text-white truncate mt-1 tracking-tight">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate mt-1 tracking-tight">
                           {user.name || 'Valued Patron'}
                         </p>
-                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10.5px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/90 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-700/50">
-                          <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-600">
+                          <Sparkles className="w-3 h-3 text-emerald-700 dark:text-emerald-400 shrink-0" />
                           <span>{user.membershipTier || 'Fresh VIP Member'}</span>
                         </div>
                       </div>
@@ -294,38 +294,38 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                         <Link
                           to="/account"
                           onClick={() => setIsAccountOpen(false)}
-                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
+                          className="flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-navy-800 hover:text-navy-950 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          <LayoutDashboard className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <LayoutDashboard className="w-3.5 h-3.5 text-gray-500 dark:text-gold-400 shrink-0" />
                           <span>My Dashboard</span>
                         </Link>
                         <Link
                           to="/account/orders"
                           onClick={() => setIsAccountOpen(false)}
-                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
+                          className="flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-navy-800 hover:text-navy-950 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          <ShoppingBag className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <ShoppingBag className="w-3.5 h-3.5 text-gray-500 dark:text-gold-400 shrink-0" />
                           <span>My Orders</span>
                         </Link>
                         <Link
                           to="/track-order"
                           onClick={() => setIsAccountOpen(false)}
-                          className="flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-navy-800 hover:text-gold-600 dark:hover:text-gold-400 rounded-lg transition-colors"
+                          className="flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-navy-800 hover:text-navy-950 dark:hover:text-gold-400 rounded-lg transition-colors"
                         >
-                          <MapPin className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" />
+                          <MapPin className="w-3.5 h-3.5 text-gray-500 dark:text-gold-400 shrink-0" />
                           <span>Track Live Order</span>
                         </Link>
                       </div>
 
                       {/* Log Out link */}
-                      <div className="border-t border-gray-100 dark:border-navy-800 pt-1 mt-0.5">
+                      <div className="border-t border-gray-200 dark:border-navy-700 pt-1 mt-1">
                         <button
                           onClick={() => {
                             logout();
                             setIsAccountOpen(false);
                             navigate('/');
                           }}
-                          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] font-medium text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-rose-50/80 dark:hover:bg-rose-950/30 rounded-lg transition-colors cursor-pointer"
+                          className="w-full flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-bold text-red-600 hover:text-red-700 dark:text-rose-400 dark:hover:text-rose-300 hover:bg-red-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer"
                         >
                           <LogOut className="w-3.5 h-3.5 shrink-0" />
                           <span>Log Out</span>
@@ -334,7 +334,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                     </>
                   ) : (
                     <div className="p-3 text-center">
-                      <p className="text-[11.5px] text-gray-600 dark:text-gray-300 mb-2.5 leading-snug">
+                      <p className="text-[12px] text-gray-700 dark:text-gray-200 mb-2.5 leading-snug font-medium">
                         Sign in for exclusive member privileges & live order tracking
                       </p>
                       <button
@@ -353,7 +353,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
                           setIsAuthModalOpen(true);
                           setIsAccountOpen(false);
                         }}
-                        className="w-full py-1.5 bg-gray-100 dark:bg-navy-800 text-gray-800 dark:text-gold-400 hover:text-gold-600 dark:hover:text-white rounded-xl text-xs border border-gray-200 dark:border-navy-700 cursor-pointer transition-colors"
+                        className="w-full py-1.5 bg-gray-100 dark:bg-navy-800 text-gray-900 dark:text-gold-400 hover:text-gold-600 dark:hover:text-white rounded-xl text-xs border border-gray-300 dark:border-navy-700 cursor-pointer font-medium transition-colors"
                       >
                         Create Account
                       </button>
