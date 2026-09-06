@@ -681,6 +681,56 @@ export const AdminDashboardPage = () => {
     return true;
   });
 
+  // Filtered & sorted orders list
+  const visibleOrders = orders
+    .filter((order) => {
+      const status = (order.status || 'Order Placed').toLowerCase().trim();
+      const filter = orderStatusFilter.toLowerCase().trim();
+      let matchStatus = true;
+      if (filter !== 'all') {
+        if (filter === 'order placed') {
+          matchStatus = ['order placed', 'confirmed', 'pending'].some((k) => status.includes(k));
+        } else if (filter === 'processing') {
+          matchStatus = ['processing', 'payment confirmed', 'packed'].some((k) => status.includes(k));
+        } else if (filter === 'shipped') {
+          matchStatus = ['shipped', 'in transit', 'out for delivery'].some((k) => status.includes(k));
+        } else if (filter === 'delivered') {
+          matchStatus = status.includes('delivered') && !status.includes('out for delivery');
+        } else if (filter === 'cancelled') {
+          matchStatus = status.includes('cancelled');
+        } else {
+          matchStatus = status === filter;
+        }
+      }
+      const q = orderSearch.toLowerCase().trim();
+      const matchSearch =
+        !q ||
+        (order.id || '').toLowerCase().includes(q) ||
+        (order.customerName || order.shippingAddress?.name || '').toLowerCase().includes(q) ||
+        (order.customerEmail || order.shippingAddress?.email || '').toLowerCase().includes(q) ||
+        (order.customerPhone || order.shippingAddress?.phone || '').toLowerCase().includes(q) ||
+        (order.trackingNumber || '').toLowerCase().includes(q);
+      return matchStatus && matchSearch;
+    })
+    .sort((a, b) => {
+      if (orderSortBy === 'newest') return (new Date(b.createdAt || b.date || 0)) - (new Date(a.createdAt || a.date || 0));
+      if (orderSortBy === 'oldest') return (new Date(a.createdAt || a.date || 0)) - (new Date(b.createdAt || b.date || 0));
+      if (orderSortBy === 'highest') return (Number(b.total || b.total_amount || 0)) - (Number(a.total || a.total_amount || 0));
+      if (orderSortBy === 'lowest') return (Number(a.total || a.total_amount || 0)) - (Number(b.total || b.total_amount || 0));
+      return 0;
+    });
+
+  // Filtered customers list
+  const filteredCustomers = customers.filter((c) => {
+    const q = customerSearch.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      (c.name || '').toLowerCase().includes(q) ||
+      (c.email || '').toLowerCase().includes(q) ||
+      (c.phone || '').toLowerCase().includes(q)
+    );
+  });
+
   const renderSkeletonContent = () => {
     if (activeTab === 'overview') {
       return (
@@ -902,7 +952,7 @@ export const AdminDashboardPage = () => {
                       </div>
                     </div>
                     <h3 className="font-serif text-3xl font-bold text-navy-950 dark:text-white">
-                      {formatINR(stats?.totalRevenue || 2249)}
+                      {formatINR(stats?.totalRevenue ?? 0)}
                     </h3>
                     <span className="text-[11px] text-emerald-700 dark:text-emerald-400 font-bold">✓ Razorpay Verified Revenue</span>
                   </div>
@@ -1288,46 +1338,9 @@ export const AdminDashboardPage = () => {
                   </div>
                 </div>
 
-                {/* Orders Feed Cards */}
-                <div className="space-y-5">
-                  {orders
-                    .filter((order) => {
-                      const status = (order.status || 'Order Placed').toLowerCase();
-                      let matchStatus = true;
-                      if (orderStatusFilter !== 'all') {
-                        const filter = orderStatusFilter.toLowerCase();
-                        if (filter === 'order placed') {
-                          matchStatus = ['order placed', 'confirmed', 'pending'].some(k => status.includes(k));
-                        } else if (filter === 'processing') {
-                          matchStatus = ['processing', 'payment confirmed', 'packed'].some(k => status.includes(k));
-                        } else if (filter === 'shipped') {
-                          matchStatus = ['shipped', 'in transit', 'out for delivery'].some(k => status.includes(k));
-                        } else if (filter === 'delivered') {
-                          matchStatus = status.includes('delivered') && !status.includes('out for delivery');
-                        } else if (filter === 'cancelled') {
-                          matchStatus = status.includes('cancelled');
-                        } else {
-                          matchStatus = status === filter;
-                        }
-                      }
-                      const q = orderSearch.toLowerCase().trim();
-                      const matchSearch =
-                        !q ||
-                        (order.id || '').toLowerCase().includes(q) ||
-                        (order.customerName || order.shippingAddress?.name || '').toLowerCase().includes(q) ||
-                        (order.customerEmail || order.shippingAddress?.email || '').toLowerCase().includes(q) ||
-                        (order.customerPhone || order.shippingAddress?.phone || '').toLowerCase().includes(q) ||
-                        (order.trackingNumber || '').toLowerCase().includes(q);
-                      return matchStatus && matchSearch;
-                    })
-                    .sort((a, b) => {
-                      if (orderSortBy === 'newest') return (new Date(b.createdAt || b.date || 0)) - (new Date(a.createdAt || a.date || 0));
-                      if (orderSortBy === 'oldest') return (new Date(a.createdAt || a.date || 0)) - (new Date(b.createdAt || b.date || 0));
-                      if (orderSortBy === 'highest') return (Number(b.total || b.total_amount || 0)) - (Number(a.total || a.total_amount || 0));
-                      if (orderSortBy === 'lowest') return (Number(a.total || a.total_amount || 0)) - (Number(b.total || b.total_amount || 0));
-                      return 0;
-                    })
-                    .map((order) => {
+                {/* Consignment Order Cards List */}
+                <div className="space-y-4">
+                  {visibleOrders.map((order) => {
                       const currentStatus = order.status || 'Order Placed';
                       const nextAction = getNextStatusAction(currentStatus);
 
@@ -1658,7 +1671,7 @@ export const AdminDashboardPage = () => {
                       );
                     })}
 
-                  {orders.length === 0 && (
+                  {visibleOrders.length === 0 && (
                     <div className="text-center py-16 rounded-3xl bg-white dark:bg-navy-900 border border-gray-200 dark:border-navy-800 space-y-3">
                       <Package className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />
                       <h4 className="text-base font-serif font-bold text-navy-950 dark:text-gray-300">No Consignments in this View</h4>
@@ -1725,17 +1738,7 @@ export const AdminDashboardPage = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 dark:divide-navy-800/60">
-                      {customers
-                        .filter((c) => {
-                          const q = customerSearch.toLowerCase().trim();
-                          if (!q) return true;
-                          return (
-                            (c.name || '').toLowerCase().includes(q) ||
-                            (c.email || '').toLowerCase().includes(q) ||
-                            (c.phone || '').toLowerCase().includes(q)
-                          );
-                        })
-                        .map((customer) => (
+                      {filteredCustomers.map((customer) => (
                           <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-navy-850/50 transition-colors">
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-3">
@@ -1791,11 +1794,11 @@ export const AdminDashboardPage = () => {
                     </tbody>
                   </table>
 
-                  {customers.length === 0 && (
+                  {filteredCustomers.length === 0 && (
                     <div className="text-center py-12 rounded-2xl bg-gray-50 dark:bg-navy-850/50 border border-gray-200 dark:border-navy-800 space-y-2 mt-3">
                       <User className="w-10 h-10 text-gray-400 dark:text-gray-500 mx-auto" />
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons yet.</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Registered users will appear here automatically.</p>
+                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">No registered patrons found.</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Registered users matching your search will appear here.</p>
                     </div>
                   )}
                 </div>
@@ -1975,7 +1978,7 @@ export const AdminDashboardPage = () => {
                               {coupon.code}
                             </span>
                             <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                              {coupon.discountPercent ? `${coupon.discountPercent}% OFF` : `₹${coupon.discountAmount} OFF`}
+                              {coupon.discountPercent ? `${coupon.discountPercent}% OFF` : coupon.discountAmount ? `₹${coupon.discountAmount} OFF` : 'PROMO'}
                             </span>
                           </div>
                           <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">{coupon.description}</p>

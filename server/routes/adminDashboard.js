@@ -231,13 +231,16 @@ router.put('/orders/:id/status', async (req, res) => {
       return res.status(500).json({ success: false, message: 'Failed to update order status.' });
     }
 
+    const finalCarrier = carrier || updated.carrier || 'N/A';
+    const finalTracking = trackingNumber || updated.trackingNumber || 'N/A';
+
     logAudit({
       action: 'Order status updated',
       adminId: req.admin.id,
       adminEmail: req.admin.email,
       ip: req.ip,
       resource: `Order #${id}`,
-      details: `Status set to "${updated.status}" (Carrier: ${carrier || updated.carrier}, Tracking: ${trackingNumber || updated.trackingNumber})`
+      details: `Status set to "${updated.status}" (Carrier: ${finalCarrier}, Tracking: ${finalTracking})`
     });
 
     return res.json({

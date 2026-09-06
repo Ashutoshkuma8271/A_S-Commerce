@@ -143,7 +143,7 @@ export const HeroSection = () => {
               </div>
 
               {/* Foreground Left Content */}
-                <div className="hero-copy-entrance max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
+              <div className="hero-copy-enter max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 py-12 sm:py-16 relative z-10 w-full">
                 <div className="max-w-xl lg:max-w-2xl space-y-4 sm:space-y-6 text-left">
                   
                   {/* Glowing Tagline Pill */}

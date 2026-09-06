@@ -26,7 +26,7 @@
       "verificationOtp": null,
       "otpExpiresAt": null,
       "createdAt": "2026-09-05T10:37:53.215+00:00",
-      "updatedAt": "2026-09-05T20:15:34.473+00:00"
+      "updatedAt": "2026-09-05T20:29:37.995+00:00"
     },
     {
       "id": "usr-1788603787781",
@@ -1132,8 +1132,8 @@
       "code": "LUXURY50",
       "discountPercent": 50,
       "discountAmount": null,
-      "minOrder": 9999,
-      "description": "Exclusive VIP Season Finale 50% Off",
+      "minOrder": 999,
+      "description": "Exclusive Season Special 50% Off on orders above ₹999",
       "isActive": true
     },
     {
@@ -1148,16 +1148,16 @@
       "code": "ASGOLD20",
       "discountPercent": 20,
       "discountAmount": null,
-      "minOrder": 4999,
-      "description": "20% Off on orders above ₹4,999",
+      "minOrder": 999,
+      "description": "20% Off on orders above ₹999",
       "isActive": true
     },
     {
       "code": "LUXURY500",
       "discountPercent": null,
       "discountAmount": 500,
-      "minOrder": 2999,
-      "description": "Flat ₹500 Off on orders above ₹2,999",
+      "minOrder": 999,
+      "description": "Flat ₹500 Off on orders above ₹999",
       "isActive": true
     }
   ],
