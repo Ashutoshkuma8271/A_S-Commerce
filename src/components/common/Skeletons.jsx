@@ -88,3 +88,60 @@ export const OrderCardSkeleton = () => (
     </div>
   </div>
 );
+
+// Category Track Skeleton Loader
+export const CategoryTrackSkeleton = ({ count = 8 }) => (
+  <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 overflow-hidden py-4 animate-pulse">
+    {Array.from({ length: count }).map((_, i) => (
+      <div key={i} className="flex flex-col items-center space-y-2.5 shrink-0 w-24 sm:w-28 lg:w-32">
+        <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gray-200 dark:bg-navy-800 border-2 border-gray-200/80 dark:border-navy-700" />
+        <div className="h-3.5 w-16 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        <div className="h-2.5 w-10 bg-gray-200 dark:bg-navy-800 rounded-md" />
+      </div>
+    ))}
+  </div>
+);
+
+// Product Details Page Skeleton
+export const ProductDetailsSkeleton = () => (
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-pulse">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+      {/* Gallery Skeleton */}
+      <div className="space-y-4">
+        <div className="aspect-square w-full rounded-3xl bg-gray-200 dark:bg-navy-800 border border-gray-200/80 dark:border-navy-700" />
+        <div className="grid grid-cols-4 gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="aspect-square rounded-2xl bg-gray-200 dark:bg-navy-800" />
+          ))}
+        </div>
+      </div>
+
+      {/* Info Skeleton */}
+      <div className="space-y-5">
+        <div className="h-4 w-24 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        <div className="h-8 w-3/4 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        <div className="h-4 w-32 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        <div className="h-8 w-40 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        <div className="h-20 w-full bg-gray-200 dark:bg-navy-800 rounded-2xl" />
+        <div className="h-12 w-full bg-gray-200 dark:bg-navy-800 rounded-2xl" />
+      </div>
+    </div>
+  </div>
+);
+
+// Cart Drawer / Page Item Skeleton
+export const CartItemSkeleton = ({ count = 3 }) => (
+  <div className="space-y-3 animate-pulse">
+    {Array.from({ length: count }).map((_, i) => (
+      <div key={i} className="flex items-center gap-4 p-3 bg-white dark:bg-navy-900 rounded-2xl border border-gray-100 dark:border-navy-800">
+        <div className="w-16 h-16 rounded-xl bg-gray-200 dark:bg-navy-800 shrink-0" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 w-3/4 bg-gray-200 dark:bg-navy-800 rounded-md" />
+          <div className="h-3 w-20 bg-gray-200 dark:bg-navy-800 rounded-md" />
+        </div>
+        <div className="h-5 w-16 bg-gray-200 dark:bg-navy-800 rounded-md" />
+      </div>
+    ))}
+  </div>
+);
+

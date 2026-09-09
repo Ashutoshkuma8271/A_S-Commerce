@@ -27,10 +27,10 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
   // Filter matching products for live preview
   const searchResults = searchTerm.trim()
     ? PRODUCTS.filter((p) =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
-      ).slice(0, 4)
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 4)
     : [];
 
   useEffect(() => {
@@ -49,12 +49,12 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
   const handleSearchSubmit = (e) => {
     e?.preventDefault();
     if (!searchTerm.trim()) return;
-    
+
     // Add to recent
     if (!recentSearches.includes(searchTerm.trim())) {
       setRecentSearches((prev) => [searchTerm.trim(), ...prev.slice(0, 4)]);
     }
-    
+
     setIsSearchOpen(false);
     navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
   };
@@ -69,7 +69,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
     <div className="bg-navy-900 text-white border-b border-navy-800 relative z-40">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-2.5 sm:py-3.5">
         <div className="premium-header-inner flex items-center justify-between gap-1 sm:gap-4 md:gap-6">
-          
+
           {/* Left: Mobile menu toggle + Logo */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <button
@@ -217,7 +217,7 @@ export const MainHeader = ({ onOpenMobileMenu }) => {
 
           {/* Right: Theme Toggle, Wishlist, Cart, Profile */}
           <div className="premium-header-actions flex items-center gap-1.5 sm:gap-2 md:gap-3 shrink-0">
-            
+
             {/* 1. Theme Toggle Button */}
             <ThemeToggle />
 

@@ -4,6 +4,7 @@ import { Filter, SlidersHorizontal, ArrowUpDown, X, Check, Star, RefreshCw } fro
 import { useProducts } from '../context/ProductContext';
 import { CATEGORIES } from '../data/categories';
 import { ProductCard } from '../components/common/ProductCard';
+import { Pagination } from '../components/common/Pagination';
 import { QuickViewModal } from '../components/common/QuickViewModal';
 import { ProductGridSkeleton } from '../components/common/Skeletons';
 import { formatINR } from '../utils/currency';
@@ -26,7 +27,7 @@ export const ShopPage = () => {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Perfect 3x3 Grid Symmetry with 0 trailing gaps
+  const itemsPerPage = 12; // Scalable luxury pagination: 12 items per page for perfect 2, 3, and 4 column grids
 
   // Sync params on URL change
   useEffect(() => {
@@ -370,24 +371,14 @@ export const ShopPage = () => {
             </div>
           )}
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-6">
-              {[...Array(totalPages)].map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentPage(idx + 1)}
-                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-all ${
-                    currentPage === idx + 1
-                      ? 'bg-gold-gradient text-navy-950 shadow-gold-sm'
-                      : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Scalable Standardized Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredProducts.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
 
         </div>
 

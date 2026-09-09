@@ -6,7 +6,7 @@ export const TrustBar = () => {
     {
       icon: Truck,
       title: 'Free Shipping',
-      desc: 'On orders over ₹999',
+      desc: 'On orders over ₹2,999',
     },
     {
       icon: RotateCcw,

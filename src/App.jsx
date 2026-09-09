@@ -39,20 +39,16 @@ const AdminForgotPasswordPage = lazy(() => import('./pages/admin/AdminForgotPass
 const AdminResetPasswordPage = lazy(() => import('./pages/admin/AdminResetPasswordPage').then(m => ({ default: m.AdminResetPasswordPage })));
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })));
 
-// Luxury Page Loading Skeleton
+import { LoadingSpinner } from './components/common/LoadingSpinner';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
+
+// Luxury Page Loading Spinner
 const PageLoader = () => (
-  <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4 p-8">
-    <div className="relative">
-      <div className="w-12 h-12 rounded-full border-2 border-gold-500/20 border-t-gold-500 animate-spin" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-2 h-2 rounded-full bg-gold-400 animate-ping" />
-      </div>
-    </div>
-    <p className="text-xs font-mono uppercase tracking-widest text-gold-400/80 animate-pulse">
-      Loading Luxury Experience...
-    </p>
+  <div className="min-h-[60vh] flex items-center justify-center">
+    <LoadingSpinner size="lg" text="Loading Luxury Experience..." />
   </div>
 );
+
 
 export function App() {
   return (
@@ -119,46 +115,48 @@ export function App() {
                               path="/*"
                               element={
                                 <Layout>
-                                  <Suspense fallback={<PageLoader />}>
-                                    <Routes>
-                                      <Route path="/" element={<HomePage />} />
-                                      <Route path="/shop" element={<ShopPage />} />
-                                      <Route path="/category/:slug" element={<CategoryPage />} />
-                                      <Route path="/product/:id" element={<ProductDetailsPage />} />
-                                      <Route path="/cart" element={<CartPage />} />
-                                      <Route path="/wishlist" element={<WishlistPage />} />
-                                      <Route path="/checkout" element={<CheckoutPage />} />
-                                      <Route path="/order-success" element={<OrderSuccessPage />} />
-                                      <Route path="/track-order" element={<TrackOrderPage />} />
-                                      
-                                      {/* Account & Password Recovery Routes */}
-                                      <Route path="/reset-password" element={<CustomerResetPasswordPage />} />
-                                      <Route path="/account" element={<AccountPage />} />
-                                      <Route path="/account/*" element={<AccountPage />} />
-                                      <Route path="/account/orders" element={<AccountPage />} />
-                                      <Route path="/account/addresses" element={<AccountPage />} />
-                                      <Route path="/account/profile" element={<AccountPage />} />
-                                      <Route path="/account/security" element={<AccountPage />} />
-                                      <Route path="/account/wishlist" element={<WishlistPage />} />
-                                      <Route path="/profile" element={<AccountPage />} />
-                                      <Route path="/orders" element={<AccountPage />} />
-                                      <Route path="/addresses" element={<AccountPage />} />
-                                      <Route path="/security" element={<AccountPage />} />
+                                  <ErrorBoundary>
+                                    <Suspense fallback={<PageLoader />}>
+                                      <Routes>
+                                        <Route path="/" element={<HomePage />} />
+                                        <Route path="/shop" element={<ShopPage />} />
+                                        <Route path="/category/:slug" element={<CategoryPage />} />
+                                        <Route path="/product/:id" element={<ProductDetailsPage />} />
+                                        <Route path="/cart" element={<CartPage />} />
+                                        <Route path="/wishlist" element={<WishlistPage />} />
+                                        <Route path="/checkout" element={<CheckoutPage />} />
+                                        <Route path="/order-success" element={<OrderSuccessPage />} />
+                                        <Route path="/track-order" element={<TrackOrderPage />} />
+                                        
+                                        {/* Account & Password Recovery Routes */}
+                                        <Route path="/reset-password" element={<CustomerResetPasswordPage />} />
+                                        <Route path="/account" element={<AccountPage />} />
+                                        <Route path="/account/*" element={<AccountPage />} />
+                                        <Route path="/account/orders" element={<AccountPage />} />
+                                        <Route path="/account/addresses" element={<AccountPage />} />
+                                        <Route path="/account/profile" element={<AccountPage />} />
+                                        <Route path="/account/security" element={<AccountPage />} />
+                                        <Route path="/account/wishlist" element={<WishlistPage />} />
+                                        <Route path="/profile" element={<AccountPage />} />
+                                        <Route path="/orders" element={<AccountPage />} />
+                                        <Route path="/addresses" element={<AccountPage />} />
+                                        <Route path="/security" element={<AccountPage />} />
 
-                                      {/* Offers & New Arrivals */}
-                                      <Route path="/offers" element={<OffersPage />} />
-                                      <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+                                        {/* Offers & New Arrivals */}
+                                        <Route path="/offers" element={<OffersPage />} />
+                                        <Route path="/new-arrivals" element={<NewArrivalsPage />} />
 
-                                      {/* Static / Customer Care */}
-                                      <Route path="/help" element={<HelpPage />} />
-                                      <Route path="/shipping" element={<HelpPage />} />
-                                      <Route path="/returns" element={<HelpPage />} />
-                                      <Route path="/contact" element={<ContactPage />} />
+                                        {/* Static / Customer Care */}
+                                        <Route path="/help" element={<HelpPage />} />
+                                        <Route path="/shipping" element={<HelpPage />} />
+                                        <Route path="/returns" element={<HelpPage />} />
+                                        <Route path="/contact" element={<ContactPage />} />
 
-                                      {/* Fallback */}
-                                      <Route path="*" element={<NotFoundPage />} />
-                                    </Routes>
-                                  </Suspense>
+                                        {/* Fallback */}
+                                        <Route path="*" element={<NotFoundPage />} />
+                                      </Routes>
+                                    </Suspense>
+                                  </ErrorBoundary>
                                 </Layout>
                               }
                             />

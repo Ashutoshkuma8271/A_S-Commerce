@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext';
 import { CATEGORIES } from '../data/categories';
 import { ProductCard } from '../components/common/ProductCard';
+import { Pagination } from '../components/common/Pagination';
 import { QuickViewModal } from '../components/common/QuickViewModal';
 import { ChevronRight, Sparkles, Filter, Layers, Check } from 'lucide-react';
 
@@ -39,7 +40,7 @@ export const CategoryPage = () => {
   }, [slug, selectedSubcategory, sortBy]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Perfect 3x3 Grid Symmetry with 0 gaps
+  const itemsPerPage = 12; // Scalable luxury pagination: 12 items per page
 
   const totalPages = Math.ceil(categoryProducts.length / itemsPerPage);
   const paginatedProducts = useMemo(() => {
@@ -160,40 +161,14 @@ export const CategoryPage = () => {
             ))}
           </div>
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 pt-6 border-t border-gray-100 dark:border-navy-800">
-              <button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 dark:border-navy-700 text-navy-950 dark:text-white hover:border-gold-500 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
-              >
-                Previous
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <button
-                  key={pageNum}
-                  onClick={() => setCurrentPage(pageNum)}
-                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                    currentPage === pageNum
-                      ? 'bg-navy-900 dark:bg-gold-500 text-gold-400 dark:text-navy-950 shadow-sm border border-gold-500'
-                      : 'border border-gray-200 dark:border-navy-700 text-gray-600 dark:text-gray-300 hover:border-gold-500'
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              ))}
-
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 dark:border-navy-700 text-navy-950 dark:text-white hover:border-gold-500 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
-              >
-                Next
-              </button>
-            </div>
-          )}
+          {/* Scalable Standardized Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={categoryProducts.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </div>
       ) : (
         <div className="bg-white dark:bg-navy-900 rounded-3xl p-12 text-center border border-gray-200 dark:border-navy-750 shadow-sm">

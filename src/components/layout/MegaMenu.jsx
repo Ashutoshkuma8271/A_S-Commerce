@@ -29,22 +29,22 @@ export const MegaMenu = ({ isOpen, onClose }) => {
       {/* Click-away Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 top-[138px] bg-navy-950/70 backdrop-blur-sm z-40 transition-opacity duration-200"
+        className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-200"
         aria-hidden="true"
       />
 
-      {/* Luxury Mega Menu Card */}
+      {/* Luxury Mega Menu Card - 100% Solid & Razor Sharp in Both Bright & Dark Modes */}
       <div
         ref={menuRef}
-        className="absolute top-full left-0 w-full bg-navy-900/98 backdrop-blur-2xl border-b border-x border-gold-500/30 shadow-2xl z-50 animate-fadeIn text-white overflow-hidden rounded-b-3xl max-h-[82vh] overflow-y-auto"
+        className="absolute top-full left-0 w-full bg-[#FFFFFF] dark:bg-[#061A27] border-b-2 border-x border-gray-200 dark:border-gold-500/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] z-50 animate-fadeIn text-[#061A27] dark:text-white overflow-hidden rounded-b-3xl max-h-[82vh] overflow-y-auto"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           
           {/* Top Bar with Title & Prominent Close (Cross) Button */}
-          <div className="flex items-center justify-between pb-4 mb-6 border-b border-navy-800">
+          <div className="flex items-center justify-between pb-4 mb-6 border-b border-gray-200 dark:border-navy-800">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
-              <span className="text-xs sm:text-sm font-bold text-gold-400 uppercase tracking-widest font-serif">
+              <div className="w-2.5 h-2.5 rounded-full bg-gold-500 animate-pulse" />
+              <span className="text-xs sm:text-sm font-bold text-gold-700 dark:text-gold-400 uppercase tracking-widest font-serif">
                 A_S Luxury Department Directory
               </span>
             </div>
@@ -52,7 +52,7 @@ export const MegaMenu = ({ isOpen, onClose }) => {
             {/* Explicit Close Button (Cross) */}
             <button
               onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-navy-800/90 hover:bg-gold-500 text-gray-300 hover:text-navy-950 text-xs font-bold transition-all border border-navy-700 hover:border-gold-500 shadow-sm cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-navy-800 hover:bg-gold-500 text-gray-800 dark:text-gray-200 hover:text-navy-950 text-xs font-bold transition-all border border-gray-300 dark:border-navy-700 hover:border-gold-500 shadow-sm cursor-pointer"
               aria-label="Close categories menu"
               title="Close categories menu (Esc)"
             >
@@ -63,14 +63,14 @@ export const MegaMenu = ({ isOpen, onClose }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
             
-            {/* Left Column: 7 Main Categories List */}
-            <div className="md:col-span-4 lg:col-span-4 md:border-r border-navy-800 md:pr-6 space-y-2">
-              <div className="flex items-center justify-between pb-2 border-b border-navy-800/60">
-                <span className="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5 text-gold-400" />
+            {/* Left Column: Main Categories List */}
+            <div className="md:col-span-4 lg:col-span-4 md:border-r border-gray-200 dark:border-navy-800 md:pr-6 space-y-2">
+              <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-navy-800/60">
+                <span className="text-xs font-bold text-gray-900 dark:text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-gold-600 dark:text-gold-400" />
                   <span>Select Category</span>
                 </span>
-                <span className="text-[10px] text-gold-400/80 font-mono">7 Departments</span>
+                <span className="text-[10px] text-gold-700 dark:text-gold-400/90 font-mono font-bold">12 Departments</span>
               </div>
 
               <div className="space-y-1.5">
@@ -83,27 +83,27 @@ export const MegaMenu = ({ isOpen, onClose }) => {
                       onClick={() => setSelectedCatId(cat.id)}
                       className={`flex items-center justify-between p-2.5 sm:p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                         isActive
-                          ? 'bg-gold-500/15 text-gold-400 border border-gold-500/40 shadow-gold-sm translate-x-1'
-                          : 'text-gray-300 hover:bg-navy-850 hover:text-white'
+                          ? 'bg-amber-500/15 text-amber-950 dark:text-gold-400 border border-amber-500/50 shadow-sm translate-x-1'
+                          : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-850 hover:text-navy-950 dark:hover:text-white'
                       }`}
                     >
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         <img
                           src={cat.image}
                           alt={cat.name}
-                          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border border-navy-700 shrink-0"
+                          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border border-gray-300 dark:border-navy-700 shrink-0 shadow-xs"
                         />
                         <div className="truncate">
-                          <h4 className={`text-xs sm:text-sm font-bold truncate ${isActive ? 'text-gold-400' : 'text-white'}`}>
+                          <h4 className={`text-xs sm:text-sm font-bold truncate ${isActive ? 'text-amber-950 dark:text-gold-400' : 'text-[#061A27] dark:text-white'}`}>
                             {cat.name}
                           </h4>
-                          <span className="text-[10px] sm:text-[11px] text-gray-400 font-normal block">
+                          <span className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium block">
                             {cat.itemCount}
                           </span>
                         </div>
                       </div>
 
-                      <ChevronRight className={`w-4 h-4 transition-transform shrink-0 ${isActive ? 'text-gold-400 translate-x-0.5' : 'text-gray-500'}`} />
+                      <ChevronRight className={`w-4 h-4 transition-transform shrink-0 ${isActive ? 'text-amber-700 dark:text-gold-400 translate-x-0.5' : 'text-gray-400 dark:text-gray-500'}`} />
                     </div>
                   );
                 })}
@@ -114,26 +114,26 @@ export const MegaMenu = ({ isOpen, onClose }) => {
             <div className="md:col-span-8 lg:col-span-5 space-y-5">
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-bold text-gold-400 uppercase tracking-widest">
+                  <span className="text-xs font-bold text-gold-700 dark:text-gold-400 uppercase tracking-widest">
                     Drill-Down: {activeCategory.name}
                   </span>
                   <Link
                     to={`/category/${activeCategory.slug}`}
                     onClick={onClose}
-                    className="text-xs text-gold-400 hover:underline font-bold flex items-center gap-1"
+                    className="text-xs text-gold-700 dark:text-gold-400 hover:underline font-bold flex items-center gap-1"
                   >
                     <span>View All {activeCategory.name}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
-                <p className="text-xs text-gray-300 leading-relaxed">
+                <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCategory.description}
                 </p>
               </div>
 
               {/* Subcategories Grid */}
               <div>
-                <h5 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2.5">
+                <h5 className="text-[11px] font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2.5">
                   Specialized Sub-Departments
                 </h5>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -142,10 +142,10 @@ export const MegaMenu = ({ isOpen, onClose }) => {
                       key={sub}
                       to={`/shop?category=${activeCategory.slug}&sub=${encodeURIComponent(sub)}`}
                       onClick={onClose}
-                      className="p-3 rounded-xl bg-navy-850 hover:bg-navy-800 border border-navy-750 hover:border-gold-500/40 text-xs font-medium text-gray-200 hover:text-gold-400 transition-all flex items-center justify-between group"
+                      className="p-3 rounded-xl bg-gray-50 hover:bg-white dark:bg-navy-850 dark:hover:bg-navy-800 border border-gray-200 hover:border-gold-500/60 dark:border-navy-750 text-xs font-semibold text-gray-900 dark:text-gray-100 hover:text-gold-700 dark:hover:text-gold-400 transition-all flex items-center justify-between group shadow-xs hover:shadow-sm"
                     >
                       <span className="truncate">{sub}</span>
-                      <ArrowRight className="w-3 h-3 text-gray-500 group-hover:text-gold-400 group-hover:translate-x-1 transition-all shrink-0" />
+                      <ArrowRight className="w-3 h-3 text-gray-400 group-hover:text-gold-600 dark:group-hover:text-gold-400 group-hover:translate-x-1 transition-all shrink-0" />
                     </Link>
                   ))}
                 </div>
@@ -153,14 +153,14 @@ export const MegaMenu = ({ isOpen, onClose }) => {
 
               {/* Quick Tags */}
               <div className="pt-1">
-                <span className="text-[11px] text-gray-400 font-semibold block mb-2">Popular In This Department:</span>
+                <span className="text-[11px] text-gray-600 dark:text-gray-400 font-bold block mb-2">Popular In This Department:</span>
                 <div className="flex flex-wrap gap-2">
                   {['New Arrivals', 'Bestsellers', 'Up to 50% Off', 'Certified Authentic'].map((tag) => (
                     <Link
                       key={tag}
                       to={`/shop?category=${activeCategory.slug}`}
                       onClick={onClose}
-                      className="px-3 py-1 bg-navy-950/80 hover:bg-gold-500/10 rounded-full border border-gold-500/20 text-[11px] text-gray-300 hover:text-gold-400 transition-colors"
+                      className="px-3 py-1 bg-gray-100 hover:bg-gold-500/15 dark:bg-navy-950/80 rounded-full border border-gray-300 dark:border-gold-500/20 text-[11px] text-gray-800 dark:text-gray-200 hover:text-gold-700 dark:hover:text-gold-400 transition-colors font-semibold"
                     >
                       {tag}
                     </Link>
@@ -171,9 +171,9 @@ export const MegaMenu = ({ isOpen, onClose }) => {
 
             {/* Right Column: Featured Category Visual Spotlight (Desktop) */}
             <div className="hidden lg:block lg:col-span-3">
-              <div className="relative h-full rounded-3xl overflow-hidden border border-gold-500/30 p-6 flex flex-col justify-between bg-gradient-to-br from-navy-800 via-navy-850 to-navy-900 shadow-xl">
+              <div className="relative h-full rounded-3xl overflow-hidden border border-gold-500/40 p-6 flex flex-col justify-between bg-gradient-to-br from-amber-50/70 via-white to-gray-50 dark:from-navy-800 dark:via-navy-850 dark:to-navy-900 shadow-lg">
                 {/* Background image tint */}
-                <div className="absolute inset-0 opacity-25 overflow-hidden">
+                <div className="absolute inset-0 opacity-20 dark:opacity-25 overflow-hidden">
                   <img
                     src={activeCategory.image}
                     alt={activeCategory.name}
@@ -182,16 +182,16 @@ export const MegaMenu = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="relative z-10 space-y-2.5">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-400 text-[10px] font-extrabold uppercase">
-                    <Sparkles className="w-3 h-3" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/20 border border-gold-500/50 text-gold-800 dark:text-gold-400 text-[10px] font-extrabold uppercase font-mono">
+                    <Sparkles className="w-3 h-3 text-gold-600 dark:text-gold-400" />
                     <span>Curated Selection</span>
                   </div>
 
-                  <h4 className="font-serif text-lg font-bold text-white">
+                  <h4 className="font-serif text-lg font-bold text-[#061A27] dark:text-white">
                     {activeCategory.name}
                   </h4>
 
-                  <p className="text-xs text-gray-300 leading-relaxed">
+                  <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-sans font-medium">
                     Explore bespoke artisanal pieces crafted with luxury materials and timeless design.
                   </p>
                 </div>
@@ -200,7 +200,7 @@ export const MegaMenu = ({ isOpen, onClose }) => {
                   <Link
                     to={`/category/${activeCategory.slug}`}
                     onClick={onClose}
-                    className="w-full py-2.5 bg-gold-gradient text-navy-950 text-xs font-bold rounded-xl shadow-gold-sm hover:brightness-105 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-gold-gradient text-navy-950 text-xs font-bold rounded-xl shadow-gold-sm hover:brightness-105 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Shop {activeCategory.name}</span>
                     <ArrowRight className="w-3.5 h-3.5" />

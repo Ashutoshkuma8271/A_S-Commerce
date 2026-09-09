@@ -9,7 +9,7 @@
       "isActive": true,
       "singleAdminLock": 1,
       "createdAt": "2026-08-31T20:41:54.344+00:00",
-      "updatedAt": "2026-09-06T06:53:05.431+00:00"
+      "updatedAt": "2026-09-07T13:56:08.813+00:00"
     }
   ],
   "users": [
@@ -50,7 +50,7 @@
       "verificationOtp": null,
       "otpExpiresAt": null,
       "createdAt": "2026-09-01T05:11:55.03+00:00",
-      "updatedAt": "2026-09-06T08:40:26.835Z"
+      "updatedAt": "2026-09-07T16:31:12.285+00:00"
     },
     {
       "id": "usr-1788191709837",
@@ -180,6 +180,17 @@
   ],
   "audit_logs": [
     {
+      "id": "audit-1788789370170-2n3by",
+      "action": "Admin login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "127.0.0.1",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-09-07T13:56:10.172+00:00",
+      "timestamp": "2026-09-07T13:56:10.172+00:00"
+    },
+    {
       "id": "audit-1788677585967-kmdht",
       "action": "Admin login",
       "adminId": "adm-master-ashutosh",
@@ -288,6 +299,710 @@
       "details": "Incorrect password",
       "createdAt": "2026-09-05T17:15:31.279+00:00",
       "timestamp": "2026-09-05T17:15:31.279+00:00"
+    },
+    {
+      "id": "audit-1788628166590-gvauv",
+      "action": "Logout",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged out",
+      "createdAt": "2026-09-05T17:09:26.591+00:00",
+      "timestamp": "2026-09-05T17:09:26.591+00:00"
+    },
+    {
+      "id": "audit-1788627988010-uh3i9",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-923135",
+      "details": "Status set to \"Processing\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T17:06:28.01+00:00",
+      "timestamp": "2026-09-05T17:06:28.01+00:00"
+    },
+    {
+      "id": "audit-1788627982043-peetg",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-923135",
+      "details": "Status set to \"Delivered\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T17:06:22.044+00:00",
+      "timestamp": "2026-09-05T17:06:22.044+00:00"
+    },
+    {
+      "id": "audit-1788618139434-5sepk",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:22:19.434+00:00",
+      "timestamp": "2026-09-05T14:22:19.434+00:00"
+    },
+    {
+      "id": "audit-1788618138093-afqdq",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:22:18.093+00:00",
+      "timestamp": "2026-09-05T14:22:18.093+00:00"
+    },
+    {
+      "id": "audit-1788618132018-d6svu",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:22:12.018+00:00",
+      "timestamp": "2026-09-05T14:22:12.018+00:00"
+    },
+    {
+      "id": "audit-1788618125547-6ou5h",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:22:05.547+00:00",
+      "timestamp": "2026-09-05T14:22:05.547+00:00"
+    },
+    {
+      "id": "audit-1788618119232-p03wz",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Delivered\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:59.233+00:00",
+      "timestamp": "2026-09-05T14:21:59.233+00:00"
+    },
+    {
+      "id": "audit-1788618108633-bsg5i",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:48.633+00:00",
+      "timestamp": "2026-09-05T14:21:48.633+00:00"
+    },
+    {
+      "id": "audit-1788618107998-0xrk8",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:47.998+00:00",
+      "timestamp": "2026-09-05T14:21:47.998+00:00"
+    },
+    {
+      "id": "audit-1788618088046-an6xu",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:28.046+00:00",
+      "timestamp": "2026-09-05T14:21:28.046+00:00"
+    },
+    {
+      "id": "audit-1788618087562-cf7j9",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:27.563+00:00",
+      "timestamp": "2026-09-05T14:21:27.563+00:00"
+    },
+    {
+      "id": "audit-1788618087187-yjy22",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:27.188+00:00",
+      "timestamp": "2026-09-05T14:21:27.188+00:00"
+    },
+    {
+      "id": "audit-1788618086743-oallk",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:26.744+00:00",
+      "timestamp": "2026-09-05T14:21:26.744+00:00"
+    },
+    {
+      "id": "audit-1788618086425-43twy",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:26.426+00:00",
+      "timestamp": "2026-09-05T14:21:26.426+00:00"
+    },
+    {
+      "id": "audit-1788618066235-iyoxm",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:21:06.236+00:00",
+      "timestamp": "2026-09-05T14:21:06.236+00:00"
+    },
+    {
+      "id": "audit-1788618058831-qw67e",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:58.831+00:00",
+      "timestamp": "2026-09-05T14:20:58.831+00:00"
+    },
+    {
+      "id": "audit-1788618058812-84k5f",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:58.812+00:00",
+      "timestamp": "2026-09-05T14:20:58.812+00:00"
+    },
+    {
+      "id": "audit-1788618058796-lusrw",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:58.797+00:00",
+      "timestamp": "2026-09-05T14:20:58.797+00:00"
+    },
+    {
+      "id": "audit-1788618030199-km4pd",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:30.199+00:00",
+      "timestamp": "2026-09-05T14:20:30.199+00:00"
+    },
+    {
+      "id": "audit-1788618021717-1x4cz",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:21.718+00:00",
+      "timestamp": "2026-09-05T14:20:21.718+00:00"
+    },
+    {
+      "id": "audit-1788618006072-35u74",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:20:06.072+00:00",
+      "timestamp": "2026-09-05T14:20:06.072+00:00"
+    },
+    {
+      "id": "audit-1788617991409-byrh1",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:51.409+00:00",
+      "timestamp": "2026-09-05T14:19:51.409+00:00"
+    },
+    {
+      "id": "audit-1788617982282-ighd2",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:42.282+00:00",
+      "timestamp": "2026-09-05T14:19:42.282+00:00"
+    },
+    {
+      "id": "audit-1788617974763-taup2",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:34.764+00:00",
+      "timestamp": "2026-09-05T14:19:34.764+00:00"
+    },
+    {
+      "id": "audit-1788617971786-idgu2",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:31.786+00:00",
+      "timestamp": "2026-09-05T14:19:31.786+00:00"
+    },
+    {
+      "id": "audit-1788617971350-gnli2",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:31.351+00:00",
+      "timestamp": "2026-09-05T14:19:31.351+00:00"
+    },
+    {
+      "id": "audit-1788617970680-m3www",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-233208",
+      "details": "Status advanced to \"Payment Confirmed\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-858305295IN)",
+      "createdAt": "2026-09-05T14:19:30.681+00:00",
+      "timestamp": "2026-09-05T14:19:30.681+00:00"
+    },
+    {
+      "id": "audit-1788617394006-va6iz",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T14:09:54.006+00:00",
+      "timestamp": "2026-09-05T14:09:54.006+00:00"
+    },
+    {
+      "id": "audit-1788617371465-4nh8l",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T14:09:31.466+00:00",
+      "timestamp": "2026-09-05T14:09:31.466+00:00"
+    },
+    {
+      "id": "audit-1788617365872-gtt9s",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T14:09:25.873+00:00",
+      "timestamp": "2026-09-05T14:09:25.873+00:00"
+    },
+    {
+      "id": "audit-1788617353429-zp9h5",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T14:09:13.43+00:00",
+      "timestamp": "2026-09-05T14:09:13.43+00:00"
+    },
+    {
+      "id": "audit-1788617329363-uztvi",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "152.58.118.235",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express, Tracking: BD-706721102IN)",
+      "createdAt": "2026-09-05T14:08:49.363+00:00",
+      "timestamp": "2026-09-05T14:08:49.363+00:00"
+    },
+    {
+      "id": "audit-1788616247707-4ygr0",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:50:47.708+00:00",
+      "timestamp": "2026-09-05T13:50:47.708+00:00"
+    },
+    {
+      "id": "audit-1788616147817-ijp5y",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:49:07.817+00:00",
+      "timestamp": "2026-09-05T13:49:07.817+00:00"
+    },
+    {
+      "id": "audit-1788616136517-u96m5",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-923135",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:56.517+00:00",
+      "timestamp": "2026-09-05T13:48:56.517+00:00"
+    },
+    {
+      "id": "audit-1788616122658-cgptj",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:42.658+00:00",
+      "timestamp": "2026-09-05T13:48:42.658+00:00"
+    },
+    {
+      "id": "audit-1788616116947-v6l31",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:36.947+00:00",
+      "timestamp": "2026-09-05T13:48:36.947+00:00"
+    },
+    {
+      "id": "audit-1788616108382-mhnzh",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:28.383+00:00",
+      "timestamp": "2026-09-05T13:48:28.383+00:00"
+    },
+    {
+      "id": "audit-1788616103314-8e1tl",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:23.315+00:00",
+      "timestamp": "2026-09-05T13:48:23.315+00:00"
+    },
+    {
+      "id": "audit-1788616098417-y9l5y",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Delivered\" (Carrier: Bluedart Express, Tracking: )",
+      "createdAt": "2026-09-05T13:48:18.417+00:00",
+      "timestamp": "2026-09-05T13:48:18.417+00:00"
+    },
+    {
+      "id": "audit-1788616096146-y8xfa",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:16.147+00:00",
+      "timestamp": "2026-09-05T13:48:16.147+00:00"
+    },
+    {
+      "id": "audit-1788616085686-y4jr0",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Delivered\" (Carrier: Bluedart Express, Tracking: )",
+      "createdAt": "2026-09-05T13:48:05.686+00:00",
+      "timestamp": "2026-09-05T13:48:05.686+00:00"
+    },
+    {
+      "id": "audit-1788616083066-mnrs3",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:48:03.066+00:00",
+      "timestamp": "2026-09-05T13:48:03.066+00:00"
+    },
+    {
+      "id": "audit-1788616072135-n4f0h",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:47:52.136+00:00",
+      "timestamp": "2026-09-05T13:47:52.136+00:00"
+    },
+    {
+      "id": "audit-1788616067208-dodxd",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:47:47.208+00:00",
+      "timestamp": "2026-09-05T13:47:47.208+00:00"
+    },
+    {
+      "id": "audit-1788616061767-gymie",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:47:41.768+00:00",
+      "timestamp": "2026-09-05T13:47:41.768+00:00"
+    },
+    {
+      "id": "audit-1788616055606-blw1i",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:47:35.606+00:00",
+      "timestamp": "2026-09-05T13:47:35.606+00:00"
+    },
+    {
+      "id": "audit-1788616042486-20t8b",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-800306",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: undefined, Tracking: undefined)",
+      "createdAt": "2026-09-05T13:47:22.486+00:00",
+      "timestamp": "2026-09-05T13:47:22.486+00:00"
+    },
+    {
+      "id": "audit-1788606936754-8hau9",
+      "action": "Admin login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-09-05T11:15:36.754+00:00",
+      "timestamp": "2026-09-05T11:15:36.754+00:00"
+    },
+    {
+      "id": "audit-1788606930580-i0yot",
+      "action": "Failed login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Incorrect password",
+      "createdAt": "2026-09-05T11:15:30.58+00:00",
+      "timestamp": "2026-09-05T11:15:30.58+00:00"
+    },
+    {
+      "id": "audit-1788606476708-9vt50",
+      "action": "Logout",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged out",
+      "createdAt": "2026-09-05T11:07:56.708+00:00",
+      "timestamp": "2026-09-05T11:07:56.708+00:00"
+    },
+    {
+      "id": "audit-1788606466773-0jw6a",
+      "action": "Admin login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-09-05T11:07:46.773+00:00",
+      "timestamp": "2026-09-05T11:07:46.773+00:00"
+    },
+    {
+      "id": "audit-1788606444315-8sgu3",
+      "action": "Logout",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged out",
+      "createdAt": "2026-09-05T11:07:24.315+00:00",
+      "timestamp": "2026-09-05T11:07:24.315+00:00"
+    },
+    {
+      "id": "audit-1788604942204-ushri",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Delivered\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:42:22.205+00:00",
+      "timestamp": "2026-09-05T10:42:22.205+00:00"
+    },
+    {
+      "id": "audit-1788604940973-fcmzl",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:42:20.973+00:00",
+      "timestamp": "2026-09-05T10:42:20.973+00:00"
+    },
+    {
+      "id": "audit-1788604884466-r0mfp",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Shipped\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:41:24.467+00:00",
+      "timestamp": "2026-09-05T10:41:24.467+00:00"
+    },
+    {
+      "id": "audit-1788604869367-f1ba2",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Delivered\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:41:09.368+00:00",
+      "timestamp": "2026-09-05T10:41:09.368+00:00"
+    },
+    {
+      "id": "audit-1788604800548-i9927",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:40:00.548+00:00",
+      "timestamp": "2026-09-05T10:40:00.548+00:00"
+    },
+    {
+      "id": "audit-1788604793604-r8zi5",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:39:53.605+00:00",
+      "timestamp": "2026-09-05T10:39:53.605+00:00"
+    },
+    {
+      "id": "audit-1788604785798-r4es5",
+      "action": "Order status updated",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Order #AS-738478",
+      "details": "Status advanced to \"Out for Delivery\" (Carrier: Bluedart Express Luxury Courier, Tracking: BD-536213461IN)",
+      "createdAt": "2026-09-05T10:39:45.799+00:00",
+      "timestamp": "2026-09-05T10:39:45.799+00:00"
+    },
+    {
+      "id": "rst-1788604558752",
+      "action": "Password Reset via Email Link (customer) - Completed",
+      "adminId": null,
+      "adminEmail": "ashukumarfbg8271@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": "Account ashukumarfbg8271@gmail.com",
+      "details": "Password reset execution completed for customer account: ashukumarfbg8271@gmail.com",
+      "createdAt": "2026-09-05T10:35:58.752+00:00",
+      "timestamp": "2026-09-05T10:35:58.752+00:00"
+    },
+    {
+      "id": "audit-1788604457869-j7ybs",
+      "action": "Admin login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Administrator logged in successfully",
+      "createdAt": "2026-09-05T10:34:17.869+00:00",
+      "timestamp": "2026-09-05T10:34:17.869+00:00"
+    },
+    {
+      "id": "audit-1788604451716-rokgv",
+      "action": "Failed login",
+      "adminId": "adm-master-ashutosh",
+      "adminEmail": "ashutoshkumaryadav933499@gmail.com",
+      "ip": "103.69.24.42",
+      "resource": null,
+      "details": "Incorrect password",
+      "createdAt": "2026-09-05T10:34:11.717+00:00",
+      "timestamp": "2026-09-05T10:34:11.717+00:00"
     }
   ],
   "orders": [
@@ -457,147 +1172,23 @@
   ],
   "products": [
     {
-      "id": "prod-sausages",
-      "name": "Smoked German Chicken Sausages",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "sausages-cold-cuts",
-      "categoryName": "Sausages & Cold Cuts",
-      "price": 249,
-      "originalPrice": 280,
-      "discount": 11,
-      "rating": 4.8,
-      "reviewCount": 310,
-      "stockCount": 21,
-      "inStock": true,
-      "badge": "TOP CHOICE",
-      "description": "Authentic hardwood smoked Frankfurters seasoned with white pepper, coriander, and fine sea salt.",
-      "images": [
-        "https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": false,
-      "colors": [
-        "#EA580C"
-      ],
-      "colorNames": [
-        "Smoked Amber"
-      ],
-      "sizes": [
-        "250 g (5 Sausages)",
-        "500 g (10 Sausages)"
-      ],
-      "specs": {
-        "Cooking": "Boil 3 mins or grill with butter",
-        "Storage": "Keep chilled at 0°C to 4°C",
-        "Serving Size": "250 g (5 Sausages)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T17:21:52.13+00:00"
-    },
-    {
-      "id": "prod-momos",
-      "name": "Chicken Momos",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "momos",
-      "categoryName": "Momos",
-      "price": 170,
-      "originalPrice": 195,
-      "discount": 12,
+      "id": "prod-14",
+      "name": "Artisanal French Oud & Amber Eau de Parfum",
+      "brand": "A_S Parfums",
+      "category": "beauty",
+      "categoryName": "Beauty",
+      "price": 3499,
+      "originalPrice": 5999,
+      "discount": 41,
       "rating": 4.9,
-      "reviewCount": 480,
-      "stockCount": 50,
+      "reviewCount": 172,
+      "stockCount": 24,
       "inStock": true,
       "badge": "BESTSELLER",
-      "description": "Juicy Himalayan minced chicken steamed momos with spicy Schezwan garlic dip.",
+      "description": "Intense artisanal French fragrance blending smoky Cambodian oud, warm amber, damask rose, and bourbon vanilla for 18+ hours longevity.",
       "images": [
-        "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": false,
-      "isSpecialOffer": true,
-      "colors": [
-        "#FFFFFF"
-      ],
-      "colorNames": [
-        "Classic White"
-      ],
-      "sizes": [
-        "250 g (10 Pcs)",
-        "500 g (20 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Steam for 4 mins or pan fry",
-        "Protein": "13 g protein per serving",
-        "Storage": "Keep frozen at -18°C",
-        "Serving Size": "250 g (10-12 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-08-31T19:06:27.733459+00:00"
-    },
-    {
-      "id": "prod-tikka",
-      "name": "Chicken Tikka",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 225,
-      "originalPrice": 260,
-      "discount": 13,
-      "rating": 5,
-      "reviewCount": 520,
-      "stockCount": 39,
-      "inStock": true,
-      "badge": "BESTSELLER",
-      "description": "Tender boneless chicken thigh chunks marinated in mustard oil, Kashmiri red chilli, hung curd, and roasted garam masala.",
-      "images": [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
-      ],
-      "isFeatured": true,
-      "isTrending": true,
-      "isNewArrival": true,
-      "isSpecialOffer": true,
-      "colors": [
-        "#B91C1C"
-      ],
-      "colorNames": [
-        "Tandoori Red"
-      ],
-      "sizes": [
-        "250 g (6-8 Pcs)",
-        "500 g (12-16 Pcs)"
-      ],
-      "specs": {
-        "Cooking": "Grill or pan sear for 6-8 mins",
-        "Protein": "19 g protein per serving",
-        "Storage": "Store at 0°C to 4°C",
-        "Serving Size": "250 g (6-8 Pcs)"
-      },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T10:23:13.163+00:00"
-    },
-    {
-      "id": "prod-patty",
-      "name": "Chicken Burger Patty",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "chicken-snacks",
-      "categoryName": "Chicken Snacks",
-      "price": 190,
-      "originalPrice": 220,
-      "discount": 13,
-      "rating": 4.9,
-      "reviewCount": 390,
-      "stockCount": 42,
-      "inStock": true,
-      "badge": "BESTSELLER",
-      "description": "Juicy, flame-grilled ground chicken breast burger patties seasoned with aromatic herbs and black pepper.",
-      "images": [
-        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80"
+        "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=800&auto=format&fit=crop&q=80"
       ],
       "isFeatured": true,
       "isTrending": true,
@@ -607,60 +1198,187 @@
         "#78350F"
       ],
       "colorNames": [
-        "Grilled Golden"
+        "Amber Flacon"
       ],
       "sizes": [
-        "250 g (4 Patties)",
-        "500 g (8 Patties)"
+        "100ml Eau de Parfum"
       ],
       "specs": {
-        "Cooking": "Pan-fry 3 mins each side",
-        "Protein": "17 g protein per serving",
-        "Storage": "Keep frozen at -18°C",
-        "Serving Size": "250 g (4 Patties)"
+        "Notes": "Oud, Amber, Rose, Vanilla",
+        "Origin": "Grasse, France",
+        "Concentration": "25% Extrait de Parfum"
       },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T10:27:06.401+00:00"
+      "createdAt": "2026-09-07T13:32:32.110854+00:00",
+      "updatedAt": "2026-09-07T13:32:32.110854+00:00"
     },
     {
-      "id": "prod-galouti",
-      "name": "Awadhi Mutton Galouti Kebab",
-      "brand": "A_S FOODY Gourmet Meat Lab",
-      "category": "kebabs",
-      "categoryName": "Kebabs",
-      "price": 349,
-      "originalPrice": 399,
-      "discount": 12,
+      "id": "prod-17",
+      "name": "AeroGlide Elite Carbon Fiber Luggage",
+      "brand": "A_S Voyage",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 11499,
+      "originalPrice": 17999,
+      "discount": 36,
       "rating": 4.9,
-      "reviewCount": 610,
-      "stockCount": 25,
+      "reviewCount": 95,
+      "stockCount": 8,
       "inStock": true,
-      "badge": "ROYAL SPECIALTY",
-      "description": "Melt-in-mouth Awadhi minced mutton patties infused with raw papaya, rose water, and 16 royal aromatic spices.",
+      "badge": "PREMIUM",
+      "description": "Ultra-lightweight Japanese carbon-polycarbonate hardshell carry-on with 360-degree whisper-quiet Hinomoto spinner wheels and TSA combination lock.",
       "images": [
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+        "https://images.unsplash.com/photo-1565026057447-bc90a3dceb87?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1581553680321-4fffae59fccd?w=800&auto=format&fit=crop&q=80"
       ],
       "isFeatured": true,
       "isTrending": true,
-      "isNewArrival": false,
-      "isSpecialOffer": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
       "colors": [
-        "#991B1B"
+        "#061A27",
+        "#C0C0C0"
       ],
       "colorNames": [
-        "Rich Brown"
+        "Titanium Navy",
+        "Silver Mist"
       ],
       "sizes": [
-        "300 g (6 Pcs)",
-        "600 g (12 Pcs)"
+        "Carry-On (21-Inch / 38L)"
       ],
       "specs": {
-        "Cooking": "Shallow fry in pure ghee for 2 mins",
-        "Storage": "Keep frozen at -18°C",
-        "Serving Size": "300 g (6 Pcs)"
+        "Lock": "TSA Approved Dual Lock",
+        "Shell": "100% Polycarbonate Carbon Weave",
+        "Wheels": "Hinomoto Silent 360 Spinners"
       },
-      "createdAt": "2026-08-31T19:06:27.733459+00:00",
-      "updatedAt": "2026-09-05T11:41:57.87+00:00"
+      "createdAt": "2026-09-07T13:32:32.110854+00:00",
+      "updatedAt": "2026-09-07T13:32:32.110854+00:00"
+    },
+    {
+      "id": "prod-16",
+      "name": "Acoustic Horizon Wireless Bluetooth Hi-Fi Speaker",
+      "brand": "A_S Acoustics",
+      "category": "electronics",
+      "categoryName": "Electronics",
+      "price": 7999,
+      "originalPrice": 13999,
+      "discount": 42,
+      "rating": 4.9,
+      "reviewCount": 240,
+      "stockCount": 16,
+      "inStock": true,
+      "badge": "HI-RES AUDIO",
+      "description": "60W RMS spatial stereo speaker with dual passive radiators, handcrafted walnut cabinet, Bluetooth 5.3 LDAC, and 24-hour playtime.",
+      "images": [
+        "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [
+        "#78350F",
+        "#061A27"
+      ],
+      "colorNames": [
+        "Natural Walnut",
+        "Midnight Dark"
+      ],
+      "sizes": [
+        "Standard Desktop (28x14x12 cm)"
+      ],
+      "specs": {
+        "Frequency": "38Hz - 22kHz",
+        "Battery Life": "24 Hours",
+        "Output Power": "60W RMS"
+      },
+      "createdAt": "2026-09-07T13:32:32.110854+00:00",
+      "updatedAt": "2026-09-07T13:32:32.110854+00:00"
+    },
+    {
+      "id": "prod-15",
+      "name": "Italian Full-Grain Leather Travel Duffel",
+      "brand": "A_S Leathercraft",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 6999,
+      "originalPrice": 11499,
+      "discount": 39,
+      "rating": 4.8,
+      "reviewCount": 119,
+      "stockCount": 14,
+      "inStock": true,
+      "badge": "TRAVEL LUXURY",
+      "description": "Heavyweight vegetable-tanned Italian leather duffel with dedicated shoe compartment, antique brass YKK zippers, and padded shoulder strap.",
+      "images": [
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": false,
+      "isNewArrival": true,
+      "isSpecialOffer": true,
+      "colors": [
+        "#78350F",
+        "#101820"
+      ],
+      "colorNames": [
+        "Vintage Cognac",
+        "Obsidian Black"
+      ],
+      "sizes": [
+        "Cabin Size (45L)"
+      ],
+      "specs": {
+        "Zippers": "Solid Antique Brass YKK",
+        "Capacity": "45 Liters",
+        "Material": "100% Full-Grain Tuscan Leather"
+      },
+      "createdAt": "2026-09-07T13:32:32.110854+00:00",
+      "updatedAt": "2026-09-07T13:32:32.110854+00:00"
+    },
+    {
+      "id": "prod-13",
+      "name": "18K Diamond Solitaire Gold Pendant",
+      "brand": "A_S Haute Horlogerie & Jewels",
+      "category": "accessories",
+      "categoryName": "Accessories",
+      "price": 15499,
+      "originalPrice": 22999,
+      "discount": 32,
+      "rating": 4.9,
+      "reviewCount": 88,
+      "stockCount": 9,
+      "inStock": true,
+      "badge": "FINE JEWELRY",
+      "description": "Handcrafted 18K solid yellow gold chain featuring a 0.75-carat brilliant-cut certified solitaire diamond in a 4-prong setting.",
+      "images": [
+        "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop&q=80"
+      ],
+      "isFeatured": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isSpecialOffer": false,
+      "colors": [
+        "#F5B83D",
+        "#E5E7EB"
+      ],
+      "colorNames": [
+        "18K Yellow Gold",
+        "Platinum White"
+      ],
+      "sizes": [
+        "18 Inch Chain",
+        "20 Inch Chain"
+      ],
+      "specs": {
+        "Metal": "18K Solid Gold",
+        "Gemstone": "0.75ct Natural VVS1 Diamond",
+        "Certification": "IGI Certified"
+      },
+      "createdAt": "2026-09-07T13:32:32.110854+00:00",
+      "updatedAt": "2026-09-07T13:32:32.110854+00:00"
     },
     {
       "id": "prod-12",
@@ -1032,17 +1750,17 @@
     }
   ],
   "settings": {
-    "announcementText": "✨ Complimentary Sub-Zero Delivery Across Delhi NCR on Orders Above ₹999",
-    "freeShippingThreshold": 999,
-    "heroBadge": "GOURMET PARTY COLLECTION 2026",
-    "heroHeadline": "Gourmet Chicken & Mutton Snacks, Delivered Cold.",
-    "heroSubheadline": "Discover premium ready-to-cook kebabs, marinated cuts, and sub-zero cold-chain delicacies delivered to your doorstep.",
-    "heroDiscount": "15% OFF",
-    "supportPhone": "+91 63862 56770",
-    "supportEmail": "ashutoshgifthamper9334@gmail.com",
-    "storeName": "A_S FOODY Gourmet Meat Lab",
-    "heroCtaText": "Shop Best Sellers",
+    "announcementText": "✨ Complimentary White-Glove Shipping Across India on Orders Above ₹2,999",
+    "freeShippingThreshold": 2999,
+    "heroBadge": "SIGNATURE COLLECTION 2026",
+    "heroHeadline": "Elevate Your Style. Define Your Luxury.",
+    "heroSubheadline": "Discover curated haute horology, Italian leathercraft, designer fashion & cutting-edge tech gadgets with verified authenticity.",
+    "heroDiscount": "50% OFF",
+    "supportPhone": "+91 93349 93909",
+    "supportEmail": "concierge@ascommerce.luxury",
+    "storeName": "A_S Commerce",
+    "heroCtaText": "Explore Collections",
     "heroCtaLink": "/shop",
-    "supportAddress": "Sector 62, Noida, Uttar Pradesh 201301"
+    "supportAddress": "A_S Luxury Tower, Connaught Place, New Delhi 110001"
   }
 }

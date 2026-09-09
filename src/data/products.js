@@ -399,5 +399,165 @@ export const PRODUCTS = [
       'Buttons': 'Genuine Mother-of-Pearl',
       'Care': 'Hand Wash Cold or Dry Clean'
     }
+  },
+  {
+    id: 'prod-13',
+    name: '18K Diamond Solitaire Gold Pendant',
+    brand: 'A_S Haute Horlogerie & Jewels',
+    category: 'accessories',
+    categoryName: 'Accessories',
+    price: 15499,
+    originalPrice: 22999,
+    discount: 32,
+    rating: 4.9,
+    reviewsCount: 88,
+    stockCount: 9,
+    inStock: true,
+    badge: 'FINE JEWELRY',
+    description: 'Handcrafted 18K solid yellow gold chain featuring a 0.75-carat brilliant-cut certified solitaire diamond in a 4-prong setting.',
+    images: [
+      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&auto=format&fit=crop&q=80'
+    ],
+    colors: ['#F5B83D', '#E5E7EB'],
+    colorNames: ['18K Yellow Gold', 'Platinum White'],
+    sizes: ['18 Inch Chain', '20 Inch Chain'],
+    specs: {
+      'Gemstone': '0.75ct Natural VVS1 Diamond',
+      'Metal': '18K Solid Gold',
+      'Certification': 'IGI Certified'
+    },
+    isFeatured: true,
+    isTrending: true,
+    isNewArrival: true,
+    isSpecialOffer: false
+  },
+  {
+    id: 'prod-14',
+    name: 'Artisanal French Oud & Amber Eau de Parfum',
+    brand: 'A_S Parfums',
+    category: 'beauty',
+    categoryName: 'Beauty',
+    price: 3499,
+    originalPrice: 5999,
+    discount: 41,
+    rating: 4.9,
+    reviewsCount: 172,
+    stockCount: 24,
+    inStock: true,
+    badge: 'BESTSELLER',
+    description: 'Intense artisanal French fragrance blending smoky Cambodian oud, warm amber, damask rose, and bourbon vanilla for 18+ hours longevity.',
+    images: [
+      'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=800&auto=format&fit=crop&q=80'
+    ],
+    colors: ['#78350F'],
+    colorNames: ['Amber Flacon'],
+    sizes: ['100ml Eau de Parfum'],
+    specs: {
+      'Concentration': '25% Extrait de Parfum',
+      'Origin': 'Grasse, France',
+      'Notes': 'Oud, Amber, Rose, Vanilla'
+    },
+    isFeatured: true,
+    isTrending: true,
+    isNewArrival: false,
+    isSpecialOffer: true
+  },
+  {
+    id: 'prod-15',
+    name: 'Italian Full-Grain Leather Travel Duffel',
+    brand: 'A_S Leathercraft',
+    category: 'accessories',
+    categoryName: 'Accessories',
+    price: 6999,
+    originalPrice: 11499,
+    discount: 39,
+    rating: 4.8,
+    reviewsCount: 119,
+    stockCount: 14,
+    inStock: true,
+    badge: 'TRAVEL LUXURY',
+    description: 'Heavyweight vegetable-tanned Italian leather duffel with dedicated shoe compartment, antique brass YKK zippers, and padded shoulder strap.',
+    images: [
+      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80'
+    ],
+    colors: ['#78350F', '#101820'],
+    colorNames: ['Vintage Cognac', 'Obsidian Black'],
+    sizes: ['Cabin Size (45L)'],
+    specs: {
+      'Material': '100% Full-Grain Tuscan Leather',
+      'Zippers': 'Solid Antique Brass YKK',
+      'Capacity': '45 Liters'
+    },
+    isFeatured: true,
+    isTrending: false,
+    isNewArrival: true,
+    isSpecialOffer: true
+  },
+  {
+    id: 'prod-16',
+    name: 'Acoustic Horizon Wireless Bluetooth Hi-Fi Speaker',
+    brand: 'A_S Acoustics',
+    category: 'electronics',
+    categoryName: 'Electronics',
+    price: 7999,
+    originalPrice: 13999,
+    discount: 42,
+    rating: 4.9,
+    reviewsCount: 240,
+    stockCount: 16,
+    inStock: true,
+    badge: 'HI-RES AUDIO',
+    description: '60W RMS spatial stereo speaker with dual passive radiators, handcrafted walnut cabinet, Bluetooth 5.3 LDAC, and 24-hour playtime.',
+    images: [
+      'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&auto=format&fit=crop&q=80'
+    ],
+    colors: ['#78350F', '#061A27'],
+    colorNames: ['Natural Walnut', 'Midnight Dark'],
+    sizes: ['Standard Desktop (28x14x12 cm)'],
+    specs: {
+      'Output Power': '60W RMS',
+      'Battery Life': '24 Hours',
+      'Frequency': '38Hz - 22kHz'
+    },
+    isFeatured: true,
+    isTrending: true,
+    isNewArrival: true,
+    isSpecialOffer: false
+  },
+  {
+    id: 'prod-17',
+    name: 'AeroGlide Elite Carbon Fiber Luggage',
+    brand: 'A_S Voyage',
+    category: 'accessories',
+    categoryName: 'Accessories',
+    price: 11499,
+    originalPrice: 17999,
+    discount: 36,
+    rating: 4.9,
+    reviewsCount: 95,
+    stockCount: 8,
+    inStock: true,
+    badge: 'PREMIUM',
+    description: 'Ultra-lightweight Japanese carbon-polycarbonate hardshell carry-on with 360-degree whisper-quiet Hinomoto spinner wheels and TSA combination lock.',
+    images: [
+      'https://images.unsplash.com/photo-1565026057447-bc90a3dceb87?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1581553680321-4fffae59fccd?w=800&auto=format&fit=crop&q=80'
+    ],
+    colors: ['#061A27', '#C0C0C0'],
+    colorNames: ['Titanium Navy', 'Silver Mist'],
+    sizes: ['Carry-On (21-Inch / 38L)'],
+    specs: {
+      'Shell': '100% Polycarbonate Carbon Weave',
+      'Wheels': 'Hinomoto Silent 360 Spinners',
+      'Lock': 'TSA Approved Dual Lock'
+    },
+    isFeatured: true,
+    isTrending: true,
+    isNewArrival: true,
+    isSpecialOffer: false
   }
 ];

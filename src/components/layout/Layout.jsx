@@ -5,6 +5,7 @@ import { MobileNav } from './MobileNav';
 import { Footer } from './Footer';
 import { CartDrawer } from '../common/CartDrawer';
 import { AuthModal } from '../common/AuthModal';
+import { ScrollToTopButton } from '../common/ScrollToTopButton';
 
 export const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,6 +26,9 @@ export const Layout = ({ children }) => {
 
       {/* Auth Modal */}
       <AuthModal />
+
+      {/* Floating Scroll To Top Action Button */}
+      <ScrollToTopButton />
 
       {/* Page Content */}
       <main className="flex-1">

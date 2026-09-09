@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useProducts } from '../context/ProductContext';
 import { COUPONS } from '../data/coupons';
 import { ProductCard } from '../components/common/ProductCard';
+import { Pagination } from '../components/common/Pagination';
 import { useCart } from '../context/CartContext';
 import { Tag, Sparkles, Flame, Copy, Check } from 'lucide-react';
 
@@ -9,8 +10,18 @@ export const OffersPage = () => {
   const { products: PRODUCTS, specialOffers } = useProducts();
   const { applyCoupon } = useCart();
   const [copiedCode, setCopiedCode] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
-  const offerProducts = PRODUCTS.filter((p) => p.isSpecialOffer || p.discount >= 30);
+  const offerProducts = useMemo(() => {
+    return PRODUCTS.filter((p) => p.isSpecialOffer || p.discount >= 30);
+  }, [PRODUCTS]);
+
+  const totalPages = Math.ceil(offerProducts.length / itemsPerPage);
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return offerProducts.slice(start, start + itemsPerPage);
+  }, [offerProducts, currentPage]);
 
   const handleCopy = (code) => {
     navigator.clipboard.writeText(code);
@@ -41,7 +52,7 @@ export const OffersPage = () => {
 
       {/* Available Coupons Grid */}
       <div className="mb-12">
-        <h3 className="font-serif text-xl font-bold text-navy-950 mb-4 flex items-center gap-2">
+        <h3 className="font-serif text-xl font-bold text-navy-950 dark:text-white mb-4 flex items-center gap-2">
           <Tag className="w-5 h-5 text-gold-600" />
           <span>Active Promo Vouchers</span>
         </h3>
@@ -49,23 +60,23 @@ export const OffersPage = () => {
           {COUPONS.map((c) => (
             <div
               key={c.code}
-              className="bg-white p-5 rounded-2xl border-2 border-dashed border-gold-500/40 shadow-sm flex flex-col justify-between space-y-3"
+              className="bg-white dark:bg-navy-900 p-5 rounded-2xl border-2 border-dashed border-gold-500/40 shadow-sm flex flex-col justify-between space-y-3"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono font-bold text-base text-gold-700 bg-gold-500/10 px-3 py-1 rounded-lg">
+                  <span className="font-mono font-bold text-base text-gold-700 dark:text-gold-400 bg-gold-500/10 px-3 py-1 rounded-lg">
                     {c.code}
                   </span>
-                  <span className="text-xs font-bold text-green-700">
+                  <span className="text-xs font-bold text-green-700 dark:text-green-400">
                     {c.discountPercent ? `${c.discountPercent}% OFF` : `₹${c.discountAmount} OFF`}
                   </span>
                 </div>
-                <p className="text-xs text-gray-600 mt-2">{c.description}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-2">{c.description}</p>
               </div>
 
               <button
                 onClick={() => handleCopy(c.code)}
-                className="w-full py-2 bg-navy-900 text-gold-400 font-bold text-xs rounded-xl hover:bg-navy-850 transition-colors flex items-center justify-center gap-1.5"
+                className="w-full py-2 bg-navy-900 dark:bg-navy-800 text-gold-400 font-bold text-xs rounded-xl hover:bg-navy-850 dark:hover:bg-navy-750 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copiedCode === c.code ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedCode === c.code ? 'Applied to Cart!' : 'Copy & Apply'}</span>
@@ -77,16 +88,27 @@ export const OffersPage = () => {
 
       {/* Discounted Products Grid */}
       <div>
-        <h3 className="font-serif text-xl font-bold text-navy-950 mb-6">
+        <h3 className="font-serif text-xl font-bold text-navy-950 dark:text-white mb-6">
           Featured Promotional Pieces ({offerProducts.length})
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {offerProducts.map((p) => (
+          {paginatedProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+
+        {/* Scalable Standardized Pagination */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={offerProducts.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
       </div>
 
     </div>
   );
 };
+
+

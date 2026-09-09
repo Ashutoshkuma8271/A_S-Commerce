@@ -18,13 +18,16 @@ export const MobileNav = ({ isOpen, onClose }) => {
   const mainLinks = [
     { label: 'Home', path: '/', icon: Home },
     { label: 'Shop All Catalog', path: '/shop', icon: Grid },
-    { label: "Men's Collection", path: '/category/mens-wear' },
-    { label: "Women's Luxury", path: '/category/womens-wear' },
-    { label: 'High-Tech Electronics', path: '/category/electronics' },
+    { label: 'Men Fashion', path: '/category/men' },
+    { label: 'Women Luxury', path: '/category/women' },
+    { label: 'Luxury Watches', path: '/category/accessories' },
+    { label: 'Tech & Electronics', path: '/category/electronics' },
+    { label: 'Footwear & Shoes', path: '/category/footwear' },
+    { label: 'Beauty & Skincare', path: '/category/beauty' },
     { label: 'Home & Living', path: '/category/home-living' },
-    { label: 'Exclusive Offers & Deals', path: '/offers', icon: Tag, badge: '50% OFF' },
+    { label: 'Exclusive Offers', path: '/offers', icon: Tag, badge: '50% OFF' },
     { label: 'New Season 2026', path: '/new-arrivals', icon: Sparkles, badge: 'NEW' },
-    { label: 'Track Consignment', path: '/track-order', icon: Truck },
+    { label: 'Track Order', path: '/track-order', icon: Truck },
     { label: 'Customer Concierge & Help', path: '/help', icon: HelpCircle },
   ];
 

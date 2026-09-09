@@ -1,18 +1,24 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { CATEGORIES } from '../../data/categories';
 
 export const CategorySection = () => {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const checkScrollability = useCallback(() => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+      setCanScrollLeft(scrollLeft > 15);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 15);
+      
+      const itemWidth = 140; // Approximate card width + gap
+      const index = Math.round(scrollLeft / itemWidth);
+      setActiveIndex(Math.min(CATEGORIES.length - 1, Math.max(0, index)));
     }
   }, []);
 
@@ -30,82 +36,98 @@ export const CategorySection = () => {
     };
   }, [checkScrollability]);
 
+  // Automated Smooth Carousel Interval (Slides every 3.2 seconds)
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        const maxScroll = scrollWidth - clientWidth;
+        
+        // Scroll forward by one card step
+        const step = clientWidth > 768 ? 280 : 180;
+        
+        if (scrollLeft >= maxScroll - 20) {
+          // Reached the end: loop back smoothly to start
+          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollRef.current.scrollBy({ left: step, behavior: 'smooth' });
+        }
+      }
+    }, 3200);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
   const handleScroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -320 : 320;
+      const { clientWidth } = scrollRef.current;
+      const scrollAmount = direction === 'left' ? -(clientWidth > 768 ? 320 : 220) : (clientWidth > 768 ? 320 : 220);
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
+  const handleDotClick = (index) => {
+    if (scrollRef.current) {
+      const step = 140;
+      scrollRef.current.scrollTo({ left: index * step, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="w-full bg-white dark:bg-navy-950 py-8 sm:py-12 border-b border-gray-100 dark:border-navy-850 select-none transition-colors relative">
+    <section className="w-full bg-white dark:bg-navy-950 py-10 sm:py-14 border-b border-gray-100 dark:border-navy-850 select-none transition-colors relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header with Luxury Typography & Navigation Buttons */}
-        <div className="mb-6 sm:mb-8 flex items-end justify-between gap-4">
+        {/* Header with Luxury Typography & Navigation Controls */}
+        <div className="mb-6 sm:mb-8 flex items-end justify-between gap-3">
           <div className="text-left">
-            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-gold-500 font-sans block mb-1">
-              Curated Collections
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-black tracking-tight text-navy-950 dark:text-white">
+            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-600 dark:text-gold-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1.5 font-mono">
+              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gold-500" />
+              <span>Curated Departments</span>
+            </div>
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-serif font-bold tracking-tight text-navy-950 dark:text-white">
               Shop by Category
             </h2>
           </div>
 
-          {/* Desktop & Tablet Header Quick Scroll Controls */}
-          {(canScrollLeft || canScrollRight) && (
-            <div className="hidden sm:flex items-center gap-2">
-              <button
-                onClick={() => handleScroll('left')}
-                disabled={!canScrollLeft}
-                aria-label="Previous categories"
-                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  canScrollLeft
-                    ? 'bg-white dark:bg-navy-900 border-gray-300 dark:border-navy-700 text-navy-950 dark:text-white hover:border-gold-500 hover:text-gold-500 shadow-md hover:scale-105 active:scale-95'
-                    : 'bg-gray-100 dark:bg-navy-900/50 border-gray-200 dark:border-navy-800 text-gray-400 dark:text-gray-600 opacity-40 cursor-not-allowed'
-                }`}
-              >
-                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-              </button>
-
-              <button
-                onClick={() => handleScroll('right')}
-                disabled={!canScrollRight}
-                aria-label="Next categories"
-                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                  canScrollRight
-                    ? 'bg-white dark:bg-navy-900 border-gray-300 dark:border-navy-700 text-navy-950 dark:text-white hover:border-gold-500 hover:text-gold-500 shadow-md hover:scale-105 active:scale-95'
-                    : 'bg-gray-100 dark:bg-navy-900/50 border-gray-200 dark:border-navy-800 text-gray-400 dark:text-gray-600 opacity-40 cursor-not-allowed'
-                }`}
-              >
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-            </div>
-          )}
+          {/* Action Area: Luxury View All Link */}
+          <Link
+            to="/shop"
+            className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gold-600 dark:text-gold-400 hover:text-gold-500 transition-colors pb-1 cursor-pointer"
+          >
+            <span>View All</span>
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
 
-        {/* Scalable Interactive Category Rail with Floating Edge Buttons */}
-        <div className="relative group/rail">
-          
-          {/* Left Floating Arrow (Over Rail) */}
+        {/* Interactive Sliding Category Rail with Floating Edge Controls */}
+        <div
+          className="relative group/rail"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
+          {/* Left Floating Arrow (Over Rail - Visible on all screens) */}
           {canScrollLeft && (
             <button
               onClick={() => handleScroll('left')}
               aria-label="Scroll left"
-              className="absolute -left-2 sm:-left-4 top-[35%] -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-navy-900/95 border border-gray-300 dark:border-gold-500/40 text-navy-950 dark:text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-90 hover:border-gold-500 hover:text-gold-500 transition-all backdrop-blur-md cursor-pointer"
+              className="flex absolute -left-1 sm:-left-4 top-[40%] -translate-y-1/2 z-30 w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-navy-900/95 border border-gray-300 dark:border-gold-500/40 text-navy-950 dark:text-white shadow-xl items-center justify-center hover:scale-110 active:scale-90 hover:border-gold-500 hover:text-gold-500 transition-all backdrop-blur-md cursor-pointer"
             >
-              <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
             </button>
           )}
 
-          {/* Right Floating Arrow (Over Rail) */}
+          {/* Right Floating Arrow (Over Rail - Visible on all screens) */}
           {canScrollRight && (
             <button
               onClick={() => handleScroll('right')}
               aria-label="Scroll right"
-              className="absolute -right-2 sm:-right-4 top-[35%] -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-navy-900/95 border border-gray-300 dark:border-gold-500/40 text-navy-950 dark:text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-90 hover:border-gold-500 hover:text-gold-500 transition-all backdrop-blur-md cursor-pointer"
+              className="flex absolute -right-1 sm:-right-4 top-[40%] -translate-y-1/2 z-30 w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-white/95 dark:bg-navy-900/95 border border-gray-300 dark:border-gold-500/40 text-navy-950 dark:text-white shadow-xl items-center justify-center hover:scale-110 active:scale-90 hover:border-gold-500 hover:text-gold-500 transition-all backdrop-blur-md cursor-pointer"
             >
-              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
             </button>
           )}
 
@@ -122,7 +144,7 @@ export const CategorySection = () => {
           {/* Scrollable Circular Cards Track */}
           <div
             ref={scrollRef}
-            className="flex items-start gap-4 sm:gap-6 lg:gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none snap-x snap-mandatory scroll-smooth px-1"
+            className="flex items-start gap-4 sm:gap-6 lg:gap-8 overflow-x-auto pb-6 pt-2 scrollbar-none snap-x snap-mandatory scroll-smooth px-2"
           >
             {CATEGORIES.map((cat) => (
               <Link
@@ -142,7 +164,7 @@ export const CategorySection = () => {
                       loading="lazy"
                     />
                     {/* Subtle 3D Depth Overlay */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-navy-950/30 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-navy-950/40 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   </div>
 
                 </div>
@@ -157,6 +179,22 @@ export const CategorySection = () => {
                   {cat.itemCount}
                 </span>
               </Link>
+            ))}
+          </div>
+
+          {/* Minimal Interactive Progress Bar */}
+          <div className="flex items-center justify-center gap-1.5 pt-2">
+            {CATEGORIES.slice(0, 6).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleDotClick(idx * 2)}
+                aria-label={`Go to category slide ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                  Math.floor(activeIndex / 2) === idx
+                    ? 'w-6 bg-gold-500 shadow-sm'
+                    : 'w-1.5 bg-gray-300 dark:bg-navy-800 hover:bg-gold-500/50'
+                }`}
+              />
             ))}
           </div>
 

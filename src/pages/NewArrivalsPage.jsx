@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useProducts } from '../context/ProductContext';
 import { ProductCard } from '../components/common/ProductCard';
+import { Pagination } from '../components/common/Pagination';
 import { Zap, Sparkles } from 'lucide-react';
 
 export const NewArrivalsPage = () => {
   const { newArrivals: newProducts } = useProducts();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  const totalPages = Math.ceil(newProducts.length / itemsPerPage);
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return newProducts.slice(start, start + itemsPerPage);
+  }, [newProducts, currentPage]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
@@ -28,11 +37,22 @@ export const NewArrivalsPage = () => {
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {newProducts.map((p) => (
+        {paginatedProducts.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
       </div>
 
+      {/* Scalable Standardized Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={newProducts.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
+
     </div>
   );
 };
+
+

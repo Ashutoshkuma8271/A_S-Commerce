@@ -35,7 +35,7 @@ export const NavigationBar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8 h-12">
           
-          {/* All Categories Button matching reference image */}
+          {/* All Categories Button */}
           <div>
             <button
               onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
