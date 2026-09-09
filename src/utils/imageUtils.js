@@ -1,48 +1,10 @@
-/**
- * Image optimization utilities for Cloudinary & modern image CDNs
- * Automatically serves images in WebP / AVIF with responsive sizing & compression
- */
+// Luxury Product Placeholder in case remote images fail or encounter a network error
+export const FALLBACK_PRODUCT_IMAGE =
+  'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80';
 
-export function getOptimizedImageUrl(url, options = {}) {
-  if (!url || typeof url !== 'string') return url;
-
-  const { width = null, height = null, quality = 'auto', format = 'auto' } = options;
-
-  // Optimize Cloudinary URLs with auto format (WebP/AVIF) and quality
-  if (url.includes('res.cloudinary.com')) {
-    // If already has transformation parameters
-    if (url.includes('/image/upload/')) {
-      const parts = url.split('/image/upload/');
-      const transformations = [];
-
-      if (width) transformations.push(`w_${width}`);
-      if (height) transformations.push(`h_${height}`);
-      transformations.push(`q_${quality}`);
-      transformations.push(`f_${format}`);
-
-      const transformStr = transformations.join(',');
-      
-      // Avoid duplicate transformation injection
-      if (!parts[1].startsWith('f_auto') && !parts[1].startsWith('w_') && !parts[1].startsWith('q_')) {
-        return `${parts[0]}/image/upload/${transformStr}/${parts[1]}`;
-      }
-    }
-    return url;
+export const handleImageError = (event, fallbackSrc = FALLBACK_PRODUCT_IMAGE) => {
+  if (event && event.currentTarget) {
+    event.currentTarget.onerror = null; // Prevent infinite loop if fallback also errors
+    event.currentTarget.src = fallbackSrc;
   }
-
-  // Optimize Unsplash URLs with auto format and compression
-  if (url.includes('images.unsplash.com')) {
-    try {
-      const urlObj = new URL(url);
-      urlObj.searchParams.set('auto', 'format');
-      urlObj.searchParams.set('fit', 'crop');
-      if (width) urlObj.searchParams.set('w', width.toString());
-      if (quality === 'auto') urlObj.searchParams.set('q', '80');
-      return urlObj.toString();
-    } catch (e) {
-      return url;
-    }
-  }
-
-  return url;
-}
+};

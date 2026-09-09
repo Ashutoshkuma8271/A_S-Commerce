@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Heart, ShoppingBag, Check, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { formatINR } from '../../utils/currency';
+import { handleImageError } from '../../utils/imageUtils';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { RatingStars } from './RatingStars';
@@ -55,8 +56,9 @@ export const QuickViewModal = ({ product, isOpen, onClose }) => {
         <div className="w-full md:w-1/2 p-6 bg-gray-50 flex flex-col justify-between">
           <div className="relative aspect-square rounded-2xl overflow-hidden border border-gray-200/80 bg-white mb-4">
             <img
-              src={product.images[activeImageIndex] || product.images[0]}
+              src={(product.images && product.images[activeImageIndex]) || (product.images && product.images[0]) || product.image}
               alt={product.name}
+              onError={handleImageError}
               className="w-full h-full object-cover object-center"
             />
             {product.discount > 0 && (

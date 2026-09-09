@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, Plus, Minus, Check, Heart } from 'lucide-react';
 import { formatINR } from '../../utils/currency';
 import { calculateFreeShippingProgress } from '../../utils/cartUtils';
+import { handleImageError } from '../../utils/imageUtils';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useAuth } from '../../context/AuthContext';
@@ -117,6 +118,7 @@ export const CartDrawer = () => {
                   <img
                     src={item.image}
                     alt={item.name}
+                    onError={handleImageError}
                     className="w-20 h-20 rounded-xl object-cover border border-gray-200 shrink-0 bg-white"
                   />
 

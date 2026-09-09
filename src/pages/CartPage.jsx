@@ -5,6 +5,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { formatINR } from '../utils/currency';
 import { calculateFreeShippingProgress } from '../utils/cartUtils';
+import { handleImageError } from '../utils/imageUtils';
 import { Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, Heart, Plus, Minus, Check, Truck } from 'lucide-react';
 
 export const CartPage = () => {
@@ -117,6 +118,7 @@ export const CartPage = () => {
                 <img
                   src={item.image}
                   alt={item.name}
+                  onError={handleImageError}
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-gray-200 bg-gray-50 shrink-0"
                 />
                 <div className="space-y-1">

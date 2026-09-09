@@ -41,6 +41,7 @@ const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage')
 
 import { LoadingSpinner } from './components/common/LoadingSpinner';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { NetworkStatusBanner } from './components/common/NetworkStatusBanner';
 
 // Luxury Page Loading Spinner
 const PageLoader = () => (
@@ -69,6 +70,8 @@ export function App() {
               className: 'as-toast-box',
             }}
           />
+          {/* Real-time Network & Offline Detection Banner */}
+          <NetworkStatusBanner />
           <SettingsProvider>
             <ProductProvider>
               <AuthProvider>

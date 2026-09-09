@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag, Eye, Check } from 'lucide-react';
 import { formatINR } from '../../utils/currency';
+import { handleImageError } from '../../utils/imageUtils';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { RatingStars } from './RatingStars';
@@ -53,9 +54,13 @@ export const ProductCard = ({ product, onQuickView }) => {
 
         <Link to={`/product/${product.id}`} className="block w-full h-full">
           <img
-            src={isHovered && product.images[1] ? product.images[1] : product.images[0]}
+            src={isHovered && product.images && product.images[1] ? product.images[1] : (product.images && product.images[0]) || product.image}
             alt={product.name}
             onLoad={() => setImageLoaded(true)}
+            onError={(e) => {
+              setImageLoaded(true);
+              handleImageError(e);
+            }}
             className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-105 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}

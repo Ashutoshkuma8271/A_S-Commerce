@@ -6,6 +6,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { formatINR } from '../utils/currency';
 import { isValidIndianPincode } from '../utils/validationUtils';
+import { handleImageError } from '../utils/imageUtils';
 import { RatingStars } from '../components/common/RatingStars';
 import { ProductCard } from '../components/common/ProductCard';
 import {
@@ -190,8 +191,9 @@ export const ProductDetailsPage = () => {
               className="relative aspect-square w-full rounded-3xl overflow-hidden bg-gray-50 dark:bg-navy-850 border border-gray-100 dark:border-navy-700 shadow-inner group cursor-crosshair"
             >
               <img
-                src={product.images[activeImageIndex] || product.images[0]}
+                src={(product.images && product.images[activeImageIndex]) || (product.images && product.images[0]) || product.image}
                 alt={product.name}
+                onError={handleImageError}
                 className="w-full h-full object-cover object-center transition-transform duration-200"
                 style={
                   isZooming
@@ -236,7 +238,7 @@ export const ProductDetailsPage = () => {
             </div>
 
             {/* Thumbnail Navigation Row */}
-            {product.images.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {product.images.map((img, idx) => (
                   <button
@@ -248,7 +250,7 @@ export const ProductDetailsPage = () => {
                         : 'border-gray-200 dark:border-navy-700 opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="thumb" className="w-full h-full object-cover" />
+                    <img src={img} alt="thumb" onError={handleImageError} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
